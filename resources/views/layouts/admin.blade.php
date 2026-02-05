@@ -168,16 +168,121 @@
 				</li>
 				<li>
 					<a href="javascript:;" class="has-arrow">
-						<div class="parent-icon"><i class='lni lni-network'></i>
+						<div class="parent-icon"><i class='fadeIn animated bx bx-user-circle'></i>
 						</div>
-						<div class="menu-title">Cheif Executive Message</div>
+						<div class="menu-title">Executive Committee</div>
 					</a>
 					<ul>
 						<li>
-                            <a href="#"><i class="bx bx-right-arrow-alt"></i>Add Message</a>
+                            <a href="{{ route('executive.add') }}"><i class="bx bx-right-arrow-alt"></i>Add Member</a>
 						</li>
 						<li>
-                            <a href="#"><i class="bx bx-right-arrow-alt"></i>All Message</a>
+                            <a href="{{ route('executive.index') }}"><i class="bx bx-right-arrow-alt"></i>All Members</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class='fadeIn animated bx bx-group'></i>
+						</div>
+						<div class="menu-title">Team Members</div>
+					</a>
+					<ul>
+						<li>
+                            <a href="{{ route('team.add') }}"><i class="bx bx-right-arrow-alt"></i>Add Member</a>
+						</li>
+						<li>
+                            <a href="{{ route('team.index') }}"><i class="bx bx-right-arrow-alt"></i>All Members</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class='fadeIn animated bx bx-briefcase'></i>
+						</div>
+						<div class="menu-title">Programs</div>
+					</a>
+					<ul>
+						<li>
+                            <a href="{{ route('programs.add') }}"><i class="bx bx-right-arrow-alt"></i>Add Program</a>
+						</li>
+						<li>
+                            <a href="{{ route('programs.index') }}"><i class="bx bx-right-arrow-alt"></i>All Programs</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class='fadeIn animated bx bx-trending-up'></i>
+						</div>
+						<div class="menu-title">Impact Metrics</div>
+					</a>
+					<ul>
+						<li>
+                            <a href="{{ route('impact.add') }}"><i class="bx bx-right-arrow-alt"></i>Add Impact</a>
+						</li>
+						<li>
+                            <a href="{{ route('impact.index') }}"><i class="bx bx-right-arrow-alt"></i>All Impact</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class='fadeIn animated bx bx-book-heart'></i>
+						</div>
+						<div class="menu-title">Success Stories</div>
+					</a>
+					<ul>
+						<li>
+                            <a href="{{ route('stories.add') }}"><i class="bx bx-right-arrow-alt"></i>Add Story</a>
+						</li>
+						<li>
+                            <a href="{{ route('stories.index') }}"><i class="bx bx-right-arrow-alt"></i>All Stories</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class='lni lni-network'></i>
+						</div>
+						<div class="menu-title">Chief Executive Message</div>
+					</a>
+					<ul>
+						<li>
+                            <a href="{{ route('chief.message.add') }}"><i class="bx bx-right-arrow-alt"></i>Add Message</a>
+						</li>
+						<li>
+                            <a href="{{ route('chief.message.index') }}"><i class="bx bx-right-arrow-alt"></i>All Message</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class='fadeIn animated bx bx-help-circle'></i>
+						</div>
+						<div class="menu-title">FAQ</div>
+					</a>
+					<ul>
+						<li>
+                            <a href="{{ route('faq.add') }}"><i class="bx bx-right-arrow-alt"></i>Add FAQ</a>
+						</li>
+						<li>
+                            <a href="{{ route('faq.index') }}"><i class="bx bx-right-arrow-alt"></i>All FAQ</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class='fadeIn animated bx bx-heart'></i>
+						</div>
+						<div class="menu-title">Volunteers</div>
+					</a>
+					<ul>
+						<li>
+                            <a href="{{ route('volunteers.add') }}"><i class="bx bx-right-arrow-alt"></i>Add Opportunity</a>
+						</li>
+						<li>
+                            <a href="{{ route('volunteers.index') }}"><i class="bx bx-right-arrow-alt"></i>All Opportunities</a>
 						</li>
 					</ul>
 				</li>
