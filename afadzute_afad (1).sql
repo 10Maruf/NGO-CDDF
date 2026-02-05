@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jan 28, 2026 at 07:48 AM
--- Server version: 11.4.9-MariaDB-cll-lve-log
--- PHP Version: 8.3.29
+-- Host: 127.0.0.1
+-- Generation Time: Feb 05, 2026 at 01:06 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -66,6 +66,45 @@ INSERT INTO `applications` (`id`, `main_logo`, `fav_icon`, `facebook`, `twitter`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `chief_executive_message`
+--
+
+CREATE TABLE `chief_executive_message` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `message` text NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `designation` varchar(255) NOT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `signature` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `executive_committee`
+--
+
+CREATE TABLE `executive_committee` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `designation` varchar(255) NOT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `bio` text DEFAULT NULL,
+  `facebook` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
+  `instagram` varchar(255) DEFAULT NULL,
+  `youtube` varchar(255) DEFAULT NULL,
+  `order` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `failed_jobs`
 --
 
@@ -77,6 +116,22 @@ CREATE TABLE `failed_jobs` (
   `payload` longtext NOT NULL,
   `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `faq`
+--
+
+CREATE TABLE `faq` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `question` text NOT NULL,
+  `answer` text NOT NULL,
+  `category` varchar(255) DEFAULT NULL,
+  `order` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -101,6 +156,25 @@ INSERT INTO `gallery` (`id`, `title`, `description`, `image`) VALUES
 (3, 'jane alam adnan', 'asdf', '89222gallery.jpg'),
 (4, 'All the Lorem Ipsum', 'All the Lorem Ipsum', '11857gallery.jpg'),
 (5, 'Lorem Ipsum', 'Lorem Ipsum', '53976gallery.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `impact`
+--
+
+CREATE TABLE `impact` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `metric_value` varchar(255) NOT NULL,
+  `metric_unit` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `icon` varchar(255) DEFAULT NULL,
+  `year` int(11) DEFAULT NULL,
+  `order` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1017,7 +1091,8 @@ INSERT INTO `messages` (`id`, `name`, `email`, `subject`, `message`) VALUES
 (824, 'Sam', 'hireonline556600@outlook.com', 'Data Entry Services', 'My name is Sam. I provide data entry services starting from $8 USD per hour. I can handle any computer-related task that is repetitive in nature, such as entering data into software, collecting data, bookkeeping, copy-paste work, uploading content to websites, and following your business processes. I can also transcribe handwritten or scanned documents, update and maintain customer databases, cleanse and validate data, enter survey results and feedback, manage and update inventories, process invoices and receipts, create and update spreadsheets, input product details into e-commerce platforms, digitize paper records, manage email lists and contact information, perform data mining and extraction from websites, compile and organize data from various sources. You can outsource your entire business process to me, where tasks can be done remotely using a computer. I can learn your process and work on any software accordingly. \r\n\r\nReach out to me at Hireonline556600@outlook.com if you have any requirements and we can take a quick call.'),
 (825, 'Nik', 'projectsbrandvisibilty@outlook.com', 'Website Redesign', 'Are you considering a complete redesign of your website to enhance its look and functionality? I specialize in creating modern, mobile-responsive, fast, and SEO-optimized websites that provide a seamless user experience and help convert visitors into clients. Whether you\'re looking to elevate your brand or boost product sales, I can assist. I just designed a Top-Notch Website for one of my clients and She is getting an amazing response right now. She is very happy. I can share her website link and you would definitely like it. \r\n\r\nFeel free to contact me at Projectsbrandvisibilty@outlook.com and let’s discuss it ahead.'),
 (826, 'Abi', 'brandbuildingassistance@outlook.com', 'Boost Your Local Presence', 'Boost your Local presence and stand out with our expert Local SEO and Google My Business services! Elevate your visibility, attract more customers, and dominate your local market. Reach out to me today at Brandbuildingassistance@outlook.com and let\'s optimize your online presence starting at just $200 a month.'),
-(827, 'Matt Bacak', 'mattbacak2025@gmail.com', 'What If You Could Run Local Agencies Without Doing the Work Yourself?', 'Imagine waking up to find your agency website already built, 100 pre-qualified leads discovered in your area, and outreach campaigns ready to send…\r\nAll done while you were sleeping.\r\nNo coding. No client-chasing. No proposals to write.\r\nThat’s exactly what LocalBizAI did for me.\r\nJust one click… and BOOM!\r\nA fully branded, profit-ready digital marketing agency with services, pricing, leads, and outreach campaigns set up in minutes.\r\n\r\n\r\nFor more click Here : https://jvz6.com/c/688203/424347/');
+(827, 'Matt Bacak', 'mattbacak2025@gmail.com', 'What If You Could Run Local Agencies Without Doing the Work Yourself?', 'Imagine waking up to find your agency website already built, 100 pre-qualified leads discovered in your area, and outreach campaigns ready to send…\r\nAll done while you were sleeping.\r\nNo coding. No client-chasing. No proposals to write.\r\nThat’s exactly what LocalBizAI did for me.\r\nJust one click… and BOOM!\r\nA fully branded, profit-ready digital marketing agency with services, pricing, leads, and outreach campaigns set up in minutes.\r\n\r\n\r\nFor more click Here : https://jvz6.com/c/688203/424347/'),
+(828, 'Maruf', 'test@gmail.com', 'test', 'test test test');
 
 -- --------------------------------------------------------
 
@@ -1039,7 +1114,16 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2014_10_12_000000_create_users_table', 1),
 (2, '2014_10_12_100000_create_password_resets_table', 1),
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2019_12_14_000001_create_personal_access_tokens_table', 1);
+(4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+(5, '2026_02_05_110131_create_executive_committee_table', 2),
+(6, '2026_02_05_110529_create_team_members_table', 2),
+(7, '2026_02_05_110648_create_programs_table', 2),
+(8, '2026_02_05_110659_create_impact_table', 2),
+(9, '2026_02_05_110709_create_stories_table', 2),
+(10, '2026_02_05_110720_create_chief_executive_message_table', 2),
+(11, '2026_02_05_110731_create_faq_table', 2),
+(12, '2026_02_05_110742_create_volunteers_table', 2),
+(13, '2026_02_05_113231_add_social_links_to_executive_committee_and_team_members_tables', 3);
 
 -- --------------------------------------------------------
 
@@ -1201,15 +1285,32 @@ INSERT INTO `policy_guideline` (`id`, `name`, `file`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `programs`
+--
+
+CREATE TABLE `programs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `status` enum('active','completed','upcoming') NOT NULL DEFAULT 'active',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `projects`
 --
 
 CREATE TABLE `projects` (
   `id` int(11) NOT NULL,
-  `name` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `partners` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `name` text CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `partners` text CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `from_date` date DEFAULT NULL,
-  `date` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `date` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `to_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1269,8 +1370,25 @@ CREATE TABLE `slider` (
 --
 
 INSERT INTO `slider` (`id`, `title`, `description`, `image`) VALUES
-(14, 'Association For Alternative Development (AFAD)', 'Support the Women’s Empowerment Initiative today—help women build livelihoods, confidence and a brighter future.', '8163422slider.jpg'),
+(14, 'Association For Alternative Development (AFAD)', 'test test  Support the Women’s Empowerment Initiative today—help women build livelihoods, confidence and a brighter future.', '8163422slider.jpg'),
 (17, 'Women Leadership', 'A panel discussion on Women Leadership was held on 3rd November 2025 in Bali, Indonesia, as part of the South-South Exchange Workshop. Our Chief Executive, Sayda Yesmin, attended the meeting as a representative of Bangladesh. The discussion included participants from four countries — Indonesia, Myanmar, Pakistan, and Bangladesh — who shared their perspectives and experiences on promoting women’s leadership and empowerment.', '7509991slider.jpeg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stories`
+--
+
+CREATE TABLE `stories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `beneficiary_name` varchar(255) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1582,6 +1700,35 @@ INSERT INTO `subscribe` (`id`, `name`, `email`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `team_members`
+--
+
+CREATE TABLE `team_members` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `designation` varchar(255) NOT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `department` varchar(255) DEFAULT NULL,
+  `bio` text DEFAULT NULL,
+  `facebook` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
+  `instagram` varchar(255) DEFAULT NULL,
+  `youtube` varchar(255) DEFAULT NULL,
+  `order` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `team_members`
+--
+
+INSERT INTO `team_members` (`id`, `name`, `designation`, `photo`, `department`, `bio`, `facebook`, `twitter`, `instagram`, `youtube`, `order`, `created_at`, `updated_at`) VALUES
+(1, 'Mofassel Alam Maruf', 'CEO', '61831team.png', 'AFAD', 'Hello I am Maruf', 'https://www.facebook.com/marufbro310', NULL, NULL, NULL, 0, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -1604,7 +1751,25 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `is_active`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Ashik', 'ashik@gmail.com', NULL, '$2y$10$.PEK0gswnXy0m1OD/Q3hQOpCGc8qmLr/uZujz1zDRQHdt9pRf10eW', 0, NULL, NULL, NULL),
 (2, 'Adnan', 'adnan@gmail.com', NULL, '$2y$10$.PEK0gswnXy0m1OD/Q3hQOpCGc8qmLr/uZujz1zDRQHdt9pRf10eW', 0, NULL, NULL, NULL),
-(3, 'Afadbd', 'afadbd@gmail.com', NULL, '$2y$10$.PEK0gswnXy0m1OD/Q3hQOpCGc8qmLr/uZujz1zDRQHdt9pRf10eW', 0, NULL, NULL, NULL);
+(3, 'Afadbd', 'afadbd@gmail.com', NULL, '$2y$10$.PEK0gswnXy0m1OD/Q3hQOpCGc8qmLr/uZujz1zDRQHdt9pRf10eW', 0, NULL, NULL, NULL),
+(5, 'Admin', 'mamaruf317@gmail.com', NULL, '$2y$10$Dtykr1/wXnZZhSBuRy58HOTkoDLCS.ZR8bWxy8CF6XtTB0pskVf8S', 0, 'Omw4USdxGs4YYhNGFqrAw3xfwA7gVcQNHQVFspUKuc2ul350c3fAhs1De8De', '2026-01-29 08:54:29', '2026-01-29 08:54:29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `volunteers`
+--
+
+CREATE TABLE `volunteers` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `requirements` text DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `status` enum('open','closed') NOT NULL DEFAULT 'open',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Indexes for dumped tables
@@ -1623,6 +1788,18 @@ ALTER TABLE `applications`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `chief_executive_message`
+--
+ALTER TABLE `chief_executive_message`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `executive_committee`
+--
+ALTER TABLE `executive_committee`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -1630,9 +1807,21 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Indexes for table `faq`
+--
+ALTER TABLE `faq`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `gallery`
 --
 ALTER TABLE `gallery`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `impact`
+--
+ALTER TABLE `impact`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1704,6 +1893,12 @@ ALTER TABLE `policy_guideline`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `programs`
+--
+ALTER TABLE `programs`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `projects`
 --
 ALTER TABLE `projects`
@@ -1716,9 +1911,21 @@ ALTER TABLE `slider`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `stories`
+--
+ALTER TABLE `stories`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `subscribe`
 --
 ALTER TABLE `subscribe`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `team_members`
+--
+ALTER TABLE `team_members`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1727,6 +1934,12 @@ ALTER TABLE `subscribe`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`);
+
+--
+-- Indexes for table `volunteers`
+--
+ALTER TABLE `volunteers`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -1745,9 +1958,27 @@ ALTER TABLE `applications`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `chief_executive_message`
+--
+ALTER TABLE `chief_executive_message`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `executive_committee`
+--
+ALTER TABLE `executive_committee`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `faq`
+--
+ALTER TABLE `faq`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -1755,6 +1986,12 @@ ALTER TABLE `failed_jobs`
 --
 ALTER TABLE `gallery`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `impact`
+--
+ALTER TABLE `impact`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `invoked`
@@ -1778,13 +2015,13 @@ ALTER TABLE `legal_affilation`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=828;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=829;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `mission_vision`
@@ -1817,6 +2054,12 @@ ALTER TABLE `policy_guideline`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
+-- AUTO_INCREMENT for table `programs`
+--
+ALTER TABLE `programs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
@@ -1829,16 +2072,34 @@ ALTER TABLE `slider`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
+-- AUTO_INCREMENT for table `stories`
+--
+ALTER TABLE `stories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `subscribe`
 --
 ALTER TABLE `subscribe`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=293;
 
 --
+-- AUTO_INCREMENT for table `team_members`
+--
+ALTER TABLE `team_members`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `volunteers`
+--
+ALTER TABLE `volunteers`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
