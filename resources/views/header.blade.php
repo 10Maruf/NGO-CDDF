@@ -28,6 +28,7 @@
                 <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
                     <li><a class="dropdown-item" href="{{ route('about.us') }}">About AFAD</a></li>
                     <li><a class="dropdown-item" href="{{ route('vision.mission') }}">Mission, Vision & Values</a></li>
+                    <li><a class="dropdown-item" href="{{ route('key.focus.area') }}">Focus Area</a></li>
                     <li><a class="dropdown-item" href="{{ route('team.members') }}">Team Members</a></li>
                     <li><a class="dropdown-item" href="{{ route('origin_affilation') }}">Origin and Legal Affiliation</a></li>
                     <li><a class="dropdown-item" href="{{ route('executive.committee') }}">Executive Committee</a></li>

@@ -150,10 +150,10 @@
 					</a>
 					<ul>
 						<li>
-                            <a href="#"><i class="bx bx-right-arrow-alt"></i>Add Focus Area</a>
+							<a href="{{ route('admin.focus_areas.add') }}"><i class="bx bx-right-arrow-alt"></i>Add Focus Area</a>
 						</li>
 						<li>
-                            <a href="#"><i class="bx bx-right-arrow-alt"></i>All Focus Areas</a>
+							<a href="{{ route('admin.focus_areas.index') }}"><i class="bx bx-right-arrow-alt"></i>All Focus Areas</a>
 						</li>
 					</ul>
 				</li>
