@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\legalAffilationController;
 use App\Http\Controllers\Admin\messageController;
 use App\Http\Controllers\Admin\missionController;
 use App\Http\Controllers\Admin\newsController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\partnersController;
 use App\Http\Controllers\Admin\policyController;
 use App\Http\Controllers\Admin\projectArchiveController;
@@ -35,9 +36,9 @@ Route::group(['prefix' => 'admin'], function(){
 });
 
 
-Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.home');
-Route::get('admin/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
-Route::prefix('admin')->group(function () {
+Route::get('/admin/home', [HomeController::class, 'index'])->middleware('auth')->name('admin.home');
+Route::get('admin/dashboard', [HomeController::class, 'index'])->middleware('auth')->name('admin.dashboard');
+Route::prefix('admin')->middleware('auth')->group(function () {
     // slider
     Route::get('/slider/add',[sliderController::class,'add'])->name('slider.add');
     Route::post('/slider/store',[sliderController::class,'store'])->name('slider.store');
@@ -78,7 +79,13 @@ Route::prefix('admin')->group(function () {
     Route::get('message/index',[messageController::class,'index'])->name('message.index');
     Route::get('message/delete/{id}',[messageController::class,'destroy'])->name('message.delete');
     Route::get('message/view/{id}',[messageController::class,'view'])->name('message.view');
-
+    // Contact
+    Route::get('contact/add', [ContactController::class, 'add'])->name('contact.add');
+    Route::post('contact/store', [ContactController::class, 'store'])->name('contact.store');
+    Route::get('contact/index', [ContactController::class, 'index'])->name('contact.index');
+    Route::get('contact/edit/{id}', [ContactController::class, 'edit'])->name('contact.edit');
+    Route::post('contact/update/{id}', [ContactController::class, 'update'])->name('contact.update');
+    Route::get('contact/delete/{id}', [ContactController::class, 'destroy'])->name('contact.delete');
     //__ about us__//
     Route::get('about/us/add',[aboutusController::class,'create'])->name('about.us.create');
     Route::post('about/us/store',[aboutusController::class,'store'])->name('about.us.store');

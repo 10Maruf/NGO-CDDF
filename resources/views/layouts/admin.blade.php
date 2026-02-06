@@ -442,10 +442,10 @@
 					</a>
 					<ul>
 						<li>
-                            <a href="#"><i class="bx bx-right-arrow-alt"></i>Add Contact</a>
+                            <a href="{{ route('contact.add') }}"><i class="bx bx-right-arrow-alt"></i>Add Contact</a>
 						</li>
 						<li>
-                            <a href="#"><i class="bx bx-right-arrow-alt"></i>All Contact</a>
+                            <a href="{{ route('contact.index') }}"><i class="bx bx-right-arrow-alt"></i>All Contact</a>
 						</li>
 					</ul>
 				</li>

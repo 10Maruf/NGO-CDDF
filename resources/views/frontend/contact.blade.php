@@ -21,39 +21,59 @@
         <h2>Contact Information </h2>
          <!-- ======= Contact Section ======= -->
          <div class="row py-3">
+            @if($head_office)
             <div class="col-md-3 text-start my-2">
-                <h5>Head Office Address</h5>
-                <p class="text-secondary">R.K Road Khalilganj Bazar, Kurigram</p>
+                <h5>{{ $head_office->title ? $head_office->title : 'Head Office' }} Address</h5>
+                <p class="text-secondary">{{ $head_office->address }}</p>
+                @if($head_office->mobile || $head_office->mobile2)
+                <p class="text-secondary mb-1"><strong>Mobile:</strong> {{ $head_office->mobile }}@if($head_office->mobile && $head_office->mobile2), @endif{{ $head_office->mobile2 }}</p>
+                @endif
+                @if($head_office->email || $head_office->email2)
+                <p class="text-secondary mb-1"><strong>Email:</strong> {{ $head_office->email }}@if($head_office->email && $head_office->email2), @endif{{ $head_office->email2 }}</p>
+                @endif
             </div>
+            @endif
+
+            @forelse ($branches as $branch)
             <div class="col-md-3 text-start my-2">
-                <h5>Chief Executive</h5>
+                <h5>{{ $branch->title ? $branch->title : 'Branch' }} Address</h5>
+                <p class="text-secondary">{{ $branch->address }}</p>
+                @if($branch->mobile || $branch->mobile2)
+                <p class="text-secondary mb-1"><strong>Mobile:</strong> {{ $branch->mobile }}@if($branch->mobile && $branch->mobile2), @endif{{ $branch->mobile2 }}</p>
+                @endif
+                @if($branch->email || $branch->email2)
+                <p class="text-secondary mb-1"><strong>Email:</strong> {{ $branch->email }}@if($branch->email && $branch->email2), @endif{{ $branch->email2 }}</p>
+                @endif
+            </div>
+            @empty
+            @endforelse
+
+            @forelse ($persons as $person)
+            <div class="col-md-3 text-start my-2">
+                <h5>{{ $person->title }}</h5>
                 <ul class="text-start m-0 p-0 text-secondary">
-                    <li>Chief Executive: Sayda Yesmin  </li>
-                    <li>Mobile: 01719-691409, 01324-194889  </li>
-                    <li>Skype: yesminafad@hotmail.com </li>
-                    <li>WhatsApp: 01719691409 </li>
-                    <li>Twitter: @sayda_yesmin </li>
-                    <li>Email: yesminafad@gmail.com, yesminafad@yahoo.com</li>
+                    @if($person->name)
+                    <li>{{ $person->title }}: {{ $person->name }}</li>
+                    @endif
+                    @if($person->mobile || $person->mobile2)
+                    <li>Mobile: {{ $person->mobile }}@if($person->mobile && $person->mobile2), @endif{{ $person->mobile2 }}</li>
+                    @endif
+                    @if($person->email || $person->email2)
+                    <li>Email: {{ $person->email }}@if($person->email && $person->email2), @endif{{ $person->email2 }}</li>
+                    @endif
+                    @if($person->skype)
+                    <li>Skype: {{ $person->skype }}</li>
+                    @endif
+                    @if($person->whatsapp)
+                    <li>WhatsApp: {{ $person->whatsapp }}</li>
+                    @endif
+                    @if($person->twitter)
+                    <li>Twitter: {{ $person->twitter }}</li>
+                    @endif
                 </ul>
             </div>
-            <div class="col-md-3 text-start my-2">
-                <h5>Admin Officer</h5>
-                <ul class="text-start m-0 p-0 text-secondary">
-                    <li>Admin Officer: Md Al Muzahid</li>
-                    <li>Mobilr:01713-202608</li>
-                    <li>Email:muzahid.afad@gmail.com</li>
-                    <li>WhatsApp: 01713-202608</li>
-                </ul>
-            </div>
-            <div class="col-md-3 text-start my-2">
-                <h5>Focal Person</h5>
-                <ul class="text-start m-0 p-0 text-secondary">
-                    <li>Focal Person: Reshma Sultana</li>
-                    <li>Mobile:01712-534642</li>
-                    <li>Email:reshmatuli42@gmail.com</li>
-                    <li>WhatsApp:01712-534642</li>
-                </ul>
-            </div>
+            @empty
+            @endforelse
          </div>
 
          <hr class="py-2">
