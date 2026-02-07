@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\partnersController;
 use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\policyController;
 use App\Http\Controllers\Admin\ProgramController;
+use App\Http\Controllers\Admin\PublicationController;
 use App\Http\Controllers\Admin\projectArchiveController;
 use App\Http\Controllers\Admin\projectController;
 use App\Http\Controllers\Admin\sliderController;
@@ -135,6 +136,14 @@ Route::prefix('admin')->group(function () {
     Route::get('policy/delete/{id}', [policyController::class, 'destroy'])->name('policy.delete');
     Route::get('policy/edit/{id}', [policyController::class, 'edit'])->name('policy.edit');
     Route::post('policy/update/{id}', [policyController::class, 'update'])->name('policy.update');
+
+    // __Publications __//
+    Route::get('publications/add', [PublicationController::class, 'add'])->name('publications.add');
+    Route::post('publications/store', [PublicationController::class, 'store'])->name('publications.store');
+    Route::get('publications/index', [PublicationController::class, 'index'])->name('publications.index');
+    Route::get('publications/delete/{id}', [PublicationController::class, 'destroy'])->name('publications.delete');
+    Route::get('publications/edit/{id}', [PublicationController::class, 'edit'])->name('publications.edit');
+    Route::post('publications/update/{id}', [PublicationController::class, 'update'])->name('publications.update');
 
     // __Get Invoked __//
     Route::get('invoked/create', [invokedController::class, 'create'])->name('invoked.create');

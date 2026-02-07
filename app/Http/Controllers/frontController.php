@@ -202,7 +202,8 @@ class frontController extends Controller
 
     // Publication
     public function publication(){
-        return view('frontend.publication');
+        $publications = DB::table('publications')->orderBy('created_at', 'desc')->get();
+        return view('frontend.publication', compact('publications'));
     }
 
     // Get Involved
