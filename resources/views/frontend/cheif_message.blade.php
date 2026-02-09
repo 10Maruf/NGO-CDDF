@@ -26,8 +26,6 @@
               <div class="d-flex justify-content-center">
                 @if($message->photo)
                 <img src="{{ asset('images/chief_message/'.$message->photo) }}" class="testimonial-img" alt="{{ $message->name }}">
-                @else
-                <img src="{{ asset('img/testimonial.jpg') }}" class="testimonial-img" alt="">
                 @endif
               </div>
               <h3 class="fs-3">{{ $message->name }}</h3>

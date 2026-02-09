@@ -55,7 +55,7 @@ class frontController extends Controller
 
     // Message form Cheif Executive
     public function cheif_msg(){
-        $message = DB::table('chief_executive_message')->first();
+        $message = DB::table('chief_executive_message')->orderBy('id', 'desc')->first();
         return view('frontend.cheif_message', compact('message'));
     }
 
