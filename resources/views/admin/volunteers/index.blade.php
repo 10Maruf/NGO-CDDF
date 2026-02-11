@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Volunteer Opportunities')
+@section('bread_crumb')
+    <li class="breadcrumb-item">Volunteers</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
@@ -37,10 +42,10 @@
                                 </td>
                                 <td class="text-center align-middle">
                                     <a href="{{ route('volunteers.edit',$item->id) }}" class="btn btn-sm btn-primary text-white text-center">
-                                        <i class="fadeIn animated bx bx-edit"></i>
+                                        <i class="feather-edit"></i>
                                     </a>
-                                    <a href="{{ route('volunteers.delete',$item->id) }}" class="btn btn-sm btn-danger text-white text-center">
-                                        <i class="fadeIn animated bx bx-trash-alt"></i>
+                                    <a href="{{ route('volunteers.delete',$item->id) }}" class="btn btn-sm btn-danger text-white text-center" data-delete data-delete-title="Delete Volunteer" data-delete-message="Are you sure you want to delete this volunteer opportunity? This action cannot be undone.">
+                                        <i class="feather-trash-2"></i>
                                     </a>
                                 </td>
                             </tr>

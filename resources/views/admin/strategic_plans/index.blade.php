@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Strategic Plans')
+@section('bread_crumb')
+    <li class="breadcrumb-item">Strategic Plans</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
@@ -15,7 +20,7 @@
 
                 <div class="mb-3">
                     <a href="{{ route('strategic_plans.create') }}" class="btn btn-primary">
-                        <i class="bx bx-plus"></i> Add Strategic Plan
+                        <i class="feather-plus"></i> Add Strategic Plan
                     </a>
                 </div>
 
@@ -52,10 +57,10 @@
                                     <td class="text-center align-middle">
                                         <div class="d-flex align-items-center justify-content-center gap-1">
                                             <a href="{{ route('strategic_plans.edit', $strategicPlan->id) }}" class="btn btn-sm btn-primary text-white" title="Edit">
-                                                <i class="fadeIn animated bx bx-edit"></i>
+                                                <i class="feather-edit"></i>
                                             </a>
-                                            <a href="{{ route('strategic_plans.delete', $strategicPlan->id) }}" class="btn btn-sm btn-danger text-white" title="Delete">
-                                                <i class="fadeIn animated bx bx-trash-alt"></i>
+                                            <a href="{{ route('strategic_plans.delete', $strategicPlan->id) }}" class="btn btn-sm btn-danger text-white" title="Delete" data-delete data-delete-title="Delete Strategic Plan" data-delete-message="Are you sure you want to delete this strategic plan? This action cannot be undone.">
+                                                <i class="feather-trash-2"></i>
                                             </a>
                                         </div>
                                     </td>
@@ -64,7 +69,7 @@
                                 <tr>
                                     <td colspan="6" class="text-center py-4">
                                         <div class="text-muted">
-                                            <i class="bx bx-file bx-lg"></i>
+                                            <i class="feather-file"></i>
                                             <p class="mt-2">No strategic plans found. <a href="{{ route('strategic_plans.create') }}">Add the first one</a></p>
                                         </div>
                                     </td>

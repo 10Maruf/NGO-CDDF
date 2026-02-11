@@ -1,5 +1,11 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Edit Volunteer Opportunity')
+@section('bread_crumb')
+    <li class="breadcrumb-item"><a href="{{ route('volunteers.index') }}">Volunteers</a></li>
+    <li class="breadcrumb-item active">Edit Opportunity</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-xl-9 mx-auto">

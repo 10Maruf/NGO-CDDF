@@ -1,5 +1,11 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Donation Details')
+@section('bread_crumb')
+    <li class="breadcrumb-item"><a href="{{ route('admin.donations.index') }}">Donations</a></li>
+    <li class="breadcrumb-item active">Details</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-xl-10 mx-auto">
@@ -151,8 +157,10 @@
 
                                 <a href="{{ route('admin.donations.delete', $data->id) }}" 
                                    class="btn btn-danger" 
-                                   onclick="return confirm('Are you sure you want to delete this donation? This action cannot be undone.')">
-                                    <i class="bx bx-trash"></i> Delete Donation
+                                   data-delete 
+                                   data-delete-title="Delete Donation" 
+                                   data-delete-message="Are you sure you want to delete this donation? This action cannot be undone.">
+                                    <i class="feather-trash-2"></i> Delete Donation
                                 </a>
                             </div>
                         </div>

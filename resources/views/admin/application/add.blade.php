@@ -1,5 +1,11 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Application Settings')
+@section('bread_crumb')
+    <li class="breadcrumb-item">Settings</li>
+    <li class="breadcrumb-item active">Application</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-xl-9 mx-auto">

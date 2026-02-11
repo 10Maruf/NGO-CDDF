@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Sliders')
+@section('bread_crumb')
+    <li class="breadcrumb-item">Sliders</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
@@ -29,10 +34,10 @@
                                 <td class="align-middle w-25">{{ Str::limit($slider->description,30,'..' )}}</td>
                                 <td class="text-center align-middle">
                                     <a href="{{ route('slider.edit',$slider->id) }}" class="btn btn-sm btn-primary text-white">
-                                        <i class="fadeIn animated bx bx-edit"></i>
+                                        <i class="feather-edit"></i>
                                     </a>
-                                    <a href="{{ route('slider.delete',$slider->id) }}" class="btn btn-sm btn-danger text-white">
-                                        <i class="fadeIn animated bx bx-trash-alt"></i>
+                                    <a href="{{ route('slider.delete',$slider->id) }}" class="btn btn-sm btn-danger text-white" data-delete data-delete-title="Delete Slider" data-delete-message="Are you sure you want to delete this slider? This action cannot be undone.">
+                                        <i class="feather-trash-2"></i>
                                     </a>
                                 </td>
                             </tr>
