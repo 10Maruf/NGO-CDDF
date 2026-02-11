@@ -1,5 +1,11 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Edit Focus Area')
+@section('bread_crumb')
+    <li class="breadcrumb-item"><a href="{{ route('admin.focus_areas.index') }}">Focus Areas</a></li>
+    <li class="breadcrumb-item active">Edit Area</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-xl-9 mx-auto">

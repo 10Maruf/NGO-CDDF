@@ -1,5 +1,11 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Edit Strategic Plan')
+@section('bread_crumb')
+    <li class="breadcrumb-item"><a href="{{ route('strategic_plans.index') }}">Strategic Plans</a></li>
+    <li class="breadcrumb-item active">Edit Plan</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-xl-9 mx-auto">

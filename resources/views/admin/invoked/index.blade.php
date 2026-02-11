@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Invoked Items')
+@section('bread_crumb')
+    <li class="breadcrumb-item">Invoked</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-xl-12 mx-auto">
@@ -34,10 +39,10 @@
                                     </td>
                                     <td>
                                         <a href="{{ route('invoked.edit',$value->id) }}" class="btn btn-sm btn-primary text-white text-center">
-                                            <i class="fadeIn animated bx bx-edit"></i>
+                                            <i class="feather-edit"></i>
                                         </a>
-                                        <a href="{{ route('invoked.delete',$value->id) }}" class="btn btn-sm btn-danger text-white text-center">
-                                            <i class="fadeIn animated bx bx-trash-alt"></i>
+                                        <a href="{{ route('invoked.delete',$value->id) }}" class="btn btn-sm btn-danger text-white text-center" data-delete data-delete-title="Delete Invoked Item" data-delete-message="Are you sure you want to delete this item? This action cannot be undone.">
+                                            <i class="feather-trash-2"></i>
                                         </a>
                                     </td>
                                 </tr>

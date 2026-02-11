@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Subscribers')
+@section('bread_crumb')
+    <li class="breadcrumb-item">Subscribers</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
@@ -29,8 +34,8 @@
                                     <td>{{ $subscribe->name }}</td>
                                     <td>{{ $subscribe->email }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('subscribe.delete',$subscribe->id) }}" class="btn btn-sm btn-danger text-white text-center">
-                                            <i class="fadeIn animated bx bx-trash-alt"></i>
+                                        <a href="{{ route('subscribe.delete',$subscribe->id) }}" class="btn btn-sm btn-danger text-white text-center" data-delete data-delete-title="Delete Subscriber" data-delete-message="Are you sure you want to delete this subscriber? This action cannot be undone.">
+                                            <i class="feather-trash-2"></i>
                                         </a>
                                     </td>
                                 </tr>

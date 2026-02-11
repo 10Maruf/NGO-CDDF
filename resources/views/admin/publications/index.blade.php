@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Publications')
+@section('bread_crumb')
+    <li class="breadcrumb-item">Publications</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
@@ -14,7 +19,7 @@
                 @endif
                 <div class="mb-3">
                     <a href="{{ route('publications.add') }}" class="btn btn-primary">
-                        <i class="bx bx-plus"></i> Add New Publication
+                        <i class="feather-plus"></i> Add New Publication
                     </a>
                 </div>
                 <div class="p-4 border rounded table-responsive">
@@ -56,10 +61,10 @@
                                 <td class="text-center align-middle">
                                     <div class="d-flex align-items-center justify-content-center gap-1">
                                         <a href="{{ route('publications.edit', $publication->id) }}" class="btn btn-sm btn-primary text-white" title="Edit">
-                                            <i class="fadeIn animated bx bx-edit"></i>
+                                            <i class="feather-edit"></i>
                                         </a>
-                                        <a href="{{ route('publications.delete', $publication->id) }}" class="btn btn-sm btn-danger text-white" title="Delete" onclick="return confirm('Are you sure you want to delete this publication?')">
-                                            <i class="fadeIn animated bx bx-trash-alt"></i>
+                                        <a href="{{ route('publications.delete', $publication->id) }}" class="btn btn-sm btn-danger text-white" title="Delete" data-delete data-delete-title="Delete Publication" data-delete-message="Are you sure you want to delete this publication? This action cannot be undone.">
+                                            <i class="feather-trash-2"></i>
                                         </a>
                                     </div>
                                 </td>
@@ -68,7 +73,7 @@
                             <tr>
                                 <td colspan="7" class="text-center py-4">
                                     <div class="text-muted">
-                                        <i class="bx bx-file bx-lg"></i>
+                                        <i class="feather-file"></i>
                                         <p class="mt-2">No publications found. <a href="{{ route('publications.add') }}">Add your first publication</a></p>
                                     </div>
                                 </td>
