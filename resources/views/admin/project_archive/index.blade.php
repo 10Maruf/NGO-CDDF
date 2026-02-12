@@ -1,11 +1,5 @@
 @extends('layouts.admin')
 
-@section('title_l1', 'Project Archive')
-@section('bread_crumb')
-    <li class="breadcrumb-item">Projects</li>
-    <li class="breadcrumb-item active">Archive</li>
-@endsection
-
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
@@ -43,10 +37,10 @@
                                 <td class="align-middle">{{ $value->from_date}}</td>
                                 <td class="text-center align-middle">
                                     <a href="{{ route('project.archive.edit',$value->id) }}" class="btn btn-sm btn-primary text-white text-center">
-                                        <i class="feather-edit"></i>
+                                        <i class="fadeIn animated bx bx-edit"></i>
                                     </a>
-                                    <a href="{{ route('project.archive.delete',$value->id) }}" class="btn btn-sm btn-danger text-white text-center" data-delete data-delete-title="Delete Archived Project" data-delete-message="Are you sure you want to delete this archived project? This action cannot be undone.">
-                                        <i class="feather-trash-2"></i>
+                                    <a href="{{ route('project.archive.delete',$value->id) }}" class="btn btn-sm btn-danger text-white text-center">
+                                        <i class="fadeIn animated bx bx-trash-alt"></i>
                                     </a>
                                 </td>
                             </tr>

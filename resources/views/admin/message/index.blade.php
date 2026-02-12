@@ -1,10 +1,5 @@
 @extends('layouts.admin')
 
-@section('title_l1', 'Messages')
-@section('bread_crumb')
-    <li class="breadcrumb-item">Messages</li>
-@endsection
-
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
@@ -36,8 +31,8 @@
                                 <td class="align-middle">{{ $message->email }}</td>
                                 <td class="align-middle">{{ $message->subject }}</td>
                                 <td class="text-center align-middle">
-                                    <a href="{{ route('message.delete',$message->id) }}" class="btn btn-sm btn-danger text-white text-center" data-delete data-delete-title="Delete Message" data-delete-message="Are you sure you want to delete this message? This action cannot be undone.">
-                                        <i class="feather-trash-2"></i>
+                                    <a href="{{ route('message.delete',$message->id) }}" class="btn btn-sm btn-danger text-white text-center">
+                                        <i class="fadeIn animated bx bx-trash-alt"></i>
                                     </a>
                                     <a href="{{ route('message.view',$message->id) }}" class="btn btn-sm btn-info text-white text-center">
                                         <i class="lni lni-eye"></i>

@@ -1,11 +1,5 @@
 @extends('layouts.admin')
 
-@section('title_l1', 'Payment Methods')
-@section('bread_crumb')
-    <li class="breadcrumb-item">Settings</li>
-    <li class="breadcrumb-item active">Payment Methods</li>
-@endsection
-
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
@@ -16,7 +10,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <h6 class="mb-0">Payment Methods List</h6>
                     <a href="{{ route('admin.payment_methods.add') }}" class="btn btn-primary btn-sm">
-                        <i class="feather-plus"></i> Add New Method
+                        <i class="bx bx-plus"></i> Add New Method
                     </a>
                 </div>
             </div>
@@ -80,15 +74,13 @@
                                         <a href="{{ route('admin.payment_methods.edit', $item->id) }}" 
                                            class="btn btn-sm btn-primary" 
                                            title="Edit">
-                                            <i class="feather-edit"></i>
+                                            <i class="bx bx-edit"></i>
                                         </a>
                                         <a href="{{ route('admin.payment_methods.delete', $item->id) }}" 
                                            class="btn btn-sm btn-danger" 
-                                           data-delete 
-                                           data-delete-title="Delete Payment Method" 
-                                           data-delete-message="Are you sure you want to delete this payment method? This action cannot be undone."
+                                           onclick="return confirm('Are you sure you want to delete this payment method?')"
                                            title="Delete">
-                                            <i class="feather-trash-2"></i>
+                                            <i class="bx bx-trash"></i>
                                         </a>
                                     </div>
                                 </td>

@@ -1,11 +1,5 @@
 @extends('layouts.admin')
 
-@section('title_l1', 'Legal Affiliation')
-@section('bread_crumb')
-    <li class="breadcrumb-item">Settings</li>
-    <li class="breadcrumb-item active">Legal Affiliation</li>
-@endsection
-
 @section('content')
 <div class="row">
     <div class="col-xl-12 mx-auto">
@@ -40,10 +34,10 @@
                                     </td>
                                     <td>
                                         <a href="{{ route('origin.legal_affilation.edit',$value->id) }}" class="btn btn-sm btn-primary text-white text-center">
-                                            <i class="feather-edit"></i>
+                                            <i class="fadeIn animated bx bx-edit"></i>
                                         </a>
-                                        <a href="{{ route('origin.legal_affilation.delete',$value->id) }}" class="btn btn-sm btn-danger text-white text-center" data-delete data-delete-title="Delete Legal Affiliation" data-delete-message="Are you sure you want to delete this legal affiliation document? This action cannot be undone.">
-                                            <i class="feather-trash-2"></i>
+                                        <a href="{{ route('origin.legal_affilation.delete',$value->id) }}" class="btn btn-sm btn-danger text-white text-center">
+                                            <i class="fadeIn animated bx bx-trash-alt"></i>
                                         </a>
                                     </td>
                                 </tr>

@@ -1,11 +1,5 @@
 @extends('layouts.admin')
 
-@section('title_l1', 'Add Payment Method')
-@section('bread_crumb')
-    <li class="breadcrumb-item"><a href="{{ route('admin.payment_methods.index') }}">Payment Methods</a></li>
-    <li class="breadcrumb-item active">Add New</li>
-@endsection
-
 @section('content')
 <div class="row">
     <div class="col-xl-10 mx-auto">

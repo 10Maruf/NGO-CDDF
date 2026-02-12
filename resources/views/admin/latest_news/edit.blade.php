@@ -1,11 +1,5 @@
 @extends('layouts.admin')
 
-@section('title_l1', 'Edit News')
-@section('bread_crumb')
-    <li class="breadcrumb-item"><a href="{{ route('news.index') }}">News</a></li>
-    <li class="breadcrumb-item active">Edit News</li>
-@endsection
-
 @section('content')
 <div class="row">
     <div class="col-xl-9 mx-auto">

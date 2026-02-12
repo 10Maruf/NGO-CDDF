@@ -1,10 +1,5 @@
 @extends('layouts.admin')
 
-@section('title_l1', 'FAQ')
-@section('bread_crumb')
-    <li class="breadcrumb-item">FAQ</li>
-@endsection
-
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
@@ -38,10 +33,10 @@
                                 <td class="align-middle">{{ $item->order }}</td>
                                 <td class="text-center align-middle">
                                     <a href="{{ route('faq.edit',$item->id) }}" class="btn btn-sm btn-primary text-white text-center">
-                                        <i class="feather-edit"></i>
+                                        <i class="fadeIn animated bx bx-edit"></i>
                                     </a>
-                                    <a href="{{ route('faq.delete',$item->id) }}" class="btn btn-sm btn-danger text-white text-center" data-delete data-delete-title="Delete FAQ" data-delete-message="Are you sure you want to delete this FAQ? This action cannot be undone.">
-                                        <i class="feather-trash-2"></i>
+                                    <a href="{{ route('faq.delete',$item->id) }}" class="btn btn-sm btn-danger text-white text-center">
+                                        <i class="fadeIn animated bx bx-trash-alt"></i>
                                     </a>
                                 </td>
                             </tr>

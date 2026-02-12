@@ -1,10 +1,5 @@
 @extends('layouts.admin')
 
-@section('title_l1', 'Contacts')
-@section('bread_crumb')
-    <li class="breadcrumb-item">Contacts</li>
-@endsection
-
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
@@ -61,10 +56,10 @@
                                 </td>
                                 <td class="text-center align-middle">
                                     <a href="{{ route('contact.edit', $contact->id) }}" class="btn btn-sm btn-primary text-white">
-                                        <i class="feather-edit"></i>
+                                        <i class="fadeIn animated bx bx-edit"></i>
                                     </a>
-                                    <a href="{{ route('contact.delete', $contact->id) }}" class="btn btn-sm btn-danger text-white" data-delete data-delete-title="Delete Contact" data-delete-message="Are you sure you want to delete this contact message? This action cannot be undone.">
-                                        <i class="feather-trash-2"></i>
+                                    <a href="{{ route('contact.delete', $contact->id) }}" class="btn btn-sm btn-danger text-white" onclick="return confirm('Are you sure you want to delete this contact?')">
+                                        <i class="fadeIn animated bx bx-trash-alt"></i>
                                     </a>
                                 </td>
                             </tr>

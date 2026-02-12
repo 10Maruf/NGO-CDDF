@@ -1,10 +1,5 @@
 @extends('layouts.admin')
 
-@section('title_l1', 'Key Focus Areas')
-@section('bread_crumb')
-    <li class="breadcrumb-item">Focus Areas</li>
-@endsection
-
 @section('content')
 <div class="row">
     <div class="col-xl-11 mx-auto">
@@ -54,7 +49,7 @@
                                     </td>
                                     <td>
                                         <a href="{{ route('admin.focus_areas.edit', $item->id) }}" class="btn btn-sm btn-info">Edit</a>
-                                        <a href="{{ route('admin.focus_areas.delete', $item->id) }}" class="btn btn-sm btn-danger" data-delete data-delete-title="Delete Focus Area" data-delete-message="Are you sure you want to delete this focus area? This action cannot be undone.">Delete</a>
+                                        <a href="{{ route('admin.focus_areas.delete', $item->id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Delete this focus area?')">Delete</a>
                                     </td>
                                 </tr>
                             @empty

@@ -14,10 +14,3 @@ yarn-error.log
 /.idea
 /.vscode
 error_log
-
-# Backup files
-/public/admin_backup_*
-/resources/views/layouts/admin.blade_backup_*
-
-# Reference template
-/Duralux-admin-1.0.0

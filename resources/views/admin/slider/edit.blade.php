@@ -1,11 +1,5 @@
 @extends('layouts.admin')
 
-@section('title_l1', 'Edit Slider')
-@section('bread_crumb')
-    <li class="breadcrumb-item"><a href="{{ route('slider.index') }}">Sliders</a></li>
-    <li class="breadcrumb-item active">Edit Slider</li>
-@endsection
-
 @section('content')
 <div class="row">
     <div class="col-xl-9 mx-auto">
