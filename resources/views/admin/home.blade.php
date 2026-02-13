@@ -5,7 +5,198 @@
     <li class="breadcrumb-item">Dashboard</li>
 @endsection
 
+@push('styles')
+<style>
+    /* Hide page header on dashboard */
+    .page-header {
+        display: none !important;
+    }
+
+    /* Hero Section - Modern Dark Style */
+    .dashboard-hero {
+        min-height: 250px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, rgba(32, 33, 36, 0.95) 0%, rgba(45, 46, 50, 0.95) 100%), 
+                    url('{{ asset("admin/assets/images/duralux/dashboard_img.jpg") }}');
+        background-size: cover;
+        background-position: center;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    /* Hero Section - Dark Theme */
+    html.app-skin-dark .dashboard-hero {
+        background: linear-gradient(135deg, rgba(30, 33, 57, 0.96) 0%, rgba(36, 39, 54, 0.96) 100%), 
+                    url('{{ asset("admin/assets/images/duralux/dashboard_img.jpg") }}');
+        background-size: cover;
+        background-position: center;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Badge styling - Subtle modern look */
+    .dashboard-hero .location-badge {
+        font-size: 0.875rem;
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    html.app-skin-dark .dashboard-hero .location-badge {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Reg badge visibility fix */
+    .dashboard-hero .reg-badge {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.25) !important;
+        color: #ffffff !important;
+    } 
+
+    /* Text shadows for better readability */
+    .dashboard-hero h1 {
+        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    html.app-skin-dark .dashboard-hero h1 {
+        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Modern Button Styling */
+    .dashboard-hero .btn-get-started {
+        background: rgba(255, 255, 255, 0.95);
+        color: #2d2e32;
+        border: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    /* Force dark text color for button in Dark Mode */
+    html.app-skin-dark .dashboard-hero .btn-get-started {
+        color: #2d2e32 !important;
+        background: rgba(255, 255, 255, 0.95);
+    }
+
+    .dashboard-hero .btn-get-started:hover {
+        background: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        color: #1a1b1e;
+    }
+
+    .dashboard-hero .btn-outline-light {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: #ffffff;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .dashboard-hero .btn-outline-light:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateY(-2px);
+        color: #ffffff;
+    }
+
+    /* Responsive text sizing */
+    @media (max-width: 768px) {
+        .dashboard-hero {
+            min-height: 220px;
+        }
+        
+        .dashboard-hero h1 {
+            font-size: 1.5rem !important;
+        }
+        
+        .dashboard-hero h4 {
+            font-size: 1rem !important;
+        }
+    }
+
+    /* Animation for emoji grid */
+    .emoji-grid span {
+        display: inline-block;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .emoji-grid span:nth-child(odd) {
+        animation-delay: 0.5s;
+    }
+
+    .emoji-grid span:nth-child(even) {
+        animation-delay: 1s;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+</style>
+@endpush
+
 @section('content')
+
+<!-- Welcome Hero Section -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card dashboard-hero">
+            <div class="card-body p-3 p-md-4 d-flex align-items-center">
+                <div class="row w-100 align-items-center">
+                    <div class="col-lg-8 col-md-7 text-white">
+                        <div class="mb-2">
+                            <span class="badge location-badge text-white px-3 py-1 mb-2">
+                                <i class="feather-map-pin me-2"></i>Chilmari, Kurigram
+                            </span>
+                        </div>
+                        <h1 class="display-3 fw-bolder text-white mb-2" style="font-size: clamp(2rem, 5vw, 3rem); letter-spacing: -1px; text-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                            Building Resilience.
+                        </h1>
+                        <p class="lead text-white mb-3" style="max-width: 620px; font-size: clamp(1rem, 1.5vw, 1.15rem); opacity: 0.95; line-height: 1.6; font-weight: 400;">
+                            Championing the future of Bangladesh's river-erosion communities. From disaster relief to sustainable growth, we turn vulnerability into strength.
+                        </p>
+                        <div class="d-flex align-items-center mb-3 text-white-50" style="font-size: 0.85rem;">
+                            <span class="text-white fw-bold text-uppercase tracking-wider">CDDF</span>
+                            <span class="mx-2">•</span>
+                            <span>Chilmari Distressed Development Foundation</span>
+                            <span class="mx-2">|</span>
+                            <span class="badge reg-badge fw-normal">Reg. No. 2520</span>
+                        </div>
+                        <div class="d-flex gap-3 flex-wrap">
+                            <a href="{{ route('admin.donations.index') }}" class="btn btn-get-started btn-md px-4 py-2">
+                                View Donations
+                            </a>
+                            <a href="{{ route('project.add') }}" class="btn btn-outline-light btn-md px-4 py-2">
+                                <i class="feather-plus me-2"></i>New Project
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-5 text-center d-none d-md-block position-relative">
+                        <div class="position-relative emoji-grid" style="font-size: 6rem; line-height: 1; opacity: 0.9;">
+                            <div class="d-flex justify-content-center flex-wrap" style="gap: 0.4rem;">
+                                <span style="font-size: 2.5rem;">🧑🏾</span>
+                                <span style="font-size: 2.5rem;">👨🏻</span>
+                                <span style="font-size: 2.5rem;">👩🏽</span>
+                                <span style="font-size: 2.5rem;">🧑🏼</span>
+                                <span style="font-size: 2.5rem;">👨🏿</span>
+                                <span style="font-size: 2.5rem;">👩🏻</span>
+                                <span style="font-size: 2.5rem;">🧕🏽</span>
+                                <span style="font-size: 2.5rem;">👴🏻</span>
+                                <span style="font-size: 2.5rem;">👧🏾</span>
+                                <span style="font-size: 2.5rem;">👦🏽</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Decorative elements -->
+            <div class="position-absolute" style="bottom: -50px; right: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.1); border-radius: 50%; filter: blur(60px); pointer-events: none;"></div>
+            <div class="position-absolute" style="top: -30px; left: -30px; width: 150px; height: 150px; background: rgba(255,255,255,0.08); border-radius: 50%; filter: blur(40px); pointer-events: none;"></div>
+        </div>
+    </div>
+</div>
 
 <div class="row">
     <!-- Statistics Cards Row 1 -->

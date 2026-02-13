@@ -19,6 +19,7 @@
 	<!--! END: Vendors CSS-->
 	<!--! BEGIN: Custom CSS-->
 	<link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/theme.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/custom-logo.css') }}" />
     <!--! Legacy Icons CSS (Restore for Boxicons compatibility) -->
     <link href="{{ asset('admin/assets/css/icons.css') }}" rel="stylesheet">
 	<!--! END: Custom CSS-->
@@ -385,10 +386,7 @@
 			background-color: #f8f9fa;
 		}
 	</style>
-	<title>AFADBD | Admin Dashboard</title>
-</head>
-
-<body>
+	@stack('styles')
 	<!--! ================================================================ !-->
 	<!--! [Start] Navigation Menu !-->
 	<!--! ================================================================ !-->
@@ -396,8 +394,8 @@
 		<div class="navbar-wrapper">
 			<div class="m-header">
 				<a href="{{ route('admin.home') }}" class="b-brand">
-					<img src="{{ asset('images/application/'.application()->fav_icon) }}" alt="logo" class="logo logo-lg" />
-					<img src="{{ asset('images/application/'.application()->fav_icon) }}" alt="logo" class="logo logo-sm" />
+					<img src="{{ asset('admin/assets/images/duralux/CDDF_logo.png') }}" alt="logo" class="logo logo-lg" />
+					<img src="{{ asset('admin/assets/images/duralux/CDDF_logo.png') }}" alt="logo" class="logo logo-sm" />
 				</a>
 			</div>
 			<div class="navbar-content">
@@ -1101,8 +1099,7 @@
 	<!--! BEGIN: Custom Header Scripts !-->
 	<script src="{{ asset('admin/assets/vendors/js/full-screen-helper.min.js') }}"></script>
 	<script>
-		/*
-		// Duralux Native Dark/Light Theme Toggle - DISABLED (Handled by Theme Customizer)
+		// Duralux Native Dark/Light Theme Toggle
 		document.addEventListener('DOMContentLoaded', function() {
 			const themeToggle = document.querySelector('[data-bs-toggle="tooltip"][title="Light/Dark Mode"]');
 			const themeIcon = themeToggle.querySelector('i');
@@ -1146,7 +1143,6 @@
 				}
 			});
 		});
-		*/
 
 		// Search functionality
 		document.addEventListener('DOMContentLoaded', function() {
