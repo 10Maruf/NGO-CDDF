@@ -46,13 +46,15 @@
                                     <img src="{{ asset('images/team_members/'.$item->photo) }}" alt="" width="50">
                                 </td>
                                 <td class="align-middle">{{ $item->order }}</td>
-                                <td class="text-center align-middle">
-                                    <a href="{{ route('team.edit',$item->id) }}" class="btn btn-sm btn-primary text-white text-center">
-                                        <i class="feather-edit"></i>
-                                    </a>
-                                    <a href="{{ route('team.delete',$item->id) }}" class="btn btn-sm btn-danger text-white text-center" data-delete data-delete-title="Delete Team Member" data-delete-message="Are you sure you want to delete this team member? This action cannot be undone.">
-                                        <i class="feather-trash-2"></i>
-                                    </a>
+                                <td class="align-middle">
+                                    <div class="table-actions justify-content-center">
+                                        <a href="{{ route('team.edit',$item->id) }}" class="btn btn-primary" title="Edit">
+                                            <i class="feather-edit"></i>
+                                        </a>
+                                        <a href="{{ route('team.delete',$item->id) }}" class="btn btn-danger" data-delete data-delete-title="Delete Team Member" data-delete-message="Are you sure you want to delete this team member? This action cannot be undone." title="Delete">
+                                            <i class="feather-trash-2"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

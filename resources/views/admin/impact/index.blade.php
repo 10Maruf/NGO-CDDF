@@ -83,19 +83,21 @@
                                     <span class="badge bg-dark">{{ $item->order }}</span>
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ route('impact.edit',$item->id) }}" 
-                                       class="btn btn-sm btn-primary text-white" 
-                                       title="Edit">
-                                        <i class="feather-edit"></i>
-                                    </a>
-                                    <a href="{{ route('impact.delete',$item->id) }}" 
-                                       class="btn btn-sm btn-danger text-white" 
-                                       data-delete 
-                                       data-delete-title="Delete Impact Metric" 
-                                       data-delete-message="Are you sure you want to delete this impact metric? This action cannot be undone."
-                                       title="Delete">
-                                        <i class="feather-trash-2"></i>
-                                    </a>
+                                    <div class="table-actions justify-content-center">
+                                        <a href="{{ route('impact.edit',$item->id) }}" 
+                                           class="btn btn-primary" 
+                                           title="Edit">
+                                            <i class="feather-edit"></i>
+                                        </a>
+                                        <a href="{{ route('impact.delete',$item->id) }}" 
+                                           class="btn btn-danger" 
+                                           data-delete 
+                                           data-delete-title="Delete Impact Metric" 
+                                           data-delete-message="Are you sure you want to delete this impact metric? This action cannot be undone."
+                                           title="Delete">
+                                            <i class="feather-trash-2"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             @empty

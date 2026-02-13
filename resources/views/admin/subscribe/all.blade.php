@@ -33,11 +33,13 @@
                                     <td>{{ ++$key }}</td>
                                     <td>{{ $subscribe->name }}</td>
                                     <td>{{ $subscribe->email }}</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('subscribe.delete',$subscribe->id) }}" class="btn btn-sm btn-danger text-white text-center" data-delete data-delete-title="Delete Subscriber" data-delete-message="Are you sure you want to delete this subscriber? This action cannot be undone.">
+                                <td class="align-middle">
+                                    <div class="table-actions justify-content-center">
+                                        <a href="{{ route('subscribe.delete',$subscribe->id) }}" class="btn btn-danger" data-delete data-delete-title="Delete Subscriber" data-delete-message="Are you sure you want to delete this subscriber? This action cannot be undone." title="Delete">
                                             <i class="feather-trash-2"></i>
                                         </a>
-                                    </td>
+                                    </div>
+                                </td>
                                 </tr>
                             @endforeach
                         </tbody>

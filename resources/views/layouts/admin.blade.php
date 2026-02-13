@@ -385,6 +385,70 @@
 			border-top: 1px solid #dee2e6;
 			background-color: #f8f9fa;
 		}
+
+        /* Unique Table Actions Redesign */
+        .table-actions {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .table-actions .btn {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .table-actions .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: currentColor;
+            opacity: 0.12;
+            transition: opacity 0.3s ease;
+        }
+
+        .table-actions .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .table-actions .btn:hover::before {
+            opacity: 0;
+        }
+        
+        .table-actions .btn i {
+            font-size: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Color definitions */
+        .table-actions .btn-primary { color: #3a86ff; background: transparent; border: 0; }
+        .table-actions .btn-primary:hover { color: #fff; background: #3a86ff; } /* Fallback if opacity trick fails */
+        
+        .table-actions .btn-info { color: #00b4d8; background: transparent; border: 0; }
+        .table-actions .btn-info:hover { color: #fff; background: #00b4d8; }
+
+        .table-actions .btn-success { color: #06d6a0; background: transparent; border: 0; }
+        .table-actions .btn-success:hover { color: #fff; background: #06d6a0; }
+
+        .table-actions .btn-warning { color: #ffb703; background: transparent; border: 0; }
+        .table-actions .btn-warning:hover { color: #fff; background: #ffb703; }
+
+        .table-actions .btn-danger { color: #ef476f; background: transparent; border: 0; }
+        .table-actions .btn-danger:hover { color: #fff; background: #ef476f; }
 	</style>
 	@stack('styles')
 	<!--! ================================================================ !-->

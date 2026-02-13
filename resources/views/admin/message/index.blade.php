@@ -35,13 +35,15 @@
                                 <td class="align-middle">{{ $message->name }}</td>
                                 <td class="align-middle">{{ $message->email }}</td>
                                 <td class="align-middle">{{ $message->subject }}</td>
-                                <td class="text-center align-middle">
-                                    <a href="{{ route('message.delete',$message->id) }}" class="btn btn-sm btn-danger text-white text-center" data-delete data-delete-title="Delete Message" data-delete-message="Are you sure you want to delete this message? This action cannot be undone.">
-                                        <i class="feather-trash-2"></i>
-                                    </a>
-                                    <a href="{{ route('message.view',$message->id) }}" class="btn btn-sm btn-info text-white text-center">
-                                        <i class="lni lni-eye"></i>
-                                    </a>
+                                <td class="align-middle">
+                                    <div class="table-actions justify-content-center">
+                                        <a href="{{ route('message.view',$message->id) }}" class="btn btn-info" title="View">
+                                            <i class="lni lni-eye"></i>
+                                        </a>
+                                        <a href="{{ route('message.delete',$message->id) }}" class="btn btn-danger" data-delete data-delete-title="Delete Message" data-delete-message="Are you sure you want to delete this message? This action cannot be undone." title="Delete">
+                                            <i class="feather-trash-2"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

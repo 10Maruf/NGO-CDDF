@@ -58,12 +58,12 @@
                                 </td>
                                 <td class="align-middle">{{ Str::limit($publication->description, 50, '...') }}</td>
                                 <td class="align-middle">{{ date('M d, Y', strtotime($publication->created_at)) }}</td>
-                                <td class="text-center align-middle">
-                                    <div class="d-flex align-items-center justify-content-center gap-1">
-                                        <a href="{{ route('publications.edit', $publication->id) }}" class="btn btn-sm btn-primary text-white" title="Edit">
+                                <td class="align-middle">
+                                    <div class="table-actions justify-content-center">
+                                        <a href="{{ route('publications.edit', $publication->id) }}" class="btn btn-primary" title="Edit">
                                             <i class="feather-edit"></i>
                                         </a>
-                                        <a href="{{ route('publications.delete', $publication->id) }}" class="btn btn-sm btn-danger text-white" title="Delete" data-delete data-delete-title="Delete Publication" data-delete-message="Are you sure you want to delete this publication? This action cannot be undone.">
+                                        <a href="{{ route('publications.delete', $publication->id) }}" class="btn btn-danger" title="Delete" data-delete data-delete-title="Delete Publication" data-delete-message="Are you sure you want to delete this publication? This action cannot be undone.">
                                             <i class="feather-trash-2"></i>
                                         </a>
                                     </div>

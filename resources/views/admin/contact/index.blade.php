@@ -59,13 +59,15 @@
                                         <span class="badge bg-secondary">Inactive</span>
                                     @endif
                                 </td>
-                                <td class="text-center align-middle">
-                                    <a href="{{ route('contact.edit', $contact->id) }}" class="btn btn-sm btn-primary text-white">
-                                        <i class="feather-edit"></i>
-                                    </a>
-                                    <a href="{{ route('contact.delete', $contact->id) }}" class="btn btn-sm btn-danger text-white" data-delete data-delete-title="Delete Contact" data-delete-message="Are you sure you want to delete this contact message? This action cannot be undone.">
-                                        <i class="feather-trash-2"></i>
-                                    </a>
+                                <td class="align-middle">
+                                    <div class="table-actions justify-content-center">
+                                        <a href="{{ route('contact.edit', $contact->id) }}" class="btn btn-primary" title="Edit">
+                                            <i class="feather-edit"></i>
+                                        </a>
+                                        <a href="{{ route('contact.delete', $contact->id) }}" class="btn btn-danger" data-delete data-delete-title="Delete Contact" data-delete-message="Are you sure you want to delete this contact message? This action cannot be undone." title="Delete">
+                                            <i class="feather-trash-2"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             @empty

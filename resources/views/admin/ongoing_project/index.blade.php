@@ -43,13 +43,15 @@
                                     <img src="{{ asset('images/project/'.$project->image) }}" alt="" width="50">
                                 </td>
                                 <td class="align-middle">{{ Str::limit($project->description,30,"...") }}</td>
-                                <td class="text-center align-middle">
-                                    <a href="{{ route('project.edit',$project->id) }}" class="btn btn-sm btn-primary text-white text-center">
-                                        <i class="feather-edit"></i>
-                                    </a>
-                                    <a href="{{ route('project.delete',$project->id) }}" class="btn btn-sm btn-danger text-white text-center" data-delete data-delete-title="Delete Project" data-delete-message="Are you sure you want to delete this project? This action cannot be undone.">
-                                        <i class="feather-trash-2"></i>
-                                    </a>
+                                <td class="align-middle">
+                                    <div class="table-actions justify-content-center">
+                                        <a href="{{ route('project.edit',$project->id) }}" class="btn btn-primary" title="Edit">
+                                            <i class="feather-edit"></i>
+                                        </a>
+                                        <a href="{{ route('project.delete',$project->id) }}" class="btn btn-danger" data-delete data-delete-title="Delete Project" data-delete-message="Are you sure you want to delete this project? This action cannot be undone." title="Delete">
+                                            <i class="feather-trash-2"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

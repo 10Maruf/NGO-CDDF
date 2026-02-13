@@ -54,12 +54,12 @@
                                     </td>
                                     <td class="align-middle">{{ Str::limit($strategicPlan->description, 50, '...') }}</td>
                                     <td class="align-middle">{{ date('M d, Y', strtotime($strategicPlan->created_at)) }}</td>
-                                    <td class="text-center align-middle">
-                                        <div class="d-flex align-items-center justify-content-center gap-1">
-                                            <a href="{{ route('strategic_plans.edit', $strategicPlan->id) }}" class="btn btn-sm btn-primary text-white" title="Edit">
+                                    <td class="align-middle">
+                                        <div class="table-actions justify-content-center">
+                                            <a href="{{ route('strategic_plans.edit', $strategicPlan->id) }}" class="btn btn-primary" title="Edit">
                                                 <i class="feather-edit"></i>
                                             </a>
-                                            <a href="{{ route('strategic_plans.delete', $strategicPlan->id) }}" class="btn btn-sm btn-danger text-white" title="Delete" data-delete data-delete-title="Delete Strategic Plan" data-delete-message="Are you sure you want to delete this strategic plan? This action cannot be undone.">
+                                            <a href="{{ route('strategic_plans.delete', $strategicPlan->id) }}" class="btn btn-danger" title="Delete" data-delete data-delete-title="Delete Strategic Plan" data-delete-message="Are you sure you want to delete this strategic plan? This action cannot be undone.">
                                                 <i class="feather-trash-2"></i>
                                             </a>
                                         </div>
