@@ -16,7 +16,8 @@ ul{
     list-style-type: none;
 }
 #logo{
-  width: 300px;
+  max-height: 80px;
+  width: auto;
 }
 .back-to-top{
   position: fixed;
@@ -26,15 +27,17 @@ ul{
 /* On screens that are 992px or less, set the background color to blue */
 @media screen and (max-width: 992px) {
   #logo{
-  width: 175px;
-}
+    max-height: 60px;
+    width: auto;
+  }
 }
 
 /* On screens that are 600px or less, set the background color to olive */
 @media screen and (max-width: 600px) {
   #logo{
-  width: 175px;
-}
+    max-height: 50px;
+    width: auto;
+  }
 }
 /*--------------------------------------------------------------
 # Sections General

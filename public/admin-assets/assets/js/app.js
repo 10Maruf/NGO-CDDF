@@ -1,6 +1,6 @@
 $(function() {
 	"use strict";
-	new PerfectScrollbar(".header-message-list"), new PerfectScrollbar(".header-notifications-list"), $(".mobile-search-icon").on("click", function() {
+	/* new PerfectScrollbar(".header-message-list"), new PerfectScrollbar(".header-notifications-list"), */ $(".mobile-search-icon").on("click", function() {
 		$(".search-bar").addClass("full-search-bar")
 	}), $(".search-close").on("click", function() {
 		$(".search-bar").removeClass("full-search-bar")

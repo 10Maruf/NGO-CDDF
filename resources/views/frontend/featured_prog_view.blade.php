@@ -23,7 +23,7 @@
                 <img src="https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="" class="w-50">
                 <h3 class="mt-3">Women's Empowerment Initiative</h3>
                 <p style="text-align: justify;">
-                    At AFAD, we believe in a future where every woman and girl in northern Bangladesh has the opportunity, the voice and the economic power to shape her own life. Our Women’s Empowerment Initiative focuses on three interconnected pathways: education & skills training, economic empowerment, and rights & advocacy.
+                    At UMUS, we believe in a future where every woman and girl in Satkhira district has the opportunity, the voice and the economic power to shape her own life. Our Women's Empowerment Initiative focuses on three interconnected pathways: education & skills training, economic empowerment, and rights & advocacy.
                     <br/>
                     Through targeted training programmes, we equip women — especially those marginalised by geography, poverty or social norms — with the practical skills and confidence needed for meaningful work and leadership. We support income-generation, access to micro-finance and linkages to local markets so that women move beyond survival-mode into sustainable livelihoods.
                     <br/>

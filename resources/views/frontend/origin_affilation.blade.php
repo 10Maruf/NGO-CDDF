@@ -21,7 +21,7 @@
       <div class="section-title">
         <h2>Origin and Legal Affiliation: </h2>
         <p>
-            AFAD is registered (No. 2443) with NGO Affair’s Bureau (NGOAB) of Prime Minister’s Office of People's Republic of Government of Bangladesh, and it got the registration (No. DWA/Kuri/Reg/29/99 )  from the Directorate of Women’s Affairs (DWA) in 1999. At the same time, AFAD has the registration from the Directorate of Youth Development, Govt. of Bangladesh.
+            Uddipto Mohila Unnayan Sangstha (UMUS) is registered with the NGO Affairs Bureau (NGOAB) of the Prime Minister's Office of the People's Republic of Bangladesh. UMUS was established in 2003 and has been working with marginalized Dalit women and children in Satkhira district. The organization is also registered with the Directorate of Women's Affairs (DWA) and operates in compliance with all government regulations.
         </p>
       </div>
 

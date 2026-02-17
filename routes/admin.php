@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\subscribeController;
 use App\Http\Controllers\Admin\StrategicPlanController;
 use App\Http\Controllers\Admin\TeamMemberController;
 use App\Http\Controllers\Admin\VolunteerController;
+use App\Http\Controllers\Admin\VolunteerRegistrationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -243,6 +244,13 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('volunteers/delete/{id}', [VolunteerController::class, 'destroy'])->name('volunteers.delete');
     Route::get('volunteers/edit/{id}', [VolunteerController::class, 'edit'])->name('volunteers.edit');
     Route::post('volunteers/update/{id}', [VolunteerController::class, 'update'])->name('volunteers.update');
+
+    // __ Volunteer Registrations __//
+    Route::get('volunteer-registrations/index', [VolunteerRegistrationController::class, 'index'])->name('admin.volunteer_registrations.index');
+    Route::get('volunteer-registrations/show/{id}', [VolunteerRegistrationController::class, 'show'])->name('admin.volunteer_registrations.show');
+    Route::get('volunteer-registrations/approve/{id}', [VolunteerRegistrationController::class, 'approve'])->name('admin.volunteer_registrations.approve');
+    Route::get('volunteer-registrations/reject/{id}', [VolunteerRegistrationController::class, 'reject'])->name('admin.volunteer_registrations.reject');
+    Route::get('volunteer-registrations/delete/{id}', [VolunteerRegistrationController::class, 'destroy'])->name('admin.volunteer_registrations.delete');
 
     // __ Payment Methods __//
     Route::get('payment-methods/add', [PaymentMethodController::class, 'add'])->name('admin.payment_methods.add');

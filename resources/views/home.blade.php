@@ -1,7 +1,7 @@
 @extends('main')
 
 @section('title')
-Association for Alternative Development
+Uddipto Mohila Unnayan Sangstha
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@ Association for Alternative Development
     <div class="carousel-inner">
         @foreach ($slider as $skey => $slider)
         <div class="carousel-item @if($skey == 0) active @endif">
-            <img src="{{ asset('images/slider/'.$slider->image) }}" class="d-block" alt="AFAD" width="100%" height="auto">
+            <img src="{{ asset('images/slider/'.$slider->image) }}" class="d-block" alt="UMUS" width="100%" height="auto">
             <div class="carousel-caption" style="position:absolute;top:150px; text-align:left;">
                 <h2 class="text-white text-start typing-text" style="font-size: 3rem">{{ $slider->title }}</span></h1>
                 <div class="my-2" style="width:100px;border-bottom:5px solid #dc3545;"></div>
@@ -37,19 +37,19 @@ Association for Alternative Development
 <div class="bg-light">
     <div class="container bg-white px-2">
         <div class="pt-5 pb-3">
-            <h3 class="text-center">Who <span class="text-danger">we are</span></h3>
+            <h3 class="text-center">Who <span class="text-success">we are</span></h3>
             <p class="text-center text-secondary">The sole meaning of life is to serve humanity</p>
         </div>
 
         <div class="row g-4 pb-3">
             <div class="col-lg-10 col-md-12 col-12 mx-auto">
-                <p class="text-center text-secondary">AFAD is a women led organization working in norther Bangladesh since 1999. AFAD is registered (No. 2443) with NGO Affair’s Bureau (NGOAB) of Prime Minister’s Office of People's Republic of Government of Bangladesh, and it got the registration (No. DWA/Kuri/Reg/29/99 ) from the Directorate of Women’s Affairs (DWA) in 1999. AFAD also has the registration from the Directorate of Youth Development, Govt. of Bangladesh.</p>
+                <p class="text-center text-secondary">Uddipto Mohila Unnayan Sangstha (UMUS) is a non-governmental organization dedicated to empowering Dalit women and children in Satkhira district, Bangladesh. Established in 2003, UMUS is registered with the NGO Affairs Bureau (NGOAB) and operates primarily in Tala and Assasuni Upazilas. We work tirelessly to strengthen social security, promote legal rights, and build leadership capacity among marginalized communities.</p>
             </div>
         </div>
         <div class="text-center pb-5">
-            <a href="{{ route('programs.all') }}" class="btn btn-danger my-1"><i class="fa-solid fa-hands-holding-child"></i> Programs</a>
+            <a href="{{ route('programs.all') }}" class="btn btn-success my-1"><i class="fa-solid fa-hands-holding-child"></i> Programs</a>
             <a href="{{ route('invoked.career') }}" class="btn btn-primary my-1"><i class="fa-solid fa-circle-nodes"></i> Get Involved</a>
-            <a href="{{ route('contact') }}" class="btn btn-danger my-1"><i class="fa-solid fa-phone-volume"></i> Contact us</a>
+            <a href="{{ route('contact') }}" class="btn btn-success my-1"><i class="fa-solid fa-phone-volume"></i> Contact us</a>
         </div>
         {{-- <hr class="py-3 mt-5 m-0"> --}}
     </div>
@@ -60,19 +60,16 @@ Association for Alternative Development
 <div class="bg-light py-5" style="background-image: url('{{ asset('img/slider/slider-2.jpg') }}');background-attachment:fixed;">
     <div class="container px-2">
         <div class="row">
-            <div class="col-md-4 col-12 mx-auto">
-                <h3 class="text-center text-white"><span style="border-bottom:3px solid #e00324;">Mission</span> <i class="fa-solid fa-bullseye text-danger"></i></h3>
+            <div class="col-md-6 col-12 mx-auto">
+                <h3 class="text-center text-white"><span style="border-bottom:3px solid #28a745;">Mission</span> <i class="fa-solid fa-bullseye text-success"></i></h3>
                 <p style="text-align: justify;" class="text-white">
-                    AFAD mission is to empower women particularly young women towards building a better world by developing their capacities and to make them active contributor within the society. Therefore AFAD undertakes initiatives/programs that empower the neglected portion of women who are deprived from rights and to ensure equal rights and opportunities for them.
+                    UMUS works to reduce discrimination and rebuild society by promoting the legal rights of marginalized women and children, with a strong focus on the Dalit community. We strive to improve access to essential services including healthcare, legal aid, and education while strengthening skills, leadership capacity, and income-generating abilities—especially for Dalit women and girls in Satkhira.
                 </p>
             </div>
-            <div class="col-md-4 my-2">
-                <img src="{{ asset('img/mission.jpg') }}" class="rounded" alt="Mission and Vision" width="100%">
-            </div>
-            <div class="col-md-4 col-12 mx-auto">
+            <div class="col-md-6 col-12 mx-auto">
                 <h3 class="text-center text-white"><span style="border-bottom:3px solid #0073ff;">Vision</span> <i class="fa-solid fa-eye-low-vision text-primary"></i></h3>
                 <p style="text-align: justify;" class="text-white">
-                    Contribute to establish an enabling environment for realization and protection of fundamental human rights of men and women where people are self-reliant as individuals.
+                    An equal and just society where Dalit people live with honor and dignity, are recognized as full citizens of Bangladesh, and their cultural diversity is respected and celebrated.
                 </p>
             </div>
         </div>
@@ -85,8 +82,8 @@ Association for Alternative Development
 <div class="bg-light">
     <div class="container bg-white px-2">
         <div class="pt-5 pb-3">
-            <h3 class="text-center"> Featured <span class="text-danger">Programs</span></h3>
-            <p class="text-center text-secondary">Elevating Lives, Empowering Futures: AFAD's Featured Program brings transformative opportunities to communities in northern Bangladesh.</p>
+            <h3 class="text-center"> Featured <span class="text-success">Programs</span></h3>
+            <p class="text-center text-secondary">Elevating Lives, Empowering Futures: UMUS Featured Programs bring transformative opportunities to communities in Satkhira, Bangladesh.</p>
         </div>
 
         <div class="row p-3">
@@ -161,7 +158,7 @@ Association for Alternative Development
     <div class="container bg-white px-2">
         <div class="pt-3 pb-3">
             <h3 class="text-center">Ongoing <span class="text-danger">Projects</span></h3>
-            <p class="text-center text-secondary">AFAD's Ongoing Projects actively address community needs, fostering sustainable development in northern Bangladesh.</p>
+            <p class="text-center text-secondary">UMUS's Ongoing Projects actively address community needs, fostering sustainable development in Satkhira district.</p>
         </div>
 
         {{-- card --}}
@@ -202,7 +199,7 @@ Association for Alternative Development
         <h4 class="text-uppercasse text-white text-center"><span class="text-danger">Sponsor</span> for Growing Fund</h4>
         <div class="d-flex justify-content-center">
             <p class="text-white text-center py-3">
-            Sponsor AFAD's growing fund to fuel impactful initiatives in northern Bangladesh, empowering communities and fostering positive change. Your support drives essential programs in healthcare, education, and community resilience, making a lasting difference in the lives of those in need. Join us in our mission to create a brighter future for all.
+            Sponsor UMUS's growing fund to fuel impactful initiatives in Satkhira district, empowering communities and fostering positive change. Your support drives essential programs in healthcare, education, and community resilience, making a lasting difference in the lives of those in need. Join us in our mission to create a brighter future for all.
         </p>
         </div>
 
@@ -257,10 +254,10 @@ Association for Alternative Development
             <div class="col-md-12">
                 <h4 class="text-uppercasse text-white text-center"><span class="text-danger">Become</span> a Volunteer</h4>
                 <p class="text-white py-2 text-center">
-                    Sponsor AFAD's growing fund to fuel impactful initiatives in northern Bangladesh, empowering communities and fostering positive change. Your support drives essential programs in healthcare, education, and community resilience, making a lasting difference in the lives of those in need. Join us in our mission to create a brighter future for all.
+                    Sponsor UMUS's growing fund to fuel impactful initiatives in Satkhira district, empowering communities and fostering positive change. Your support drives essential programs in healthcare, education, and community resilience, making a lasting difference in the lives of those in need. Join us in our mission to create a brighter future for all.
                 </p>
                 <div class="text-center">
-                    <a href="#" class="btn btn-danger"><i class="fa-solid fa-user-plus"></i> Registration</a>
+                    <a href="{{ route('volunteer.register') }}" class="btn btn-danger"><i class="fa-solid fa-user-plus"></i> Registration</a>
                 </div>
             </div>
         </div>
@@ -273,7 +270,7 @@ Association for Alternative Development
     <div class="container bg-white">
         <div class="pt-5 pb-2">
             <h3 class="text-center">Photo <span class="text-danger">Gallery</span></h3>
-            <p class="text-center text-secondary">Stay updated with AFAD's latest news and events, offering insights into our impactful initiatives and community engagements.</p>
+            <p class="text-center text-secondary">Stay updated with UMUS's latest news and events, offering insights into our impactful initiatives and community engagements.</p>
         </div>
 
         {{-- photo --}}
@@ -300,35 +297,47 @@ Association for Alternative Development
             <div class="row justify-content-sm-center">
                 <div class="col-md-6">
                     <p class="text-white py-2 text-center">
-                        Transforming lives and communities in northern Bangladesh through sustainable development initiatives, empowering individuals and fostering positive change. Join us in making a lasting difference for a brighter future.
+                        Transforming lives and communities in Satkhira district through sustainable development initiatives, empowering individuals and fostering positive change. Join us in making a lasting difference for a brighter future.
                     </p>
                 </div>
             </div>
             <div class="row justify-content-center">
-                {{-- Year --}}
-                <div class="col-md-2 col-sm-6 col-xs-12 bg-white text-center py-2 mx-2 my-1 rounded">
-                    <i class="fa-regular fa-calendar-check text-secondary pt-3"></i>
-                    <h6>Year</h6>
-                    <h2 class="text-danger fw-bold">1998</h2>
-                </div>
-                {{-- District --}}
-                <div class="col-md-2 col-sm-6 col-xs-12 bg-white text-center py-2 mx-2 my-1 rounded">
-                    <i class="fa-solid fa-map-location-dot text-secondary pt-3"></i>
-                    <h6>District</h6>
-                    <h2 class="text-danger fw-bold">03</h2>
-                </div>
-                {{-- Project --}}
-                <div class="col-md-2 col-sm-6 col-xs-12 bg-white text-center py-2 mx-2 my-1 rounded">
-                    <i class="fa-solid fa-hands-holding-circle text-secondary pt-3"></i>
-                    <h6>Project</h6>
-                    <h2 class="text-danger fw-bold">41</h2>
-                </div>
-                {{-- People --}}
-                <div class="col-md-2 col-sm-6 col-xs-12 bg-white text-center py-2 mx-2 my-1 rounded">
-                    <i class="fa-solid fa-users-viewfinder text-secondary pt-3"></i>
-                    <h6>People</h6>
-                    <h2 class="text-danger fw-bold">1.3M</h2>
-                </div>
+                @if(isset($impact) && count($impact) > 0)
+                    @foreach($impact as $item)
+                    <div class="col-md-2 col-sm-6 col-xs-12 bg-white text-center py-2 mx-2 my-1 rounded">
+                        @if($item->icon)
+                        <i class="{{ $item->icon }} text-secondary pt-3"></i>
+                        @endif
+                        <h6>{{ $item->title }}</h6>
+                        <h2 class="text-danger fw-bold">{{ number_format($item->metric_value) }}{{ $item->metric_unit == 'Women' || $item->metric_unit == 'Students' || $item->metric_unit == 'Families' || $item->metric_unit == 'Cases' || $item->metric_unit == 'Villages' || $item->metric_unit == 'Beneficiaries' || $item->metric_unit == 'Hours' || $item->metric_unit == 'Campaigns' ? '+' : '' }}</h2>
+                        @if($item->metric_unit)
+                        <p class="small text-muted mb-0">{{ $item->metric_unit }}</p>
+                        @endif
+                    </div>
+                    @endforeach
+                @else
+                    {{-- Fallback static data --}}
+                    <div class="col-md-2 col-sm-6 col-xs-12 bg-white text-center py-2 mx-2 my-1 rounded">
+                        <i class="fa-regular fa-calendar-check text-secondary pt-3"></i>
+                        <h6>Year</h6>
+                        <h2 class="text-danger fw-bold">1998</h2>
+                    </div>
+                    <div class="col-md-2 col-sm-6 col-xs-12 bg-white text-center py-2 mx-2 my-1 rounded">
+                        <i class="fa-solid fa-map-location-dot text-secondary pt-3"></i>
+                        <h6>District</h6>
+                        <h2 class="text-danger fw-bold">03</h2>
+                    </div>
+                    <div class="col-md-2 col-sm-6 col-xs-12 bg-white text-center py-2 mx-2 my-1 rounded">
+                        <i class="fa-solid fa-hands-holding-circle text-secondary pt-3"></i>
+                        <h6>Project</h6>
+                        <h2 class="text-danger fw-bold">41</h2>
+                    </div>
+                    <div class="col-md-2 col-sm-6 col-xs-12 bg-white text-center py-2 mx-2 my-1 rounded">
+                        <i class="fa-solid fa-users-viewfinder text-secondary pt-3"></i>
+                        <h6>People</h6>
+                        <h2 class="text-danger fw-bold">1.3M</h2>
+                    </div>
+                @endif
             </div>
 
         </div>
@@ -380,7 +389,7 @@ Association for Alternative Development
                     <div class="text-center">
                         <img src="{{ asset('img/testimonial.jpg') }}" class="img-fluid rounded-circle border" alt="Testimonial" width="100" height="100">
                         <h5 class="mt-3 text-white">Jane Alam</h5>
-                        <p class="text-white">AFAD's tireless efforts in promoting education, healthcare, and economic opportunities have transformed the lives of many marginalized individuals. Their holistic approach to development is making a lasting difference in our region.</p>
+                        <p class="text-white">UMUS's tireless efforts in promoting education, healthcare, and economic opportunities have transformed the lives of many marginalized individuals in Satkhira. Their holistic approach to development is making a lasting difference in our region.</p>
                         <div class="rating">
                             <span class="text-warning">&#9733;</span>
                             <span class="text-warning">&#9733;</span>
@@ -450,7 +459,7 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
                     <div class="w-75 mx-auto">
                         <div class="row">
                             <div class="col-md-4 my-2">
-                                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Enter Your Name" value="{{ old('name') }}">
+                                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Enter Your Name" value="{{ old('name') }}" required>
                                 @error('name')
                                     <div class="text-danger">
                                         {{ $message }}
@@ -458,7 +467,7 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
                                 @enderror
                             </div>
                             <div class="col-md-6 my-2">
-                                <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Enter Your Email" value="{{ old('email') }}">
+                                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Enter Your Email" value="{{ old('email') }}" required>
                                  @error('email')
                                     <div class="text-danger">
                                         {{ $message }}
@@ -466,7 +475,7 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
                                 @enderror
                             </div>
                             <div class="col-md-2">
-                                <button class="btn btn-block btn-danger my-2" type="submit">Subscribe</button>
+                                <button class="btn w-100 btn-danger my-2" type="submit">Subscribe</button>
                             </div>
                         </div>
                     </div>

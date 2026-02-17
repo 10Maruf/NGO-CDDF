@@ -19,8 +19,9 @@ Route::get('/', function () {
     $application = DB::table('applications')->get()->first();
     $programs = DB::table('programs')->orderBy('created_at', 'desc')->take(6)->get();
     $stories = DB::table('stories')->orderBy('id', 'desc')->get();
+    $impact = DB::table('impact')->orderBy('order')->take(4)->get();
 
-    return view('home', compact('slider', 'project', 'news', 'gallery', 'application', 'programs', 'stories'));
+    return view('home', compact('slider', 'project', 'news', 'gallery', 'application', 'programs', 'stories', 'impact'));
 });
 
 Route::post('user/subscribe', [frontController::class, 'subscribe'])->name('user.subscribe');
@@ -57,6 +58,8 @@ Route::get('publication', [frontController::class, 'publication'])->name('public
 // Involved
 Route::get('get_invoked/career', [frontController::class, 'career'])->name('invoked.career');
 Route::get('volunteer/opportunities', [frontController::class, 'volOpportunities'])->name('volunterr.opportunities');
+Route::get('volunteer/register', [frontController::class, 'volunteerRegister'])->name('volunteer.register');
+Route::post('volunteer/register/submit', [frontController::class, 'volunteerRegisterSubmit'])->name('volunteer.register.submit');
 Route::get('donate', [frontController::class, 'donate'])->name('donate');
 Route::post('donation/submit', [frontController::class, 'donationSubmit'])->name('donation.submit');
 Route::get('fundraising', [frontController::class, 'fundraising'])->name('fundraising');

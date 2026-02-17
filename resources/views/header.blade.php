@@ -1,4 +1,4 @@
-<div style="border-bottom:5px solid #dc3545;">
+<div style="border-bottom:5px solid #28a745;">
   <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
@@ -26,7 +26,7 @@
                     About us
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
-                    <li><a class="dropdown-item" href="{{ route('about.us') }}">About AFAD</a></li>
+                    <li><a class="dropdown-item" href="{{ route('about.us') }}">About UMUS</a></li>
                     <li><a class="dropdown-item" href="{{ route('vision.mission') }}">Mission, Vision & Values</a></li>
                     <li><a class="dropdown-item" href="{{ route('key.focus.area') }}">Focus Area</a></li>
                     <li><a class="dropdown-item" href="{{ route('team.members') }}">Team Members</a></li>
@@ -62,7 +62,7 @@
                     <li><a class="dropdown-item" href="{{ route('donate') }}">Donate</a></li>
                     <li><a class="dropdown-item" href="{{ route('fundraising') }}">Fundraising Campaign</a></li>
                     <li><a class="dropdown-item" href="{{ route('corporate.partnership') }}">Corporate Partnership</a></li>
-                    <li><a class="dropdown-item" href="{{ route('invoked.career') }}">Career with AFAD</a></li>
+                    <li><a class="dropdown-item" href="{{ route('invoked.career') }}">Career with UMUS</a></li>
                 </ul>
                 </li>
 
@@ -75,7 +75,7 @@
                     <li><a class="dropdown-item" href="{{ route('latest.news.all') }}">News & Events</a></li>
                     <li><a class="dropdown-item" href="{{ route('events.calender') }}">Events Calender</a></li>
                     <li><a class="dropdown-item" href="{{ route('youtube.video') }}">Youtube Video</a></li>
-                    <li><a class="dropdown-item" href="{{ route('strategic.plan') }}">AFAD Strategic Plan</a></li>
+                    <li><a class="dropdown-item" href="{{ route('strategic.plan') }}">UMUS Strategic Plan</a></li>
                     <li><a class="dropdown-item" href="{{ route('policy.guideline') }}">Policy & Guideline</a></li>
                     <li><a class="dropdown-item" href="{{ route('publication') }}">Publication</a></li>
                 </ul>

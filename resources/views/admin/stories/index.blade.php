@@ -49,7 +49,7 @@
                                     <a href="{{ route('stories.edit',$item->id) }}" class="btn btn-sm btn-primary text-white text-center">
                                         <i class="fadeIn animated bx bx-edit"></i>
                                     </a>
-                                    <a href="{{ route('stories.delete',$item->id) }}" class="btn btn-sm btn-danger text-white text-center">
+                                    <a href="{{ route('stories.delete',$item->id) }}" class="btn btn-sm btn-danger text-white text-center" onclick="confirmDelete(event, '{{ $item->beneficiary_name }}')">
                                         <i class="fadeIn animated bx bx-trash-alt"></i>
                                     </a>
                                 </td>

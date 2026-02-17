@@ -7,9 +7,9 @@
     <div class="container">
       <ol>
         <li><a href="{{ url('/') }}">Home</a></li>
-        <li>About AFAD</li>
+        <li>About UMUS</li>
       </ol>
-      <h2>About AFAD</h2>
+      <h2>About UMUS</h2>
     </div>
   </section>
   <!-- End Breadcrumbs -->
@@ -19,7 +19,7 @@
     <div class="container" data-aos="fade-up">
 
       <div class="section-title bg-white py-5 px-3">
-        <h2>About AFAD</h2>
+        <h2>About UMUS</h2>
         <p style="text-align:justify;">
             {{ $about_us->description }}
         </p>

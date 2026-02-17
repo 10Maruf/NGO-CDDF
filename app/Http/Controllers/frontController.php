@@ -17,16 +17,18 @@ class frontController extends Controller
     public function subscribe(Request $request){
         $validatedData = $request->validate([
             'name' => 'required|max:255',
-            'email' => 'required|unique:subscribe|max:255',
+            'email' => 'required|email|unique:subscribe|max:255',
         ]);
 
-        $subscribe = array([
+        $subscribe = [
             'name' => $request->name,
-            'email' => $request->email
-        ]);
+            'email' => $request->email,
+            'created_at' => now(),
+            'updated_at' => now()
+        ];
 
         DB::table('subscribe')->insert($subscribe);
-        return redirect()->back()->with('success','Thanks for Subscribed us!!!!');
+        return redirect()->back()->with('success','Thank you for subscribing!');
     }
 
     // vision and mission
@@ -217,6 +219,37 @@ class frontController extends Controller
     public function volOpportunities(){
         $volunteers = DB::table('volunteers')->where('status', 'open')->orderBy('id', 'desc')->get();
         return view('frontend.volunteer_opportunities', compact('volunteers'));
+    }
+
+    // Volunteer Registration Form
+    public function volunteerRegister(){
+        return view('frontend.volunteer_registration');
+    }
+
+    // Volunteer Registration Submit
+    public function volunteerRegisterSubmit(Request $request){
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:20',
+            'address' => 'nullable|string|max:255',
+            'skills' => 'nullable|string',
+            'why_volunteer' => 'required|string',
+        ]);
+
+        DB::table('volunteer_registrations')->insert([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'skills' => $request->skills,
+            'why_volunteer' => $request->why_volunteer,
+            'status' => 'pending',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Thank you for registering! We will review your application and contact you soon.');
     }
 
     // Donate

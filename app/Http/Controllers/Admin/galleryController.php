@@ -28,11 +28,13 @@ class galleryController extends Controller
             $image->move(public_path('images/gallery/'), $imageName);
         }
 
-        $gallery = array(
+        $gallery = [
             'title' => $request->title,
             'description' => $request->description,
-            'image' => $imageName
-        );
+            'image' => $imageName,
+            'created_at' => now(),
+            'updated_at' => now()
+        ];
 
         DB::table('gallery')->insert($gallery);
         return redirect()->back()->with('success', 'Successfully inserted data');
@@ -42,20 +44,20 @@ class galleryController extends Controller
     public function index()
     {
         $gallery = DB::table('gallery')->get();
-        return view('admin.galLery.index', compact('gallery'));
+        return view('admin.gallery.index', compact('gallery'));
     }
 
     // Destroy
     public function destroy($id)
     {
-        $news = DB::table('gallery')->where('id', $id)->first();
-        $oldIamgeName = public_path('images/gallery/' . $news->image);
+        $gallery = DB::table('gallery')->where('id', $id)->first();
+        $oldImageName = public_path('images/gallery/' . $gallery->image);
 
-        if (file_exists($oldIamgeName)) {
-            @unlink($oldIamgeName);
+        if (file_exists($oldImageName)) {
+            @unlink($oldImageName);
         }
         DB::table('gallery')->where('id', $id)->delete();
-        return redirect()->back()->with('success', 'Successfully Deleted News');
+        return redirect()->back()->with('success', 'Successfully Deleted Gallery Photo');
     }
 
     // Edit
@@ -88,14 +90,15 @@ class galleryController extends Controller
             $imageName = $gallery->image;
         }
 
-        $gallery = array(
+        $galleryData = [
             'title' => $request->title,
             'description' => $request->description,
-            'image' => $imageName
-        );
+            'image' => $imageName,
+            'updated_at' => now()
+        ];
 
-        DB::table('gallery')->where('id', $id)->update($gallery);
-        return redirect()->back()->with('update', 'Successfully Updated News');
+        DB::table('gallery')->where('id', $id)->update($galleryData);
+        return redirect()->back()->with('update', 'Successfully Updated Gallery');
     }
 }
 
