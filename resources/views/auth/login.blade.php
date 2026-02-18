@@ -214,8 +214,8 @@
     <div class="auth-wrapper">
         <div class="auth-card">
             <div class="auth-logo">
-                <img src="{{ asset('images/application/'.application()->fav_icon) }}" alt="Logo" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.2); padding: 5px; background: rgba(255,255,255,0.1); margin-bottom: 15px;">
-                <div style="font-size: 24px;">{{ application()->name ?? 'AFADBD' }}</div>
+                <img src="{{ asset('admin/assets/images/duralux/CDDF_logo.png') }}" alt="Logo" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.2); padding: 5px; background: rgba(255,255,255,0.1); margin-bottom: 15px;">
+                <div style="font-size: 24px;">{{ application()->name ?? 'CDDF' }}</div>
             </div>
             
             <h1 class="auth-title">Login</h1>
