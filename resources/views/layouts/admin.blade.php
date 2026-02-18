@@ -532,7 +532,7 @@
 					<li class="nxl-item nxl-hasmenu">
 						<a href="javascript:void(0);" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-heart"></i></span>
-							<span class="nxl-mtext" data-translate="donate_now">Donate Now</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="donation">Donate Now</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
 						</a>
 						<ul class="nxl-submenu">
 							<li class="nxl-item"><a class="nxl-link" href="{{ route('admin.payment_methods.add') }}" data-translate="add_payment_method">Add Payment Method</a></li>
@@ -1298,7 +1298,7 @@
 				application: 'Application',
 				about_us: 'About Us',
 				mission_vision: 'Mission Vision',
-				donate_now: 'Donate Now',
+				donation: 'Donation',
 				origin_legal: 'Origin & Legal Affiliation',
 				executive_committee: 'Executive Committee',
 				team_members: 'Team Members',
@@ -1371,7 +1371,7 @@
 				application: 'এপ্লিকেশন',
 				about_us: 'আমাদের সম্পর্কে',
 				mission_vision: 'মিশন ভিশন',
-				donate_now: 'এখনই দান করুন',
+				donation: 'অনুদান',
 				origin_legal: 'উৎপত্তি ও আইনি সম্পর্ক',
 				executive_committee: 'নির্বাহী কমিটি',
 				team_members: 'টিম মেম্বার',
