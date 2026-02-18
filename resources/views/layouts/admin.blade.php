@@ -8,7 +8,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<!--favicon-->
-	<link rel="icon" href="{{ asset('images/application/'.application()->fav_icon) }}" type="image/png" />
+	@php $appSettings = application(); @endphp
+	@if(!empty($appSettings) && !empty($appSettings->fav_icon))
+	<link rel="icon" href="{{ asset('images/application/'.$appSettings->fav_icon) }}" type="image/png" />
+	@endif
 	<!--! BEGIN: Bootstrap CSS-->
 	<link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/bootstrap.min.css') }}" />
 	<!--! END: Bootstrap CSS-->
@@ -458,7 +461,11 @@
 		<div class="navbar-wrapper">
 			<div class="m-header">
 				<a href="{{ route('admin.home') }}" class="b-brand">
-					<img src="{{ asset('admin/assets/images/duralux/CDDF_logo.png') }}" alt="logo" class="logo logo-lg" />
+					@if(!empty($appSettings) && !empty($appSettings->main_logo) && file_exists(public_path('images/application/'.$appSettings->main_logo)))
+						<img src="{{ asset('images/application/'.$appSettings->main_logo) }}" alt="logo" class="logo logo-lg" />
+					@else
+						<img src="{{ asset('admin/assets/images/duralux/CDDF_logo.png') }}" alt="logo" class="logo logo-lg" />
+					@endif
 					<img src="{{ asset('admin/assets/images/duralux/CDDF_logo.png') }}" alt="logo" class="logo logo-sm" />
 				</a>
 			</div>
@@ -887,12 +894,12 @@
 					<!--! [Start] Header User !-->
 					<div class="dropdown nxl-h-item">
 						<a href="javascript:void(0);" data-bs-toggle="dropdown" role="button" data-bs-auto-close="outside">
-							<img src="{{ asset('images/application/'.application()->fav_icon) }}" alt="user-image" class="img-fluid user-avtar me-0" />
+							<img src="{{ asset('admin/assets/images/duralux/CDDF_logo.png') }}" alt="user-image" class="img-fluid user-avtar me-0" />
 						</a>
 						<div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-user-dropdown">
 							<div class="dropdown-header">
 								<div class="d-flex align-items-center">
-									<img src="{{ asset('images/application/'.application()->fav_icon) }}" alt="user-image" class="img-fluid user-avtar" />
+									<img src="{{ asset('admin/assets/images/duralux/CDDF_logo.png') }}" alt="user-image" class="img-fluid user-avtar" />
 									<div>
 										<h6 class="text-dark mb-0">{{ Auth::user()->name }}</h6>
 										<span class="fs-12 fw-medium text-muted">{{ Auth::user()->email }}</span>
