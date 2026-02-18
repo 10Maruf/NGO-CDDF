@@ -2,9 +2,9 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: turntable.proxy.rlwy.net:27869
--- Generation Time: Feb 11, 2026 at 08:47 AM
--- Server version: 9.4.0
+-- Host: 127.0.0.1
+-- Generation Time: Feb 18, 2026 at 07:00 PM
+-- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `afadzute_afad`
+-- Database: `afad-cddf`
 --
 
 -- --------------------------------------------------------
@@ -28,8 +28,8 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `about_us` (
-  `id` int NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_520_ci NOT NULL
+  `id` int(11) NOT NULL,
+  `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 --
@@ -47,13 +47,13 @@ INSERT INTO `about_us` (`id`, `description`) VALUES
 --
 
 CREATE TABLE `applications` (
-  `id` int NOT NULL,
-  `main_logo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `fav_icon` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `facebook` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `twitter` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `instagram` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `youtube` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `id` int(11) NOT NULL,
+  `main_logo` varchar(255) NOT NULL,
+  `fav_icon` varchar(255) NOT NULL,
+  `facebook` varchar(255) NOT NULL,
+  `twitter` varchar(255) NOT NULL,
+  `instagram` varchar(255) NOT NULL,
+  `youtube` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -61,7 +61,7 @@ CREATE TABLE `applications` (
 --
 
 INSERT INTO `applications` (`id`, `main_logo`, `fav_icon`, `facebook`, `twitter`, `instagram`, `youtube`) VALUES
-(1, '771129main_logo.jpg', '47014fav.png', 'https://www.facebook.com/afad.kurigram.1994', 'https://twitter.com/sayda_yesmin', 'http://www.instagram.com', 'http://www.youtube.com'),
+(1, '968400main_logo.png', '857469fev_icon.ico', 'https://www.facebook.com/afad.kurigram.1994', 'https://twitter.com/sayda_yesmin', 'http://www.instagram.com', 'http://www.youtube.com'),
 (2, '86562logo.png', '47014fav.png', 'https://www.facebook.com/afad.kurigram.1994', 'https://twitter.com/sayda_yesmin', 'http://www.instagram.com', 'http://www.youtube.com');
 
 -- --------------------------------------------------------
@@ -71,13 +71,13 @@ INSERT INTO `applications` (`id`, `main_logo`, `fav_icon`, `facebook`, `twitter`
 --
 
 CREATE TABLE `chief_executive_message` (
-  `id` bigint UNSIGNED NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `designation` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `photo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `signature` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `message` text NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `designation` varchar(255) NOT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `signature` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -97,19 +97,19 @@ INSERT INTO `chief_executive_message` (`id`, `title`, `message`, `name`, `design
 --
 
 CREATE TABLE `contacts` (
-  `id` bigint UNSIGNED NOT NULL,
-  `type` enum('head_office','branch','person') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `mobile` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `mobile2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `skype` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `whatsapp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `twitter` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `type` enum('head_office','branch','person') NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `mobile` varchar(255) DEFAULT NULL,
+  `mobile2` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `email2` varchar(255) DEFAULT NULL,
+  `skype` varchar(255) DEFAULT NULL,
+  `whatsapp` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
+  `status` enum('active','inactive') NOT NULL DEFAULT 'active',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -130,10 +130,10 @@ INSERT INTO `contacts` (`id`, `type`, `title`, `address`, `name`, `mobile`, `mob
 --
 
 CREATE TABLE `departments` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -152,14 +152,14 @@ INSERT INTO `departments` (`id`, `name`, `description`, `is_active`, `created_at
 --
 
 CREATE TABLE `donations` (
-  `id` bigint UNSIGNED NOT NULL,
-  `donor_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `donor_phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `transaction_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `donor_name` varchar(255) NOT NULL,
+  `donor_phone` varchar(255) NOT NULL,
+  `transaction_id` varchar(255) NOT NULL,
   `amount` decimal(10,2) NOT NULL,
-  `payment_method_id` bigint UNSIGNED NOT NULL,
-  `status` enum('pending','verified','rejected') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
-  `admin_note` text COLLATE utf8mb4_unicode_ci,
+  `payment_method_id` bigint(20) UNSIGNED NOT NULL,
+  `status` enum('pending','verified','rejected') NOT NULL DEFAULT 'pending',
+  `admin_note` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -169,7 +169,8 @@ CREATE TABLE `donations` (
 --
 
 INSERT INTO `donations` (`id`, `donor_name`, `donor_phone`, `transaction_id`, `amount`, `payment_method_id`, `status`, `admin_note`, `created_at`, `updated_at`) VALUES
-(1, 'Mofassel Alam Maruf', '01997900840', '34HUHIF8472X', 10000.00, 2, 'pending', NULL, '2026-02-06 07:12:16', '2026-02-06 07:12:16');
+(1, 'Mofassel Alam Maruf', '01997900840', '34HUHIF8472X', 10000.00, 2, 'verified', NULL, '2026-02-06 07:12:16', '2026-02-11 12:30:21'),
+(2, 'Keramot Ali', '01345676543', '2JKF46JNFDJEN', 2300.00, 3, 'rejected', NULL, '2026-02-11 13:20:37', '2026-02-13 13:16:43');
 
 -- --------------------------------------------------------
 
@@ -178,16 +179,16 @@ INSERT INTO `donations` (`id`, `donor_name`, `donor_phone`, `transaction_id`, `a
 --
 
 CREATE TABLE `executive_committee` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `designation` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `photo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bio` text COLLATE utf8mb4_unicode_ci,
-  `facebook` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `twitter` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `instagram` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `youtube` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `order` int NOT NULL DEFAULT '0',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `designation` varchar(255) NOT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `bio` text DEFAULT NULL,
+  `facebook` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
+  `instagram` varchar(255) DEFAULT NULL,
+  `youtube` varchar(255) DEFAULT NULL,
+  `order` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -207,13 +208,13 @@ INSERT INTO `executive_committee` (`id`, `name`, `designation`, `photo`, `bio`, 
 --
 
 CREATE TABLE `failed_jobs` (
-  `id` bigint UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -223,11 +224,11 @@ CREATE TABLE `failed_jobs` (
 --
 
 CREATE TABLE `faq` (
-  `id` bigint UNSIGNED NOT NULL,
-  `question` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `answer` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `category` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `order` int NOT NULL DEFAULT '0',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `question` text NOT NULL,
+  `answer` text NOT NULL,
+  `category` varchar(255) DEFAULT NULL,
+  `order` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -252,13 +253,13 @@ INSERT INTO `faq` (`id`, `question`, `answer`, `category`, `order`, `created_at`
 --
 
 CREATE TABLE `focus_areas` (
-  `id` bigint UNSIGNED NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `icon_path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `image_path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `order` int NOT NULL DEFAULT '0',
-  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` longtext NOT NULL,
+  `icon_path` varchar(255) DEFAULT NULL,
+  `image_path` varchar(255) DEFAULT NULL,
+  `order` int(11) NOT NULL DEFAULT 0,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -280,10 +281,10 @@ INSERT INTO `focus_areas` (`id`, `title`, `description`, `icon_path`, `image_pat
 --
 
 CREATE TABLE `gallery` (
-  `id` int NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `image` varchar(255) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `image` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 --
@@ -303,14 +304,14 @@ INSERT INTO `gallery` (`id`, `title`, `description`, `image`) VALUES
 --
 
 CREATE TABLE `impact` (
-  `id` bigint UNSIGNED NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `metric_value` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `metric_unit` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `icon` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `year` int DEFAULT NULL,
-  `order` int NOT NULL DEFAULT '0',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `metric_value` varchar(255) NOT NULL,
+  `metric_unit` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `icon` varchar(255) DEFAULT NULL,
+  `year` int(11) DEFAULT NULL,
+  `order` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -329,9 +330,9 @@ INSERT INTO `impact` (`id`, `title`, `metric_value`, `metric_unit`, `description
 --
 
 CREATE TABLE `invoked` (
-  `id` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `file` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `file` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -341,16 +342,16 @@ CREATE TABLE `invoked` (
 --
 
 CREATE TABLE `jobs` (
-  `id` bigint UNSIGNED NOT NULL,
-  `job_title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `department_id` bigint UNSIGNED NOT NULL,
-  `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `job_type` enum('Full-time','Part-time','Volunteer','Internship') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `responsibilities` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `requirements` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `job_title` varchar(255) NOT NULL,
+  `department_id` bigint(20) UNSIGNED NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `job_type` enum('Full-time','Part-time','Volunteer','Internship') NOT NULL,
+  `description` text NOT NULL,
+  `responsibilities` text NOT NULL,
+  `requirements` text NOT NULL,
   `deadline` date NOT NULL,
-  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
+  `status` enum('active','inactive') NOT NULL DEFAULT 'active',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -370,15 +371,15 @@ INSERT INTO `jobs` (`id`, `job_title`, `department_id`, `location`, `job_type`, 
 --
 
 CREATE TABLE `job_applications` (
-  `id` bigint UNSIGNED NOT NULL,
-  `job_id` bigint UNSIGNED NOT NULL,
-  `applicant_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `applicant_email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `applicant_phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `resume_path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cover_letter` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` enum('pending','reviewed','shortlisted','rejected') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
-  `admin_notes` text COLLATE utf8mb4_unicode_ci,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `job_id` bigint(20) UNSIGNED NOT NULL,
+  `applicant_name` varchar(255) NOT NULL,
+  `applicant_email` varchar(255) NOT NULL,
+  `applicant_phone` varchar(255) NOT NULL,
+  `resume_path` varchar(255) NOT NULL,
+  `cover_letter` text NOT NULL,
+  `status` enum('pending','reviewed','shortlisted','rejected') NOT NULL DEFAULT 'pending',
+  `admin_notes` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -390,10 +391,10 @@ CREATE TABLE `job_applications` (
 --
 
 CREATE TABLE `latest_news` (
-  `id` int NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `image` varchar(255) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `image` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 --
@@ -415,9 +416,9 @@ INSERT INTO `latest_news` (`id`, `title`, `description`, `image`) VALUES
 --
 
 CREATE TABLE `legal_affilation` (
-  `id` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `file` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `file` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 --
@@ -443,11 +444,11 @@ INSERT INTO `legal_affilation` (`id`, `name`, `file`) VALUES
 --
 
 CREATE TABLE `messages` (
-  `id` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `subject` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `message` text COLLATE utf8mb4_unicode_520_ci NOT NULL
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `message` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 --
@@ -1297,9 +1298,9 @@ INSERT INTO `messages` (`id`, `name`, `email`, `subject`, `message`) VALUES
 --
 
 CREATE TABLE `migrations` (
-  `id` int UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int NOT NULL
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -1335,7 +1336,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (27, '2026_02_09_000001_add_description_to_strategic_plans_table', 12),
 (28, '2026_02_09_000002_make_pdf_file_nullable_in_strategic_plans_table', 13),
 (29, '2026_02_09_000003_add_image_and_make_pdf_required_in_strategic_plans_table', 14),
-(30, '2026_02_10_173058_add_rating_and_beneficiary_title_to_stories_table', 15);
+(30, '2026_02_10_173058_add_rating_and_beneficiary_title_to_stories_table', 15),
+(31, '2026_02_18_000001_create_org_members_table', 16),
+(32, '2026_02_18_000002_migrate_data_to_org_members_table', 17);
 
 -- --------------------------------------------------------
 
@@ -1344,10 +1347,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `mission_vision` (
-  `id` int NOT NULL,
-  `vision` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `mission` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `values` text COLLATE utf8mb4_unicode_520_ci
+  `id` int(11) NOT NULL,
+  `vision` text NOT NULL,
+  `mission` text NOT NULL,
+  `values` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 --
@@ -1365,10 +1368,10 @@ INSERT INTO `mission_vision` (`id`, `vision`, `mission`, `values`) VALUES
 --
 
 CREATE TABLE `ongoing_project` (
-  `id` int NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `image` varchar(255) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `image` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 --
@@ -1384,11 +1387,88 @@ INSERT INTO `ongoing_project` (`id`, `title`, `description`, `image`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `org_members`
+--
+
+CREATE TABLE `org_members` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `org_type` enum('general_council','executive_committee','advisory_council','executive_director','senior_management','mid_management','field_staff','support_staff') NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `designation` varchar(255) NOT NULL,
+  `department` varchar(255) DEFAULT NULL,
+  `bio` text DEFAULT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `facebook` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
+  `instagram` varchar(255) DEFAULT NULL,
+  `youtube` varchar(255) DEFAULT NULL,
+  `order` int(11) NOT NULL DEFAULT 0,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `org_members`
+--
+
+INSERT INTO `org_members` (`id`, `org_type`, `name`, `designation`, `department`, `bio`, `photo`, `facebook`, `twitter`, `instagram`, `youtube`, `order`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 'executive_committee', 'Ismail', 'Student', NULL, '12 tarikh saradin, daripallay vote din', '73539executive.jpg', NULL, NULL, NULL, NULL, 2, 1, NULL, NULL),
+(2, 'executive_committee', 'Shamim, mojumder', 'Software Developer', NULL, NULL, '59295executive.jpg', 'https://www.facebook.com/share/p/1817a4TAU9/', NULL, 'https://www.instagram.com/imshamimmozumder?fbclid=IwZXh0bgNhZW0CMTAAYnJpZBExd2ZJTmt3ajVGdFZLQXU5V3NydGMGYXBwX2lkEDIyMjAzOTE3ODgyMDA4OTIAAR5He4Hqt0EUYBmQkN1eAePy-JWdoPOJaTjU_lI_bAaVlqMrZMSq5CUMoi_z3g_aem_bSFfupaVNL7dT3nFt4IS2w', 'https://youtu.be/WsllF4THOYk?si=1WwNcSdRlYwu6y3-', 0, 1, NULL, NULL),
+(3, 'senior_management', 'Mofassel Alam Maruf', 'CEO', 'CDDF', 'Hello I am Maruf', '61831team.png', 'https://www.facebook.com/marufbro310', NULL, NULL, NULL, 0, 1, NULL, NULL),
+(4, 'general_council', 'Rashida Begum', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 1, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(5, 'general_council', 'Nasrin Akter', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 2, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(6, 'general_council', 'Farida Khanam', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 3, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(7, 'general_council', 'Sultana Parvin', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 4, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(8, 'general_council', 'Momotaj Begum', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 5, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(9, 'general_council', 'Jannat Ara', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 6, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(10, 'general_council', 'Bilkis Begum', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 7, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(11, 'general_council', 'Hamida Khatun', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 8, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(12, 'general_council', 'Rokeya Sultana', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 9, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(13, 'general_council', 'Rahela Begum', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 10, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(14, 'general_council', 'Tahmina Akter', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 11, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(15, 'general_council', 'Salma Khanam', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 12, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(16, 'general_council', 'Nargis Begum', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 13, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(17, 'general_council', 'Kohinoor Akter', 'General Council Member', NULL, NULL, '61831team.png', 'https://www.facebook.com/marufbro310', NULL, 'https://www.facebook.com/marufbro310', NULL, 14, 1, '2026-02-18 11:36:30', '2026-02-18 11:48:29'),
+(18, 'general_council', 'Morsheda Begum', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 15, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(19, 'general_council', 'Amena Khatun', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 16, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(20, 'general_council', 'Shahin Sultana', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 17, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(21, 'general_council', 'Parvin Akter', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 18, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(22, 'general_council', 'Laila Begum', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 19, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(23, 'general_council', 'Ferdousi Khanam', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 20, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(24, 'general_council', 'Jasmine Akter', 'General Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 21, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(25, 'advisory_council', 'Prof. Dr. Anwara Begum', 'Advisory Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 1, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(26, 'advisory_council', 'Advocate Shirin Akter', 'Advisory Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 2, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(27, 'advisory_council', 'Dr. Kamrun Naher', 'Advisory Council Member', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 3, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(28, 'executive_director', 'Nasrin Jahan', 'Executive Director (ED)', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 1, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(29, 'senior_management', 'Khaleda Akter', 'Director – Program', 'Program', NULL, '61831team.png', NULL, NULL, NULL, NULL, 1, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(30, 'senior_management', 'Rehana Parvin', 'Director – Finance', 'Finance', NULL, '61831team.png', NULL, NULL, NULL, NULL, 2, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(31, 'senior_management', 'Farhana Sultana', 'Director – HR & Admin', 'HR & Admin', NULL, '61831team.png', NULL, NULL, NULL, NULL, 3, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(32, 'senior_management', 'Sabina Yasmin', 'Director – Communication & Resource Mobilization', 'Communication', NULL, '61831team.png', NULL, NULL, NULL, NULL, 4, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(33, 'senior_management', 'Tanzila Begum', 'Director – Research, Monitoring & Evaluation (RME)', 'RME', NULL, '61831team.png', NULL, NULL, NULL, NULL, 5, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(34, 'senior_management', 'Roksana Islam', 'Director – Special Program', 'Special Program', NULL, '61831team.png', NULL, NULL, NULL, NULL, 6, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(35, 'mid_management', 'Shahana Begum', 'Regional Manager – Sofol Program', 'Sofol Program', NULL, '61831team.png', NULL, NULL, NULL, NULL, 1, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(36, 'mid_management', 'Dilruba Akter', 'Manager – Project (District/Upazila)', 'Project', NULL, '61831team.png', NULL, NULL, NULL, NULL, 2, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(37, 'mid_management', 'Monira Khanam', 'Manager – Finance & Admin', 'Finance & Admin', NULL, '61831team.png', NULL, NULL, NULL, NULL, 3, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(38, 'mid_management', 'Sumaiya Islam', 'Manager – Training & Research Center', 'Training & Research', NULL, '61831team.png', NULL, NULL, NULL, NULL, 4, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(39, 'field_staff', 'Rima Begum', 'Field Officer', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 1, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(40, 'field_staff', 'Simanto Hossain', 'Field Facilitator', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 2, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(41, 'field_staff', 'Nazmun Naher', 'Community Mobilizer', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 3, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(42, 'field_staff', 'Afsana Mimi', 'Community Volunteer', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 4, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(43, 'field_staff', 'Sadia Islam', 'Teacher', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 5, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(44, 'support_staff', 'Rafiqul Islam', 'Office Assistant', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 1, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(45, 'support_staff', 'Abul Hossain', 'Guard', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 2, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(46, 'support_staff', 'Karim Driver', 'Driver', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 3, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30'),
+(47, 'support_staff', 'Rina Cook', 'Cook', NULL, NULL, '61831team.png', NULL, NULL, NULL, NULL, 4, 1, '2026-02-18 11:36:30', '2026-02-18 11:36:30');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `partners`
 --
 
 CREATE TABLE `partners` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(52) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
@@ -1431,8 +1511,8 @@ INSERT INTO `partners` (`id`, `name`, `image`) VALUES
 --
 
 CREATE TABLE `password_resets` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1450,14 +1530,14 @@ INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
 --
 
 CREATE TABLE `payment_methods` (
-  `id` bigint UNSIGNED NOT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `icon_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `account_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `account_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `bank_details` text COLLATE utf8mb4_unicode_ci,
-  `is_active` tinyint(1) NOT NULL DEFAULT '1',
-  `display_order` int NOT NULL DEFAULT '0',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `icon_image` varchar(255) DEFAULT NULL,
+  `account_name` varchar(255) NOT NULL,
+  `account_number` varchar(255) NOT NULL,
+  `bank_details` text DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `display_order` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1467,7 +1547,7 @@ CREATE TABLE `payment_methods` (
 --
 
 INSERT INTO `payment_methods` (`id`, `type`, `icon_image`, `account_name`, `account_number`, `bank_details`, `is_active`, `display_order`, `created_at`, `updated_at`) VALUES
-(1, 'bkash', NULL, 'AFAD Bangladesh', '+8801825-003211', NULL, 0, 1, '2026-02-06 06:14:40', '2026-02-06 07:06:57'),
+(1, 'bkash', NULL, 'AFAD Bangladesh', '+8801825-003211', NULL, 1, 1, '2026-02-06 06:14:40', '2026-02-13 13:07:50'),
 (2, 'nagad', NULL, 'AFAD Bangladesh', '+8801825-003211', NULL, 1, 2, '2026-02-06 06:14:40', '2026-02-06 06:14:40'),
 (3, 'rocket', NULL, 'AFAD Bangladesh', '+8801825-003211', NULL, 1, 3, '2026-02-06 06:14:40', '2026-02-06 06:14:40'),
 (4, 'upay', NULL, 'AFAD Bangladesh', '+8801825-003211', NULL, 1, 4, '2026-02-06 06:14:40', '2026-02-06 06:14:40'),
@@ -1481,12 +1561,12 @@ INSERT INTO `payment_methods` (`id`, `type`, `icon_image`, `account_name`, `acco
 --
 
 CREATE TABLE `personal_access_tokens` (
-  `id` bigint UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tokenable_id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -1499,9 +1579,9 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 CREATE TABLE `policy_guideline` (
-  `id` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `file` text COLLATE utf8mb4_unicode_ci NOT NULL
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `file` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -1530,12 +1610,12 @@ INSERT INTO `policy_guideline` (`id`, `name`, `file`) VALUES
 --
 
 CREATE TABLE `programs` (
-  `id` bigint UNSIGNED NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
-  `status` enum('active','completed','upcoming') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
+  `status` enum('active','completed','upcoming') NOT NULL DEFAULT 'active',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1554,11 +1634,11 @@ INSERT INTO `programs` (`id`, `title`, `description`, `image`, `start_date`, `st
 --
 
 CREATE TABLE `projects` (
-  `id` int NOT NULL,
-  `name` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
-  `partners` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `id` int(11) NOT NULL,
+  `name` text CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `partners` text CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `from_date` date DEFAULT NULL,
-  `date` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `date` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `to_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1607,11 +1687,11 @@ INSERT INTO `projects` (`id`, `name`, `partners`, `from_date`, `date`, `to_date`
 --
 
 CREATE TABLE `publications` (
-  `id` bigint UNSIGNED NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `thumbnail` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pdf_file` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `thumbnail` varchar(255) DEFAULT NULL,
+  `pdf_file` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1632,12 +1712,12 @@ INSERT INTO `publications` (`id`, `title`, `description`, `thumbnail`, `pdf_file
 --
 
 CREATE TABLE `sessions` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_id` bigint UNSIGNED DEFAULT NULL,
-  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_agent` text COLLATE utf8mb4_unicode_ci,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_activity` int NOT NULL
+  `id` varchar(255) NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `payload` longtext NOT NULL,
+  `last_activity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1647,10 +1727,10 @@ CREATE TABLE `sessions` (
 --
 
 CREATE TABLE `slider` (
-  `id` int NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `image` varchar(255) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `image` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 --
@@ -1659,8 +1739,7 @@ CREATE TABLE `slider` (
 
 INSERT INTO `slider` (`id`, `title`, `description`, `image`) VALUES
 (14, 'Association For Alternative Development (AFAD)', 'test test  Support the Women’s Empowerment Initiative today—help women build livelihoods, confidence and a brighter future.', '8163422slider.jpg'),
-(17, 'Women Leadership', 'A panel discussion on Women Leadership was held on 3rd November 2025 in Bali, Indonesia, as part of the South-South Exchange Workshop. Our Chief Executive, Sayda Yesmin, attended the meeting as a representative of Bangladesh. The discussion included participants from four countries — Indonesia, Myanmar, Pakistan, and Bangladesh — who shared their perspectives and experiences on promoting women’s leadership and empowerment.', '7509991slider.jpeg'),
-(19, 'hhhhhhhhhhhhhhh', 'vjhfLSDGFhSJLDvb lsjHGFi\r\n                           asghjsdm nvjdskHFKJcnjjvhbiHGjHHfihf', '8402279slider.jpg');
+(17, 'Women Leadership', 'A panel discussion on Women Leadership was held on 3rd November 2025 in Bali, Indonesia, as part of the South-South Exchange Workshop. Our Chief Executive, Sayda Yesmin, attended the meeting as a representative of Bangladesh. The discussion included participants from four countries — Indonesia, Myanmar, Pakistan, and Bangladesh — who shared their perspectives and experiences on promoting women’s leadership and empowerment.', '7509991slider.jpeg');
 
 -- --------------------------------------------------------
 
@@ -1669,12 +1748,12 @@ INSERT INTO `slider` (`id`, `title`, `description`, `image`) VALUES
 --
 
 CREATE TABLE `stories` (
-  `id` bigint UNSIGNED NOT NULL,
-  `rating` int NOT NULL DEFAULT '5',
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `beneficiary_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `beneficiary_title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `rating` int(11) NOT NULL DEFAULT 5,
+  `description` text NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `beneficiary_name` varchar(255) DEFAULT NULL,
+  `beneficiary_title` varchar(255) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -1695,11 +1774,11 @@ INSERT INTO `stories` (`id`, `rating`, `description`, `image`, `beneficiary_name
 --
 
 CREATE TABLE `strategic_plans` (
-  `id` bigint UNSIGNED NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pdf_file` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `pdf_file` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1719,9 +1798,9 @@ INSERT INTO `strategic_plans` (`id`, `title`, `description`, `image`, `pdf_file`
 --
 
 CREATE TABLE `subscribe` (
-  `id` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `email` varchar(80) COLLATE utf8mb4_unicode_520_ci NOT NULL
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(80) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 --
@@ -1729,11 +1808,6 @@ CREATE TABLE `subscribe` (
 --
 
 INSERT INTO `subscribe` (`id`, `name`, `email`) VALUES
-(4, 'Jane Alam Adnan', 'adnannstu@gmail.com'),
-(5, 'ftuFMDQNUJBGu', 'gatesbaldrikj75@gmail.com'),
-(6, 'ccreepbybRMXk', 'larriri69@gmail.com'),
-(7, 'PcVOPlKse', 'averyarabel43@gmail.com'),
-(8, 'EvdiUQmxQ', 'djoandrapowellfb2005@gmail.com'),
 (9, 'IURZRUlWp', 'kingharlandmi6@gmail.com'),
 (10, 'FJQOAECcD', 'korbinb2006@gmail.com'),
 (11, 'fYRWcYgwNWIodSg', 'bennestefan1997@gmail.com'),
@@ -1821,7 +1895,6 @@ INSERT INTO `subscribe` (`id`, `name`, `email`) VALUES
 (93, 'limhnoMAZLLPtN', 'eisnerbrittany474082@yahoo.com'),
 (94, 'dbPYmxIeV', 'elliedavis910486@yahoo.com'),
 (95, 'TQgNWOoLDZOqC', 'mudejuca41@gmail.com'),
-(96, '* * * Unlock Free Spins Today: http://m-emp.com/index.php?jdaqzm * * * hs=b1915f357f7e25f37f4d18e4701e6514* ххх*', 'pazapz@mailbox.in.ua'),
 (97, 'NftHCVZmstS', 'odalejetak889@gmail.com'),
 (98, 'bLHcnybCZQYGgz', 'agasetolina006@gmail.com'),
 (99, 'AMGDyQzZipvpOyr', 'irigexojofe212@gmail.com'),
@@ -2027,17 +2100,17 @@ INSERT INTO `subscribe` (`id`, `name`, `email`) VALUES
 --
 
 CREATE TABLE `team_members` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `designation` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `photo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `department` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bio` text COLLATE utf8mb4_unicode_ci,
-  `facebook` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `twitter` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `instagram` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `youtube` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `order` int NOT NULL DEFAULT '0',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `designation` varchar(255) NOT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `department` varchar(255) DEFAULT NULL,
+  `bio` text DEFAULT NULL,
+  `facebook` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
+  `instagram` varchar(255) DEFAULT NULL,
+  `youtube` varchar(255) DEFAULT NULL,
+  `order` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2047,7 +2120,7 @@ CREATE TABLE `team_members` (
 --
 
 INSERT INTO `team_members` (`id`, `name`, `designation`, `photo`, `department`, `bio`, `facebook`, `twitter`, `instagram`, `youtube`, `order`, `created_at`, `updated_at`) VALUES
-(1, 'Mofassel Alam Maruf', 'chef', '61831team.png', 'AFAD', 'Hello I am Maruf', 'https://www.facebook.com/marufbro310', NULL, NULL, NULL, 0, NULL, NULL);
+(1, 'Mofassel Alam Maruf', 'CEO', '61831team.png', 'CDDF', 'Hello I am Maruf', 'https://www.facebook.com/marufbro310', NULL, NULL, NULL, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2056,13 +2129,13 @@ INSERT INTO `team_members` (`id`, `name`, `designation`, `photo`, `department`, 
 --
 
 CREATE TABLE `users` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `is_active` tinyint(1) NOT NULL DEFAULT '0',
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 0,
+  `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2075,7 +2148,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `is
 (1, 'Ashik', 'ashik@gmail.com', NULL, '$2y$10$.PEK0gswnXy0m1OD/Q3hQOpCGc8qmLr/uZujz1zDRQHdt9pRf10eW', 0, NULL, NULL, NULL),
 (2, 'Adnan', 'adnan@gmail.com', NULL, '$2y$10$.PEK0gswnXy0m1OD/Q3hQOpCGc8qmLr/uZujz1zDRQHdt9pRf10eW', 0, NULL, NULL, NULL),
 (3, 'Afadbd', 'afadbd@gmail.com', NULL, '$2y$10$.PEK0gswnXy0m1OD/Q3hQOpCGc8qmLr/uZujz1zDRQHdt9pRf10eW', 0, NULL, NULL, NULL),
-(5, 'Admin', 'mamaruf317@gmail.com', NULL, '$2y$10$Dtykr1/wXnZZhSBuRy58HOTkoDLCS.ZR8bWxy8CF6XtTB0pskVf8S', 0, 'qxP238dIlxOHOg5bkpCDiA5IPF6m71ITikDzRaryNwjeOtPK1m8iHKGv2yIl', '2026-01-29 08:54:29', '2026-01-29 08:54:29');
+(5, 'Admin', 'mamaruf317@gmail.com', NULL, '$2y$10$Dtykr1/wXnZZhSBuRy58HOTkoDLCS.ZR8bWxy8CF6XtTB0pskVf8S', 0, 'P4NpEozRPwn5Cr9c4u2f8fAqM4TbxChirmjeKJI28CyyG3fYsKSDkT01vSIl', '2026-01-29 08:54:29', '2026-01-29 08:54:29');
 
 -- --------------------------------------------------------
 
@@ -2084,12 +2157,12 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `is
 --
 
 CREATE TABLE `volunteers` (
-  `id` bigint UNSIGNED NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `requirements` text COLLATE utf8mb4_unicode_ci,
-  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` enum('open','closed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'open',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `requirements` text DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `status` enum('open','closed') NOT NULL DEFAULT 'open',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2238,6 +2311,12 @@ ALTER TABLE `ongoing_project`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `org_members`
+--
+ALTER TABLE `org_members`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `partners`
 --
 ALTER TABLE `partners`
@@ -2346,211 +2425,217 @@ ALTER TABLE `volunteers`
 -- AUTO_INCREMENT for table `about_us`
 --
 ALTER TABLE `about_us`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `applications`
 --
 ALTER TABLE `applications`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `chief_executive_message`
 --
 ALTER TABLE `chief_executive_message`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `contacts`
 --
 ALTER TABLE `contacts`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `donations`
 --
 ALTER TABLE `donations`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `executive_committee`
 --
 ALTER TABLE `executive_committee`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `faq`
 --
 ALTER TABLE `faq`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `focus_areas`
 --
 ALTER TABLE `focus_areas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `gallery`
 --
 ALTER TABLE `gallery`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `impact`
 --
 ALTER TABLE `impact`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `invoked`
 --
 ALTER TABLE `invoked`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `job_applications`
 --
 ALTER TABLE `job_applications`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `latest_news`
 --
 ALTER TABLE `latest_news`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `legal_affilation`
 --
 ALTER TABLE `legal_affilation`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=830;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=830;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `mission_vision`
 --
 ALTER TABLE `mission_vision`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ongoing_project`
 --
 ALTER TABLE `ongoing_project`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `org_members`
+--
+ALTER TABLE `org_members`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `partners`
 --
 ALTER TABLE `partners`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `payment_methods`
 --
 ALTER TABLE `payment_methods`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `policy_guideline`
 --
 ALTER TABLE `policy_guideline`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `programs`
 --
 ALTER TABLE `programs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `publications`
 --
 ALTER TABLE `publications`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `slider`
 --
 ALTER TABLE `slider`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `stories`
 --
 ALTER TABLE `stories`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `strategic_plans`
 --
 ALTER TABLE `strategic_plans`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `subscribe`
 --
 ALTER TABLE `subscribe`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=294;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=294;
 
 --
 -- AUTO_INCREMENT for table `team_members`
 --
 ALTER TABLE `team_members`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `volunteers`
 --
 ALTER TABLE `volunteers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables

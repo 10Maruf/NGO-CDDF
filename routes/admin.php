@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\sliderController;
 use App\Http\Controllers\Admin\StoryController;
 use App\Http\Controllers\Admin\subscribeController;
 use App\Http\Controllers\Admin\StrategicPlanController;
+use App\Http\Controllers\Admin\OrgMemberController;
 use App\Http\Controllers\Admin\TeamMemberController;
 use App\Http\Controllers\Admin\VolunteerController;
 use Illuminate\Support\Facades\Auth;
@@ -180,7 +181,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('logo/edit/{id}', [applicationController::class, 'edit'])->name('logo.edit');
     Route::post('logo/update/{id}', [applicationController::class, 'update'])->name('logo.update');
 
-    // __ Executive Committee __//
+    // __ Executive Committee (legacy) __//
     Route::get('executive/add', [ExecutiveCommitteeController::class, 'add'])->name('executive.add');
     Route::post('executive/store', [ExecutiveCommitteeController::class, 'store'])->name('executive.store');
     Route::get('executive/index', [ExecutiveCommitteeController::class, 'index'])->name('executive.index');
@@ -188,13 +189,21 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('executive/edit/{id}', [ExecutiveCommitteeController::class, 'edit'])->name('executive.edit');
     Route::post('executive/update/{id}', [ExecutiveCommitteeController::class, 'update'])->name('executive.update');
 
-    // __ Team Members __//
+    // __ Team Members (legacy) __//
     Route::get('team/add', [TeamMemberController::class, 'add'])->name('team.add');
     Route::post('team/store', [TeamMemberController::class, 'store'])->name('team.store');
     Route::get('team/index', [TeamMemberController::class, 'index'])->name('team.index');
     Route::get('team/delete/{id}', [TeamMemberController::class, 'destroy'])->name('team.delete');
     Route::get('team/edit/{id}', [TeamMemberController::class, 'edit'])->name('team.edit');
     Route::post('team/update/{id}', [TeamMemberController::class, 'update'])->name('team.update');
+
+    // __ Organizational Members (Unified — new) __//
+    Route::get('org-members/add', [OrgMemberController::class, 'add'])->name('org.add');
+    Route::post('org-members/store', [OrgMemberController::class, 'store'])->name('org.store');
+    Route::get('org-members/index', [OrgMemberController::class, 'index'])->name('org.index');
+    Route::get('org-members/delete/{id}', [OrgMemberController::class, 'destroy'])->name('org.delete');
+    Route::get('org-members/edit/{id}', [OrgMemberController::class, 'edit'])->name('org.edit');
+    Route::post('org-members/update/{id}', [OrgMemberController::class, 'update'])->name('org.update');
 
     // __ Programs __//
     Route::get('programs/add', [ProgramController::class, 'add'])->name('programs.add');

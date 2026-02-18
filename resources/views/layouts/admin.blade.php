@@ -578,6 +578,7 @@
 							<li class="nxl-item"><a class="nxl-link" href="{{ route('origin.legal_affilation.index') }}" data-translate="all_affilation">All Affilation</a></li>
 						</ul>
 					</li>
+					{{-- Executive Committee (legacy — replaced by Org. Structure)
 					<li class="nxl-item nxl-hasmenu">
 						<a href="javascript:void(0);" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-user"></i></span>
@@ -588,6 +589,8 @@
 							<li class="nxl-item"><a class="nxl-link" href="{{ route('executive.index') }}" data-translate="all_members">All Members</a></li>
 						</ul>
 					</li>
+					--}}
+					{{-- Team Members (legacy — replaced by Org. Structure)
 					<li class="nxl-item nxl-hasmenu">
 						<a href="javascript:void(0);" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-users"></i></span>
@@ -596,6 +599,18 @@
 						<ul class="nxl-submenu">
 							<li class="nxl-item"><a class="nxl-link" href="{{ route('team.add') }}" data-translate="add_member">Add Member</a></li>
 							<li class="nxl-item"><a class="nxl-link" href="{{ route('team.index') }}" data-translate="all_members">All Members</a></li>
+						</ul>
+					</li>
+					--}}
+					{{-- Organizational Structure --}}
+					<li class="nxl-item nxl-hasmenu">
+						<a href="javascript:void(0);" class="nxl-link">
+							<span class="nxl-micon"><i class="feather-user-check"></i></span>
+							<span class="nxl-mtext">Org. Members</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+						</a>
+						<ul class="nxl-submenu">
+							<li class="nxl-item"><a class="nxl-link" href="{{ route('org.add') }}">Add Member</a></li>
+							<li class="nxl-item"><a class="nxl-link" href="{{ route('org.index') }}">All Members</a></li>
 						</ul>
 					</li>
 					<li class="nxl-item nxl-hasmenu">

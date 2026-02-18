@@ -47,10 +47,15 @@ class frontController extends Controller
         return view('frontend.origin_affilation',compact('affilation'));
     }
 
-    // executive committee
+    // Organogram / Organizational Structure
     public function committee(){
-        $committee = DB::table('executive_committee')->orderBy('order', 'asc')->get();
-        return view('frontend.exe_committee', compact('committee'));
+        $orgMembers = DB::table('org_members')
+            ->where('is_active', true)
+            ->orderBy('order', 'asc')
+            ->get()
+            ->groupBy('org_type');
+
+        return view('frontend.exe_committee', compact('orgMembers'));
     }
 
     // Message form Cheif Executive
