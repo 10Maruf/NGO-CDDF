@@ -76,6 +76,12 @@ class frontController extends Controller
         return view('frontend.impact', compact('impact'));
     }
 
+    // Focus Area Detail
+    public function focusAreaDetail($id){
+        $area = DB::table('focus_areas')->where('id', $id)->where('is_active', 1)->firstOrFail();
+        return view('frontend.focus_area_detail', compact('area'));
+    }
+
     // Key Focus Area
     public function key_focus(){
         $focus_areas = collect();

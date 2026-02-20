@@ -19,7 +19,7 @@
                 {{-- About us --}}
                 @php
                     $aboutActive = request()->routeIs(
-                        'about.us','vision.mission','key.focus.area','team.members',
+                        'about.us','vision.mission','team.members',
                         'origin_affilation','executive.committee','cheif.message',
                         'partner.donor','about.impact','photo.all'
                     );
@@ -31,7 +31,6 @@
                     <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
                         <li><a class="dropdown-item {{ request()->routeIs('about.us') ? 'active' : '' }}" href="{{ route('about.us') }}">About CDDF</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('vision.mission') ? 'active' : '' }}" href="{{ route('vision.mission') }}">Mission, Vision & Core Values</a></li>
-                        <li><a class="dropdown-item {{ request()->routeIs('key.focus.area') ? 'active' : '' }}" href="{{ route('key.focus.area') }}">Focus Area</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('team.members') ? 'active' : '' }}" href="{{ route('team.members') }}">Team Members</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('origin_affilation') ? 'active' : '' }}" href="{{ route('origin_affilation') }}">Origin and Legal Affiliation</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('executive.committee') ? 'active' : '' }}" href="{{ route('executive.committee') }}">Executive Committee</a></li>

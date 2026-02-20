@@ -199,6 +199,469 @@ Association for Alternative Development
 </script>
 {{-- End Mission Vision Values --}}
 
+{{-- Focus Areas --}}
+@if(isset($focus_areas) && $focus_areas->count())
+<section class="py-5 bg-light" id="home-focus-areas">
+<style>
+    /* ---- Focus Area Cards ---- */
+    .hfa-title-block {
+        background: #f86f2d; /* Orange */
+        border-radius: 0;
+        padding: 40px;
+        height: 100%;
+        min-height: 380px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 60px;
+        opacity: 0;
+        transform: translateY(30px);
+        color: #fff;
+    }
+    .hfa-title-block.hfa-in {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .hfa-card {
+        background: #fff;
+        border: 2px dashed #ddd;
+        border-radius: 18px;
+        padding: 28px 22px 22px;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.28s ease, border-color 0.28s ease;
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    .hfa-card.hfa-in {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.5s ease, transform 0.5s ease, background 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+    }
+    .hfa-card:hover {
+        background: #f86f2d;
+        border-color: #f86f2d;
+        transform: translateY(-5px);
+        box-shadow: 0 16px 40px rgba(248,111,45,0.32);
+    }
+    .hfa-icon-wrap {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        background: rgba(248,111,45,0.10);
+        color: #f86f2d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        margin-bottom: 14px;
+        transition: background 0.28s ease, color 0.28s ease;
+    }
+    .hfa-card:hover .hfa-icon-wrap {
+        background: rgba(255,255,255,0.22);
+        color: #fff;
+    }
+    .hfa-card-title {
+        font-size: 15.5px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        margin-bottom: 8px;
+        color: #1a1a1a;
+        transition: color 0.28s ease;
+    }
+    .hfa-card:hover .hfa-card-title { color: #fff; }
+    .hfa-card-desc {
+        font-size: 13.5px;
+        color: #666;
+        line-height: 1.65;
+        margin-bottom: 14px;
+        transition: color 0.28s ease;
+    }
+    .hfa-card:hover .hfa-card-desc { color: rgba(255,255,255,0.88); }
+    .hfa-learn-more {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 13px;
+        font-weight: 700;
+        border: 2px solid #f86f2d;
+        color: #f86f2d;
+        background: transparent;
+        border-radius: 50px;
+        padding: 5px 16px;
+        text-decoration: none;
+        transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, gap 0.2s;
+    }
+    .hfa-card:hover .hfa-learn-more {
+        background: #fff;
+        color: #f86f2d;
+        border-color: #fff;
+    }
+    /* stagger */
+    .nfa-d1 { transition-delay: 0.1s; }
+    .nfa-d2 { transition-delay: 0.2s; }
+    .nfa-d3 { transition-delay: 0.3s; }
+    .nfa-d4 { transition-delay: 0.4s; }
+    .nfa-d5 { transition-delay: 0.5s; }
+    .nfa-d6 { transition-delay: 0.6s; }
+
+    /* New Focus Area Styling based on Tailwind concept */
+    :root {
+        --fa-primary: #f86f2d; /* Orange */
+    }
+    
+    .new-fa-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem; /* Gap 4 => 1rem, but let's give it a bit more space like a gutter */
+    }
+    @media (min-width: 768px) {
+        .new-fa-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 992px) {
+        .new-fa-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .w-2-3-xl {
+        width: 83.333333%; /* w-5/6 */
+        margin-left: auto;
+        margin-right: auto;
+    }
+    @media (min-width: 1536px) {
+        .w-2-3-xl { width: 66.666667%; } /* 2xl:w-2/3 */
+    }
+
+    /* 1. Title Block (Static Orange) */
+    .nfa-title-card {
+        background-color: var(--fa-primary);
+        color: #fff;
+        padding: 2rem;
+        min-height: 208px; /* Tailwind min-h-52 = 13rem = 208px */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .nfa-title-card.aos-animate {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .nfa-title-small {
+        font-size: 1.25rem; /* text-xl */
+        font-weight: 400; /* font-sans */
+        display: block;
+        margin-bottom: 0px;
+    }
+    @media (min-width: 768px) {
+        .nfa-title-small { font-size: 2.25rem; } /* md:text-4xl */
+    }
+
+    .nfa-title-main {
+        font-size: 1.5rem; /* text-2xl */
+        font-weight: 700; /* font-bold */
+        text-transform: capitalize;
+        line-height: 1.1;
+    }
+    @media (min-width: 768px) {
+        .nfa-title-main { font-size: 2.25rem; } /* md:text-4xl */
+    }
+
+    /* 2. Content Cards */
+    .nfa-item-card {
+        background-color: #fff;
+        border-radius: 1rem; /* rounded-2xl */
+        padding: 0.75rem; /* p-3 outer padding */
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+        min-height: 100%; /* Match grid height */
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    .nfa-item-card.aos-animate {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    /* The sliding background (orange) */
+    .nfa-hover-bg {
+        position: absolute;
+        top: 0; 
+        left: 0;
+        height: 100%;
+        width: 0; /* starts at 0 width */
+        background-color: var(--fa-primary);
+        border-radius: 1rem; /* rounded-2xl */
+        z-index: 0; /* Behind content */
+        transition: width 0.5s ease;
+    }
+    /* Expand on hover */
+    .nfa-item-card:hover .nfa-hover-bg {
+        width: 100%;
+    }
+
+    /* Inner Content Wrapper */
+    .nfa-content-wrap {
+        position: relative;
+        z-index: 10;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* Dashed Border Box inside */
+    .nfa-dashed-box {
+        border: 1px dashed #d1d5db; /* border-gray-300 */
+        border-radius: 0.5rem; /* rounded-lg */
+        padding: 2rem; /* p-8 */
+        width: 100%;
+        height: 100%;
+        transition: border-color 0.2s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+    .nfa-item-card:hover .nfa-dashed-box {
+        border-color: rgba(255,255,255, 0.5); /* lighter border on orange */
+    }
+
+    /* Typography & Icon changes on Hover */
+    .nfa-icon {
+        font-size: 3rem; /* w-16 approx 4rem */
+        color: #333;
+        transition: color 0.3s ease;
+    }
+    .nfa-card-title {
+        font-size: 1.25rem; /* text-xl */
+        font-weight: 400; /* font-sans */
+        text-transform: uppercase;
+        margin-top: 0.5rem; /* mt-2 */
+        color: #1f2937; 
+        transition: color 0.3s ease;
+    }
+    @media (min-width: 768px) {
+        .nfa-card-title { font-size: 1.5rem; } /* md:text-2xl */
+    }
+    .nfa-card-desc {
+        color: #4b5563; 
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem; /* my-6 */
+        line-height: 1.6;
+        transition: color 0.3s ease;
+        flex-grow: 1;
+    }
+
+    /* Button */
+    .nfa-learn-btn {
+        display: inline-block;
+        font-weight: 600; /* font-semibold */
+        text-transform: capitalize;
+        padding: 0.5rem 1rem; /* px-4 py-2 */
+        border: 1px dashed #d1d5db;
+        border-radius: 9999px; /* rounded-full */
+        color: #1f2937;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    .nfa-item-card.aos-animate {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    /* The sliding background (orange) */
+    .nfa-hover-bg {
+        position: absolute;
+        top: 0; 
+        left: 0;
+        height: 100%;
+        width: 0; /* starts at 0 width */
+        background-color: var(--fa-primary);
+        border-radius: 1rem;
+        z-index: 0; /* Behind content */
+        transition: width 0.5s ease;
+    }
+    /* Expand on hover */
+    .nfa-item-card:hover .nfa-hover-bg {
+        width: 100%;
+    }
+
+    /* Inner Content Wrapper */
+    .nfa-content-wrap {
+        position: relative;
+        z-index: 10; /* Above background */
+        height: 100%;
+        padding: 1rem; /* p-3 in original snippet */
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* Dashed Border Box inside */
+    .nfa-dashed-box {
+        border: 1px dashed #d1d5db; /* border-gray-300 */
+        border-radius: 0.5rem; /* rounded-lg */
+        padding: 2rem; /* p-8 in original */
+        width: 100%;
+        height: 100%;
+        transition: border-color 0.2s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .nfa-item-card:hover .nfa-dashed-box {
+        border-color: rgba(255,255,255, 0.5); /* lighter border on orange */
+    }
+
+    /* Typography & Icon changes on Hover */
+    .nfa-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #333;
+        transition: color 0.3s ease;
+    }
+    .nfa-card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+        color: #1f2937; /* text-gray-800 */
+        transition: color 0.3s ease;
+    }
+    .nfa-card-desc {
+        margin-bottom: 1.5rem;
+        color: #4b5563; /* text-gray-600 */
+        line-height: 1.6;
+        transition: color 0.3s ease;
+        flex-grow: 1;
+    }
+
+    /* Button */
+    .nfa-learn-btn {
+        display: inline-block;
+        font-weight: 600;
+        text-transform: capitalize;
+        padding: 0.5rem 1rem;
+        border: 1px dashed #d1d5db;
+        border-radius: 9999px; /* rounded-full */
+        color: #1f2937;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    
+    /* HOVER STATES for Text elements (Turn White) */
+    .nfa-item-card:hover .nfa-icon,
+    .nfa-item-card:hover .nfa-card-title,
+    .nfa-item-card:hover .nfa-card-desc {
+        color: #ffffff;
+    }
+    
+    .nfa-item-card:hover .nfa-learn-btn {
+        background-color: #fff;
+        color: var(--fa-primary);
+        border-color: transparent;
+    }
+
+</style>
+    <div class="container pb-5 position-relative">
+        <div class="mx-auto position-relative" style="max-width: 83.333333%; @media (min-width: 1536px) { max-width: 66.666667%; }">
+        
+        {{-- Orange Glow Effect --}}
+        <div style="
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(248,111,45,0.25) 0%, rgba(255,255,255,0) 70%);
+            pointer-events: none;
+            z-index: 0;
+        "></div>
+
+        {{-- Custom Grid Layout --}}
+        <div class="new-fa-grid" style="position: relative; z-index: 1;">
+            
+            {{-- 1. Title Block --}}
+            <div class="nfa-title-card aos-animate">
+                <span class="nfa-title-small">Our</span>
+                <h2 class="nfa-title-main">Focus areas</h2>
+            </div>
+            
+            {{-- 2. Loop Focus Areas --}}
+            @php
+                $delays = ['nfa-d1','nfa-d2','nfa-d3','nfa-d4','nfa-d5','nfa-d6'];
+            @endphp
+            @foreach($focus_areas as $fa)
+            @php
+                $faIcon = !empty($fa->icon_class) ? $fa->icon_class : 'fa-solid fa-bullseye';
+                $delay  = isset($delays[$loop->index]) ? $delays[$loop->index] : '';
+            @endphp
+            <div class="nfa-item-card {{ $delay }}">
+                {{-- Sliding Orange Background --}}
+                <div class="nfa-hover-bg"></div>
+                
+                <div class="nfa-content-wrap">
+                    <div class="nfa-dashed-box">
+                        {{-- Icon --}}
+                        <div class="nfa-icon">
+                            <i class="{{ $faIcon }}"></i>
+                        </div>
+                        
+                        {{-- Title --}}
+                        <h3 class="nfa-card-title">{{ $fa->title }}</h3>
+                        
+                        {{-- Desc --}}
+                        <p class="nfa-card-desc">{{ Str::limit($fa->description, 100) }}</p>
+                        
+                        {{-- Button --}}
+                        <a href="{{ route('focus.area.detail', $fa->id) }}" class="nfa-learn-btn">
+                            Learn more
+                            <span class="visually-hidden">about {{ $fa->title }}</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+            
+        </div>
+    </div>
+</section>
+
+<script>
+(function () {
+    // Intersection Observer that toggles 'aos-animate' based on visibility
+    var items = document.querySelectorAll('.nfa-title-card, .nfa-item-card');
+    if (!items.length) return;
+    
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                // Determine if scrolling down or just appearing
+                entry.target.classList.add('aos-animate');
+            } else {
+                // When scrolling out of view, remove class to reset animation state
+                // This makes them "disappear" so they can animate in again
+                entry.target.classList.remove('aos-animate');
+            }
+        });
+    }, { threshold: 0.1 }); // Trigger when 10% visible
+    
+    items.forEach(function(el) { observer.observe(el); });
+})();
+</script>
+@endif
+{{-- End Focus Areas --}}
+
 {{-- Featured Programs --}}
 <div class="bg-light">
     <div class="container bg-white px-2">
