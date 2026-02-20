@@ -7,7 +7,7 @@
     <div class="container">
       <ol>
         <li><a href="{{ url('/') }}">Home</a></li>
-        <li>About AFAD</li>
+        <li>About CDDF</li>
       </ol>
       <h2>Organizational Structure</h2>
     </div>

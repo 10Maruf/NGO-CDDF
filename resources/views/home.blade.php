@@ -67,30 +67,137 @@ Association for Alternative Development
 </section>
 {{-- End About Us --}}
 
-{{-- Mission Vision--}}
-<div class="bg-light py-5" style="background-image: url('{{ asset('img/slider/slider-2.jpg') }}');background-attachment:fixed;">
-    <div class="container px-2">
-        <div class="row">
-            <div class="col-md-4 col-12 mx-auto">
-                <h3 class="text-center text-white"><span style="border-bottom:3px solid #e00324;">Mission</span> <i class="fa-solid fa-bullseye text-danger"></i></h3>
-                <p style="text-align: justify;" class="text-white">
-                    AFAD mission is to empower women particularly young women towards building a better world by developing their capacities and to make them active contributor within the society. Therefore AFAD undertakes initiatives/programs that empower the neglected portion of women who are deprived from rights and to ensure equal rights and opportunities for them.
-                </p>
+{{-- Mission Vision Values --}}
+<style>
+    .mvv-card {
+        border: 2px dashed #e0d8d0;
+        transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+        cursor: default;
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    .mvv-card.animate-in {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+    .mvv-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 16px 40px rgba(248, 111, 45, 0.25) !important;
+        border-color: #f86f2d !important;
+    }
+    .mvv-card:hover .mvv-icon-wrap {
+        box-shadow: 0 0 0 3px rgba(248, 111, 45, 0.25);
+        transition: box-shadow 0.3s ease;
+    }
+    .mvv-card-delay-1 { transition-delay: 0.1s; }
+    .mvv-card-delay-2 { transition-delay: 0.25s; }
+    .mvv-card-delay-3 { transition-delay: 0.4s; }
+    .mvv-heading {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .mvv-heading.animate-in {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+
+<section class="py-5" style="background-image: url('{{ asset('static_image/mission-vision_bg.jpg') }}'); background-size: cover; background-position: center; background-attachment: fixed; position: relative;">
+    <div style="position: absolute; inset: 0; background: rgba(0, 0, 0, 0.65);"></div>
+    <div class="container" style="position: relative; z-index: 1;">
+        {{-- Section Heading --}}
+        <div class="text-center mb-5 mvv-heading">
+            <p class="mb-1" style="font-size: 0.95rem; color: #ffaa6e; letter-spacing: 1px; font-weight: 600;">CDDF's</p>
+            <h2 style="font-size: 2.2rem; color: #ffffff; font-weight: 400;">Vision, Mission, Values</h2>
+            <div class="mx-auto mt-3" style="width: 60px; height: 4px; background: #f86f2d; border-radius: 2px;"></div>
+        </div>
+
+        {{-- Cards Row --}}
+        <div class="row g-4 justify-content-center">
+            {{-- Vision Card --}}
+            <div class="col-lg-4 col-md-6">
+                <div class="mvv-card mvv-card-delay-1 h-100 p-4 bg-white rounded-3 shadow-sm">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="mvv-icon-wrap me-3" style="width: 44px; height: 44px; background-color: #fff1e8; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background-color 0.3s ease;">
+                            <i class="fa-solid fa-eye" style="color: #f86f2d; font-size: 1.2rem;"></i>
+                        </div>
+                        <h4 class="mb-0" style="color: #1a1a1a; font-weight: 600;">Our Vision</h4>
+                    </div>
+                    <div style="border-left: 4px solid #f86f2d; padding-left: 14px; min-height: 110px;">
+                        <p class="mb-0 text-secondary" style="text-align: justify; line-height: 1.75;">
+                            @if(isset($mission_vision) && $mission_vision->vision)
+                                {{ $mission_vision->vision }}
+                            @else
+                                CDDF envisions an empowered society where poor, helpless, and destitute people achieve improved living conditions through inclusive socio-economic development.
+                            @endif
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4 my-2">
-                <img src="{{ asset('img/mission.jpg') }}" class="rounded" alt="Mission and Vision" width="100%">
+
+            {{-- Mission Card --}}
+            <div class="col-lg-4 col-md-6">
+                <div class="mvv-card mvv-card-delay-2 h-100 p-4 bg-white rounded-3 shadow-sm">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="mvv-icon-wrap me-3" style="width: 44px; height: 44px; background-color: #fff1e8; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background-color 0.3s ease;">
+                            <i class="fa-solid fa-bullseye" style="color: #f86f2d; font-size: 1.2rem;"></i>
+                        </div>
+                        <h4 class="mb-0" style="color: #1a1a1a; font-weight: 600;">Our Mission</h4>
+                    </div>
+                    <div style="border-left: 4px solid #f86f2d; padding-left: 14px; min-height: 110px;">
+                        <p class="mb-0 text-secondary" style="text-align: justify; line-height: 1.75;">
+                            @if(isset($mission_vision) && $mission_vision->mission)
+                                {{ $mission_vision->mission }}
+                            @else
+                                CDDF promotes citizens' rights, strengthens women's livelihoods, and drives sustainable development to bring marginalized communities into the mainstream, with special focus on women, children, and disaster-affected persons.
+                            @endif
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4 col-12 mx-auto">
-                <h3 class="text-center text-white"><span style="border-bottom:3px solid #0073ff;">Vision</span> <i class="fa-solid fa-eye-low-vision text-primary"></i></h3>
-                <p style="text-align: justify;" class="text-white">
-                    Contribute to establish an enabling environment for realization and protection of fundamental human rights of men and women where people are self-reliant as individuals.
-                </p>
+
+            {{-- Values Card --}}
+            <div class="col-lg-4 col-md-6">
+                <div class="mvv-card mvv-card-delay-3 h-100 p-4 bg-white rounded-3 shadow-sm">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="mvv-icon-wrap me-3" style="width: 44px; height: 44px; background-color: #fff1e8; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background-color 0.3s ease;">
+                            <i class="fa-solid fa-chart-line" style="color: #f86f2d; font-size: 1.2rem;"></i>
+                        </div>
+                        <h4 class="mb-0" style="color: #1a1a1a; font-weight: 600;">Our Values</h4>
+                    </div>
+                    <div style="border-left: 4px solid #f86f2d; padding-left: 14px; min-height: 110px;">
+                        <p class="mb-0 text-secondary" style="text-align: justify; line-height: 1.75;">
+                            @if(isset($mission_vision) && $mission_vision->values)
+                                {{ $mission_vision->values }}
+                            @else
+                                CDDF is guided by humanitarian standards, respect for all, equal opportunities, protection of rights and dignity, and a strong commitment to transparency and good governance.
+                            @endif
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
-        {{-- <hr class="py-3 m-0"> --}}
     </div>
-</div>
-{{-- End of Mission Vision --}}
+</section>
+
+<script>
+(function () {
+    const targets = document.querySelectorAll('.mvv-card, .mvv-heading');
+    if (!targets.length) return;
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+    targets.forEach(function (el) { observer.observe(el); });
+})();
+</script>
+{{-- End Mission Vision Values --}}
 
 {{-- Featured Programs --}}
 <div class="bg-light">
@@ -280,28 +387,117 @@ Association for Alternative Development
 {{-- end of volunteer part --}}
 
 {{-- Photo Gallery --}}
-<div class="bg-light">
-    <div class="container bg-white">
-        <div class="pt-5 pb-2">
-            <h3 class="text-center">Photo <span class="text-danger">Gallery</span></h3>
-            <p class="text-center text-secondary">Stay updated with AFAD's latest news and events, offering insights into our impactful initiatives and community engagements.</p>
-        </div>
+<style>
+.cddf-gallery-grid { display:flex; flex-wrap:wrap; }
+.cddf-gallery-tile {
+    position:relative;
+    height:210px;
+    width:25%;
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    text-decoration:none;
+}
+.cddf-gallery-tile::after {
+    content:'';
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,0.22);
+    transition:all 0.3s ease;
+}
+.cddf-gallery-tile .gal-icon {
+    position:relative;
+    z-index:2;
+    width:48px;
+    height:48px;
+    background:rgba(255,255,255,0.85);
+    border-radius:50%;
+    opacity:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all 0.3s ease;
+    color:#f86f2d;
+    font-size:1rem;
+}
+.cddf-gallery-tile:hover .gal-icon { opacity:1; }
+.cddf-gallery-tile:hover::after { opacity:0; }
+@media(max-width:575px){ .cddf-gallery-tile{ width:50%; height:160px; } }
+@media(min-width:576px) and (max-width:767px){ .cddf-gallery-tile{ width:50%; height:180px; } }
+@media(min-width:768px) and (max-width:991px){ .cddf-gallery-tile{ width:33.333%; height:190px; } }
+</style>
 
-        {{-- photo --}}
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-2">
-            @foreach ($gallery as $key => $data)
-                <div class="col mt-3">
-                    <img src="{{ asset('images/gallery/'.$data->image) }}" class="img-fluid rounded" alt="image">
-                </div>
-            @endforeach
-        </div>
-        {{-- button --}}
-        <div class="d-flex justify-content-center py-5">
-            <a href="{{ route('photo.all') }}" class="btn btn-danger"><i class="fa-solid fa-eye"></i> See all Photos</a>
+<section style="background:#f9f5f1; padding-top:60px; padding-bottom:0;">
+    <div class="container">
+        <div class="text-center mb-4">
+            <span style="display:inline-block; background:#fff1e8; color:#f86f2d; font-size:0.78rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:4px 16px; border-radius:20px; margin-bottom:10px;">Gallery</span>
+            <h2 style="font-family:'Dosis',sans-serif; font-weight:700; color:#2d2d2d; font-size:2rem;">Photo Gallery</h2>
+            <div style="width:60px; height:4px; background:#f86f2d; border-radius:2px; margin:10px auto 0;"></div>
+            <p class="mt-3" style="color:#777; max-width:520px; margin:0 auto; font-size:0.97rem;">Moments captured from our work across communities in Chilmari and beyond.</p>
         </div>
     </div>
-</div>
+    <div class="cddf-gallery-grid">
+        @foreach($gallery as $data)
+        <a href="{{ asset('images/gallery/'.$data->image) }}"
+           class="cddf-gallery-tile image-popup-gallery"
+           style="background-image:url('{{ asset('images/gallery/'.$data->image) }}');">
+            <div class="gal-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </a>
+        @endforeach
+    </div>
+    <div class="text-center py-4" style="background:#f9f5f1;">
+        <a href="{{ route('photo.all') }}" class="btn px-5 py-2" style="background:#f86f2d; color:#fff; font-weight:600; border-radius:4px; font-size:0.95rem;"><i class="fa-solid fa-images me-2"></i>View All Photos</a>
+    </div>
+</section>
 {{-- End of Photo Gallery --}}
+
+@push('css')
+<link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
+<style>
+/* Magnific Popup zoom animation */
+.mfp-with-zoom .mfp-container,
+.mfp-with-zoom.mfp-bg {
+    opacity: 0;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+.mfp-with-zoom.mfp-ready .mfp-container { opacity: 1; }
+.mfp-with-zoom.mfp-ready.mfp-bg { opacity: 0.8; }
+.mfp-with-zoom.mfp-removing .mfp-container,
+.mfp-with-zoom.mfp-removing.mfp-bg { opacity: 0; }
+.cddf-gallery-tile::after { pointer-events: none; }
+</style>
+@endpush
+@push('js')
+<script src="{{ asset('js/jquery-migrate-3.0.1.min.js') }}"></script>
+<script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+<script>
+$(document).ready(function(){
+    $('.image-popup-gallery').magnificPopup({
+        type: 'image',
+        closeOnContentClick: true,
+        closeBtnInside: false,
+        fixedContentPos: true,
+        mainClass: 'mfp-no-margins mfp-with-zoom',
+        gallery: {
+            enabled: true,
+            navigateByImgClick: true,
+            preload: [0,1]
+        },
+        image: {
+            verticalFit: true
+        },
+        zoom: {
+            enabled: true,
+            duration: 300
+        }
+    });
+});
+</script>
+@endpush
 
 {{-- Impact part --}}
 <div style="background-image: url('{{asset('img/map.png')}}'); background-attachment:fixed;">

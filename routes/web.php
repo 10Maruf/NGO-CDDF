@@ -15,7 +15,7 @@ Route::get('/', function () {
     $slider = DB::table('slider')->get();
     $project = DB::table('ongoing_project')->take(3)->get();
     $news = DB::table('latest_news')->take(6)->get();
-    $gallery = DB::table('gallery')->take(6)->get();
+    $gallery = DB::table('gallery')->orderBy('id', 'desc')->take(8)->get();
     $application = DB::table('applications')->get()->first();
     $programs = DB::table('programs')->orderBy('created_at', 'desc')->take(6)->get();
     $stories = DB::table('stories')->orderBy('id', 'desc')->get();

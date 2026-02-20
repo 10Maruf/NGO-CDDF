@@ -292,7 +292,7 @@ class frontController extends Controller
 
     //__All Photos
     public function all_photos(){
-        $photos = DB::table('gallery')->paginate('30');
+        $photos = DB::table('gallery')->orderBy('id', 'desc')->paginate(30);
         return view('frontend.photos_all',compact('photos'));
     }
 
