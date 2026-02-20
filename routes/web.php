@@ -21,8 +21,9 @@ Route::get('/', function () {
     $stories      = DB::table('stories')->orderBy('id', 'desc')->get();
     $about_us     = DB::table('about_us')->first();
     $focus_areas  = DB::table('focus_areas')->where('is_active', 1)->orderBy('order','asc')->get();
+    $partners     = DB::table('partners')->get();
 
-    return view('home', compact('slider', 'project', 'news', 'gallery', 'application', 'programs', 'stories', 'about_us', 'focus_areas'));
+    return view('home', compact('slider', 'project', 'news', 'gallery', 'application', 'programs', 'stories', 'about_us', 'focus_areas', 'partners'));
 });
 
 Route::post('user/subscribe', [frontController::class, 'subscribe'])->name('user.subscribe');

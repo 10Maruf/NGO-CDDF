@@ -43,7 +43,7 @@
                             Message :
                         </div>
                         <div class="col-11">
-                            <p>
+                            <p style="word-break: break-word; white-space: pre-wrap; overflow-wrap: break-word;">
                                 {{ $message->message }}
                             </p>
                         </div>

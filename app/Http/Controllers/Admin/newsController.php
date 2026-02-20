@@ -13,28 +13,46 @@ class newsController extends Controller
     {
         return view('admin.latest_news.add');
     }
+
     // Store
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required',
+        $request->validate([
+            'title'       => 'required',
+            'category'    => 'required|in:news,event',
             'description' => 'required',
-            'image' => 'required|mimes:jpg,png,jpeg,gif',
+            'image'       => 'required|mimes:jpg,png,jpeg,gif|max:2048',
+            'gallery.*'   => 'nullable|mimes:jpg,png,jpeg,gif|max:2048',
         ]);
 
+        // Cover image
         $imageName = '';
-        if($image = $request->file('image')){
-            $imageName = rand(10000,99999) . "news." . $image->getClientOriginalExtension();
-            $image->move(public_path('images/news/'),$imageName);
+        if ($image = $request->file('image')) {
+            $imageName = rand(10000, 99999) . 'news.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/news/'), $imageName);
         }
 
-        $news = array(
-            'title' => $request->title,
+        $newsId = DB::table('latest_news')->insertGetId([
+            'title'       => $request->title,
+            'category'    => $request->category,
             'description' => $request->description,
-            'image' => $imageName
-        );
+            'image'       => $imageName,
+        ]);
 
-        DB::table('latest_news')->insert($news);
+        // Gallery images
+        if ($request->hasFile('gallery')) {
+            foreach ($request->file('gallery') as $file) {
+                $galleryName = rand(10000, 99999) . 'news_gallery.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images/news/'), $galleryName);
+                DB::table('latest_news_images')->insert([
+                    'news_id'    => $newsId,
+                    'image'      => $galleryName,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+
         return redirect()->back()->with('success', 'Successfully inserted data');
     }
 
@@ -48,54 +66,97 @@ class newsController extends Controller
     // Destroy
     public function destroy($id)
     {
-        $news = DB::table('latest_news')->where('id',$id)->first();
-        $oldIamgeName = public_path('images/news/'.$news->image);
+        $news = DB::table('latest_news')->where('id', $id)->first();
 
-        if(file_exists($oldIamgeName)){
-            @unlink($oldIamgeName);
+        // Delete cover image
+        if ($news->image) {
+            $oldImage = public_path('images/news/' . $news->image);
+            if (file_exists($oldImage)) {
+                @unlink($oldImage);
+            }
         }
+
+        // Delete gallery images
+        $galleryImages = DB::table('latest_news_images')->where('news_id', $id)->get();
+        foreach ($galleryImages as $gi) {
+            $galleryPath = public_path('images/news/' . $gi->image);
+            if (file_exists($galleryPath)) {
+                @unlink($galleryPath);
+            }
+        }
+        DB::table('latest_news_images')->where('news_id', $id)->delete();
         DB::table('latest_news')->where('id', $id)->delete();
+
         return redirect()->back()->with('success', 'Successfully Deleted News');
     }
 
     // Edit
     public function edit($id)
     {
-        $news = DB::table('latest_news')->where('id', $id)->first();
-        return view('admin.latest_news.edit', compact('news'));
+        $news          = DB::table('latest_news')->where('id', $id)->first();
+        $galleryImages = DB::table('latest_news_images')->where('news_id', $id)->get();
+        return view('admin.latest_news.edit', compact('news', 'galleryImages'));
+    }
+
+    // Delete a single gallery image
+    public function deleteGalleryImage($imageId)
+    {
+        $gi = DB::table('latest_news_images')->where('id', $imageId)->first();
+        if ($gi) {
+            $path = public_path('images/news/' . $gi->image);
+            if (file_exists($path)) {
+                @unlink($path);
+            }
+            DB::table('latest_news_images')->where('id', $imageId)->delete();
+        }
+        return redirect()->back()->with('update', 'Gallery image deleted');
     }
 
     // Update
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'title' => 'required',
+        $request->validate([
+            'title'       => 'required',
+            'category'    => 'required|in:news,event',
             'description' => 'required',
+            'image'       => 'nullable|mimes:jpg,png,jpeg,gif|max:2048',
+            'gallery.*'   => 'nullable|mimes:jpg,png,jpeg,gif|max:2048',
         ]);
 
-        $news = DB::table('latest_news')->where('id',$id)->first();
+        $news      = DB::table('latest_news')->where('id', $id)->first();
+        $imageName = $news->image;
 
-        $imageName = '';
-        $oldIamgeName = public_path('images/news/'.$news->image);
-
-        if($image = $request->file('image')){
-            if(file_exists($oldIamgeName)){
-                @unlink($oldIamgeName);
+        // Replace cover image if a new one is uploaded
+        if ($image = $request->file('image')) {
+            $oldImage = public_path('images/news/' . $news->image);
+            if (file_exists($oldImage)) {
+                @unlink($oldImage);
             }
-            $imageName = rand(10000,99999) . "news." . $image->getClientOriginalExtension();
+            $imageName = rand(10000, 99999) . 'news.' . $image->getClientOriginalExtension();
             $image->move(public_path('images/news'), $imageName);
         }
-        else{
-            $imageName = $news->image;
+
+        DB::table('latest_news')->where('id', $id)->update([
+            'title'       => $request->title,
+            'category'    => $request->category,
+            'description' => $request->description,
+            'image'       => $imageName,
+        ]);
+
+        // Append new gallery images
+        if ($request->hasFile('gallery')) {
+            foreach ($request->file('gallery') as $file) {
+                $galleryName = rand(10000, 99999) . 'news_gallery.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images/news'), $galleryName);
+                DB::table('latest_news_images')->insert([
+                    'news_id'    => $id,
+                    'image'      => $galleryName,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
         }
 
-        $news = array(
-            'title' => $request->title,
-            'description' => $request->description,
-            'image' => $imageName
-        );
-
-        DB::table('latest_news')->where('id', $id)->update($news);
         return redirect()->back()->with('update', 'Successfully Updated News');
     }
 }

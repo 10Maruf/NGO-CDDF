@@ -21,7 +21,7 @@
                     $aboutActive = request()->routeIs(
                         'about.us','vision.mission','team.members',
                         'origin_affilation','executive.committee','cheif.message',
-                        'partner.donor','about.impact','photo.all'
+                        'faq','photo.all'
                     );
                 @endphp
                 <li class="nav-item dropdown {{ $aboutActive ? 'active' : '' }}">
@@ -35,8 +35,7 @@
                         <li><a class="dropdown-item {{ request()->routeIs('origin_affilation') ? 'active' : '' }}" href="{{ route('origin_affilation') }}">Origin and Legal Affiliation</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('executive.committee') ? 'active' : '' }}" href="{{ route('executive.committee') }}">Executive Committee</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('cheif.message') ? 'active' : '' }}" href="{{ route('cheif.message') }}">Message from Chief Executive</a></li>
-                        <li><a class="dropdown-item {{ request()->routeIs('partner.donor') ? 'active' : '' }}" href="{{ route('partner.donor') }}">Our Partners and Donor</a></li>
-                        <li><a class="dropdown-item {{ request()->routeIs('about.impact') ? 'active' : '' }}" href="{{ route('about.impact') }}">Impact</a></li>
+                        <li><a class="dropdown-item {{ request()->routeIs('faq') ? 'active' : '' }}" href="{{ route('faq') }}">FAQ</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('photo.all') ? 'active' : '' }}" href="{{ route('photo.all') }}">Photo Gallery</a></li>
                     </ul>
                 </li>
@@ -81,7 +80,7 @@
                     </ul>
                 </li>
 
-                {{-- News & Events --}}
+                {{-- Updates --}}
                 @php
                     $newsActive = request()->routeIs(
                         'latest.news.all','events.calender','youtube.video',
@@ -90,7 +89,7 @@
                 @endphp
                 <li class="nav-item dropdown {{ $newsActive ? 'active' : '' }}">
                     <a class="nav-link dropdown-toggle {{ $newsActive ? 'active' : '' }}" href="#" id="eventsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        News & Events
+                        Updates
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="eventsDropdown">
                         <li><a class="dropdown-item {{ request()->routeIs('latest.news.all') ? 'active' : '' }}" href="{{ route('latest.news.all') }}">News & Events</a></li>

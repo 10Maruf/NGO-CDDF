@@ -777,57 +777,402 @@ Association for Alternative Development
     </div>
 </div>
 
-{{-- Sponsor --}}
-<div style="background-image: url('{{asset('img/slider/slider-1.jpg')}}');border-top:5px solid rgb(255, 0, 68);border-bottom:5px solid rgb(255, 0, 68);">
-    <div class="container py-5">
-        <h4 class="text-uppercasse text-white text-center"><span class="text-danger">Sponsor</span> for Growing Fund</h4>
-        <div class="d-flex justify-content-center">
-            <p class="text-white text-center py-3">
-            Sponsor AFAD's growing fund to fuel impactful initiatives in northern Bangladesh, empowering communities and fostering positive change. Your support drives essential programs in healthcare, education, and community resilience, making a lasting difference in the lives of those in need. Join us in our mission to create a brighter future for all.
-        </p>
-        </div>
+{{-- Our Network: Partners & Donors --}}
+<style>
+.cddf-network-section {
+    background: #fff;
+    padding: 60px 0 50px;
+    border-top: 4px solid #f86f2d;
+    border-bottom: 4px solid #f86f2d;
+}
+.cddf-network-section .section-badge {
+    display: inline-block;
+    background: #fff3ed;
+    color: #f86f2d;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+.cddf-network-section h2 {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+}
+.cddf-network-section h2 span { color: #f86f2d; }
+.cddf-network-section .subtitle {
+    color: #777;
+    font-size: 0.95rem;
+    margin-bottom: 40px;
+}
+/* Marquee track */
+.cddf-marquee-outer {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+.cddf-marquee-outer::before,
+.cddf-marquee-outer::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+}
+.cddf-marquee-outer::before { left: 0; background: linear-gradient(to right, #fff, transparent); }
+.cddf-marquee-outer::after  { right: 0; background: linear-gradient(to left, #fff, transparent); }
+.cddf-marquee-track {
+    display: flex;
+    gap: 24px;
+    width: max-content;
+    animation: cddfScroll 30s linear infinite;
+}
+.cddf-marquee-track:hover { animation-play-state: paused; }
+@keyframes cddfScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+.cddf-partner-item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border: 1.5px solid #ffe0d0;
+    border-radius: 12px;
+    padding: 14px 24px;
+    min-width: 160px;
+    max-width: 200px;
+    height: 90px;
+    box-shadow: 0 2px 10px rgba(248,111,45,0.07);
+    transition: box-shadow .2s, border-color .2s;
+    position: relative;
+    overflow: hidden;
+}
+.cddf-partner-item:hover {
+    box-shadow: 0 4px 18px rgba(248,111,45,0.18);
+    border-color: #f86f2d;
+}
+.cddf-partner-item img {
+    max-height: 58px;
+    max-width: 150px;
+    object-fit: contain;
+    filter: grayscale(40%);
+    transition: filter .2s;
+}
+.cddf-partner-item:hover img { filter: grayscale(0%); }
+.cddf-partner-item .partner-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #444;
+    text-align: center;
+    line-height: 1.35;
+    word-break: break-word;
+}
+/* Hover name tooltip overlay */
+.cddf-partner-item .partner-tooltip {
+    position: absolute;
+    bottom: -100%;
+    left: 0; right: 0;
+    background: rgba(248,111,45,0.93);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    padding: 6px 8px;
+    line-height: 1.3;
+    transition: bottom .25s ease;
+    pointer-events: none;
+    border-radius: 0 0 10px 10px;
+}
+.cddf-partner-item:hover .partner-tooltip {
+    bottom: 0;
+}
+</style>
 
-        <div class="d-flex justify-content-center">
-            <a href="{{ route('contact') }}" class="btn btn-danger fw-blod"><i class="fa-solid fa-hand-holding-dollar"></i> Become a Sponsor</a>
-        </div>
-
+<section class="cddf-network-section">
+    <div class="container text-center">
+        <span class="section-badge">Our Network</span>
+        <h2>Partners <span>&</span> Donors</h2>
+        <p class="subtitle">Organizations and donors who stand with CDDF in building resilient communities.</p>
     </div>
-</div>
-{{-- End of Sponsor --}}
+
+    @php
+        $partnerList = $partners->values()->all();
+        // Duplicate for seamless loop
+        $doubled = array_merge($partnerList, $partnerList);
+    @endphp
+
+    <div class="cddf-marquee-outer">
+        <div class="cddf-marquee-track">
+            @foreach($doubled as $p)
+            <div class="cddf-partner-item">
+                @if(!empty($p->image))
+                    <img src="{{ asset('images/partner/' . $p->image) }}" alt="{{ trim($p->name) }}">
+                @else
+                    <span class="partner-name">{{ trim($p->name) }}</span>
+                @endif
+                <span class="partner-tooltip">{{ trim($p->name) }}</span>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+{{-- End Our Network --}}
 
 {{-- Latest News and Events --}}
-<div class="bg-light">
-    <div class="container bg-white pt-5">
-        <div class="py-3">
-            <h3 class="text-center">Latest News<span class="text-danger"> & Events</span></h3>
-            <p class="text-center text-secondary">The sole meaning of life is to serve humanity</p>
+<style>
+    /* News & Events Section */
+    .afad-news-section {
+        padding: 80px 0;
+        background: #f8f9fa;
+    }
+    .afad-section-heading {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    .afad-section-heading .subheading {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: #f86f2d;
+        margin-bottom: 10px;
+        display: block;
+    }
+    .afad-section-heading h2 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #1a1a2e;
+        position: relative;
+        padding-bottom: 15px;
+        margin-bottom: 16px;
+    }
+    .afad-section-heading h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: #f86f2d;
+        border-radius: 2px;
+    }
+    .afad-section-heading p {
+        color: #6c757d;
+        max-width: 580px;
+        margin: 0 auto;
+        font-size: 15px;
+    }
+    .afad-blog-entry {
+        border: 1px solid #f0f0f0;
+        background: #fff;
+        overflow: hidden;
+        border-radius: 6px;
+        box-shadow: 0px 5px 30px -10px rgba(0,0,0,0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .afad-blog-entry:hover {
+        transform: translateY(-6px);
+        box-shadow: 0px 12px 40px -10px rgba(0,0,0,0.22);
+    }
+    .afad-block-img {
+        overflow: hidden;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        display: block;
+        width: 100%;
+        height: 230px;
+        position: relative;
+    }
+    .afad-block-img .afad-cat-badge {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        padding: 5px 12px;
+        border-radius: 3px;
+        z-index: 1;
+    }
+    .afad-blog-text {
+        padding: 24px 22px 20px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        /* slight pull-up overlap effect */
+        margin-top: -24px;
+        background: #fff;
+        border-radius: 4px 4px 0 0;
+        position: relative;
+        z-index: 1;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .afad-blog-meta {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+    }
+    .afad-blog-meta span {
+        font-size: 13px;
+        color: #96a1af;
+    }
+    .afad-blog-meta span i {
+        color: #f86f2d;
+        margin-right: 4px;
+    }
+    .afad-blog-text .heading {
+        font-size: 17px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        line-height: 1.45;
+        flex-shrink: 0;
+    }
+    .afad-blog-text .heading a {
+        color: #1a1a2e;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    .afad-blog-text .heading a:hover {
+        color: #f86f2d;
+    }
+    .afad-blog-text .excerpt {
+        font-size: 14px;
+        color: #6c757d;
+        line-height: 1.65;
+        flex: 1;
+        margin-bottom: 16px;
+    }
+    .afad-read-more {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #f86f2d;
+        text-decoration: none;
+        letter-spacing: 0.5px;
+        transition: gap 0.2s;
+    }
+    .afad-read-more:hover {
+        color: #d9541a;
+        gap: 10px;
+    }
+    .afad-time-loc {
+        font-size: 13px;
+        color: #96a1af;
+        margin-bottom: 12px;
+    }
+    .afad-time-loc span {
+        margin-right: 12px;
+        white-space: nowrap;
+    }
+    .afad-time-loc span i {
+        color: #f86f2d;
+        margin-right: 4px;
+    }
+    .afad-view-all-wrap {
+        text-align: center;
+        margin-top: 50px;
+    }
+    .afad-btn-viewall {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #f86f2d;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 13px 34px;
+        border-radius: 4px;
+        text-decoration: none;
+        letter-spacing: 0.5px;
+        transition: background 0.25s, transform 0.2s;
+        border: none;
+    }
+    .afad-btn-viewall:hover {
+        background: #d9541a;
+        color: #fff;
+        transform: translateY(-2px);
+    }
+</style>
+
+{{-- ── Latest News & Events ─────────────────────────────────────────────── --}}
+<section class="afad-news-section">
+    <div class="container">
+        <div class="afad-section-heading">
+            <span class="subheading">Stay Informed</span>
+            <h2>Latest News <span style="color:#f86f2d;">&amp;</span> Events</h2>
+            <p>Follow our work and stay up to date with the stories and events that matter most.</p>
         </div>
 
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            @foreach ($news as $key=>$data)
-                <div class="col">
-                    <div class="card border-0 shadow">
-                        <img src="{{ asset('images/news/'.$data->image) }}" class="card-img-top" alt="activity" width="100%" height="200px">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ Str::limit($data->title, 30 , '...') }}</h5>
-                            <p class="text-secondary" style="font-size: 12px;">
-                                <i class="fas fa-calendar-minus"></i>
-                                {{ date("d/m/Y  h:i:s a") }}
+        <div class="row">
+            @forelse ($news->take(6) as $data)
+                @php $isEvent = ($data->category ?? 'news') === 'event'; @endphp
+                <div class="col-md-4 d-flex mb-4">
+                    <div class="afad-blog-entry w-100">
+                        <a href="{{ route('latest.news.view', $data->id) }}"
+                           class="afad-block-img"
+                           style="background-image: url('{{ asset('images/news/'.$data->image) }}');">
+                            <span class="afad-cat-badge {{ $isEvent ? 'bg-warning text-dark' : 'bg-primary text-white' }}">
+                                <i class="fas {{ $isEvent ? 'fa-calendar-check' : 'fa-newspaper' }} me-1"></i>
+                                {{ $isEvent ? 'Event' : 'News' }}
+                            </span>
+                        </a>
+                        <div class="afad-blog-text">
+                            <div class="afad-blog-meta">
+                                <span><i class="fas fa-calendar-alt"></i>{{ date("d M, Y") }}</span>
+                                <span><i class="fas fa-user"></i> CDDF</span>
+                            </div>
+                            <h3 class="heading">
+                                <a href="{{ route('latest.news.view', $data->id) }}">
+                                    {{ Str::limit($data->title, 60, '...') }}
+                                </a>
+                            </h3>
+                            @if ($isEvent)
+                                <p class="afad-time-loc">
+                                    <span><i class="fas fa-clock"></i> All Day</span>
+                                    <span><i class="fas fa-map-marker-alt"></i> CDDF Venue</span>
+                                </p>
+                            @endif
+                            <p class="excerpt">
+                                {!! Str::limit(strip_tags($data->description), 110, '...') !!}
                             </p>
-                            <p class="card-text py-3">
-                                {{ Str::limit($data->description, 75, '...') }}
-                            </p>
-                            <a href="{{ route('latest.news.view',$data->id) }}" class="text-primary"><i class="fa fa-arrow-right" aria-hidden="true"></i> Read More</a>
+                            <a href="{{ route('latest.news.view', $data->id) }}" class="afad-read-more">
+                                {{ $isEvent ? 'Join Event' : 'Read More' }}
+                                <i class="fas fa-arrow-right" style="font-size:11px;"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="col-12 text-center text-muted py-4">No news or events available at the moment.</div>
+            @endforelse
         </div>
-        <div class="d-flex justify-content-center py-5">
-            <a href="{{ route('latest.news.all') }}" class="btn btn-danger"><i class="fa-solid fa-eye"></i> View all News & Events</a>
+
+        <div class="afad-view-all-wrap">
+            <a href="{{ route('latest.news.all') }}" class="afad-btn-viewall">
+                <i class="fas fa-eye"></i> View All News &amp; Events
+            </a>
         </div>
     </div>
-</div>
+</section>
 {{-- End of Latest News and Events --}}
 
 

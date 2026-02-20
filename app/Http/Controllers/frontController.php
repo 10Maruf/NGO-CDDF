@@ -156,8 +156,13 @@ class frontController extends Controller
 
     //__Latest News All__//
     public function news_all(){
-        $news = DB::table('latest_news')->paginate(15);
-        return view('frontend.news_all',compact('news'));
+        $category = request('category'); // 'news', 'event', or null for all
+        $query = DB::table('latest_news')->orderBy('id', 'desc');
+        if ($category && in_array($category, ['news', 'event'])) {
+            $query->where('category', $category);
+        }
+        $news = $query->paginate(9);
+        return view('frontend.news_all', compact('news', 'category'));
     }
 
     // Youtube
@@ -191,8 +196,9 @@ class frontController extends Controller
 
     //__Latest News view__//
     public function news_view($id){
-        $news = DB::table('latest_news')->where('id',$id)->first();
-        return view('frontend.news_view',compact('news'));
+        $news          = DB::table('latest_news')->where('id', $id)->first();
+        $galleryImages = DB::table('latest_news_images')->where('news_id', $id)->get();
+        return view('frontend.news_view', compact('news', 'galleryImages'));
     }
 
     // Events Calender
@@ -280,6 +286,7 @@ class frontController extends Controller
     public function messageStore(Request $request){
         $validatedData = $request->validate([
             'name' => 'required',
+            'contact_number' => 'nullable|string|max:20',
             'email' => 'required',
             'subject' => 'required',
             'message' => 'required'
@@ -287,6 +294,7 @@ class frontController extends Controller
 
         $message = array([
             'name' => $request->name,
+            'contact_number' => $request->contact_number,
             'email' => $request->email,
             'subject' => $request->subject,
             'message' => $request->message

@@ -13,8 +13,13 @@
         <div class="card">
             <div class="card-body">
                 @if (session()->has('success'))
-                    <div class="alert alert-danger">
+                    <div class="alert alert-success">
                         {{ session()->get('success') }}
+                    </div>
+                @endif
+                @if (session()->has('error'))
+                    <div class="alert alert-danger">
+                        {{ session()->get('error') }}
                     </div>
                 @endif
                 <div class="p-4 border rounded table-responsive">
@@ -23,6 +28,7 @@
                             <tr>
                                 <th>SL.</th>
                                 <th>Name</th>
+                                <th>Contact</th>
                                 <th>Email</th>
                                 <th>Subject</th>
                                 <th class="text-center">Action</th>
@@ -32,9 +38,10 @@
                             @foreach ($message as $key=>$message)
                             <tr>
                                 <td class="align-middle">{{ ++$key }}</td>
-                                <td class="align-middle">{{ $message->name }}</td>
+                                <td class="align-middle" style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ $message->name }}">{{ $message->name }}</td>
+                                <td class="align-middle">{{ $message->contact_number }}</td>
                                 <td class="align-middle">{{ $message->email }}</td>
-                                <td class="align-middle">{{ $message->subject }}</td>
+                                <td class="align-middle" style="max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ $message->subject }}">{{ $message->subject }}</td>
                                 <td class="align-middle">
                                     <div class="table-actions justify-content-center">
                                         <a href="{{ route('message.view',$message->id) }}" class="btn btn-info" title="View">

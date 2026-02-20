@@ -75,6 +75,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/news/delete/{id}', [newsController::class, 'destroy'])->name('news.delete');
     Route::get('/news/edit/{id}', [newsController::class, 'edit'])->name('news.edit');
     Route::post('/news/update/{id}', [newsController::class, 'update'])->name('news.update');
+    Route::get('/news/gallery-image/delete/{imageId}', [newsController::class, 'deleteGalleryImage'])->name('news.gallery.delete');
 
     // Photo Gallery
     Route::get('/gallery/add', [galleryController::class, 'add'])->name('gallery.add');

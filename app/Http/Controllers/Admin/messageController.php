@@ -23,6 +23,9 @@ class messageController extends Controller
     //__View__//
     public function view($id){
         $message = DB::table('messages')->where('id',$id)->first();
+        if (!$message) {
+            return redirect()->route('message.index')->with('error', 'Message not found.');
+        }
         return view('admin.message.view',compact('message'));
     }
 }
