@@ -1,5 +1,5 @@
 {{-- Footer started --}}
-<div class="bg-dark" style="border-top:5px solid #dc3545;">
+<div class="bg-dark" style="border-top:5px solid #f86f2d;">
     <div class="container py-5">
         <div class="row" id="footer_link_wrapper">
             {{-- logo and short description --}}
@@ -76,7 +76,7 @@
     </div>
 </div>
 <div class="text-end">
-    <a href="#" class="btn btn-danger shadow back-to-top">
+    <a href="#" class="back-to-top">
         <i class="fa fa-arrow-up" aria-hidden="true"></i>
     </a>
 </div>

@@ -5,56 +5,67 @@ Association for Alternative Development
 @endsection
 
 @section('content')
-{{-- slider --}}
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+{{-- Hero Slider --}}
+<div id="heroCarousel" class="hero-wrap carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
     <div class="carousel-inner">
-        @foreach ($slider as $skey => $slider)
-        <div class="carousel-item @if($skey == 0) active @endif">
-            <img src="{{ asset('images/slider/'.$slider->image) }}" class="d-block" alt="AFAD" width="100%" height="auto">
-            <div class="carousel-caption" style="position:absolute;top:150px; text-align:left;">
-                <h2 class="text-white text-start typing-text" style="font-size: 3rem">{{ $slider->title }}</span></h1>
-                <div class="my-2" style="width:100px;border-bottom:5px solid #dc3545;"></div>
-                <p style="font-size:1rem;" class="text-white">
-                    {{ $slider->description }}
-                </p>
-                <a href="{{ route('donate') }}" class="btn btn-warning" style="box-shadow: 5px 5px 0 rgba(0,0,0,1);"><i class="fa-solid fa-sack-dollar"></i> Donate now</a>
+        @foreach ($slider as $skey => $slide)
+        <div class="carousel-item @if($skey == 0) active @endif"
+             style="background-image: url('{{ asset('images/slider/'.$slide->image) }}');">
+            <div class="overlay"></div>
+            <div class="container h-100">
+                <div class="row no-gutters slider-text h-100 align-items-center justify-content-center">
+                    <div class="col-md-7 text-center">
+                        <h1 class="mb-3">{{ $slide->title }}</h1>
+                        <div class="mx-auto mb-4" style="width:80px; border-bottom:4px solid #f86f2d;"></div>
+                        <p class="mb-5">{{ $slide->description }}</p>
+                        <p>
+                            <a href="{{ route('donate') }}" class="btn btn-white btn-outline-white px-4 py-3">
+                                <i class="fa-solid fa-sack-dollar mr-2"></i> Donate Now
+                            </a>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
         @endforeach
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    </div>
+    {{-- Controls --}}
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-        </a>
+    </button>
+    {{-- Indicators --}}
+    <div class="carousel-indicators">
+        @foreach ($slider as $ikey => $s)
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{ $ikey }}"
+                class="@if($ikey == 0) active @endif" aria-label="Slide {{ $ikey + 1 }}"></button>
+        @endforeach
     </div>
 </div>
-{{-- end of slide --}}
+{{-- end of hero slider --}}
 
-{{-- Who we are --}}
-<div class="bg-light">
-    <div class="container bg-white px-2">
-        <div class="pt-5 pb-3">
-            <h3 class="text-center">Who <span class="text-danger">we are</span></h3>
-            <p class="text-center text-secondary">The sole meaning of life is to serve humanity</p>
-        </div>
-
-        <div class="row g-4 pb-3">
-            <div class="col-lg-10 col-md-12 col-12 mx-auto">
-                <p class="text-center text-secondary">AFAD is a women led organization working in norther Bangladesh since 1999. AFAD is registered (No. 2443) with NGO Affair’s Bureau (NGOAB) of Prime Minister’s Office of People's Republic of Government of Bangladesh, and it got the registration (No. DWA/Kuri/Reg/29/99 ) from the Directorate of Women’s Affairs (DWA) in 1999. AFAD also has the registration from the Directorate of Youth Development, Govt. of Bangladesh.</p>
+{{-- About Us --}}
+<section class="ftco-section bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 text-center">
+                <div class="heading-section mb-4">
+                    <span class="subheading">Who We Are</span>
+                    <h2>About CDDF</h2>
+                </div>
+                @if(isset($about_us) && $about_us)
+                    <div class="text-start" style="text-align: justify !important;">{!! $about_us->description !!}</div>
+                @endif
+                <div class="mt-4">
+                    <a href="{{ route('about.us') }}" class="btn btn-primary px-4">Read More <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                </div>
             </div>
         </div>
-        <div class="text-center pb-5">
-            <a href="{{ route('programs.all') }}" class="btn btn-danger my-1"><i class="fa-solid fa-hands-holding-child"></i> Programs</a>
-            <a href="{{ route('invoked.career') }}" class="btn btn-primary my-1"><i class="fa-solid fa-circle-nodes"></i> Get Involved</a>
-            <a href="{{ route('contact') }}" class="btn btn-danger my-1"><i class="fa-solid fa-phone-volume"></i> Contact us</a>
-        </div>
-        {{-- <hr class="py-3 mt-5 m-0"> --}}
     </div>
-</div>
-{{-- End of who we are --}}
+</section>
+{{-- End About Us --}}
 
 {{-- Mission Vision--}}
 <div class="bg-light py-5" style="background-image: url('{{ asset('img/slider/slider-2.jpg') }}');background-attachment:fixed;">
