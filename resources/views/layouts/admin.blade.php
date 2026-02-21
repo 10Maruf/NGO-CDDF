@@ -493,7 +493,7 @@
 					<li class="nxl-item nxl-hasmenu">
 						<a href="javascript:void(0);" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-folder"></i></span>
-							<span class="nxl-mtext" data-translate="ongoing_project">Ongoing Project</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="projects">Projects</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
 						</a>
 						<ul class="nxl-submenu">
 							<li class="nxl-item"><a class="nxl-link" href="{{ route('project.add') }}" data-translate="add_project">Add Project</a></li>
@@ -692,7 +692,7 @@
 							<li class="nxl-item"><a class="nxl-link" href="{{ route('partner.index') }}" data-translate="all_partners_donor">All Partners & Donor</a></li>
 						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
+					{{-- <li class="nxl-item nxl-hasmenu">
 						<a href="javascript:void(0);" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-archive"></i></span>
 							<span class="nxl-mtext" data-translate="project_archive">Project Archive</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
@@ -701,7 +701,7 @@
 							<li class="nxl-item"><a class="nxl-link" href="{{ route('project.archive.create') }}" data-translate="add_project">Add Project</a></li>
 							<li class="nxl-item"><a class="nxl-link" href="{{ route('project.archive.index') }}" data-translate="all_project">All Project</a></li>
 						</ul>
-					</li>
+					</li> --}}
 					<li class="nxl-item nxl-hasmenu">
 						<a href="javascript:void(0);" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-clipboard"></i></span>
@@ -1296,7 +1296,7 @@
 				slider: 'Slider',
 				add_slider: 'Add Slider',
 				all_slider: 'All Slider',
-				ongoing_project: 'Ongoing Project',
+				projects: 'Projects',
 				add_project: 'Add Project',
 				all_project: 'All Project',
 				latest_news: 'Latest News',

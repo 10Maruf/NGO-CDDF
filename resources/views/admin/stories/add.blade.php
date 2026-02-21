@@ -31,6 +31,10 @@
                             @enderror
                         </div>
                         <div class="col-md-12">
+                            <label for="order" class="form-label">Order</label>
+                            <input type="number" name="order" class="form-control" id="order" placeholder="Enter Order (e.g., 1, 2, 3...)">
+                        </div>
+                        <div class="col-md-12">
                             <label for="beneficiary_name" class="form-label">Beneficiary Name</label>
                             <input type="text" name="beneficiary_name" class="form-control @error('beneficiary_name') is-invalid @enderror" id="beneficiary_name" placeholder="Enter Beneficiary Name">
                             @error('beneficiary_name')

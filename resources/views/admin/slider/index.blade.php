@@ -17,6 +17,7 @@
                         <thead>
                             <tr>
                                 <th>SL.</th>
+                                <th>Order</th>
                                 <th>Title</th>
                                 <th>Image</th>
                                 <th>Description</th>
@@ -24,20 +25,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($slider as $key => $slider)
+                            @foreach ($slider as $key => $row)
                             <tr>
                                 <td class="align-middle">{{ ++$key }}</td>
-                                <td class="align-middle w-25">{{ $slider->title }}</td>
+                                <td class="align-middle">{{ $row->order }}</td>
+                                <td class="align-middle w-25">{{ $row->title }}</td>
                                 <td class="align-middle">
-                                    <img src="{{ asset('images/slider/'.$slider->image) }}" alt="" width="50">
+                                    <img src="{{ asset('images/slider/'.$row->image) }}" alt="" width="50">
                                 </td>
-                                <td class="align-middle w-25">{{ Str::limit($slider->description,30,'..' )}}</td>
+                                <td class="align-middle w-25">{{ Str::limit($row->description,30,'..' )}}</td>
                                 <td class="align-middle">
                                     <div class="table-actions justify-content-center">
-                                        <a href="{{ route('slider.edit',$slider->id) }}" class="btn btn-primary" title="Edit">
+                                        <a href="{{ route('slider.edit',$row->id) }}" class="btn btn-primary" title="Edit">
                                             <i class="feather-edit"></i>
                                         </a>
-                                        <a href="{{ route('slider.delete',$slider->id) }}" class="btn btn-danger" data-delete data-delete-title="Delete Slider" data-delete-message="Are you sure you want to delete this slider? This action cannot be undone." title="Delete">
+                                        <a href="{{ route('slider.delete',$row->id) }}" class="btn btn-danger" data-delete data-delete-title="Delete Slider" data-delete-message="Are you sure you want to delete this slider? This action cannot be undone." title="Delete">
                                             <i class="feather-trash-2"></i>
                                         </a>
                                     </div>

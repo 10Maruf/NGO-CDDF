@@ -12,13 +12,13 @@ require __DIR__.'/admin.php';
 */
 
 Route::get('/', function () {
-    $slider       = DB::table('slider')->get();
-    $project      = DB::table('ongoing_project')->take(3)->get();
+    $slider       = DB::table('slider')->orderBy('order', 'asc')->get();
+    $project      = \App\Models\Project::with('focusAreas')->active()->orderBy('is_featured','desc')->orderBy('order')->take(12)->get();
     $news         = DB::table('latest_news')->take(6)->get();
     $gallery      = DB::table('gallery')->orderBy('id', 'desc')->take(8)->get();
     $application  = DB::table('applications')->get()->first();
     $programs     = DB::table('programs')->orderBy('created_at', 'desc')->take(6)->get();
-    $stories      = DB::table('stories')->orderBy('id', 'desc')->get();
+    $stories      = DB::table('stories')->orderBy('order', 'asc')->orderBy('id', 'desc')->get();
     $about_us     = DB::table('about_us')->first();
     $focus_areas  = DB::table('focus_areas')->where('is_active', 1)->orderBy('order','asc')->get();
     $partners     = DB::table('partners')->get();

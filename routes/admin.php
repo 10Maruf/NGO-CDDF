@@ -60,7 +60,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/slider/edit/{id}', [sliderController::class, 'edit'])->name('slider.edit');
     Route::post('/slider/update/{id}', [sliderController::class, 'update'])->name('slider.update');
 
-    // Ongoing Project
+    // Projects (ongoing & completed)
     Route::get('/project/add', [projectController::class, 'add'])->name('project.add');
     Route::post('/project/store', [projectController::class, 'store'])->name('project.store');
     Route::get('/project/index', [projectController::class, 'index'])->name('project.index');

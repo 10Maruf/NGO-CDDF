@@ -662,120 +662,281 @@ Association for Alternative Development
 @endif
 {{-- End Focus Areas --}}
 
-{{-- Featured Programs --}}
-<div class="bg-light">
-    <div class="container bg-white px-2">
-        <div class="pt-5 pb-3">
-            <h3 class="text-center"> Featured <span class="text-danger">Programs</span></h3>
-            <p class="text-center text-secondary">Elevating Lives, Empowering Futures: AFAD's Featured Program brings transformative opportunities to communities in northern Bangladesh.</p>
-        </div>
+{{-- Featured Projects --}}
+<style>
+    .featured-projects-section {
+        background-color: #fdfdfd;
+        overflow: hidden;
+        padding: 80px 0;
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+    }
+    .fp-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    .fp-header .subheading {
+        font-size: 14px;
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: #f86f2d;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+    .fp-header h3 {
+        font-weight: 600;
+        color: #1a202c;
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+    .fp-header h3 span {
+        color: #f86f2d; /* Orange */
+    }
+    .fp-header .divider {
+        width: 60px;
+        height: 3px;
+        background-color: #f86f2d;
+        margin: 0 auto;
+    }
+    .fp-scroll-wrapper {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+    }
+    .fp-scroll-container {
+        display: flex;
+        gap: 24px;
+        padding: 20px;
+        width: max-content;
+        transform: translateX(0);
+        will-change: transform;
+    }
+    .fp-card {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 650px;
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 16px;
+        padding: 20px;
+        gap: 24px;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        text-decoration: none !important;
+        color: inherit;
+        position: relative;
+    }
+    .fp-card::before {
+        content: '';
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+        border: 1px dashed #ccc;
+        border-radius: 12px;
+        pointer-events: none;
+        transition: border-color 0.3s ease;
+    }
+    .fp-card:hover {
+        border-color: #f86f2d;
+        box-shadow: 0 12px 30px rgba(248, 111, 45, 0.12);
+        transform: translateY(-5px);
+        color: inherit;
+    }
+    .fp-card:hover::before {
+        border-color: #f86f2d;
+    }
+    .fp-image {
+        width: 240px;
+        height: 180px;
+        border-radius: 12px;
+        object-fit: cover;
+        flex-shrink: 0;
+        background-color: #f4f4f4;
+        position: relative;
+        z-index: 1;
+    }
+    .fp-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-grow: 1;
+        height: 100%;
+        position: relative;
+        z-index: 1;
+    }
+    .fp-title {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #222;
+        margin-bottom: 16px;
+        line-height: 1.3;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .fp-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+    .fp-badge {
+        background-color: #fff9e6; /* Light yellow */
+        color: #222;
+        border: 1px solid #fde08b;
+        padding: 6px 16px;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+    .fp-date {
+        font-size: 0.95rem;
+        color: #7a8b9a;
+        margin-top: auto;
+    }
+    .fp-btn-container {
+        text-align: center;
+        margin-top: 50px;
+    }
+    .fp-btn {
+        background-color: #f86f2d;
+        color: #fff;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        display: inline-block;
+        text-decoration: none !important;
+    }
+    .fp-btn:hover {
+        background-color: #e05a1f;
+        color: #fff;
+        transform: translateY(-2px);
+    }
 
-        <div class="row p-3">
-            @if(isset($programs) && count($programs) > 0)
-                @foreach($programs as $program)
-                <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1 px-0 ">
-                    <a href="{{ route('programs.view', $program->id) }}">
-                        <div class="featuredImage">
-                            @if($program->image)
-                            <img src="{{ asset('images/programs/'.$program->image) }}" alt="{{ $program->title }}">
-                            @else
-                            <img src="https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="{{ $program->title }}">
-                            @endif
-                            <div class="overlay">
-                                <p class="h4">{{ $program->title }}</p>
-                                <p class="textmuted">{{ Str::limit($program->description, 150) }}</p>
-                                @if($program->status)
-                                <span class="badge badge-{{ $program->status == 'active' ? 'success' : ($program->status == 'completed' ? 'secondary' : 'info') }}">{{ ucfirst($program->status) }}</span>
-                                @endif
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                @endforeach
-            @else
-            <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1 px-0 ">
-                <a href="#">
-                    <div class="featuredImage">
-                        <img src="https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
-                        <div class="overlay">
-                            <p class="h4">Women's Empowerment Initiative</p>
-                            <p class="textmuted"> Promoting gender equality and empowerment through education, skill-building, and advocacy for women's rights.</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1 px-0 ">
-                <a href="#">
-                    <div class="featuredImage">
-                        <img src="https://images.pexels.com/photos/2659475/pexels-photo-2659475.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
-                        <div class="overlay">
-                            <p class="h4">Youth Development Project</p>
-                            <p class="textmuted"> Empowering the next generation through mentorship, education, and community engagement to foster leadership.</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1 px-0 ">
-                <a href="#">
-                    <div class="featuredImage">
-                        <img src="https://images.pexels.com/photos/4388165/pexels-photo-4388165.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
-                        <div class="overlay">
-                            <p class="h4">Healthcare Access Program</p>
-                            <p class="textmuted">Providing essential healthcare services, awareness campaigns, and medical assistance to underserved communities in Bangladesh.</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            @endif
-        </div>
+    @media (max-width: 768px) {
+        .fp-card {
+            flex-direction: column;
+            width: 340px;
+            text-align: center;
+            padding: 15px;
+        }
+        .fp-image {
+            width: 100%;
+            height: 200px;
+        }
+        .fp-badges {
+            justify-content: center;
+        }
+        .fp-title {
+            font-size: 1.2rem;
+        }
+    }
+</style>
 
-        <div class="d-flex justify-content-center pt-5 pb-3">
-            <a href="{{ route('programs.all') }}" class="btn btn-danger"><i class="fa-solid fa-eye"></i> View all Programs</a>
+<div class="featured-projects-section" id="featuredProjectsSection">
+    <div class="container">
+        <div class="fp-header">
+            <span class="subheading">OUR INITIATIVES</span>
+            <h3>Featured <span>Projects</span></h3>
+            <div class="divider mb-4"></div>
+            <p class="text-secondary">Discover our key initiatives driving sustainable change and community empowerment.</p>
         </div>
-        <hr class="py-3 mt-4 m-0">
     </div>
-</div>
-{{-- End of Featured Programs --}}
 
-{{-- Ongoing Project --}}
-<div class="bg-light">
-    <div class="container bg-white px-2">
-        <div class="pt-3 pb-3">
-            <h3 class="text-center">Ongoing <span class="text-danger">Projects</span></h3>
-            <p class="text-center text-secondary">AFAD's Ongoing Projects actively address community needs, fostering sustainable development in northern Bangladesh.</p>
-        </div>
-
-        {{-- card --}}
-        <div class="row row-cols-1 row-cols-md-3 g-3">
-            @foreach ($project as $key=>$project)
-                <div class="col">
-                    <div class="card shadow border-0">
-                        <img src="{{ asset('images/project/'.$project->image) }}" class="card-img-top" alt="activity" width="100%" height="200px">
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                {{ Str::limit( $project->title ,15, '...') }}
-                            </h4>
-                            <p class="text-secondary" style="font-size: 12px;">
-                                <i class="fas fa-calendar-minus"></i>
-                                {{ date("d/m/Y  h:i:s a") }}
-                            </p>
-                            <hr>
-                            <p class="card-text py-1">
-                                {{ Str::limit($project->description, 75,"...") }}
-                            </p>
-                            <a href="{{ route('ongoing.project.view',$project->id) }}" class="text-primary"><i class="fa fa-arrow-right" aria-hidden="true"></i> Read More</a>
+    <div class="fp-scroll-wrapper">
+        <div class="fp-scroll-container" id="fpScrollContainer">
+            {{-- Original Set --}}
+            @foreach ($project as $item)
+                <a href="{{ route('ongoing.project.view', $item->id) }}" class="fp-card">
+                    <img src="{{ $item->cover_image_url }}" alt="{{ $item->title }}" class="fp-image">
+                    <div class="fp-content">
+                        <h4 class="fp-title">{{ $item->title }}</h4>
+                        <div class="fp-badges">
+                            <span class="fp-badge">{{ $item->status === 'ongoing' ? 'Current Projects' : 'Completed Projects' }}</span>
+                            @if($item->focusAreas->count() > 0)
+                                <span class="fp-badge">{{ $item->focusAreas->first()->title }}</span>
+                            @endif
+                        </div>
+                        <div class="fp-date">
+                            {{ $item->start_date ? $item->start_date->format('M d, Y') : $item->created_at->format('M d, Y') }}
                         </div>
                     </div>
-                </div>
+                </a>
+            @endforeach
+            
+            {{-- Duplicate Set for seamless scrolling --}}
+            @foreach ($project as $item)
+                <a href="{{ route('ongoing.project.view', $item->id) }}" class="fp-card">
+                    <img src="{{ $item->cover_image_url }}" alt="{{ $item->title }}" class="fp-image">
+                    <div class="fp-content">
+                        <h4 class="fp-title">{{ $item->title }}</h4>
+                        <div class="fp-badges">
+                            <span class="fp-badge">{{ $item->status === 'ongoing' ? 'Current Projects' : 'Completed Projects' }}</span>
+                            @if($item->focusAreas->count() > 0)
+                                <span class="fp-badge">{{ $item->focusAreas->first()->title }}</span>
+                            @endif
+                        </div>
+                        <div class="fp-date">
+                            {{ $item->start_date ? $item->start_date->format('M d, Y') : $item->created_at->format('M d, Y') }}
+                        </div>
+                    </div>
+                </a>
             @endforeach
         </div>
-        <div class="d-flex justify-content-center py-5">
-            <a href="{{ route('ongoing.project') }}" class="btn btn-danger"> <i class="fa-solid fa-eye"></i> VIEW ALL PROJECTS</a>
-        </div>
-        {{-- card --}}
+    </div>
 
+    <div class="container">
+        <div class="fp-btn-container">
+            <a href="{{ route('ongoing.project') }}" class="fp-btn">
+                <i class="fa-solid fa-eye me-2"></i> View All Projects
+            </a>
+        </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const section = document.getElementById('featuredProjectsSection');
+        const container = document.getElementById('fpScrollContainer');
+        
+        // Initial check
+        if(!section || !container) return;
+
+        window.addEventListener('scroll', function() {
+            // Get the position of the section relative to the viewport
+            const rect = section.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            // Check if section is in view
+            if (rect.top < windowHeight && rect.bottom > 0) {
+                // Calculate how far we've scrolled past the top of the section
+                // 0 means just entered from bottom, 1 means fully scrolled past top
+                let progress = (windowHeight - rect.top) / (windowHeight + rect.height);
+                
+                // Clamp progress between 0 and 1
+                progress = Math.max(0, Math.min(1, progress));
+                
+                // Calculate translation (move left by up to 50% of container width)
+                // We duplicate the items so we can scroll up to 50% without seeing the end
+                const maxScroll = container.scrollWidth / 2;
+                
+                // Adjust multiplier to control scroll speed. 
+                // Increased from 0.8 to 1.5 to make it scroll faster and show more items
+                const translateX = -(progress * maxScroll * 1.5); 
+                
+                container.style.transform = `translateX(${translateX}px)`;
+            }
+        });
+    });
+</script>
+{{-- End Featured Projects --}}
 
 {{-- Our Network: Partners & Donors --}}
 <style>
@@ -1176,23 +1337,192 @@ Association for Alternative Development
 {{-- End of Latest News and Events --}}
 
 
-{{-- Volunteer part --}}
-<div style=" background-image: url('{{asset('img/slider/slider-1.jpg')}}');background-attachment:fixed;">
-    <div class="container">
-        <div class="row p-5">
-            <div class="col-md-12">
-                <h4 class="text-uppercasse text-white text-center"><span class="text-danger">Become</span> a Volunteer</h4>
-                <p class="text-white py-2 text-center">
-                    Sponsor AFAD's growing fund to fuel impactful initiatives in northern Bangladesh, empowering communities and fostering positive change. Your support drives essential programs in healthcare, education, and community resilience, making a lasting difference in the lives of those in need. Join us in our mission to create a brighter future for all.
-                </p>
-                <div class="text-center">
-                    <a href="#" class="btn btn-danger"><i class="fa-solid fa-user-plus"></i> Registration</a>
+{{-- Volunteer & Partner Section --}}
+<style>
+.vp-section-top {
+    background: linear-gradient(135deg, #111827 0%, #1f2937 60%, #374151 100%);
+    padding: 36px 0 40px; /* Added bottom padding to give space for the card */
+    position: relative;
+    overflow: visible;
+}
+.vp-section-top::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+}
+.vp-badge {
+    display: inline-block;
+    background: rgba(248, 111, 45, 0.2);
+    color: #f86f2d;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 5px 18px;
+    border-radius: 50px;
+    border: 1px solid rgba(248, 111, 45, 0.4);
+    margin-bottom: 1rem;
+}
+.vp-stats-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.18);
+    padding: 2.5rem 2rem; /* Increased padding for a cleaner look */
+    position: relative;
+    z-index: 30;
+    margin-bottom: -110px; /* Use negative margin instead of transform */
+    transition: box-shadow 0.4s ease;
+}
+.vp-stats-card:hover {
+    box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+}
+.vp-stat-item {
+    padding: 0.5rem 1.5rem;
+}
+.vp-stat-number {
+    font-size: 2.5rem; /* Larger font size for the number */
+    font-weight: 800;
+    color: #1f2937;
+    line-height: 1;
+    margin-bottom: 12px; /* More space below number */
+}
+.vp-stat-label {
+    font-size: 0.9rem; /* Slightly larger label */
+    color: #4b5563; /* Darker gray for better readability */
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+.vp-divider {
+    width: 1px;
+    height: 80px; /* Taller divider */
+    background: #e5e7eb; /* Solid light gray line */
+    margin: auto;
+}
+.vp-cta-section {
+    background-color: #f86f2d;
+    padding-top: 5rem; /* Adjusted padding since we are using negative margin on the card */
+    padding-bottom: 2.5rem;
+    position: relative;
+    z-index: 10;
+}
+.vp-cta-section::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z' fill='%23ffffff' fill-opacity='0.04' fill-rule='evenodd'/%3E%3C/svg%3E");
+    pointer-events: none;
+}
+.vp-btn-primary {
+    background: #fff;
+    color: #f86f2d;
+    border: none;
+    border-radius: 50px;
+    padding: 9px 26px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    text-decoration: none;
+    display: inline-block;
+}
+.vp-btn-primary:hover {
+    background: #1f2937;
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+.vp-btn-secondary {
+    background: transparent;
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.7);
+    border-radius: 50px;
+    padding: 9px 26px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+.vp-btn-secondary:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: #fff;
+    color: #fff;
+    transform: translateY(-3px);
+}
+</style>
+
+<section>
+    <!-- Dark Top Section -->
+    <div class="vp-section-top">
+        <div class="container text-center position-relative">
+            <div data-aos="fade-down" data-aos-duration="600">
+                <span class="vp-badge"><i class="fas fa-hands-helping me-1"></i> Join Us</span>
+                <h2 class="fw-bold text-white mb-2" style="font-size: 1.6rem; letter-spacing: -0.5px;">
+                    Volunteerism & Partnership
+                </h2>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-9">
+                    <p class="text-white mb-4" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100" style="font-size: 0.95rem; line-height: 1.6; opacity: 0.85;">
+                        CDDF is committed to building a stronger, more inclusive society by mobilizing volunteers and fostering strategic partnerships. Together with over <strong>1,000 dedicated volunteers</strong> and <strong>50 partner organizations</strong>, we are working to create lasting change in the communities we serve.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Stats Card -->
+            <div class="row justify-content-center">
+                <div class="col-lg-7 col-md-10">
+                    <div class="vp-stats-card" data-aos="zoom-out-up" data-aos-duration="700" data-aos-delay="200">
+                        <div class="row align-items-center text-center">
+                            <div class="col-md-5 vp-stat-item">
+                                <div class="vp-stat-number">1,000+</div>
+                                <div class="vp-stat-label">Dedicated Volunteers</div>
+                            </div>
+                            <div class="col-md-2 d-none d-md-flex justify-content-center">
+                                <div class="vp-divider"></div>
+                            </div>
+                            <div class="col-md-5 vp-stat-item mt-4 mt-md-0">
+                                <div class="vp-stat-number">50+</div>
+                                <div class="vp-stat-label">Partner Organizations</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-{{-- end of volunteer part --}}
+
+    <!-- Orange CTA Section -->
+    <div class="vp-cta-section w-100 text-center">
+        <div class="container position-relative" style="z-index: 2;">
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <div data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
+                        <h3 class="text-white mb-2" style="font-size: 1.4rem; font-weight: 700; line-height: 1.4;">
+                            Want to make a difference<br><span style="opacity: 0.9; font-weight: 400;">with CDDF?</span>
+                        </h3>
+                        <p class="text-white mb-3" style="opacity: 0.85; font-size: 0.9rem;">Volunteer with us or become a partner organization — reach out and let's build a better future together.</p>
+                    </div>
+                    <div class="d-flex justify-content-center flex-wrap gap-3" data-aos="fade-up" data-aos-duration="700" data-aos-delay="250">
+                        <a href="{{ route('contact') }}" class="vp-btn-primary">
+                            <i class="fas fa-user-plus me-2"></i> Become a Volunteer
+                        </a>
+                        <a href="{{ route('contact') }}" class="vp-btn-secondary">
+                            <i class="fas fa-handshake me-2"></i> Become a Partner
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{{-- End of Volunteer & Partner Section --}}
 
 {{-- Photo Gallery --}}
 <style>
@@ -1352,146 +1682,224 @@ $(document).ready(function(){
 {{-- End of Impact part --}}
 
 {{-- Success Stories --}}
-<div class="bg-light pb-5" style=" background-image: url('{{asset('img/testimonial_back.jpg')}}');">
+<div class="bg-white py-5">
     <div class="container">
-        <div class="py-5">
-            <h3 class="text-center text-white">Success Stories</h3>
-        </div>
-        
-        {{-- Rating Filter --}}
-        <div class="text-center mb-4">
-            <button class="btn btn-light me-2 filter-btn" data-rating="5">5 Star</button>
-            <button class="btn btn-light me-2 filter-btn" data-rating="4">4 Star</button>
-            <button class="btn btn-light me-2 filter-btn" data-rating="3">3 Star</button>
-            <button class="btn btn-light me-2 filter-btn" data-rating="2">2 Star</button>
-            <button class="btn btn-light me-2 filter-btn" data-rating="1">1 Star</button>
-            <button class="btn btn-light filter-btn active" data-rating="0">All</button>
-        </div>
         
         {{-- Success Stories Slider --}}
         <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-                @forelse($stories as $index => $story)
-                <div class="carousel-item {{ $index == 0 ? 'active' : '' }} story-item" data-rating="{{ $story->rating }}">
-                    <div class="text-center px-3">
-                        <div class="rating mb-3">
-                            @for($i = 1; $i <= 5; $i++)
-                                @if($i <= $story->rating)
-                                    <span class="text-warning fs-4">&#9733;</span>
-                                @else
-                                    <span class="text-white fs-4">&#9734;</span>
+                @php 
+                    $chunks = $stories->chunk(3); 
+                @endphp
+
+                @forelse($chunks as $index => $chunk)
+                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                    <div class="row align-items-center" style="min-height: 600px;">
+                        {{-- Left Column: Title + Middle Card + Pagination --}}
+                        <div class="col-lg-5 ps-lg-5 d-flex flex-column justify-content-between h-100 py-4">
+                            
+                            {{-- Title Section --}}
+                            <div class="mb-5">
+                                <h6 class="text-uppercase fw-bold ls-2" style="color: #1f2937;">Success <span style="color: #f86f2d;">Stories</span></h6>
+                                <h2 class="display-5 fw-bold text-dark" style="font-family: 'Playfair Display', serif;">VOICES OF <br>CHANGE</h2>
+                            </div>
+
+                            {{-- Middle Card (Left Side) - Only if 2nd item exists --}}
+                            @if(isset($chunk[$index * 3 + 1]) || $chunk->count() >= 2)
+                                @php 
+                                    $middleStory = $chunk->skip(1)->first(); 
+                                    // Determine image path (support seeded avatars and uploaded images)
+                                    $middleImgPath = asset('images/stories/'.$middleStory->image);
+                                    if(in_array($middleStory->image, ['1.png','2.png','3.png','4.png','5.png','6.png','7.png','8.png','9.png','10.png','11.png','12.png'])) {
+                                        $middleImgPath = asset('admin/assets/images/duralux/avatar/'.$middleStory->image);
+                                    }
+                                @endphp
+                                @if($middleStory)
+                                <div class="vp-story-card ms-lg-4 mb-4 mb-lg-0" data-aos="fade-right" data-aos-delay="200">
+                                    <div class="vp-story-img-wrapper mb-3">
+                                        <div class="vp-story-img-border"></div>
+                                        <img src="{{ $middleImgPath }}" alt="{{ $middleStory->beneficiary_name }}" class="vp-story-img">
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="vp-story-label text-primary mb-2">Success Story #2</h6>
+                                        <p class="vp-story-desc text-muted mb-3">"{{ Str::limit($middleStory->description, 90) }}"</p>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="vp-story-line"></div>
+                                            <div>
+                                                <h6 class="vp-story-name mb-0">{{ $middleStory->beneficiary_name }}</h6>
+                                                <small class="text-muted" style="font-size: 0.75rem;">{{ $middleStory->beneficiary_title }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 @endif
-                            @endfor
+                            @endif
+
+                             {{-- Pagination Controls (Bottom Left) --}}
+                             <div class="mt-auto d-flex align-items-center gap-3 pt-5">
+                                <button class="vp-slider-btn prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                                    <i class="fas fa-arrow-left"></i>
+                                </button>
+                                <span class="vp-slider-counter fs-5 fw-bold text-dark">
+                                    <span class="text-primary">0{{ $index + 1 }}</span>
+                                    <span class="text-muted opacity-50">/</span>
+                                    <span class="text-muted opacity-50">0{{ $chunks->count() }}</span>
+                                </span>
+                                <button class="vp-slider-btn next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+
                         </div>
-                        <p class="text-white mt-3 mb-4 px-2" style="font-style: italic; font-size: 1.1rem; word-wrap: break-word; overflow-wrap: break-word;">"{{ Str::limit($story->description, 200) }}"</p>
-                        <img src="{{ asset('images/stories/'.$story->image) }}" class="img-fluid rounded-circle border" alt="{{ $story->beneficiary_name }}" width="100" height="100">
-                        <h5 class="mt-3 text-white mb-0">{{ $story->beneficiary_name }}</h5>
-                        <p class="text-muted" style="color: #ddd !important;">{{ $story->beneficiary_title }}</p>
+
+                        {{-- Right Column: Top Card + Bottom Card --}}
+                        <div class="col-lg-7 position-relative">
+                             <div class="row h-100">
+                                {{-- Top Right Card --}}
+                                <div class="col-md-10 offset-md-2 mb-5">
+                                    @php 
+                                        $firstStory = $chunk->first(); 
+                                        $firstImgPath = asset('images/stories/'.$firstStory->image);
+                                        if(in_array($firstStory->image, ['1.png','2.png','3.png','4.png','5.png','6.png','7.png','8.png','9.png','10.png','11.png','12.png'])) {
+                                            $firstImgPath = asset('admin/assets/images/duralux/avatar/'.$firstStory->image);
+                                        }
+                                    @endphp
+                                    @if($firstStory)
+                                    <div class="vp-story-card ms-auto" data-aos="fade-left" data-aos-delay="100">
+                                         <div class="d-flex flex-row-reverse align-items-start gap-4">
+                                            <div class="vp-story-img-wrapper">
+                                                <div class="vp-story-img-border border-end"></div>
+                                                <img src="{{ $firstImgPath }}" alt="{{ $firstStory->beneficiary_name }}" class="vp-story-img">
+                                            </div>
+                                            <div class="text-end pt-3">
+                                                <h6 class="vp-story-label text-info mb-2">Success Story #1</h6>
+                                                <p class="vp-story-desc text-muted mb-3">"{{ Str::limit($firstStory->description, 80) }}"</p>
+                                                <div class="d-flex align-items-center justify-content-end gap-2">
+                                                    <div>
+                                                        <h6 class="vp-story-name mb-0">{{ $firstStory->beneficiary_name }}</h6>
+                                                        <small class="text-muted" style="font-size: 0.75rem;">{{ $firstStory->beneficiary_title }}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                </div>
+
+                                {{-- Bottom Center/Right Card --}}
+                                <div class="col-md-9 offset-md-1 mt-5 pt-5">
+                                     @if(isset($chunk[$index * 3 + 2]) || $chunk->count() >= 3)
+                                        @php 
+                                            $lastStory = $chunk->skip(2)->first(); 
+                                            $lastImgPath = asset('images/stories/'.$lastStory->image);
+                                            if(in_array($lastStory->image, ['1.png','2.png','3.png','4.png','5.png','6.png','7.png','8.png','9.png','10.png','11.png','12.png'])) {
+                                                $lastImgPath = asset('admin/assets/images/duralux/avatar/'.$lastStory->image);
+                                            }
+                                        @endphp
+                                        @if($lastStory)
+                                        <div class="vp-story-card mx-auto" data-aos="fade-up" data-aos-delay="300">
+                                             <div class="d-flex flex-column align-items-center text-center">
+                                                <div class="vp-story-img-wrapper mb-3">
+                                                    <div class="vp-story-img-border border-bottom"></div>
+                                                    <img src="{{ $lastImgPath }}" alt="{{ $lastStory->beneficiary_name }}" class="vp-story-img">
+                                                </div>
+                                                <h6 class="vp-story-label text-warning mb-2">Success Story #3</h6>
+                                                <p class="vp-story-desc text-muted mb-3 w-75 mx-auto">"{{ Str::limit($lastStory->description, 100) }}"</p>
+                                                 <div class="d-flex align-items-center justify-content-center gap-2">
+                                                    <div>
+                                                        <h6 class="vp-story-name mb-0">{{ $lastStory->beneficiary_name }}</h6>
+                                                        <small class="text-muted" style="font-size: 0.75rem;">{{ $lastStory->beneficiary_title }}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
+                                    @endif
+                                </div>
+                             </div>
+                        </div>
                     </div>
                 </div>
                 @empty
-                <!-- Default Testimonial if no stories exist -->
-                <div class="carousel-item active story-item" data-rating="3">
-                    <div class="text-center">
-                        <img src="{{ asset('img/testimonial.jpg') }}" class="img-fluid rounded-circle border" alt="Testimonial" width="100" height="100">
-                        <h5 class="mt-3 text-white">Jane Alam</h5>
-                        <p class="text-white">AFAD's tireless efforts in promoting education, healthcare, and economic opportunities have transformed the lives of many marginalized individuals. Their holistic approach to development is making a lasting difference in our region.</p>
-                        <div class="rating">
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-white">&#9734;</span>
-                            <span class="text-white">&#9734;</span>
-                        </div>
-                    </div>
-                </div>
+                <!-- No stories handling -->
                 @endforelse
             </div>
-            <!-- Carousel Controls -->
-            @if($stories && count($stories) > 1)
-            <button class="carousel-control-prev text-dark" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-            @endif
         </div>
-        {{-- End of Success Stories Slider --}}
     </div>
 </div>
 {{-- End of Success Stories --}}
 
-<script>
-document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const selectedRating = this.getAttribute('data-rating');
-        
-        // Update active button
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        
-        // Filter stories
-        const stories = document.querySelectorAll('.story-item');
-        stories.forEach(story => {
-            if (selectedRating === '0') {
-                story.style.display = 'block';
-            } else {
-                story.style.display = story.getAttribute('data-rating') === selectedRating ? 'block' : 'none';
-            }
-        });
-    });
-});
-</script>
+<style>
+.ls-2 { letter-spacing: 2px; }
+.vp-story-card {
+    max-width: 350px;
+}
+.vp-story-img-wrapper {
+    position: relative;
+    display: inline-block;
+    padding: 10px;
+}
+.vp-story-img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    filter: grayscale(100%);
+    transition: all 0.5s ease;
+    border-radius: 4px; /* Optional slight rounding */
+}
+.vp-story-card:hover .vp-story-img {
+    filter: grayscale(0%);
+}
+.vp-story-img-border {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border: 3px solid #e5e7eb; /* Light gray border base */
+    z-index: 1;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+/* Variations of border effects */
+.vp-story-img-border { border-color:  #d1d5db; transform: translate(-5px, -5px); }
+.vp-story-card:hover .vp-story-img-border {
+    border-color: #f86f2d; /* Orange or brand color on hover */
+    transform: translate(5px, 5px);
+}
 
-{{-- subscription part --}}
-<div class="bg-light pb-5">
-    <div class="container bg-white pb-5 rounded">
-        <div class="py-5">
-            <h3 class="text-center"><span class="text-danger">Stay</span> connected <span class="text-danger"> with us</span></h3>
-            <p class="text-center text-secondary">Keep in touch with our activities throughout the world by subscribing to our e-newsletter.</p>
-        </div>
-        <div>
-            @if (session()->has('success'))
-                <div class="alert alert-success w-75 mx-auto text-center">
-                    {{ session()->get('success') }}
-                </div>
-            @endif
-            <form action="{{ route('user.subscribe') }}" method="post">
-                @csrf
-                <div class="d-flex justify-content-center">
-                    <div class="w-75 mx-auto">
-                        <div class="row">
-                            <div class="col-md-4 my-2">
-                                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Enter Your Name" value="{{ old('name') }}">
-                                @error('name')
-                                    <div class="text-danger">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="col-md-6 my-2">
-                                <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Enter Your Email" value="{{ old('email') }}">
-                                 @error('email')
-                                    <div class="text-danger">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-block btn-danger my-2" type="submit">Subscribe</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+.vp-story-label {
+    font-family: 'Brush Script MT', cursive; /* Handwritten style font if possible, or serif italic */
+    font-size: 1.2rem;
+    font-style: italic;
+    transform: rotate(-2deg);
+}
+.vp-story-desc {
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.5;
+}
+.vp-story-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #111827;
+}
 
-{{-- end of subscription part --}}
+.vp-slider-btn {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    color: #6b7280;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s ease;
+}
+.vp-slider-btn:hover {
+    background: #f86f2d;
+    color: #fff;
+    border-color: #f86f2d;
+}
+</style>
+
+
+{{-- subscription part removed and moved to footer --}}
 @endsection
 
 @push('js')

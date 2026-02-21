@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Project;
 use Illuminate\Support\Facades\DB;
 
 class frontController extends Controller
@@ -136,22 +137,33 @@ class frontController extends Controller
         return view('frontend.key_focus', compact('focus_areas'));
     }
 
-    // Project Archieve
+    // Project Archive (completed projects)
     public function proj_archieve(){
-        $project = DB::table('projects')->get();
-        return view('frontend.project_archieve',compact('project'));
+        $project = Project::active()->completed()->orderBy('order')->orderByDesc('created_at')->get();
+        return view('frontend.project_archieve', compact('project'));
     }
 
-    // Ongoing Project
+    // Ongoing Projects
     public function ongoing_project(){
-        $project = DB::table('ongoing_project')->paginate(15);
-        return view('frontend.ongoing_project',compact('project'));
+        $status = request('status', 'all'); // 'all', 'ongoing', 'completed'
+        
+        $query = Project::with(['partners','focusAreas'])->active();
+        
+        if ($status === 'ongoing') {
+            $query->ongoing();
+        } elseif ($status === 'completed') {
+            $query->completed();
+        }
+        
+        $project = $query->orderBy('order')->orderByDesc('created_at')->paginate(12);
+        
+        return view('frontend.ongoing_project', compact('project', 'status'));
     }
 
-    //__ongoing Project view__//
+    // Project Detail View
     public function project_view($id){
-        $project = DB::table('ongoing_project')->where('id',$id)->first();
-        return view('frontend.project_view',compact('project'));
+        $project = Project::with(['partners','focusAreas'])->findOrFail($id);
+        return view('frontend.project_view', compact('project'));
     }
 
     //__Latest News All__//

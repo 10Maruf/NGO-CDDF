@@ -44,7 +44,7 @@
                 @php
                     $programsActive = request()->routeIs(
                         'programs.all','key.focus.area','ongoing.project',
-                        'project.archieve','success.stories'
+                        'success.stories'
                     );
                 @endphp
                 <li class="nav-item dropdown {{ $programsActive ? 'active' : '' }}">
@@ -54,8 +54,7 @@
                     <ul class="dropdown-menu" aria-labelledby="programsDropdown">
                         <li><a class="dropdown-item {{ request()->routeIs('programs.all') ? 'active' : '' }}" href="{{ route('programs.all') }}">Featured Programs</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('key.focus.area') ? 'active' : '' }}" href="{{ route('key.focus.area') }}">Key Focus Area</a></li>
-                        <li><a class="dropdown-item {{ request()->routeIs('ongoing.project') ? 'active' : '' }}" href="{{ route('ongoing.project') }}">Ongoing Programs</a></li>
-                        <li><a class="dropdown-item {{ request()->routeIs('project.archieve') ? 'active' : '' }}" href="{{ route('project.archieve') }}">Project Archieve</a></li>
+                        <li><a class="dropdown-item {{ request()->routeIs('ongoing.project') ? 'active' : '' }}" href="{{ route('ongoing.project') }}">Projects</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('success.stories') ? 'active' : '' }}" href="{{ route('success.stories') }}">Success Stories</a></li>
                     </ul>
                 </li>

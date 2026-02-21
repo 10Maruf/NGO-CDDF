@@ -97,6 +97,46 @@
                     </li>
                     @endif
                 </ul>
+
+                {{-- Subscription Form --}}
+                <div class="mt-4">
+                    <h6 style="color:#fff;font-weight:600;font-size:0.9rem;margin-bottom:15px;text-transform:uppercase;letter-spacing:1px;">Subscribe to Newsletter</h6>
+                    @if (session()->has('success'))
+                        <div class="alert alert-success py-1 px-2 mb-2" style="font-size: 0.8rem; background-color: rgba(25, 135, 84, 0.2); color: #75b798; border: 1px solid #75b798;">
+                            {{ session()->get('success') }}
+                        </div>
+                    @endif
+                    <style>
+                        .footer-subscribe-input::placeholder {
+                            color: #9ca3af;
+                            opacity: 1;
+                        }
+                        .footer-subscribe-input:focus {
+                            background-color: #374151 !important;
+                            border-color: #f86f2d !important;
+                            color: #fff !important;
+                            box-shadow: none !important;
+                        }
+                    </style>
+                    <form action="{{ route('user.subscribe') }}" method="post" class="d-flex flex-column gap-2">
+                        @csrf
+                        <div>
+                            <input type="text" name="name" class="form-control form-control-sm footer-subscribe-input @error('name') is-invalid @enderror" style="background-color: #1f2937; border: 1px solid #374151; color: #fff;" placeholder="Your Name" value="{{ old('name') }}">
+                            @error('name')
+                                <div class="text-danger mt-1" style="font-size: 0.75rem;">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="input-group input-group-sm">
+                            <input type="email" name="email" class="form-control footer-subscribe-input @error('email') is-invalid @enderror" style="background-color: #1f2937; border: 1px solid #374151; color: #fff;" placeholder="Your Email" value="{{ old('email') }}">
+                            <button class="btn" type="submit" style="background-color:#f86f2d; border-color:#f86f2d; color: #fff;">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        @error('email')
+                            <div class="text-danger mt-1" style="font-size: 0.75rem;">{{ $message }}</div>
+                        @enderror
+                    </form>
+                </div>
             </div>
 
         </div>

@@ -37,7 +37,8 @@ class StoryController extends Controller
             'image' => $imageName,
             'beneficiary_name' => $request->beneficiary_name,
             'beneficiary_title' => $request->beneficiary_title,
-            'date' => $request->date
+            'date' => $request->date,
+            'order' => $request->order ?? 0,
         );
 
         DB::table('stories')->insert($data);
@@ -102,7 +103,8 @@ class StoryController extends Controller
             'image' => $imageName,
             'beneficiary_name' => $request->beneficiary_name,
             'beneficiary_title' => $request->beneficiary_title,
-            'date' => $request->date
+            'date' => $request->date,
+            'order' => $request->order ?? 0,
         );
 
         DB::table('stories')->where('id', $id)->update($data);

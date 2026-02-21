@@ -32,6 +32,7 @@ class sliderController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'image' => $imageName,
+            'order' => $request->order ?? 0,
         );
 
         DB::table('slider')->insert($slider);
@@ -40,7 +41,7 @@ class sliderController extends Controller
 
     // index
     public function index(){
-        $slider = DB::table('slider')->get();
+        $slider = DB::table('slider')->orderBy('order', 'asc')->get();
         return view('admin.slider.index',compact('slider'));
     }
 
@@ -89,6 +90,7 @@ class sliderController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'image' => $imageName,
+            'order' => $request->order ?? 0,
         );
 
         DB::table('slider')->where('id',$id)->update($slider);

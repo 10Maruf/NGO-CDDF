@@ -33,7 +33,7 @@ class HomeController extends Controller
             'pending_donations_amount' => DB::table('donations')->where('status', 'pending')->sum('amount') ?? 0,
             'volunteers_count' => DB::table('volunteers')->count(),
             'volunteers_active' => DB::table('volunteers')->where('status', 'open')->count(),
-            'projects_count' => DB::table('ongoing_project')->count(),
+            'projects_count' => DB::table('projects')->count(),
             'subscribers_count' => DB::table('subscribe')->count(),
             'messages_count' => DB::table('messages')->count(),
             'publications_count' => DB::table('publications')->count(),

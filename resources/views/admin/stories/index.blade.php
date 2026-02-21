@@ -23,6 +23,7 @@
                         <thead>
                             <tr>
                                 <th>SL.</th>
+                                <th>Order</th>
                                 <th>Beneficiary Name</th>
                                 <th>Beneficiary Title</th>
                                 <th>Image</th>
@@ -35,6 +36,7 @@
                             @foreach ($data as $key=>$item)
                             <tr>
                                 <td class="align-middle">{{ ++$key }}</td>
+                                <td class="align-middle">{{ $item->order ?? 0 }}</td>
                                 <td class="align-middle">{{ $item->beneficiary_name }}</td>
                                 <td class="align-middle">{{ $item->beneficiary_title }}</td>
                                 <td class="align-middle">

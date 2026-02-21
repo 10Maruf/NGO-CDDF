@@ -58,7 +58,7 @@
 
     <script>
         // Init AOS animations
-        AOS.init({ duration: 800, easing: 'ease-in-out', once: true });
+        AOS.init({ duration: 800, easing: 'ease-in-out', once: false, mirror: true });
 
         // Page loader hide on load
         $(window).on('load', function () {
