@@ -1,7 +1,7 @@
 @extends('main')
 
 @section('title')
-Association for Alternative Development
+CDDF - Home
 @endsection
 
 @section('content')
@@ -1476,19 +1476,19 @@ Association for Alternative Development
             </div>
 
             <!-- Stats Card -->
-            <div class="row justify-content-center">
+            <div class="row justify-content-center" id="vpStatsRow">
                 <div class="col-lg-7 col-md-10">
                     <div class="vp-stats-card" data-aos="zoom-out-up" data-aos-duration="700" data-aos-delay="200">
                         <div class="row align-items-center text-center">
                             <div class="col-md-5 vp-stat-item">
-                                <div class="vp-stat-number">1,000+</div>
+                                <div class="vp-stat-number vp-counter" data-target="1000" data-suffix="+">0+</div>
                                 <div class="vp-stat-label">Dedicated Volunteers</div>
                             </div>
                             <div class="col-md-2 d-none d-md-flex justify-content-center">
                                 <div class="vp-divider"></div>
                             </div>
                             <div class="col-md-5 vp-stat-item mt-4 mt-md-0">
-                                <div class="vp-stat-number">50+</div>
+                                <div class="vp-stat-number vp-counter" data-target="50" data-suffix="+">0+</div>
                                 <div class="vp-stat-label">Partner Organizations</div>
                             </div>
                         </div>
@@ -1522,6 +1522,47 @@ Association for Alternative Development
         </div>
     </div>
 </section>
+
+<script>
+(function () {
+    function animateVpCounter(el) {
+        var target   = parseInt(el.getAttribute('data-target'), 10);
+        var suffix   = el.getAttribute('data-suffix') || '';
+        var duration = 2000;
+        var start    = null;
+
+        function step(ts) {
+            if (!start) start = ts;
+            var progress = Math.min((ts - start) / duration, 1);
+            var ease     = 1 - Math.pow(1 - progress, 3);
+            var current  = Math.floor(target * ease);
+            
+            el.textContent = current.toLocaleString() + suffix;
+            
+            if (progress < 1) requestAnimationFrame(step);
+            else el.textContent = target.toLocaleString() + suffix;
+        }
+        requestAnimationFrame(step);
+    }
+
+    var vpCounters = document.querySelectorAll('.vp-counter');
+
+    if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    vpCounters.forEach(animateVpCounter);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        var row = document.getElementById('vpStatsRow');
+        if (row) observer.observe(row);
+    } else {
+        vpCounters.forEach(animateVpCounter);
+    }
+})();
+</script>
 {{-- End of Volunteer & Partner Section --}}
 
 {{-- Photo Gallery --}}
@@ -1638,47 +1679,128 @@ $(document).ready(function(){
 @endpush
 
 {{-- Impact part --}}
+<style>
+    .impact-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .impact-subheading {
+        font-size: 14px;
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #f86f2d;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+    .impact-title {
+        font-weight: 400;
+        color: #ffffff;
+        font-size: 2.5rem;
+        margin-bottom: 16px;
+        line-height: 1.2;
+    }
+    .impact-divider {
+        width: 60px;
+        height: 3px;
+        background-color: #f86f2d;
+        margin: 0 auto 20px;
+    }
+</style>
 <div style="background-image: url('{{asset('img/map.png')}}'); background-attachment:fixed;">
     <div class="container">
-        <div class="p-5">
-            <h4 class="text-uppercasse text-white text-center"><span class="text-danger">Our</span> Impact</h4>
-            <div class="row justify-content-sm-center">
-                <div class="col-md-6">
-                    <p class="text-white py-2 text-center">
-                        Transforming lives and communities in northern Bangladesh through sustainable development initiatives, empowering individuals and fostering positive change. Join us in making a lasting difference for a brighter future.
-                    </p>
+        <div class="py-4 px-2">
+            <div class="impact-header">
+                <span class="impact-subheading">Our</span>
+                <h2 class="impact-title">Impact</h2>
+                <div class="impact-divider"></div>
+                <div class="row justify-content-sm-center">
+                    <div class="col-md-6">
+                        <p class="text-white py-2 text-center">
+                            Transforming lives and communities in northern Bangladesh through sustainable development initiatives, empowering individuals and fostering positive change. Join us in making a lasting difference for a brighter future.
+                        </p>
+                    </div>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                {{-- Year --}}
-                <div class="col-md-2 col-sm-6 col-xs-12 bg-white text-center py-2 mx-2 my-1 rounded">
-                    <i class="fa-regular fa-calendar-check text-secondary pt-3"></i>
-                    <h6>Year</h6>
-                    <h2 class="text-danger fw-bold">1998</h2>
+            <div class="row justify-content-center" id="impactCounterRow">
+                @foreach($impacts as $imp)
+                @php
+                    $rawVal   = (int) preg_replace('/[^0-9]/', '', $imp->metric_value);
+                    $isYear   = ($imp->order == 1); // "since" year, count to exact value
+                    $display  = $isYear ? $imp->metric_value : number_format($rawVal > 999999 ? $rawVal : $rawVal);
+                    $suffix   = ($imp->metric_unit === 'since') ? '' : $imp->metric_unit;
+                    $suffix   = ($imp->metric_unit === 'M+') ? 'M+' : $suffix;
+                @endphp
+                <div class="col-md-2 col-sm-6 col-xs-12 bg-white text-center py-3 mx-2 my-2 rounded shadow-sm">
+                    <i class="{{ $imp->icon }} text-secondary pt-2" style="font-size:1.6rem;"></i>
+                    <h6 class="mt-2 mb-1 text-muted" style="font-size:0.85rem;">{{ $imp->title }}</h6>
+                    <h2 class="fw-bold mb-0 impact-counter" style="color: #f86f2d;"
+                        data-target="{{ $rawVal }}"
+                        data-suffix="{{ $suffix }}"
+                        data-year="{{ $isYear ? 1 : 0 }}">{{ $display }}{{ $suffix }}</h2>
                 </div>
-                {{-- District --}}
-                <div class="col-md-2 col-sm-6 col-xs-12 bg-white text-center py-2 mx-2 my-1 rounded">
-                    <i class="fa-solid fa-map-location-dot text-secondary pt-3"></i>
-                    <h6>District</h6>
-                    <h2 class="text-danger fw-bold">03</h2>
-                </div>
-                {{-- Project --}}
-                <div class="col-md-2 col-sm-6 col-xs-12 bg-white text-center py-2 mx-2 my-1 rounded">
-                    <i class="fa-solid fa-hands-holding-circle text-secondary pt-3"></i>
-                    <h6>Project</h6>
-                    <h2 class="text-danger fw-bold">41</h2>
-                </div>
-                {{-- People --}}
-                <div class="col-md-2 col-sm-6 col-xs-12 bg-white text-center py-2 mx-2 my-1 rounded">
-                    <i class="fa-solid fa-users-viewfinder text-secondary pt-3"></i>
-                    <h6>People</h6>
-                    <h2 class="text-danger fw-bold">1.3M</h2>
-                </div>
+                @endforeach
             </div>
 
         </div>
     </div>
 </div>
+
+<script>
+(function () {
+    function formatNum(n) {
+        if (n >= 1000000) return (n / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+        return n.toLocaleString();
+    }
+
+    function animateCounter(el) {
+        var target   = parseInt(el.getAttribute('data-target'), 10);
+        var suffix   = el.getAttribute('data-suffix') || '';
+        var isYear   = el.getAttribute('data-year') === '1';
+        var duration = 2000;
+        var start    = null;
+        var startVal = isYear ? target - 50 : 0;
+
+        function step(ts) {
+            if (!start) start = ts;
+            var progress = Math.min((ts - start) / duration, 1);
+            var ease     = 1 - Math.pow(1 - progress, 3);
+            var current  = Math.floor(startVal + (target - startVal) * ease);
+            if (isYear) {
+                el.textContent = current;
+            } else if (suffix === 'M+') {
+                el.textContent = (current / 1000000).toFixed(1).replace(/\.0$/, '') + 'M+';
+            } else {
+                el.textContent = current.toLocaleString() + suffix;
+            }
+            if (progress < 1) requestAnimationFrame(step);
+            else {
+                if (isYear) el.textContent = target;
+                else if (suffix === 'M+') el.textContent = (target / 1000000).toFixed(1).replace(/\.0$/, '') + 'M+';
+                else el.textContent = target.toLocaleString() + suffix;
+            }
+        }
+        requestAnimationFrame(step);
+    }
+
+    var counters = document.querySelectorAll('.impact-counter');
+
+    if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    counters.forEach(animateCounter);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        var row = document.getElementById('impactCounterRow');
+        if (row) observer.observe(row);
+    } else {
+        counters.forEach(animateCounter);
+    }
+})();
+</script>
 {{-- End of Impact part --}}
 
 {{-- Success Stories --}}
