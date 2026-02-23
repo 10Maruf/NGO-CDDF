@@ -19,6 +19,9 @@ class OrgMember extends Model
         'twitter',
         'instagram',
         'youtube',
+        'contact_number',
+        'email',
+        'message',
         'order',
         'is_active',
     ];

@@ -36,10 +36,10 @@
                             @enderror
                         </div>
                         <div class="col-md-12">
-                            <label for="image" class="form-label">Image<span class="text-danger">*</span></label>
-                            <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
-                            <span class="text-info">Image maximum size 2 MB. Supported formats: JPG, PNG, JPEG, GIF, WEBP</span>
-                            @error('image')
+                            <label for="thumbnail" class="form-label">Thumbnail Image</label>
+                            <input type="file" name="thumbnail" id="thumbnail" class="form-control @error('thumbnail') is-invalid @enderror">
+                            <span class="text-info">Maximum size 2 MB. Supported formats: JPG, PNG, JPEG, GIF, WEBP</span>
+                            @error('thumbnail')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>

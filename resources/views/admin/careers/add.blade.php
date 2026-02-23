@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 
-@section('title_l1', 'Add Policy & Guideline')
+@section('title_l1', 'Add Career')
 @section('bread_crumb')
-    <li class="breadcrumb-item"><a href="{{ route('policy.index') }}">Policy & Guidelines</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('careers.index') }}">Careers</a></li>
     <li class="breadcrumb-item active">Add New</li>
 @endsection
 
 @section('content')
 <div class="row">
     <div class="col-xl-9 mx-auto">
-        <h6 class="mb-0 text-uppercase">Add Policy & Guideline</h6>
+        <h6 class="mb-0 text-uppercase">Add Career</h6>
         <hr/>
         <div class="card">
             <div class="card-body">
@@ -17,11 +17,11 @@
                     <div class="alert alert-success">{{ session()->get('success') }}</div>
                 @endif
                 <div class="p-4 border rounded">
-                    <form class="row g-3" action="{{ route('policy.store') }}" method="post" enctype="multipart/form-data">
+                    <form class="row g-3" action="{{ route('careers.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="col-md-12">
                             <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
-                            <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" id="title" value="{{ old('title') }}" placeholder="Enter Title">
+                            <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" id="title" value="{{ old('title') }}" placeholder="Enter Career Title">
                             @error('title')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -44,14 +44,14 @@
                         </div>
                         <div class="col-md-12">
                             <label for="description" class="form-label">Description</label>
-                            <textarea id="description" name="description" class="form-control @error('description') is-invalid @enderror" rows="5" placeholder="Enter description">{{ old('description') }}</textarea>
+                            <textarea id="description" name="description" class="form-control @error('description') is-invalid @enderror" rows="5" placeholder="Enter career description">{{ old('description') }}</textarea>
                             @error('description')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-12">
-                            <button class="btn btn-primary" type="submit">Add</button>
-                            <a href="{{ route('policy.index') }}" class="btn btn-secondary">Cancel</a>
+                            <button class="btn btn-primary" type="submit">Add Career</button>
+                            <a href="{{ route('careers.index') }}" class="btn btn-secondary">Cancel</a>
                         </div>
                     </form>
                 </div>

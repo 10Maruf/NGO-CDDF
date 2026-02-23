@@ -1,75 +1,274 @@
 @extends('main')
 
+@section('title') Publications - CDDF @endsection
+
+@push('css')
+<style>
+/* ── Publication Cards ─────────────────────────────────────── */
+.pub-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transition: transform .3s ease, box-shadow .3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.pub-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 34px rgba(0,0,0,0.14);
+}
+.pub-card__img {
+    height: 220px;
+    overflow: hidden;
+    background: #f5f0ec;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pub-card__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .4s ease;
+}
+.pub-card:hover .pub-card__img img { transform: scale(1.06); }
+.pub-card__body {
+    padding: 18px 20px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.pub-card__title {
+    font-size: 0.97rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    line-height: 1.55;
+    flex: 1;
+    margin-bottom: 14px;
+}
+.pub-card__actions { display: flex; gap: 10px; }
+.btn-view-pub {
+    flex: 1;
+    background: #f86f2d;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 12px;
+    font-size: .85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+.btn-view-pub:hover { background: #d85f20; }
+.btn-download-pub {
+    flex: 1;
+    background: transparent;
+    color: #f86f2d;
+    border: 2px solid #f86f2d;
+    border-radius: 6px;
+    padding: 9px 12px;
+    font-size: .85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all .2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+.btn-download-pub:hover { background: #f86f2d; color: #fff; }
+.btn-download-pub.disabled-pdf {
+    opacity: .4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ── Modal ─────────────────────────────────────────────────── */
+#pubModal .modal-content {
+    border-radius: 14px;
+    overflow: hidden;
+    border: none;
+    height: 90vh; /* Taller for simple view */
+}
+#pubModal .modal-header {
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
+    color: #fff;
+    border: none;
+    padding: 14px 22px;
+}
+#pubModal .modal-header .btn-close { filter: invert(1) opacity(.8); }
+#pubModal .modal-title { font-weight: 600; font-size: .95rem; }
+#pubModal .modal-footer {
+    background: #f8f8f8;
+    border-top: 1px solid #e5e5e5;
+    padding: 10px 20px;
+}
+/* ── PDF Simple Viewer (PDF.js) ────────────────────────────── */
+#pdfViewerContainer {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background: #525659; /* Standard PDF viewer background color */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+}
+.pdf-page-canvas {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+    background: #fff;
+    max-width: 95%;
+}
+</style>
+@endpush
+
 @section('content')
 
-  <!-- ======= Breadcrumbs ======= -->
-  <section class="breadcrumbs">
-    <div class="container">
-      <ol>
-        <li><a href="{{ url('/') }}">Home</a></li>
-        <li>Stay Informed</li>
-      </ol>
-      <h2>Publications</h2>
+{{-- ===== Hero Banner ===== --}}
+<div class="hero-wrap" style="background-image: url('{{ asset('static_image/news_event_blk.jpg') }}');
+     background-size: cover; background-position: center; background-attachment: fixed;
+     min-height: 340px; position: relative; display: flex; align-items: center;">
+    <div class="overlay" style="position:absolute;inset:0;background:rgba(0,0,0,.62);"></div>
+    <div class="container" style="position:relative;z-index:1;">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center py-5">
+                <p class="mb-2" style="font-size:.9rem;">
+                    <a href="{{ url('/') }}" style="color:#ffaa6e;text-decoration:none;">Home</a>
+                    <span class="mx-2" style="color:#ccc;">/</span>
+                    <span style="color:#fff;">Stay Informed</span>
+                    <span class="mx-2" style="color:#ccc;">/</span>
+                    <span style="color:#fff;">Publications</span>
+                </p>
+                <h1 class="mb-0" style="color:#fff;font-weight:400;font-size:2.8rem;letter-spacing:1px;">Publications</h1>
+                <div class="mx-auto mt-3" style="width:60px;height:4px;background:#f86f2d;border-radius:2px;"></div>
+            </div>
+        </div>
     </div>
-  </section>
-  <!-- End Breadcrumbs -->
+</div>
+{{-- ===== End Hero ===== --}}
 
-<!-- ======= Publication Section ======= -->
-  <section id="publication" class="contact bg-light p-0">
-    <div class="container bg-white py-5" data-aos="fade-up">
-      <div class="section-title">
-        <h2>Publications</h2>
+{{-- ===== Publications Cards Section ===== --}}
+<section class="py-5 bg-light">
+    <div class="container">
+
+        <div class="text-center mb-5" data-aos="fade-up">
+            <p style="color:#f86f2d;font-weight:600;letter-spacing:1px;font-size:.85rem;text-transform:uppercase;margin-bottom:6px;">
+                CDDF Research &amp; Reports
+            </p>
+            <h2 style="font-weight:700;color:#1a1a1a;font-size:1.9rem;">Our Publications</h2>
+            <div class="mx-auto mt-2" style="width:50px;height:4px;background:#f86f2d;border-radius:2px;"></div>
+        </div>
+
         @if(isset($publications) && count($publications) > 0)
-            <div class="row p-3">
-                @foreach($publications as $publication)
-                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        @if($publication->thumbnail)
-                            <img src="{{ asset('images/publications/thumbnails/'.$publication->thumbnail) }}" 
-                                 class="card-img-top" 
-                                 alt="{{ $publication->title }}" 
-                                 style="height: 200px; object-fit: cover;">
+        <div class="row g-4 justify-content-center">
+            @foreach($publications as $publication)
+            <div class="col-lg-4 col-md-6"
+                 data-aos="fade-up"
+                 data-aos-delay="{{ ($loop->index % 3) * 100 }}">
+                <div class="pub-card">
+
+                        {{-- Thumbnail --}}
+                        <div class="pub-card__img">
+                            @php
+                                $thumbRelPath = 'images/publications/thumbnails/'.$publication->thumbnail;
+                                $thumbAbsPath = public_path($thumbRelPath);
+                                // Ensure thumbnail is set, file exists, and path is valid
+                                $hasThumb = !empty($publication->thumbnail) && file_exists($thumbAbsPath);
+                            @endphp
+
+                            @if($hasThumb)
+                                <img src="{{ asset($thumbRelPath) }}" alt="{{ $publication->title }}">
+                            @elseif($publication->pdf_file)
+                            <canvas class="pdf-thumb-canvas"
+                                    data-pdf-url="{{ asset('images/publications/pdfs/'.$publication->pdf_file) }}"
+                                    style="width:100%;height:100%;object-fit:cover;display:block;"></canvas>
                         @else
-                            <div class="card-img-top d-flex align-items-center justify-content-center bg-secondary text-white" 
-                                 style="height: 200px;">
-                                <i class="fa-solid fa-file-pdf fa-3x"></i>
-                            </div>
+                            <i class="fa-solid fa-file-pdf fa-4x" style="color:#f86f2d;opacity:.3;"></i>
                         @endif
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">{{ $publication->title }}</h5>
-                            <p class="card-text flex-grow-1">{{ Str::limit($publication->description, 100) }}</p>
-                            <div class="mt-auto">
-                                @if($publication->pdf_file)
-                                    <a href="{{ asset('images/publications/pdfs/'.$publication->pdf_file) }}" 
-                                       target="_blank" 
-                                       class="btn btn-warning border border-dark w-100" 
-                                       style="font-size: 16px; font-weight:500; box-shadow: 3px 3px 0 rgba(0,0,0,1);">
-                                        <i class="fa-solid fa-cloud-arrow-down"></i> Download
-                                    </a>
-                                @else
-                                    <button class="btn btn-secondary w-100" disabled>
-                                        <i class="fa-solid fa-file-pdf"></i> No PDF Available
-                                    </button>
-                                @endif
-                                <!-- <small class="text-muted d-block mt-2 text-center">
-                                    Published: {{ date('M d, Y', strtotime($publication->created_at)) }}
-                                </small> -->
-                            </div>
+                    </div>
+
+                    {{-- Body --}}
+                    <div class="pub-card__body">
+                        <p class="pub-card__title">{{ $publication->title }}</p>
+                        <div class="pub-card__actions">
+                            {{-- Download button --}}
+                            @if($publication->pdf_file)
+                                <a class="btn-download-pub"
+                                   href="{{ asset('images/publications/pdfs/'.$publication->pdf_file) }}"
+                                   download="{{ $publication->title }}.pdf">
+                                    <i class="fa-solid fa-download"></i> Download
+                                </a>
+                            @else
+                                <span class="btn-download-pub disabled-pdf">
+                                    <i class="fa-solid fa-ban"></i> No PDF
+                                </span>
+                            @endif
                         </div>
                     </div>
+
                 </div>
-                @endforeach
             </div>
+            @endforeach
+        </div>
+
         @else
-            <div class="text-center py-5">
-                <i class="fa-solid fa-file-pdf fa-4x text-muted mb-3"></i>
-                <p class="fs-4 text-secondary">No publications available at the moment.</p>
-                <p class="text-muted">Please check back later for new publications.</p>
-            </div>
+        <div class="text-center py-5" data-aos="fade-up">
+            <i class="fa-solid fa-book-open fa-4x mb-3" style="color:#f86f2d;opacity:.25;"></i>
+            <h5 style="color:#888;">No publications available at the moment.</h5>
+            <p class="text-muted">Please check back later.</p>
+        </div>
         @endif
-      </div>
+
     </div>
-  </section>
-<!-- End Publication Section -->
+</section>
+{{-- ===== End Cards Section ===== --}}
 
 @endsection
+
+@push('js')
+{{-- PDF.js (for thumbnail fallback) --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+(function () {
+    /* Create a separate closure for PDF.js library to avoid conflicts */
+    const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    if (!pdfjsLib) return;
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    /* ── Render Thumbnails (Card View) ───────────────────── */
+    document.querySelectorAll('.pdf-thumb-canvas').forEach(async function (canvas) {
+        // ... (Thumbnail logic unchanged but encapsulated here)
+        const url = canvas.dataset.pdfUrl;
+        if (!url) return;
+        try {
+            const loadingTask = pdfjsLib.getDocument(url);
+            const pdf = await loadingTask.promise;
+            const page = await pdf.getPage(1);
+            const container = canvas.parentElement;
+            const W = container.clientWidth  || 320;
+            const H = container.clientHeight || 220;
+            const vp0 = page.getViewport({ scale: 1 });
+            const scale = Math.max(W / vp0.width, H / vp0.height);
+            const vp = page.getViewport({ scale });
+            canvas.width  = vp.width;
+            canvas.height = vp.height;
+            await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+        } catch (e) {
+            /* PDF failed to load — show icon fallback */
+            canvas.insertAdjacentHTML('afterend',
+                '<i class="fa-solid fa-file-pdf fa-4x" style="color:#f86f2d;opacity:.3;"></i>');
+            canvas.remove();
+        }
+    });
+
+}());
+</script>
+@endpush

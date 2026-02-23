@@ -71,6 +71,22 @@
                             <textarea id="bio" name="bio" class="form-control" rows="3">{{ $data->bio }}</textarea>
                         </div>
 
+                        {{-- Contact Info --}}
+                        <div class="col-md-6">
+                            <label class="form-label">Contact Number <span class="text-muted">(Optional)</span></label>
+                            <input type="text" name="contact_number" class="form-control" value="{{ $data->contact_number }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Email <span class="text-muted">(Optional)</span></label>
+                            <input type="email" name="email" class="form-control" value="{{ $data->email }}">
+                        </div>
+
+                        {{-- Message --}}
+                        <div class="col-md-12">
+                            <label class="form-label">Message <span class="text-muted">(Optional)</span></label>
+                            <textarea name="message" class="form-control" rows="3">{{ $data->message }}</textarea>
+                        </div>
+
                         {{-- Social Links --}}
                         <div class="col-12"><hr><p class="fw-semibold mb-0">Social Links <span class="text-muted small">(Optional)</span></p></div>
                         <div class="col-md-6">

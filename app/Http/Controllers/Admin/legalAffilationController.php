@@ -8,90 +8,118 @@ use Illuminate\Support\Facades\DB;
 
 class legalAffilationController extends Controller
 {
-    //__Create__//
-    public function create(){
+    // Add
+    public function create()
+    {
         return view('admin.legal_affilation.add');
     }
 
-    //__store__//
-    public function store(Request $request){
-        $validatedDate = $request->validate([
-            'name' => 'required',
-            'file' => 'required|mimes:pdf',
+    // Store
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title'     => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'thumbnail' => 'nullable|mimes:jpg,png,jpeg,gif|max:2048',
+            'pdf_file'  => 'nullable|mimes:pdf|max:10240',
         ]);
 
-        $fileName = '';
-        if($file = $request->file('file')){
-            $fileName = rand(10000,99999). 'legal_affilation.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/legal_affilation/'),$fileName);
+        $thumbnailName = '';
+        if ($thumbnail = $request->file('thumbnail')) {
+            $thumbnailName = rand(10000, 99999) . 'legal_affilation_thumbnail.' . $thumbnail->getClientOriginalExtension();
+            $thumbnail->move(public_path('images/legal_affilation/thumbnails/'), $thumbnailName);
         }
 
-        $file = [
-            'name' => $request->name,
-            'file' => $fileName
-        ];
-
-        DB::table('legal_affilation')->insert($file);
-        return redirect()->back()->with('success','Successfully Uploaded Origin and Legal Affilation PDF');
-    }
-
-    //__index__//
-    public function index(){
-        $file = DB::table('legal_affilation')->get();
-        return view('admin.legal_affilation.index',compact('file'));
-    }
-
-    //__delete__//
-    public function destroy($id){
-        $file = DB::table('legal_affilation')->where('id',$id)->first();
-
-        $oldFile = public_path('images/legal_affilation/'.$file->file);
-
-        if(file_exists($oldFile)){
-            @unlink($oldFile);
+        $pdfFileName = '';
+        if ($pdfFile = $request->file('pdf_file')) {
+            $pdfFileName = rand(10000, 99999) . 'legal_affilation.' . $pdfFile->getClientOriginalExtension();
+            $pdfFile->move(public_path('images/legal_affilation/pdfs/'), $pdfFileName);
         }
 
-        DB::table('legal_affilation')->where('id',$id)->delete();
-        return redirect()->back()->with('success','Successfully Deleted');
+        DB::table('legal_affilation')->insert([
+            'title'       => $request->title,
+            'description' => $request->description,
+            'thumbnail'   => $thumbnailName,
+            'pdf_file'    => $pdfFileName,
+            'created_at'  => now(),
+            'updated_at'  => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Legal Affiliation added successfully');
     }
 
-    //__edit__//
-    public function edit($id){
-        $file = DB::table('legal_affilation')->where('id', $id)->first();
-        return view('admin.legal_affilation.edit',compact('file'));
+    // Index
+    public function index()
+    {
+        $items = DB::table('legal_affilation')->orderBy('created_at', 'desc')->get();
+        return view('admin.legal_affilation.index', compact('items'));
     }
 
-    //update//
+    // Edit
+    public function edit($id)
+    {
+        $item = DB::table('legal_affilation')->where('id', $id)->first();
+        return view('admin.legal_affilation.edit', compact('item'));
+    }
+
+    // Update
     public function update(Request $request, $id)
     {
-        $validatedDate = $request->validate([
-            'name' => 'required',
+        $request->validate([
+            'title'       => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'thumbnail'   => 'nullable|mimes:jpg,png,jpeg,gif|max:2048',
+            'pdf_file'    => 'nullable|mimes:pdf|max:10240',
         ]);
 
-        $files = DB::table('legal_affilation')->where('id', $id)->first();
+        $existing = DB::table('legal_affilation')->where('id', $id)->first();
 
-        $fileName = '';
-        $oldFile = public_path('images/legal_affilation/'.$files->file);
-
-        if($file = $request->file('file')){
-            if(file_exists($oldFile)){
-                @unlink($oldFile);
+        $thumbnailName = $existing->thumbnail;
+        if ($thumbnail = $request->file('thumbnail')) {
+            if (!empty($existing->thumbnail)) {
+                $old = public_path('images/legal_affilation/thumbnails/' . $existing->thumbnail);
+                if (file_exists($old)) @unlink($old);
             }
-            $fileName = rand(10000, 99999) . 'legal_affilation.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/legal_affilation/'), $fileName);
+            $thumbnailName = rand(10000, 99999) . 'legal_affilation_thumbnail.' . $thumbnail->getClientOriginalExtension();
+            $thumbnail->move(public_path('images/legal_affilation/thumbnails/'), $thumbnailName);
         }
 
-        else{
-            $fileName = $files->file;
+        $pdfFileName = $existing->pdf_file;
+        if ($pdfFile = $request->file('pdf_file')) {
+            if (!empty($existing->pdf_file)) {
+                $old = public_path('images/legal_affilation/pdfs/' . $existing->pdf_file);
+                if (file_exists($old)) @unlink($old);
+            }
+            $pdfFileName = rand(10000, 99999) . 'legal_affilation.' . $pdfFile->getClientOriginalExtension();
+            $pdfFile->move(public_path('images/legal_affilation/pdfs/'), $pdfFileName);
         }
 
+        DB::table('legal_affilation')->where('id', $id)->update([
+            'title'       => $request->title,
+            'description' => $request->description,
+            'thumbnail'   => $thumbnailName,
+            'pdf_file'    => $pdfFileName,
+            'updated_at'  => now(),
+        ]);
 
-        $legal_affilation = [
-            'name' => $request->name,
-            'file' => $fileName
-        ];
+        return redirect()->route('origin.legal_affilation.index')->with('success', 'Legal Affiliation updated successfully');
+    }
 
-        DB::table('legal_affilation')->where('id',$id)->update($legal_affilation);
-        return redirect()->back()->with('success', 'Successfully Updated Origin and Legal Affilation PDF');
+    // Delete
+    public function destroy($id)
+    {
+        $existing = DB::table('legal_affilation')->where('id', $id)->first();
+
+        if (!empty($existing->thumbnail)) {
+            $old = public_path('images/legal_affilation/thumbnails/' . $existing->thumbnail);
+            if (file_exists($old)) @unlink($old);
+        }
+        if (!empty($existing->pdf_file)) {
+            $old = public_path('images/legal_affilation/pdfs/' . $existing->pdf_file);
+            if (file_exists($old)) @unlink($old);
+        }
+
+        DB::table('legal_affilation')->where('id', $id)->delete();
+        return redirect()->back()->with('success', 'Legal Affiliation deleted successfully');
     }
 }

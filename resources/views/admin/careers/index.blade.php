@@ -1,25 +1,23 @@
 @extends('layouts.admin')
 
-@section('title_l1', 'Publications')
+@section('title_l1', 'Careers')
 @section('bread_crumb')
-    <li class="breadcrumb-item">Publications</li>
+    <li class="breadcrumb-item">Careers</li>
 @endsection
 
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
-        <h6 class="mb-0 text-uppercase">All Publications</h6>
+        <h6 class="mb-0 text-uppercase">All Careers</h6>
         <hr/>
         <div class="card">
             <div class="card-body">
                 @if (session()->has('success'))
-                    <div class="alert alert-success">
-                        {{ session()->get('success') }}
-                    </div>
+                    <div class="alert alert-success">{{ session()->get('success') }}</div>
                 @endif
                 <div class="d-flex justify-content-end mb-3">
-                    <a href="{{ route('publications.add') }}" class="btn btn-sm btn-primary">
-                        <i class="feather-plus"></i> Add New Publication
+                    <a href="{{ route('careers.add') }}" class="btn btn-sm btn-primary">
+                        <i class="feather-plus"></i> Add New Career
                     </a>
                 </div>
                 <div class="p-4 border rounded table-responsive">
@@ -36,34 +34,34 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($publications as $key => $publication)
+                            @forelse ($careers as $key => $career)
                             <tr>
                                 <td class="align-middle">{{ ++$key }}</td>
-                                <td class="align-middle">{{ $publication->title }}</td>
+                                <td class="align-middle">{{ $career->title }}</td>
                                 <td class="align-middle">
-                                    @if ($publication->thumbnail)
-                                        <img src="{{ asset('images/publications/thumbnails/'.$publication->thumbnail) }}" alt="{{ $publication->title }}" width="50" height="40" class="rounded">
+                                    @if ($career->thumbnail)
+                                        <img src="{{ asset('images/careers/thumbnails/'.$career->thumbnail) }}" alt="{{ $career->title }}" width="50" height="40" class="rounded">
                                     @else
                                         <span class="text-muted">No Image</span>
                                     @endif
                                 </td>
                                 <td class="align-middle">
-                                    @if ($publication->pdf_file)
-                                        <a href="{{ asset('images/publications/pdfs/'.$publication->pdf_file) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    @if ($career->pdf_file)
+                                        <a href="{{ asset('images/careers/pdfs/'.$career->pdf_file) }}" target="_blank" class="btn btn-sm btn-outline-primary">
                                             <i class="bx bx-download"></i> View PDF
                                         </a>
                                     @else
                                         <span class="text-muted">No PDF</span>
                                     @endif
                                 </td>
-                                <td class="align-middle">{{ Str::limit($publication->description, 30, '...') }}</td>
+                                <td class="align-middle">{{ Str::limit($career->description, 30, '...') }}</td>
 
                                 <td class="align-middle">
                                     <div class="table-actions justify-content-center">
-                                        <a href="{{ route('publications.edit', $publication->id) }}" class="btn btn-primary" title="Edit">
+                                        <a href="{{ route('careers.edit', $career->id) }}" class="btn btn-primary" title="Edit">
                                             <i class="feather-edit"></i>
                                         </a>
-                                        <a href="{{ route('publications.delete', $publication->id) }}" class="btn btn-danger" title="Delete" data-delete data-delete-title="Delete Publication" data-delete-message="Are you sure you want to delete this publication? This action cannot be undone.">
+                                        <a href="{{ route('careers.delete', $career->id) }}" class="btn btn-danger" title="Delete" data-delete data-delete-title="Delete Career" data-delete-message="Are you sure you want to delete this career? This action cannot be undone.">
                                             <i class="feather-trash-2"></i>
                                         </a>
                                     </div>
@@ -73,8 +71,8 @@
                             <tr>
                                 <td colspan="7" class="text-center py-4">
                                     <div class="text-muted">
-                                        <i class="feather-file"></i>
-                                        <p class="mt-2">No publications found. <a href="{{ route('publications.add') }}">Add your first publication</a></p>
+                                        <i class="feather-briefcase"></i>
+                                        <p class="mt-2">No careers found. <a href="{{ route('careers.add') }}">Add first one</a></p>
                                     </div>
                                 </td>
                             </tr>
@@ -86,5 +84,4 @@
         </div>
     </div>
 </div>
-
 @endsection

@@ -240,7 +240,7 @@ class frontController extends Controller
 
     // Get Involved
     public function career(){
-        $career = DB::table('invoked')->get();
+        $career = DB::table('careers')->orderBy('created_at', 'desc')->get();
         return view('frontend.career',compact('career'));
     }
 

@@ -18,8 +18,8 @@
                     </div>
                 @endif
 
-                <div class="mb-3">
-                    <a href="{{ route('strategic_plans.create') }}" class="btn btn-primary">
+                <div class="d-flex justify-content-end mb-3">
+                    <a href="{{ route('strategic_plans.create') }}" class="btn btn-sm btn-primary">
                         <i class="feather-plus"></i> Add Strategic Plan
                     </a>
                 </div>
@@ -32,7 +32,7 @@
                                 <th>Image</th>
                                 <th>Title</th>
                                 <th>Description</th>
-                                <th>Created Date</th>
+
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
@@ -41,8 +41,8 @@
                                 <tr>
                                     <td class="align-middle">{{ ++$key }}</td>
                                     <td class="align-middle">
-                                        @if (!empty($strategicPlan->image))
-                                            <img src="{{ asset('images/strategic_plans/images/'.$strategicPlan->image) }}" alt="{{ $strategicPlan->title }}" width="60" height="45" class="rounded border">
+                                        @if (!empty($strategicPlan->thumbnail))
+                                            <img src="{{ asset('images/strategic_plans/thumbnails/'.$strategicPlan->thumbnail) }}" alt="{{ $strategicPlan->title }}" width="60" height="45" class="rounded border">
                                         @else
                                             <span class="text-muted">No Image</span>
                                         @endif
@@ -52,8 +52,8 @@
                                             {{ $strategicPlan->title }}
                                         </a>
                                     </td>
-                                    <td class="align-middle">{{ Str::limit($strategicPlan->description, 50, '...') }}</td>
-                                    <td class="align-middle">{{ date('M d, Y', strtotime($strategicPlan->created_at)) }}</td>
+                                    <td class="align-middle">{{ Str::limit($strategicPlan->description, 30, '...') }}</td>
+    
                                     <td class="align-middle">
                                         <div class="table-actions justify-content-center">
                                             <a href="{{ route('strategic_plans.edit', $strategicPlan->id) }}" class="btn btn-primary" title="Edit">

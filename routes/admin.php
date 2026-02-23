@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\aboutusController;
 use App\Http\Controllers\Admin\applicationController;
+use App\Http\Controllers\Admin\CareerController;
 use App\Http\Controllers\Admin\ChiefMessageController;
 use App\Http\Controllers\Admin\DonationController;
 use App\Http\Controllers\Admin\ExecutiveCommitteeController;
@@ -159,13 +160,21 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('strategic-plans/edit/{id}', [StrategicPlanController::class, 'edit'])->name('strategic_plans.edit');
     Route::post('strategic-plans/update/{id}', [StrategicPlanController::class, 'update'])->name('strategic_plans.update');
 
-    // __Publications __//
+    // __ Publications __//
     Route::get('publications/add', [PublicationController::class, 'add'])->name('publications.add');
     Route::post('publications/store', [PublicationController::class, 'store'])->name('publications.store');
     Route::get('publications/index', [PublicationController::class, 'index'])->name('publications.index');
     Route::get('publications/delete/{id}', [PublicationController::class, 'destroy'])->name('publications.delete');
     Route::get('publications/edit/{id}', [PublicationController::class, 'edit'])->name('publications.edit');
     Route::post('publications/update/{id}', [PublicationController::class, 'update'])->name('publications.update');
+
+    // __ Careers __//
+    Route::get('careers/add', [CareerController::class, 'add'])->name('careers.add');
+    Route::post('careers/store', [CareerController::class, 'store'])->name('careers.store');
+    Route::get('careers/index', [CareerController::class, 'index'])->name('careers.index');
+    Route::get('careers/delete/{id}', [CareerController::class, 'destroy'])->name('careers.delete');
+    Route::get('careers/edit/{id}', [CareerController::class, 'edit'])->name('careers.edit');
+    Route::post('careers/update/{id}', [CareerController::class, 'update'])->name('careers.update');
 
     // __Get Invoked __//
     Route::get('invoked/create', [invokedController::class, 'create'])->name('invoked.create');
