@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\StrategicPlanController;
 use App\Http\Controllers\Admin\OrgMemberController;
 use App\Http\Controllers\Admin\TeamMemberController;
 use App\Http\Controllers\Admin\VolunteerApplicationController;
+use App\Http\Controllers\Admin\YoutubeVideoController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -271,5 +272,13 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::post('donations/verify/{id}', [DonationController::class, 'verify'])->name('admin.donations.verify');
     Route::post('donations/reject/{id}', [DonationController::class, 'reject'])->name('admin.donations.reject');
     Route::get('donations/delete/{id}', [DonationController::class, 'destroy'])->name('admin.donations.delete');
+
+    // __ YouTube Videos __//
+    Route::get('youtube-videos/index',       [YoutubeVideoController::class, 'index'])->name('admin.youtube_videos.index');
+    Route::get('youtube-videos/add',         [YoutubeVideoController::class, 'add'])->name('admin.youtube_videos.add');
+    Route::post('youtube-videos/store',      [YoutubeVideoController::class, 'store'])->name('admin.youtube_videos.store');
+    Route::get('youtube-videos/edit/{id}',   [YoutubeVideoController::class, 'edit'])->name('admin.youtube_videos.edit');
+    Route::post('youtube-videos/update/{id}',[YoutubeVideoController::class, 'update'])->name('admin.youtube_videos.update');
+    Route::get('youtube-videos/delete/{id}', [YoutubeVideoController::class, 'destroy'])->name('admin.youtube_videos.delete');
 
 });

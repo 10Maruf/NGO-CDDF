@@ -734,6 +734,16 @@
 					</li>
 					<li class="nxl-item nxl-hasmenu">
 						<a href="javascript:void(0);" class="nxl-link">
+							<span class="nxl-micon"><i class="feather-video"></i></span>
+							<span class="nxl-mtext">YouTube Videos</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+						</a>
+						<ul class="nxl-submenu">
+							<li class="nxl-item"><a class="nxl-link" href="{{ route('admin.youtube_videos.add') }}">Add Video</a></li>
+							<li class="nxl-item"><a class="nxl-link" href="{{ route('admin.youtube_videos.index') }}">All Videos</a></li>
+						</ul>
+					</li>
+					<li class="nxl-item nxl-hasmenu">
+						<a href="javascript:void(0);" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-flag"></i></span>
 							<span class="nxl-mtext" data-translate="career">Career</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
 						</a>

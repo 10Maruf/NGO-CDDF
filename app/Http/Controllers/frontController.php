@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Project;
+use App\Models\YoutubeVideo;
 use Illuminate\Support\Facades\DB;
 
 class frontController extends Controller
@@ -179,7 +180,8 @@ class frontController extends Controller
 
     // Youtube
     public function youtube(){
-        return view('frontend.youtube');
+        $videos = YoutubeVideo::orderBy('order', 'asc')->orderBy('id', 'desc')->get();
+        return view('frontend.youtube', compact('videos'));
     }
 
     // Programs

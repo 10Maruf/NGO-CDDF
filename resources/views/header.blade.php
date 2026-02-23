@@ -19,9 +19,8 @@
                 {{-- About us --}}
                 @php
                     $aboutActive = request()->routeIs(
-                        'about.us','vision.mission','team.members',
-                        'origin_affilation','executive.committee','cheif.message',
-                        'faq','photo.all'
+                        'about.us','vision.mission',
+                        'origin_affilation','faq'
                     );
                 @endphp
                 <li class="nav-item dropdown {{ $aboutActive ? 'active' : '' }}">
@@ -31,12 +30,25 @@
                     <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
                         <li><a class="dropdown-item {{ request()->routeIs('about.us') ? 'active' : '' }}" href="{{ route('about.us') }}">About CDDF</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('vision.mission') ? 'active' : '' }}" href="{{ route('vision.mission') }}">Mission, Vision & Core Values</a></li>
-                        <li><a class="dropdown-item {{ request()->routeIs('team.members') ? 'active' : '' }}" href="{{ route('team.members') }}">Team Members</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('origin_affilation') ? 'active' : '' }}" href="{{ route('origin_affilation') }}">Origin and Legal Affiliation</a></li>
+                        <li><a class="dropdown-item {{ request()->routeIs('faq') ? 'active' : '' }}" href="{{ route('faq') }}">FAQ</a></li>
+                    </ul>
+                </li>
+
+                {{-- Our People --}}
+                @php
+                    $peopleActive = request()->routeIs(
+                        'team.members','executive.committee','cheif.message'
+                    );
+                @endphp
+                <li class="nav-item dropdown {{ $peopleActive ? 'active' : '' }}">
+                    <a class="nav-link dropdown-toggle {{ $peopleActive ? 'active' : '' }}" href="#" id="peopleDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Our People
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="peopleDropdown">
+                        <li><a class="dropdown-item {{ request()->routeIs('team.members') ? 'active' : '' }}" href="{{ route('team.members') }}">Team Members</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('executive.committee') ? 'active' : '' }}" href="{{ route('executive.committee') }}">Executive Committee</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('cheif.message') ? 'active' : '' }}" href="{{ route('cheif.message') }}">Message from Chief Executive</a></li>
-                        <li><a class="dropdown-item {{ request()->routeIs('faq') ? 'active' : '' }}" href="{{ route('faq') }}">FAQ</a></li>
-                        <li><a class="dropdown-item {{ request()->routeIs('photo.all') ? 'active' : '' }}" href="{{ route('photo.all') }}">Photo Gallery</a></li>
                     </ul>
                 </li>
 
@@ -49,13 +61,13 @@
                 @endphp
                 <li class="nav-item dropdown {{ $programsActive ? 'active' : '' }}">
                     <a class="nav-link dropdown-toggle {{ $programsActive ? 'active' : '' }}" href="#" id="programsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Programs
+                        Our Work
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="programsDropdown">
-                        <li><a class="dropdown-item {{ request()->routeIs('programs.all') ? 'active' : '' }}" href="{{ route('programs.all') }}">Featured Programs</a></li>
+                        <li><a class="dropdown-item {{ request()->routeIs('programs.all') ? 'active' : '' }}" href="{{ route('programs.all') }}">All Programs</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('key.focus.area') ? 'active' : '' }}" href="{{ route('key.focus.area') }}">Key Focus Area</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('ongoing.project') ? 'active' : '' }}" href="{{ route('ongoing.project') }}">Projects</a></li>
-                        <li><a class="dropdown-item {{ request()->routeIs('success.stories') ? 'active' : '' }}" href="{{ route('success.stories') }}">Success Stories</a></li>
+                        {{-- <li><a class="dropdown-item {{ request()->routeIs('success.stories') ? 'active' : '' }}" href="{{ route('success.stories') }}">Success Stories</a></li> --}}
                     </ul>
                 </li>
 
@@ -73,8 +85,8 @@
                     <ul class="dropdown-menu" aria-labelledby="involvedDropdown">
                         <li><a class="dropdown-item {{ request()->routeIs('volunteer.opportunities') ? 'active' : '' }}" href="{{ route('volunteer.opportunities') }}">Volunteer Opportunities</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('donate') ? 'active' : '' }}" href="{{ route('donate') }}">Donate</a></li>
-                        <li><a class="dropdown-item {{ request()->routeIs('fundraising') ? 'active' : '' }}" href="{{ route('fundraising') }}">Fundraising Campaign</a></li>
-                        <li><a class="dropdown-item {{ request()->routeIs('corporate.partnership') ? 'active' : '' }}" href="{{ route('corporate.partnership') }}">Corporate Partnership</a></li>
+                        {{-- <li><a class="dropdown-item {{ request()->routeIs('fundraising') ? 'active' : '' }}" href="{{ route('fundraising') }}">Fundraising Campaign</a></li> --}}
+                        {{-- <li><a class="dropdown-item {{ request()->routeIs('corporate.partnership') ? 'active' : '' }}" href="{{ route('corporate.partnership') }}">Corporate Partnership</a></li> --}}
                         <li><a class="dropdown-item {{ request()->routeIs('invoked.career') ? 'active' : '' }}" href="{{ route('invoked.career') }}">Career with AFAD</a></li>
                     </ul>
                 </li>
@@ -83,20 +95,21 @@
                 @php
                     $newsActive = request()->routeIs(
                         'latest.news.all','events.calender','youtube.video',
-                        'strategic.plan','policy.guideline','publication'
+                        'strategic.plan','policy.guideline','publication','photo.all'
                     );
                 @endphp
                 <li class="nav-item dropdown {{ $newsActive ? 'active' : '' }}">
                     <a class="nav-link dropdown-toggle {{ $newsActive ? 'active' : '' }}" href="#" id="eventsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Updates
+                        Media & Publication
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="eventsDropdown">
                         <li><a class="dropdown-item {{ request()->routeIs('latest.news.all') ? 'active' : '' }}" href="{{ route('latest.news.all') }}">News & Events</a></li>
-                        <li><a class="dropdown-item {{ request()->routeIs('events.calender') ? 'active' : '' }}" href="{{ route('events.calender') }}">Events Calender</a></li>
+                        {{-- <li><a class="dropdown-item {{ request()->routeIs('events.calender') ? 'active' : '' }}" href="{{ route('events.calender') }}">Events Calender</a></li> --}}
                         <li><a class="dropdown-item {{ request()->routeIs('youtube.video') ? 'active' : '' }}" href="{{ route('youtube.video') }}">Youtube Video</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('strategic.plan') ? 'active' : '' }}" href="{{ route('strategic.plan') }}">AFAD Strategic Plan</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('policy.guideline') ? 'active' : '' }}" href="{{ route('policy.guideline') }}">Policy & Guideline</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('publication') ? 'active' : '' }}" href="{{ route('publication') }}">Publication</a></li>
+                        <li><a class="dropdown-item {{ request()->routeIs('photo.all') ? 'active' : '' }}" href="{{ route('photo.all') }}">Photo Gallery</a></li>
                     </ul>
                 </li>
 
