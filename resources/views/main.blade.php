@@ -72,16 +72,11 @@
             var st       = $(this).scrollTop();
             var $navbar  = $('.ftco-navbar-light');
 
-            if (st > 150) {
+            if (st > 100) {
                 if (!$navbar.hasClass('scrolled')) $navbar.addClass('scrolled');
-            } else {
-                if ($navbar.hasClass('scrolled')) $navbar.removeClass('scrolled sleep awake');
-            }
-
-            if (st > 350) {
                 if (!$navbar.hasClass('awake')) $navbar.addClass('awake');
             } else {
-                if ($navbar.hasClass('awake')) { $navbar.removeClass('awake'); $navbar.addClass('sleep'); }
+                if ($navbar.hasClass('scrolled')) $navbar.removeClass('scrolled sleep awake');
             }
         });
 

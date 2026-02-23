@@ -132,19 +132,28 @@ h5,
 
 /* CTA (Donate) button in nav */
 .ftco-navbar-light .navbar-nav>.nav-item.cta>a {
-    color: #fff;
+    color: #fff !important;
     border: 1px solid #f86f2d;
     background: #f86f2d;
     padding: .4rem 1.2rem;
     margin-top: 4px;
     border-radius: 30px;
     font-weight: 600;
+    transition: background .2s ease, border-color .2s ease;
 }
 
-.ftco-navbar-light .navbar-nav>.nav-item.cta>a:hover {
-    background: #f86f2d;
-    border-color: #f86f2d;
-    color: #fff;
+.ftco-navbar-light .navbar-nav>.nav-item.cta>a:hover,
+.ftco-navbar-light .navbar-nav>.nav-item.cta>a:focus {
+    color: #fff !important;
+    background: #e05a1a !important;
+    border-color: #e05a1a !important;
+}
+
+.ftco-navbar-light .navbar-nav>.nav-item.cta>a:active,
+.ftco-navbar-light .navbar-nav>.nav-item.cta>a.active {
+    color: #fff !important;
+    background: #c44d12 !important;
+    border-color: #c44d12 !important;
 }
 
 /* Toggler */
@@ -194,11 +203,24 @@ h5,
     color: #f86f2d !important;
 }
 
-.ftco-navbar-light.scrolled .nav-item.cta>a {
+.ftco-navbar-light.scrolled .navbar-nav>.nav-item.cta>a {
     color: #fff !important;
     background: #f86f2d;
     border: none !important;
     border-radius: 30px;
+    transition: background .2s ease;
+}
+
+.ftco-navbar-light.scrolled .navbar-nav>.nav-item.cta>a:hover,
+.ftco-navbar-light.scrolled .navbar-nav>.nav-item.cta>a:focus {
+    color: #fff !important;
+    background: #e05a1a !important;
+}
+
+.ftco-navbar-light.scrolled .navbar-nav>.nav-item.cta>a:active,
+.ftco-navbar-light.scrolled .navbar-nav>.nav-item.cta>a.active {
+    color: #fff !important;
+    background: #c44d12 !important;
 }
 
 .ftco-navbar-light.scrolled .navbar-toggler {
