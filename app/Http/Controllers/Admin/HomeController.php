@@ -31,8 +31,8 @@ class HomeController extends Controller
             'donations_amount' => DB::table('donations')->where('status', 'verified')->sum('amount') ?? 0,
             'pending_donations_count' => DB::table('donations')->where('status', 'pending')->count(),
             'pending_donations_amount' => DB::table('donations')->where('status', 'pending')->sum('amount') ?? 0,
-            'volunteers_count' => DB::table('volunteers')->count(),
-            'volunteers_active' => DB::table('volunteers')->where('status', 'open')->count(),
+            'volunteers_count' => DB::table('volunteer_applications')->count(),
+            'volunteers_active' => DB::table('volunteer_applications')->where('status', 'approved')->count(),
             'projects_count' => DB::table('projects')->count(),
             'subscribers_count' => DB::table('subscribe')->count(),
             'messages_count' => DB::table('messages')->count(),
@@ -59,7 +59,7 @@ class HomeController extends Controller
             ->limit(5)
             ->get();
 
-        $recentVolunteers = DB::table('volunteers')
+        $recentVolunteers = DB::table('volunteer_applications')
             ->orderBy('created_at', 'desc')
             ->limit(5)
             ->get();

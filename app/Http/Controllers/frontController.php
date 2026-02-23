@@ -242,10 +242,39 @@ class frontController extends Controller
         return view('frontend.career',compact('career'));
     }
 
-    // Volunteer Opportunities
+    // Volunteers
     public function volOpportunities(){
-        $volunteers = DB::table('volunteers')->where('status', 'open')->orderBy('id', 'desc')->get();
+        $volunteers = \App\Models\VolunteerApplication::where('status', 'approved')->orderBy('id', 'desc')->get();
         return view('frontend.volunteer_opportunities', compact('volunteers'));
+    }
+
+    // Volunteer Application Submit
+    public function volunteerApplyStore(Request $request){
+        $request->validate([
+            'name'  => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'photo' => 'nullable|mimes:jpg,png,jpeg,gif|max:2048',
+        ]);
+
+        $photoName = null;
+        if ($photo = $request->file('photo')) {
+            $photoName = rand(10000, 99999) . 'vol.' . $photo->getClientOriginalExtension();
+            $photo->move(public_path('images/volunteers'), $photoName);
+        }
+
+        \App\Models\VolunteerApplication::create([
+            'name'    => $request->name,
+            'email'   => $request->email,
+            'phone'   => $request->phone,
+            'photo'   => $photoName,
+            'address' => $request->address,
+            'skills'  => $request->skills,
+            'message' => $request->message,
+            'status'  => 'pending',
+        ]);
+
+        return redirect()->back()->with('apply_success', 'Your application has been submitted! We will get back to you soon.');
     }
 
     // Donate

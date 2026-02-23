@@ -422,8 +422,8 @@
     <div class="col-xxl-4">
         <div class="card stretch stretch-full">
             <div class="card-header">
-                <h5 class="card-title">Recent Volunteer Opportunities</h5>
-                <a href="{{ route('volunteers.index') }}" class="btn btn-sm btn-light-brand">View All</a>
+                <h5 class="card-title">Recent Applications</h5>
+                <a href="{{ route('admin.volunteer_applications.index') }}" class="btn btn-sm btn-light-brand">View All</a>
             </div>
             <div class="card-body">
                 @forelse($recentVolunteers as $volunteer)
@@ -433,14 +433,26 @@
                             <i class="feather-user"></i>
                         </div>
                         <div>
-                            <a href="javascript:void(0);" class="font-body fw-bold d-block mb-1">{{ $volunteer->title }}</a>
-                            <p class="fs-11 text-muted mb-0">{{ Str::limit($volunteer->description, 30) }}</p>
+                            <a href="{{ route('admin.volunteer_applications.show', $volunteer->id) }}" class="font-body fw-bold d-block mb-1">{{ $volunteer->name }}</a>
+                            <p class="fs-11 text-muted mb-0">{{ $volunteer->email ?? $volunteer->phone }}</p>
                         </div>
                     </div>
-                    <span class="badge bg-soft-{{ $volunteer->status == 'open' ? 'success' : 'danger' }} text-{{ $volunteer->status == 'open' ? 'success' : 'danger' }}">{{ ucfirst($volunteer->status) }}</span>
+                    <div class="d-flex align-items-center gap-2">
+                        @php
+                            $badgeClass = match($volunteer->status) {
+                                'approved' => 'success',
+                                'rejected' => 'danger',
+                                default => 'warning',
+                            };
+                        @endphp
+                        <span class="badge bg-soft-{{ $badgeClass }} text-{{ $badgeClass }}">{{ ucfirst($volunteer->status) }}</span>
+                        <a href="{{ route('admin.volunteer_applications.show', $volunteer->id) }}" class="avatar-text avatar-sm" data-bs-toggle="tooltip" title="View Details">
+                            <i class="feather-eye"></i>
+                        </a>
+                    </div>
                 </div>
                 @empty
-                <p class="text-muted text-center py-4">No volunteer opportunities yet</p>
+                <p class="text-muted text-center py-4">No applications yet</p>
                 @endforelse
             </div>
         </div>

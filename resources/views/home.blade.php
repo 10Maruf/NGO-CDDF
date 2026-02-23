@@ -1510,7 +1510,7 @@ CDDF - Home
                         <p class="text-white mb-3" style="opacity: 0.85; font-size: 0.9rem;">Volunteer with us or become a partner organization — reach out and let's build a better future together.</p>
                     </div>
                     <div class="d-flex justify-content-center flex-wrap gap-3" data-aos="fade-up" data-aos-duration="700" data-aos-delay="250">
-                        <a href="{{ route('contact') }}" class="vp-btn-primary">
+                        <a href="{{ route('volunteer.opportunities') }}" class="vp-btn-primary">
                             <i class="fas fa-user-plus me-2"></i> Become a Volunteer
                         </a>
                         <a href="{{ route('contact') }}" class="vp-btn-secondary">

@@ -62,7 +62,7 @@
                 {{-- Get Involved --}}
                 @php
                     $involvedActive = request()->routeIs(
-                        'volunterr.opportunities','donate','fundraising',
+                        'volunteer.opportunities','donate','fundraising',
                         'corporate.partnership','invoked.career'
                     );
                 @endphp
@@ -71,7 +71,7 @@
                         Get Involved
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="involvedDropdown">
-                        <li><a class="dropdown-item {{ request()->routeIs('volunterr.opportunities') ? 'active' : '' }}" href="{{ route('volunterr.opportunities') }}">Volunteer Opportunities</a></li>
+                        <li><a class="dropdown-item {{ request()->routeIs('volunteer.opportunities') ? 'active' : '' }}" href="{{ route('volunteer.opportunities') }}">Volunteer Opportunities</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('donate') ? 'active' : '' }}" href="{{ route('donate') }}">Donate</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('fundraising') ? 'active' : '' }}" href="{{ route('fundraising') }}">Fundraising Campaign</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('corporate.partnership') ? 'active' : '' }}" href="{{ route('corporate.partnership') }}">Corporate Partnership</a></li>

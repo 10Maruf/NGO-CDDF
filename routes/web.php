@@ -61,7 +61,8 @@ Route::get('publication', [frontController::class, 'publication'])->name('public
 
 // Involved
 Route::get('get_invoked/career', [frontController::class, 'career'])->name('invoked.career');
-Route::get('volunteer/opportunities', [frontController::class, 'volOpportunities'])->name('volunterr.opportunities');
+Route::get('volunteer/opportunities', [frontController::class, 'volOpportunities'])->name('volunteer.opportunities');
+Route::post('volunteer/apply', [frontController::class, 'volunteerApplyStore'])->name('volunteer.apply');
 Route::get('donate', [frontController::class, 'donate'])->name('donate');
 Route::post('donation/submit', [frontController::class, 'donationSubmit'])->name('donation.submit');
 Route::get('fundraising', [frontController::class, 'fundraising'])->name('fundraising');

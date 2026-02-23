@@ -59,7 +59,7 @@
                     <li class="mb-2"><a href="{{ route('faq') }}" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#f86f2d'" onmouseout="this.style.color='#aaa'"><i class="fa-solid fa-chevron-right me-2" style="color:#f86f2d;font-size:0.7rem;"></i>FAQ</a></li>
                     <li class="mb-2"><a href="{{ route('latest.news.all') }}" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#f86f2d'" onmouseout="this.style.color='#aaa'"><i class="fa-solid fa-chevron-right me-2" style="color:#f86f2d;font-size:0.7rem;"></i>Updates</a></li>
                     <li class="mb-2"><a href="{{ route('contact') }}" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#f86f2d'" onmouseout="this.style.color='#aaa'"><i class="fa-solid fa-chevron-right me-2" style="color:#f86f2d;font-size:0.7rem;"></i>Contact</a></li>
-                    <li class="mb-2"><a href="{{ route('volunterr.opportunities') }}" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#f86f2d'" onmouseout="this.style.color='#aaa'"><i class="fa-solid fa-chevron-right me-2" style="color:#f86f2d;font-size:0.7rem;"></i>Volunteer</a></li>
+                    <li class="mb-2"><a href="{{ route('volunteer.opportunities') }}" style="color:#aaa;text-decoration:none;" onmouseover="this.style.color='#f86f2d'" onmouseout="this.style.color='#aaa'"><i class="fa-solid fa-chevron-right me-2" style="color:#f86f2d;font-size:0.7rem;"></i>Volunteer</a></li>
                 </ul>
             </div>
 

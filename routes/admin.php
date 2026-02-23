@@ -29,7 +29,7 @@ use App\Http\Controllers\Admin\subscribeController;
 use App\Http\Controllers\Admin\StrategicPlanController;
 use App\Http\Controllers\Admin\OrgMemberController;
 use App\Http\Controllers\Admin\TeamMemberController;
-use App\Http\Controllers\Admin\VolunteerController;
+use App\Http\Controllers\Admin\VolunteerApplicationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -246,13 +246,15 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('faq/edit/{id}', [FaqController::class, 'edit'])->name('faq.edit');
     Route::post('faq/update/{id}', [FaqController::class, 'update'])->name('faq.update');
 
-    // __ Volunteers __//
-    Route::get('volunteers/add', [VolunteerController::class, 'add'])->name('volunteers.add');
-    Route::post('volunteers/store', [VolunteerController::class, 'store'])->name('volunteers.store');
-    Route::get('volunteers/index', [VolunteerController::class, 'index'])->name('volunteers.index');
-    Route::get('volunteers/delete/{id}', [VolunteerController::class, 'destroy'])->name('volunteers.delete');
-    Route::get('volunteers/edit/{id}', [VolunteerController::class, 'edit'])->name('volunteers.edit');
-    Route::post('volunteers/update/{id}', [VolunteerController::class, 'update'])->name('volunteers.update');
+    // __ Volunteer Applications __//
+    Route::get('volunteer-applications/index',        [VolunteerApplicationController::class, 'index'])->name('admin.volunteer_applications.index');
+    Route::get('volunteer-applications/add',          [VolunteerApplicationController::class, 'add'])->name('admin.volunteer_applications.add');
+    Route::post('volunteer-applications/store',       [VolunteerApplicationController::class, 'store'])->name('admin.volunteer_applications.store');
+    Route::get('volunteer-applications/show/{id}',   [VolunteerApplicationController::class, 'show'])->name('admin.volunteer_applications.show');
+    Route::get('volunteer-applications/edit/{id}',   [VolunteerApplicationController::class, 'edit'])->name('admin.volunteer_applications.edit');
+    Route::post('volunteer-applications/update/{id}',[VolunteerApplicationController::class, 'update'])->name('admin.volunteer_applications.update');
+    Route::post('volunteer-applications/status/{id}',[VolunteerApplicationController::class, 'updateStatus'])->name('admin.volunteer_applications.status');
+    Route::get('volunteer-applications/delete/{id}', [VolunteerApplicationController::class, 'destroy'])->name('admin.volunteer_applications.delete');
 
     // __ Payment Methods __//
     Route::get('payment-methods/add', [PaymentMethodController::class, 'add'])->name('admin.payment_methods.add');

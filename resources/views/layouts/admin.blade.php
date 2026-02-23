@@ -669,8 +669,8 @@
 							<span class="nxl-mtext" data-translate="volunteers">Volunteers</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
 						</a>
 						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('volunteers.add') }}" data-translate="add_opportunity">Add Opportunity</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('volunteers.index') }}" data-translate="all_opportunities">All Opportunities</a></li>
+							<li class="nxl-item"><a class="nxl-link" href="{{ route('admin.volunteer_applications.add') }}" data-translate="add_opportunity">Add Volunteer</a></li>
+							<li class="nxl-item"><a class="nxl-link" href="{{ route('admin.volunteer_applications.index') }}" data-translate="all_opportunities">All Volunteers</a></li>
 						</ul>
 					</li>
 					<li class="nxl-item nxl-hasmenu">
@@ -1348,8 +1348,8 @@
 				all_message: 'All Messages',
 				add_faq: 'Add FAQ',
 				all_faq: 'All FAQ',
-				add_opportunity: 'Add Opportunity',
-				all_opportunities: 'All Opportunities',
+				add_opportunity: 'Add Volunteer',
+				all_opportunities: 'All Volunteers',
 				add_partners_donor: 'Add Partners & Donor',
 				all_partners_donor: 'All Partners & Donor',
 				add_strategic_plan: 'Add Strategic Plan',
@@ -1421,8 +1421,8 @@
 				all_message: 'সব বার্তা',
 				add_faq: 'FAQ যোগ করুন',
 				all_faq: 'সব FAQ',
-				add_opportunity: 'সুযোগ যোগ করুন',
-				all_opportunities: 'সব সুযোগ',
+				add_opportunity: 'স্বেচ্ছাসেবক যোগ করুন',
+				all_opportunities: 'সব স্বেচ্ছাসেবক',
 				add_partners_donor: 'সাথী ও দাতা যোগ করুন',
 				all_partners_donor: 'সব সাথী ও দাতা',
 				add_strategic_plan: 'স্ট্র্যাটেজিক প্ল্যান যোগ করুন',
