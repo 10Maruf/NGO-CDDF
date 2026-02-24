@@ -1,9 +1,19 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Partners & Donors')
+@section('bread_crumb')
+    <li class="breadcrumb-item">Partners</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
-        <h6 class="mb-0 text-uppercase">All Partners/Donors</h6>
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h6 class="mb-0 text-uppercase">All Partners/Donors</h6>
+            <a href="{{ route('partner.create') }}" class="btn btn-primary btn-sm">
+                <i class="feather-plus me-1"></i> Add Partner
+            </a>
+        </div>
         <hr/>
         <div class="card">
             <div class="card-body">
@@ -30,13 +40,15 @@
                                 <td class="align-middle">
                                     <img src="{{ asset('images/partner/'.$partner->image) }}" alt="" width="50">
                                 </td>
-                                <td class="text-center align-middle">
-                                    <a href="{{ route('partner.edit',$partner->id) }}" class="btn btn-sm btn-primary text-white text-center">
-                                        <i class="fadeIn animated bx bx-edit"></i>
-                                    </a>
-                                    <a href="{{ route('partner.delete',$partner->id) }}" class="btn btn-sm btn-danger text-white text-center">
-                                        <i class="fadeIn animated bx bx-trash-alt"></i>
-                                    </a>
+                                <td class="align-middle">
+                                    <div class="table-actions justify-content-center">
+                                        <a href="{{ route('partner.edit',$partner->id) }}" class="btn btn-primary" title="Edit">
+                                            <i class="feather-edit"></i>
+                                        </a>
+                                        <a href="{{ route('partner.delete',$partner->id) }}" class="btn btn-danger" data-delete data-delete-title="Delete Partner" data-delete-message="Are you sure you want to delete this partner? This action cannot be undone." title="Delete">
+                                            <i class="feather-trash-2"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

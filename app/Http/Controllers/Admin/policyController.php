@@ -8,93 +8,118 @@ use Illuminate\Support\Facades\DB;
 
 class policyController extends Controller
 {
-    //__Create__//
+    // Add
     public function create()
     {
         return view('admin.policy_guideline.add');
     }
 
-    //__store__//
+    // Store
     public function store(Request $request)
     {
-        $validatedDate = $request->validate([
-            'name' => 'required',
-            'file' => 'required|mimes:pdf',
+        $request->validate([
+            'title'       => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'thumbnail'   => 'nullable|mimes:jpg,png,jpeg,gif|max:2048',
+            'pdf_file'    => 'nullable|mimes:pdf|max:10240',
         ]);
 
-        $fileName = '';
-        if ($file = $request->file('file')) {
-            $fileName = rand(10000, 99999) . 'policy_guideline.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/policy_guideline/'), $fileName);
+        $thumbnailName = '';
+        if ($thumbnail = $request->file('thumbnail')) {
+            $thumbnailName = rand(10000, 99999) . 'policy_thumbnail.' . $thumbnail->getClientOriginalExtension();
+            $thumbnail->move(public_path('images/policy_guideline/thumbnails/'), $thumbnailName);
         }
 
-        $file = [
-            'name' => $request->name,
-            'file' => $fileName
-        ];
+        $pdfFileName = '';
+        if ($pdfFile = $request->file('pdf_file')) {
+            $pdfFileName = rand(10000, 99999) . 'policy_guideline.' . $pdfFile->getClientOriginalExtension();
+            $pdfFile->move(public_path('images/policy_guideline/pdfs/'), $pdfFileName);
+        }
 
-        DB::table('policy_guideline')->insert($file);
-        return redirect()->back()->with('success', 'Successfully Uploaded');
+        DB::table('policy_guideline')->insert([
+            'title'       => $request->title,
+            'description' => $request->description,
+            'thumbnail'   => $thumbnailName,
+            'pdf_file'    => $pdfFileName,
+            'created_at'  => now(),
+            'updated_at'  => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Policy & Guideline added successfully');
     }
 
-    //__index__//
+    // Index
     public function index()
     {
-        $file = DB::table('policy_guideline')->get();
-        return view('admin.policy_guideline.index', compact('file'));
+        $items = DB::table('policy_guideline')->orderBy('created_at', 'desc')->get();
+        return view('admin.policy_guideline.index', compact('items'));
     }
 
-    //__delete__//
+    // Edit
+    public function edit($id)
+    {
+        $item = DB::table('policy_guideline')->where('id', $id)->first();
+        return view('admin.policy_guideline.edit', compact('item'));
+    }
+
+    // Update
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title'       => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'thumbnail'   => 'nullable|mimes:jpg,png,jpeg,gif|max:2048',
+            'pdf_file'    => 'nullable|mimes:pdf|max:10240',
+        ]);
+
+        $existing = DB::table('policy_guideline')->where('id', $id)->first();
+
+        $thumbnailName = $existing->thumbnail;
+        if ($thumbnail = $request->file('thumbnail')) {
+            if (!empty($existing->thumbnail)) {
+                $old = public_path('images/policy_guideline/thumbnails/' . $existing->thumbnail);
+                if (file_exists($old)) @unlink($old);
+            }
+            $thumbnailName = rand(10000, 99999) . 'policy_thumbnail.' . $thumbnail->getClientOriginalExtension();
+            $thumbnail->move(public_path('images/policy_guideline/thumbnails/'), $thumbnailName);
+        }
+
+        $pdfFileName = $existing->pdf_file;
+        if ($pdfFile = $request->file('pdf_file')) {
+            if (!empty($existing->pdf_file)) {
+                $old = public_path('images/policy_guideline/pdfs/' . $existing->pdf_file);
+                if (file_exists($old)) @unlink($old);
+            }
+            $pdfFileName = rand(10000, 99999) . 'policy_guideline.' . $pdfFile->getClientOriginalExtension();
+            $pdfFile->move(public_path('images/policy_guideline/pdfs/'), $pdfFileName);
+        }
+
+        DB::table('policy_guideline')->where('id', $id)->update([
+            'title'       => $request->title,
+            'description' => $request->description,
+            'thumbnail'   => $thumbnailName,
+            'pdf_file'    => $pdfFileName,
+            'updated_at'  => now(),
+        ]);
+
+        return redirect()->route('policy.index')->with('success', 'Policy & Guideline updated successfully');
+    }
+
+    // Delete
     public function destroy($id)
     {
-        $file = DB::table('policy_guideline')->where('id', $id)->first();
+        $existing = DB::table('policy_guideline')->where('id', $id)->first();
 
-        $oldFile = public_path('images/policy_guideline/' . $file->file);
-
-        if (file_exists($oldFile)) {
-            @unlink($oldFile);
+        if (!empty($existing->thumbnail)) {
+            $old = public_path('images/policy_guideline/thumbnails/' . $existing->thumbnail);
+            if (file_exists($old)) @unlink($old);
+        }
+        if (!empty($existing->pdf_file)) {
+            $old = public_path('images/policy_guideline/pdfs/' . $existing->pdf_file);
+            if (file_exists($old)) @unlink($old);
         }
 
         DB::table('policy_guideline')->where('id', $id)->delete();
-        return redirect()->back()->with('success', 'Successfully Deleted');
-    }
-
-    //__edit__//
-    public function edit($id)
-    {
-        $file = DB::table('policy_guideline')->where('id', $id)->first();
-        return view('admin.policy_guideline.edit', compact('file'));
-    }
-
-    //update//
-    public function update(Request $request, $id)
-    {
-        $validatedDate = $request->validate([
-            'name' => 'required',
-        ]);
-
-        $files = DB::table('policy_guideline')->where('id', $id)->first();
-
-        $fileName = '';
-        $oldFile = public_path('images/policy_guideline/' . $files->file);
-
-        if ($file = $request->file('file')) {
-            if (file_exists($oldFile)) {
-                @unlink($oldFile);
-            }
-            $fileName = rand(10000, 99999) . 'policy_guideline.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/policy_guideline/'), $fileName);
-        } else {
-            $fileName = $files->file;
-        }
-
-
-        $policy_guideline = [
-            'name' => $request->name,
-            'file' => $fileName
-        ];
-
-        DB::table('policy_guideline')->where('id', $id)->update($policy_guideline);
-        return redirect()->back()->with('success', 'Successfully Updated');
+        return redirect()->back()->with('success', 'Policy & Guideline deleted successfully');
     }
 }

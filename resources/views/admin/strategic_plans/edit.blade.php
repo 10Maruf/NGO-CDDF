@@ -1,5 +1,11 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Edit Strategic Plan')
+@section('bread_crumb')
+    <li class="breadcrumb-item"><a href="{{ route('strategic_plans.index') }}">Strategic Plans</a></li>
+    <li class="breadcrumb-item active">Edit Plan</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-xl-9 mx-auto">
@@ -30,16 +36,16 @@
                             @enderror
                         </div>
                         <div class="col-md-12">
-                            <label for="image" class="form-label">Image</label>
-                            <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
-                            @if (!empty($strategicPlan->image))
+                            <label for="thumbnail" class="form-label">Thumbnail Image</label>
+                            <input type="file" name="thumbnail" id="thumbnail" class="form-control @error('thumbnail') is-invalid @enderror">
+                            @if (!empty($strategicPlan->thumbnail))
                                 <div class="mt-2">
-                                    <img src="{{ asset('images/strategic_plans/images/'.$strategicPlan->image) }}" alt="Strategic Plan Image" width="120" class="rounded border">
+                                    <img src="{{ asset('images/strategic_plans/thumbnails/'.$strategicPlan->thumbnail) }}" alt="Strategic Plan Thumbnail" width="120" class="rounded border">
                                 </div>
                             @else
-                                <span class="text-muted">No image uploaded yet</span>
+                                <span class="text-muted">No thumbnail uploaded yet</span>
                             @endif
-                            @error('image')
+                            @error('thumbnail')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>

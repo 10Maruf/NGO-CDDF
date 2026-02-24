@@ -1,9 +1,19 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Strategic Plans')
+@section('bread_crumb')
+    <li class="breadcrumb-item">Strategic Plans</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
-        <h6 class="mb-0 text-uppercase">All Strategic Plans</h6>
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h6 class="mb-0 text-uppercase">All Strategic Plans</h6>
+            <a href="{{ route('strategic_plans.create') }}" class="btn btn-primary btn-sm">
+                <i class="feather-plus me-1"></i> Add Strategic Plan
+            </a>
+        </div>
         <hr/>
         <div class="card">
             <div class="card-body">
@@ -13,9 +23,9 @@
                     </div>
                 @endif
 
-                <div class="mb-3">
-                    <a href="{{ route('strategic_plans.create') }}" class="btn btn-primary">
-                        <i class="bx bx-plus"></i> Add Strategic Plan
+                <div class="d-flex justify-content-end mb-3">
+                    <a href="{{ route('strategic_plans.create') }}" class="btn btn-sm btn-primary">
+                        <i class="feather-plus"></i> Add Strategic Plan
                     </a>
                 </div>
 
@@ -27,7 +37,7 @@
                                 <th>Image</th>
                                 <th>Title</th>
                                 <th>Description</th>
-                                <th>Created Date</th>
+
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
@@ -36,8 +46,8 @@
                                 <tr>
                                     <td class="align-middle">{{ ++$key }}</td>
                                     <td class="align-middle">
-                                        @if (!empty($strategicPlan->image))
-                                            <img src="{{ asset('images/strategic_plans/images/'.$strategicPlan->image) }}" alt="{{ $strategicPlan->title }}" width="60" height="45" class="rounded border">
+                                        @if (!empty($strategicPlan->thumbnail))
+                                            <img src="{{ asset('images/strategic_plans/thumbnails/'.$strategicPlan->thumbnail) }}" alt="{{ $strategicPlan->title }}" width="60" height="45" class="rounded border">
                                         @else
                                             <span class="text-muted">No Image</span>
                                         @endif
@@ -47,15 +57,15 @@
                                             {{ $strategicPlan->title }}
                                         </a>
                                     </td>
-                                    <td class="align-middle">{{ Str::limit($strategicPlan->description, 50, '...') }}</td>
-                                    <td class="align-middle">{{ date('M d, Y', strtotime($strategicPlan->created_at)) }}</td>
-                                    <td class="text-center align-middle">
-                                        <div class="d-flex align-items-center justify-content-center gap-1">
-                                            <a href="{{ route('strategic_plans.edit', $strategicPlan->id) }}" class="btn btn-sm btn-primary text-white" title="Edit">
-                                                <i class="fadeIn animated bx bx-edit"></i>
+                                    <td class="align-middle">{{ Str::limit($strategicPlan->description, 30, '...') }}</td>
+    
+                                    <td class="align-middle">
+                                        <div class="table-actions justify-content-center">
+                                            <a href="{{ route('strategic_plans.edit', $strategicPlan->id) }}" class="btn btn-primary" title="Edit">
+                                                <i class="feather-edit"></i>
                                             </a>
-                                            <a href="{{ route('strategic_plans.delete', $strategicPlan->id) }}" class="btn btn-sm btn-danger text-white" title="Delete">
-                                                <i class="fadeIn animated bx bx-trash-alt"></i>
+                                            <a href="{{ route('strategic_plans.delete', $strategicPlan->id) }}" class="btn btn-danger" title="Delete" data-delete data-delete-title="Delete Strategic Plan" data-delete-message="Are you sure you want to delete this strategic plan? This action cannot be undone.">
+                                                <i class="feather-trash-2"></i>
                                             </a>
                                         </div>
                                     </td>
@@ -64,7 +74,7 @@
                                 <tr>
                                     <td colspan="6" class="text-center py-4">
                                         <div class="text-muted">
-                                            <i class="bx bx-file bx-lg"></i>
+                                            <i class="feather-file"></i>
                                             <p class="mt-2">No strategic plans found. <a href="{{ route('strategic_plans.create') }}">Add the first one</a></p>
                                         </div>
                                     </td>

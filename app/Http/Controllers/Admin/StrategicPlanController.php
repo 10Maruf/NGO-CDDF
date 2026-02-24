@@ -18,14 +18,14 @@ class StrategicPlanController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'required|mimes:jpg,jpeg,png,gif,webp|max:2048',
-            'pdf_file' => 'required|mimes:pdf|max:10240',
+            'thumbnail' => 'nullable|mimes:jpg,jpeg,png,gif,webp|max:2048',
+            'pdf_file' => 'nullable|mimes:pdf|max:10240',
         ]);
 
-        $imageName = '';
-        if ($image = $request->file('image')) {
-            $imageName = rand(10000, 99999) . 'strategic_plan_image.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/strategic_plans/images/'), $imageName);
+        $thumbnailName = '';
+        if ($thumbnail = $request->file('thumbnail')) {
+            $thumbnailName = rand(10000, 99999) . 'strategic_plan_thumbnail.' . $thumbnail->getClientOriginalExtension();
+            $thumbnail->move(public_path('images/strategic_plans/thumbnails/'), $thumbnailName);
         }
 
         $pdfFileName = '';
@@ -37,7 +37,7 @@ class StrategicPlanController extends Controller
         DB::table('strategic_plans')->insert([
             'title' => $request->title,
             'description' => $request->description,
-            'image' => $imageName,
+            'thumbnail' => $thumbnailName,
             'pdf_file' => $pdfFileName,
             'created_at' => now(),
             'updated_at' => now(),
@@ -65,21 +65,21 @@ class StrategicPlanController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => (empty($strategicPlan->image) ? 'required' : 'nullable') . '|mimes:jpg,jpeg,png,gif,webp|max:2048',
-            'pdf_file' => (empty($strategicPlan->pdf_file) ? 'required' : 'nullable') . '|mimes:pdf|max:10240',
+            'thumbnail' => 'nullable|mimes:jpg,jpeg,png,gif,webp|max:2048',
+            'pdf_file' => 'nullable|mimes:pdf|max:10240',
         ]);
 
-        $imageName = $strategicPlan->image;
-        if ($image = $request->file('image')) {
-            if (!empty($strategicPlan->image)) {
-                $oldImage = public_path('images/strategic_plans/images/' . $strategicPlan->image);
-                if (file_exists($oldImage)) {
-                    @unlink($oldImage);
+        $thumbnailName = $strategicPlan->thumbnail;
+        if ($thumbnail = $request->file('thumbnail')) {
+            if (!empty($strategicPlan->thumbnail)) {
+                $oldThumbnail = public_path('images/strategic_plans/thumbnails/' . $strategicPlan->thumbnail);
+                if (file_exists($oldThumbnail)) {
+                    @unlink($oldThumbnail);
                 }
             }
 
-            $imageName = rand(10000, 99999) . 'strategic_plan_image.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/strategic_plans/images/'), $imageName);
+            $thumbnailName = rand(10000, 99999) . 'strategic_plan_thumbnail.' . $thumbnail->getClientOriginalExtension();
+            $thumbnail->move(public_path('images/strategic_plans/thumbnails/'), $thumbnailName);
         }
 
         $pdfFileName = $strategicPlan->pdf_file;
@@ -98,7 +98,7 @@ class StrategicPlanController extends Controller
         DB::table('strategic_plans')->where('id', $id)->update([
             'title' => $request->title,
             'description' => $request->description,
-            'image' => $imageName,
+            'thumbnail' => $thumbnailName,
             'pdf_file' => $pdfFileName,
             'updated_at' => now(),
         ]);
@@ -110,10 +110,10 @@ class StrategicPlanController extends Controller
     {
         $strategicPlan = DB::table('strategic_plans')->where('id', $id)->first();
 
-        if (!empty($strategicPlan->image)) {
-            $oldImage = public_path('images/strategic_plans/images/' . $strategicPlan->image);
-            if (file_exists($oldImage)) {
-                @unlink($oldImage);
+        if (!empty($strategicPlan->thumbnail)) {
+            $oldThumbnail = public_path('images/strategic_plans/thumbnails/' . $strategicPlan->thumbnail);
+            if (file_exists($oldThumbnail)) {
+                @unlink($oldThumbnail);
             }
         }
 

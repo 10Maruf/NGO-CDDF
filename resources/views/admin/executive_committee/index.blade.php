@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Executive Committee')
+@section('bread_crumb')
+    <li class="breadcrumb-item">Executive Committee</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
@@ -39,13 +44,15 @@
                                     <img src="{{ asset('images/executive_committee/'.$item->photo) }}" alt="" width="50">
                                 </td>
                                 <td class="align-middle">{{ $item->order }}</td>
-                                <td class="text-center align-middle">
-                                    <a href="{{ route('executive.edit',$item->id) }}" class="btn btn-sm btn-primary text-white text-center">
-                                        <i class="fadeIn animated bx bx-edit"></i>
-                                    </a>
-                                    <a href="{{ route('executive.delete',$item->id) }}" class="btn btn-sm btn-danger text-white text-center">
-                                        <i class="fadeIn animated bx bx-trash-alt"></i>
-                                    </a>
+                                <td class="align-middle">
+                                    <div class="table-actions justify-content-center">
+                                        <a href="{{ route('executive.edit',$item->id) }}" class="btn btn-primary" title="Edit">
+                                            <i class="feather-edit"></i>
+                                        </a>
+                                        <a href="{{ route('executive.delete',$item->id) }}" class="btn btn-danger" data-delete data-delete-title="Delete Executive Member" data-delete-message="Are you sure you want to delete this executive committee member? This action cannot be undone." title="Delete">
+                                            <i class="feather-trash-2"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

@@ -27,18 +27,14 @@ class FocusAreaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'icon' => 'nullable|image|max:2048',
-            'image' => 'nullable|image|max:2048',
-            'order' => 'required|integer|min:0|unique:focus_areas,order',
-            'is_active' => 'nullable|boolean',
+            'title'      => 'required|string|max:255',
+            'description'=> 'required|string',
+            'detail_description' => 'nullable|string',
+            'icon_class' => 'nullable|string|max:100',
+            'image'      => 'nullable|image|max:4096',
+            'order'      => 'required|integer|min:0|unique:focus_areas,order',
+            'is_active'  => 'nullable|boolean',
         ]);
-
-        $iconPath = null;
-        if ($request->hasFile('icon')) {
-            $iconPath = $request->file('icon')->store('focus_areas/icons', 'public');
-        }
 
         $imagePath = null;
         if ($request->hasFile('image')) {
@@ -46,14 +42,16 @@ class FocusAreaController extends Controller
         }
 
         DB::table('focus_areas')->insert([
-            'title' => $validated['title'],
+            'title'       => $validated['title'],
             'description' => $validated['description'],
-            'icon_path' => $iconPath,
-            'image_path' => $imagePath,
-            'order' => $validated['order'] ?? 0,
-            'is_active' => (bool)($validated['is_active'] ?? true),
-            'created_at' => now(),
-            'updated_at' => now(),
+            'detail_description' => $validated['detail_description'] ?? null,
+            'icon_class'  => $validated['icon_class'] ?? null,
+            'icon_path'   => null,
+            'image_path'  => $imagePath,
+            'order'       => $validated['order'] ?? 0,
+            'is_active'   => (bool)($validated['is_active'] ?? true),
+            'created_at'  => now(),
+            'updated_at'  => now(),
         ]);
 
         return redirect()->route('admin.focus_areas.index')->with('success', 'Focus Area added successfully');
@@ -77,31 +75,15 @@ class FocusAreaController extends Controller
         }
 
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'icon' => 'nullable|image|max:2048',
-            'image' => 'nullable|image|max:2048',
-            'order' => 'required|integer|min:0|unique:focus_areas,order,' . $id,
-            'is_active' => 'nullable|boolean',
-            'remove_icon' => 'nullable|boolean',
+            'title'        => 'required|string|max:255',
+            'description'  => 'required|string',
+            'detail_description' => 'nullable|string',
+            'icon_class'   => 'nullable|string|max:100',
+            'image'        => 'nullable|image|max:4096',
+            'order'        => 'required|integer|min:0|unique:focus_areas,order,' . $id,
+            'is_active'    => 'nullable|boolean',
             'remove_image' => 'nullable|boolean',
         ]);
-
-        $iconPath = $focus_area->icon_path ?? null;
-
-        if (!empty($validated['remove_icon'])) {
-            if ($iconPath) {
-                Storage::disk('public')->delete($iconPath);
-            }
-            $iconPath = null;
-        }
-
-        if ($request->hasFile('icon')) {
-            if ($iconPath) {
-                Storage::disk('public')->delete($iconPath);
-            }
-            $iconPath = $request->file('icon')->store('focus_areas/icons', 'public');
-        }
 
         $imagePath = $focus_area->image_path;
 
@@ -120,13 +102,14 @@ class FocusAreaController extends Controller
         }
 
         DB::table('focus_areas')->where('id', $id)->update([
-            'title' => $validated['title'],
+            'title'       => $validated['title'],
             'description' => $validated['description'],
-            'icon_path' => $iconPath,
-            'image_path' => $imagePath,
-            'order' => $validated['order'] ?? 0,
-            'is_active' => (bool)($validated['is_active'] ?? false),
-            'updated_at' => now(),
+            'detail_description' => $validated['detail_description'] ?? null,
+            'icon_class'  => $validated['icon_class'] ?? null,
+            'image_path'  => $imagePath,
+            'order'       => $validated['order'] ?? 0,
+            'is_active'   => (bool)($validated['is_active'] ?? false),
+            'updated_at'  => now(),
         ]);
 
         return redirect()->route('admin.focus_areas.index')->with('success', 'Focus Area updated successfully');

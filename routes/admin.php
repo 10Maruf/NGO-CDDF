@@ -2,12 +2,13 @@
 
 use App\Http\Controllers\Admin\aboutusController;
 use App\Http\Controllers\Admin\applicationController;
+use App\Http\Controllers\Admin\CareerController;
 use App\Http\Controllers\Admin\ChiefMessageController;
 use App\Http\Controllers\Admin\DonationController;
 use App\Http\Controllers\Admin\ExecutiveCommitteeController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\FocusAreaController;
-use App\Http\Controllers\Admin\galleryController;
+// use App\Http\Controllers\Admin\galleryController; // Gallery disabled
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ImpactController;
 use App\Http\Controllers\Admin\invokedController;
@@ -27,8 +28,10 @@ use App\Http\Controllers\Admin\sliderController;
 use App\Http\Controllers\Admin\StoryController;
 use App\Http\Controllers\Admin\subscribeController;
 use App\Http\Controllers\Admin\StrategicPlanController;
+use App\Http\Controllers\Admin\OrgMemberController;
 use App\Http\Controllers\Admin\TeamMemberController;
-use App\Http\Controllers\Admin\VolunteerController;
+use App\Http\Controllers\Admin\VolunteerApplicationController;
+use App\Http\Controllers\Admin\YoutubeVideoController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -59,13 +62,14 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/slider/edit/{id}', [sliderController::class, 'edit'])->name('slider.edit');
     Route::post('/slider/update/{id}', [sliderController::class, 'update'])->name('slider.update');
 
-    // Ongoing Project
+    // Projects (ongoing & completed)
     Route::get('/project/add', [projectController::class, 'add'])->name('project.add');
     Route::post('/project/store', [projectController::class, 'store'])->name('project.store');
     Route::get('/project/index', [projectController::class, 'index'])->name('project.index');
     Route::get('/project/delete/{id}', [projectController::class, 'destroy'])->name('project.delete');
     Route::get('/project/edit/{id}', [projectController::class, 'edit'])->name('project.edit');
     Route::post('/project/update/{id}', [projectController::class, 'update'])->name('project.update');
+    Route::get('/project/gallery-image/delete/{imageId}', [projectController::class, 'deleteGalleryImage'])->name('project.gallery.delete');
 
     // Latest News
     Route::get('/news/add', [newsController::class, 'add'])->name('news.add');
@@ -74,14 +78,15 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/news/delete/{id}', [newsController::class, 'destroy'])->name('news.delete');
     Route::get('/news/edit/{id}', [newsController::class, 'edit'])->name('news.edit');
     Route::post('/news/update/{id}', [newsController::class, 'update'])->name('news.update');
+    Route::get('/news/gallery-image/delete/{imageId}', [newsController::class, 'deleteGalleryImage'])->name('news.gallery.delete');
 
-    // Photo Gallery
-    Route::get('/gallery/add', [galleryController::class, 'add'])->name('gallery.add');
-    Route::post('/gallery/store', [galleryController::class, 'store'])->name('gallery.store');
-    Route::get('/gallery/index', [galleryController::class, 'index'])->name('gallery.index');
-    Route::get('/gallery/delete/{id}', [galleryController::class, 'destroy'])->name('gallery.delete');
-    Route::get('/gallery/edit/{id}', [galleryController::class, 'edit'])->name('gallery.edit');
-    Route::post('/gallery/update/{id}', [galleryController::class, 'update'])->name('gallery.update');
+    // Photo Gallery — disabled (gallery now auto-generated from news/projects)
+    // Route::get('/gallery/add', [galleryController::class, 'add'])->name('gallery.add');
+    // Route::post('/gallery/store', [galleryController::class, 'store'])->name('gallery.store');
+    // Route::get('/gallery/index', [galleryController::class, 'index'])->name('gallery.index');
+    // Route::get('/gallery/delete/{id}', [galleryController::class, 'destroy'])->name('gallery.delete');
+    // Route::get('/gallery/edit/{id}', [galleryController::class, 'edit'])->name('gallery.edit');
+    // Route::post('/gallery/update/{id}', [galleryController::class, 'update'])->name('gallery.update');
 
     // Subscribe
     Route::get('admin/subscribe', [subscribeController::class, 'index'])->name('subscribe.all');
@@ -156,13 +161,21 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('strategic-plans/edit/{id}', [StrategicPlanController::class, 'edit'])->name('strategic_plans.edit');
     Route::post('strategic-plans/update/{id}', [StrategicPlanController::class, 'update'])->name('strategic_plans.update');
 
-    // __Publications __//
+    // __ Publications __//
     Route::get('publications/add', [PublicationController::class, 'add'])->name('publications.add');
     Route::post('publications/store', [PublicationController::class, 'store'])->name('publications.store');
     Route::get('publications/index', [PublicationController::class, 'index'])->name('publications.index');
     Route::get('publications/delete/{id}', [PublicationController::class, 'destroy'])->name('publications.delete');
     Route::get('publications/edit/{id}', [PublicationController::class, 'edit'])->name('publications.edit');
     Route::post('publications/update/{id}', [PublicationController::class, 'update'])->name('publications.update');
+
+    // __ Careers __//
+    Route::get('careers/add', [CareerController::class, 'add'])->name('careers.add');
+    Route::post('careers/store', [CareerController::class, 'store'])->name('careers.store');
+    Route::get('careers/index', [CareerController::class, 'index'])->name('careers.index');
+    Route::get('careers/delete/{id}', [CareerController::class, 'destroy'])->name('careers.delete');
+    Route::get('careers/edit/{id}', [CareerController::class, 'edit'])->name('careers.edit');
+    Route::post('careers/update/{id}', [CareerController::class, 'update'])->name('careers.update');
 
     // __Get Invoked __//
     Route::get('invoked/create', [invokedController::class, 'create'])->name('invoked.create');
@@ -180,7 +193,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('logo/edit/{id}', [applicationController::class, 'edit'])->name('logo.edit');
     Route::post('logo/update/{id}', [applicationController::class, 'update'])->name('logo.update');
 
-    // __ Executive Committee __//
+    // __ Executive Committee (legacy) __//
     Route::get('executive/add', [ExecutiveCommitteeController::class, 'add'])->name('executive.add');
     Route::post('executive/store', [ExecutiveCommitteeController::class, 'store'])->name('executive.store');
     Route::get('executive/index', [ExecutiveCommitteeController::class, 'index'])->name('executive.index');
@@ -188,13 +201,21 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('executive/edit/{id}', [ExecutiveCommitteeController::class, 'edit'])->name('executive.edit');
     Route::post('executive/update/{id}', [ExecutiveCommitteeController::class, 'update'])->name('executive.update');
 
-    // __ Team Members __//
+    // __ Team Members (legacy) __//
     Route::get('team/add', [TeamMemberController::class, 'add'])->name('team.add');
     Route::post('team/store', [TeamMemberController::class, 'store'])->name('team.store');
     Route::get('team/index', [TeamMemberController::class, 'index'])->name('team.index');
     Route::get('team/delete/{id}', [TeamMemberController::class, 'destroy'])->name('team.delete');
     Route::get('team/edit/{id}', [TeamMemberController::class, 'edit'])->name('team.edit');
     Route::post('team/update/{id}', [TeamMemberController::class, 'update'])->name('team.update');
+
+    // __ Organizational Members (Unified — new) __//
+    Route::get('org-members/add', [OrgMemberController::class, 'add'])->name('org.add');
+    Route::post('org-members/store', [OrgMemberController::class, 'store'])->name('org.store');
+    Route::get('org-members/index', [OrgMemberController::class, 'index'])->name('org.index');
+    Route::get('org-members/delete/{id}', [OrgMemberController::class, 'destroy'])->name('org.delete');
+    Route::get('org-members/edit/{id}', [OrgMemberController::class, 'edit'])->name('org.edit');
+    Route::post('org-members/update/{id}', [OrgMemberController::class, 'update'])->name('org.update');
 
     // __ Programs __//
     Route::get('programs/add', [ProgramController::class, 'add'])->name('programs.add');
@@ -236,13 +257,15 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('faq/edit/{id}', [FaqController::class, 'edit'])->name('faq.edit');
     Route::post('faq/update/{id}', [FaqController::class, 'update'])->name('faq.update');
 
-    // __ Volunteers __//
-    Route::get('volunteers/add', [VolunteerController::class, 'add'])->name('volunteers.add');
-    Route::post('volunteers/store', [VolunteerController::class, 'store'])->name('volunteers.store');
-    Route::get('volunteers/index', [VolunteerController::class, 'index'])->name('volunteers.index');
-    Route::get('volunteers/delete/{id}', [VolunteerController::class, 'destroy'])->name('volunteers.delete');
-    Route::get('volunteers/edit/{id}', [VolunteerController::class, 'edit'])->name('volunteers.edit');
-    Route::post('volunteers/update/{id}', [VolunteerController::class, 'update'])->name('volunteers.update');
+    // __ Volunteer Applications __//
+    Route::get('volunteer-applications/index',        [VolunteerApplicationController::class, 'index'])->name('admin.volunteer_applications.index');
+    Route::get('volunteer-applications/add',          [VolunteerApplicationController::class, 'add'])->name('admin.volunteer_applications.add');
+    Route::post('volunteer-applications/store',       [VolunteerApplicationController::class, 'store'])->name('admin.volunteer_applications.store');
+    Route::get('volunteer-applications/show/{id}',   [VolunteerApplicationController::class, 'show'])->name('admin.volunteer_applications.show');
+    Route::get('volunteer-applications/edit/{id}',   [VolunteerApplicationController::class, 'edit'])->name('admin.volunteer_applications.edit');
+    Route::post('volunteer-applications/update/{id}',[VolunteerApplicationController::class, 'update'])->name('admin.volunteer_applications.update');
+    Route::post('volunteer-applications/status/{id}',[VolunteerApplicationController::class, 'updateStatus'])->name('admin.volunteer_applications.status');
+    Route::get('volunteer-applications/delete/{id}', [VolunteerApplicationController::class, 'destroy'])->name('admin.volunteer_applications.delete');
 
     // __ Payment Methods __//
     Route::get('payment-methods/add', [PaymentMethodController::class, 'add'])->name('admin.payment_methods.add');
@@ -259,5 +282,13 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::post('donations/verify/{id}', [DonationController::class, 'verify'])->name('admin.donations.verify');
     Route::post('donations/reject/{id}', [DonationController::class, 'reject'])->name('admin.donations.reject');
     Route::get('donations/delete/{id}', [DonationController::class, 'destroy'])->name('admin.donations.delete');
+
+    // __ YouTube Videos __//
+    Route::get('youtube-videos/index',       [YoutubeVideoController::class, 'index'])->name('admin.youtube_videos.index');
+    Route::get('youtube-videos/add',         [YoutubeVideoController::class, 'add'])->name('admin.youtube_videos.add');
+    Route::post('youtube-videos/store',      [YoutubeVideoController::class, 'store'])->name('admin.youtube_videos.store');
+    Route::get('youtube-videos/edit/{id}',   [YoutubeVideoController::class, 'edit'])->name('admin.youtube_videos.edit');
+    Route::post('youtube-videos/update/{id}',[YoutubeVideoController::class, 'update'])->name('admin.youtube_videos.update');
+    Route::get('youtube-videos/delete/{id}', [YoutubeVideoController::class, 'destroy'])->name('admin.youtube_videos.delete');
 
 });

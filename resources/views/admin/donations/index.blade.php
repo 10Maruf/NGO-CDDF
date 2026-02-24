@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Donations List')
+@section('bread_crumb')
+    <li class="breadcrumb-item">Donations</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
@@ -74,16 +79,16 @@
                                 </td>
                                 <td><small>{{ $item->created_at->format('d M Y') }}<br>{{ $item->created_at->format('h:i A') }}</small></td>
                                 <td class="text-center">
-                                    <div class="btn-group" role="group">
+                                    <div class="table-actions justify-content-center">
                                         <a href="{{ route('admin.donations.show', $item->id) }}" 
-                                           class="btn btn-sm btn-info" 
+                                           class="btn btn-info" 
                                            title="View Details">
                                             <i class="bx bx-show"></i>
                                         </a>
                                         @if($item->status == 'pending')
                                         <form action="{{ route('admin.donations.verify', $item->id) }}" method="POST" class="d-inline">
                                             @csrf
-                                            <button type="submit" class="btn btn-sm btn-success" 
+                                            <button type="submit" class="btn btn-success" 
                                                     onclick="return confirm('Verify this donation?')"
                                                     title="Verify">
                                                 <i class="bx bx-check"></i>
@@ -91,7 +96,7 @@
                                         </form>
                                         <form action="{{ route('admin.donations.reject', $item->id) }}" method="POST" class="d-inline">
                                             @csrf
-                                            <button type="submit" class="btn btn-sm btn-warning" 
+                                            <button type="submit" class="btn btn-warning" 
                                                     onclick="return confirm('Reject this donation?')"
                                                     title="Reject">
                                                 <i class="bx bx-x"></i>
@@ -99,10 +104,12 @@
                                         </form>
                                         @endif
                                         <a href="{{ route('admin.donations.delete', $item->id) }}" 
-                                           class="btn btn-sm btn-danger" 
-                                           onclick="return confirm('Are you sure you want to delete this donation?')"
+                                           class="btn btn-danger" 
+                                           data-delete 
+                                           data-delete-title="Delete Donation" 
+                                           data-delete-message="Are you sure you want to delete this donation? This action cannot be undone."
                                            title="Delete">
-                                            <i class="bx bx-trash"></i>
+                                            <i class="feather-trash-2"></i>
                                         </a>
                                     </div>
                                 </td>

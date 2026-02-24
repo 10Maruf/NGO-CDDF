@@ -1,9 +1,19 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Photo Gallery')
+@section('bread_crumb')
+    <li class="breadcrumb-item">Gallery</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
-        <h6 class="mb-0 text-uppercase">All Photo Gallery</h6>
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h6 class="mb-0 text-uppercase">All Photo Gallery</h6>
+            <a href="{{ route('gallery.add') }}" class="btn btn-primary btn-sm">
+                <i class="feather-plus me-1"></i> Add Photo
+            </a>
+        </div>
         <hr/>
         <div class="card">
             <div class="card-body">
@@ -37,13 +47,15 @@
                                     <img src="{{ asset('images/gallery/'.$gallery->image) }}" alt="" width="50">
                                 </td>
                                 <td class="align-middle">{{ $gallery->description }}</td>
-                                <td class="text-center align-middle">
-                                    <a href="{{ route('gallery.edit',$gallery->id) }}" class="btn btn-sm btn-primary text-white text-center">
-                                        <i class="fadeIn animated bx bx-edit"></i>
-                                    </a>
-                                    <a href="{{ route('gallery.delete',$gallery->id) }}" class="btn btn-sm btn-danger text-white text-center">
-                                        <i class="fadeIn animated bx bx-trash-alt"></i>
-                                    </a>
+                                <td class="align-middle">
+                                    <div class="table-actions justify-content-center">
+                                        <a href="{{ route('gallery.edit',$gallery->id) }}" class="btn btn-primary" title="Edit">
+                                            <i class="feather-edit"></i>
+                                        </a>
+                                        <a href="{{ route('gallery.delete',$gallery->id) }}" class="btn btn-danger" data-delete data-delete-title="Delete Gallery Item" data-delete-message="Are you sure you want to delete this gallery item? This action cannot be undone." title="Delete">
+                                            <i class="feather-trash-2"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

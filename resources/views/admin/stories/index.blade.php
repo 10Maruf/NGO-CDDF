@@ -1,9 +1,19 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Success Stories')
+@section('bread_crumb')
+    <li class="breadcrumb-item">Stories</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
-        <h6 class="mb-0 text-uppercase">All Success Stories</h6>
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h6 class="mb-0 text-uppercase">All Success Stories</h6>
+            <a href="{{ route('stories.add') }}" class="btn btn-primary btn-sm">
+                <i class="feather-plus me-1"></i> Add Story
+            </a>
+        </div>
         <hr/>
         <div class="card">
             <div class="card-body">
@@ -18,6 +28,7 @@
                         <thead>
                             <tr>
                                 <th>SL.</th>
+                                <th>Order</th>
                                 <th>Beneficiary Name</th>
                                 <th>Beneficiary Title</th>
                                 <th>Image</th>
@@ -30,6 +41,7 @@
                             @foreach ($data as $key=>$item)
                             <tr>
                                 <td class="align-middle">{{ ++$key }}</td>
+                                <td class="align-middle">{{ $item->order ?? 0 }}</td>
                                 <td class="align-middle">{{ $item->beneficiary_name }}</td>
                                 <td class="align-middle">{{ $item->beneficiary_title }}</td>
                                 <td class="align-middle">
@@ -45,13 +57,15 @@
                                     @endfor
                                 </td>
                                 <td class="align-middle">{{ $item->date }}</td>
-                                <td class="text-center align-middle">
-                                    <a href="{{ route('stories.edit',$item->id) }}" class="btn btn-sm btn-primary text-white text-center">
-                                        <i class="fadeIn animated bx bx-edit"></i>
-                                    </a>
-                                    <a href="{{ route('stories.delete',$item->id) }}" class="btn btn-sm btn-danger text-white text-center">
-                                        <i class="fadeIn animated bx bx-trash-alt"></i>
-                                    </a>
+                                <td class="align-middle">
+                                    <div class="table-actions justify-content-center">
+                                        <a href="{{ route('stories.edit',$item->id) }}" class="btn btn-primary" title="Edit">
+                                            <i class="feather-edit"></i>
+                                        </a>
+                                        <a href="{{ route('stories.delete',$item->id) }}" class="btn btn-danger" data-delete data-delete-title="Delete Success Story" data-delete-message="Are you sure you want to delete this success story? This action cannot be undone." title="Delete">
+                                            <i class="feather-trash-2"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

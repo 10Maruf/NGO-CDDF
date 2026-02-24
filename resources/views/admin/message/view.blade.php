@@ -1,5 +1,11 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Message Details')
+@section('bread_crumb')
+    <li class="breadcrumb-item"><a href="{{ route('message.index') }}">Messages</a></li>
+    <li class="breadcrumb-item active">View Message</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
@@ -37,7 +43,7 @@
                             Message :
                         </div>
                         <div class="col-11">
-                            <p>
+                            <p style="word-break: break-word; white-space: pre-wrap; overflow-wrap: break-word;">
                                 {{ $message->message }}
                             </p>
                         </div>

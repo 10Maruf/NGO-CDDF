@@ -1,0 +1,16 @@
+/* Custom Logo Styling */
+/* Override logo filter to show CDDF logo correctly in all themes */
+.nxl-navigation .m-header .logo-lg,
+html.app-navigation-dark .nxl-navigation .m-header .logo-lg,
+html.app-header-dark .nxl-navigation .m-header .logo-lg,
+html.app-skin-dark .nxl-navigation .m-header .logo-lg {
+    filter: none !important;
+    max-width: 180px;
+    height: auto;
+}
+
+.nxl-navigation .m-header .logo-sm {
+    max-width: 45px;
+    height: auto;
+    filter: none !important;
+}

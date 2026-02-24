@@ -1,9 +1,19 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'FAQ')
+@section('bread_crumb')
+    <li class="breadcrumb-item">FAQ</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
-        <h6 class="mb-0 text-uppercase">All FAQ</h6>
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h6 class="mb-0 text-uppercase">All FAQ</h6>
+            <a href="{{ route('faq.add') }}" class="btn btn-primary btn-sm">
+                <i class="feather-plus me-1"></i> Add FAQ
+            </a>
+        </div>
         <hr/>
         <div class="card">
             <div class="card-body">
@@ -31,13 +41,15 @@
                                 <td class="align-middle">{{ $item->question }}</td>
                                 <td class="align-middle">{{ $item->category }}</td>
                                 <td class="align-middle">{{ $item->order }}</td>
-                                <td class="text-center align-middle">
-                                    <a href="{{ route('faq.edit',$item->id) }}" class="btn btn-sm btn-primary text-white text-center">
-                                        <i class="fadeIn animated bx bx-edit"></i>
-                                    </a>
-                                    <a href="{{ route('faq.delete',$item->id) }}" class="btn btn-sm btn-danger text-white text-center">
-                                        <i class="fadeIn animated bx bx-trash-alt"></i>
-                                    </a>
+                                <td class="align-middle">
+                                    <div class="table-actions justify-content-center">
+                                        <a href="{{ route('faq.edit',$item->id) }}" class="btn btn-primary" title="Edit">
+                                            <i class="feather-edit"></i>
+                                        </a>
+                                        <a href="{{ route('faq.delete',$item->id) }}" class="btn btn-danger" data-delete data-delete-title="Delete FAQ" data-delete-message="Are you sure you want to delete this FAQ? This action cannot be undone." title="Delete">
+                                            <i class="feather-trash-2"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

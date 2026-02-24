@@ -1,9 +1,19 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Programs')
+@section('bread_crumb')
+    <li class="breadcrumb-item">Programs</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
-        <h6 class="mb-0 text-uppercase">All Programs</h6>
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h6 class="mb-0 text-uppercase">All Programs</h6>
+            <a href="{{ route('programs.add') }}" class="btn btn-primary btn-sm">
+                <i class="feather-plus me-1"></i> Add Program
+            </a>
+        </div>
         <hr/>
         <div class="card">
             <div class="card-body">
@@ -43,13 +53,15 @@
                                     </span>
                                 </td>
                                 <td class="align-middle">{{ $item->start_date }}</td>
-                                <td class="text-center align-middle">
-                                    <a href="{{ route('programs.edit',$item->id) }}" class="btn btn-sm btn-primary text-white text-center">
-                                        <i class="fadeIn animated bx bx-edit"></i>
-                                    </a>
-                                        <a href="{{ route('programs.delete',$item->id) }}" class="btn btn-sm btn-danger text-white text-center">
-                                        <i class="fadeIn animated bx bx-trash-alt"></i>
-                                    </a>
+                                <td class="align-middle">
+                                    <div class="table-actions justify-content-center">
+                                        <a href="{{ route('programs.edit',$item->id) }}" class="btn btn-primary" title="Edit">
+                                            <i class="feather-edit"></i>
+                                        </a>
+                                        <a href="{{ route('programs.delete',$item->id) }}" class="btn btn-danger" data-delete data-delete-title="Delete Program" data-delete-message="Are you sure you want to delete this program? This action cannot be undone." title="Delete">
+                                            <i class="feather-trash-2"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

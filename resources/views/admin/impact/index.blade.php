@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Impact Metrics')
+@section('bread_crumb')
+    <li class="breadcrumb-item">Impact</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
@@ -10,7 +15,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <h6 class="mb-0">Impact Metrics List</h6>
                     <a href="{{ route('impact.add') }}" class="btn btn-primary btn-sm">
-                        <i class="bx bx-plus"></i> Add New Impact
+                        <i class="feather-plus"></i> Add New Impact
                     </a>
                 </div>
             </div>
@@ -78,17 +83,21 @@
                                     <span class="badge bg-dark">{{ $item->order }}</span>
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ route('impact.edit',$item->id) }}" 
-                                       class="btn btn-sm btn-primary text-white" 
-                                       title="Edit">
-                                        <i class="bx bx-edit"></i>
-                                    </a>
-                                    <a href="{{ route('impact.delete',$item->id) }}" 
-                                       class="btn btn-sm btn-danger text-white" 
-                                       onclick="return confirm('Are you sure you want to delete this impact metric?')"
-                                       title="Delete">
-                                        <i class="bx bx-trash-alt"></i>
-                                    </a>
+                                    <div class="table-actions justify-content-center">
+                                        <a href="{{ route('impact.edit',$item->id) }}" 
+                                           class="btn btn-primary" 
+                                           title="Edit">
+                                            <i class="feather-edit"></i>
+                                        </a>
+                                        <a href="{{ route('impact.delete',$item->id) }}" 
+                                           class="btn btn-danger" 
+                                           data-delete 
+                                           data-delete-title="Delete Impact Metric" 
+                                           data-delete-message="Are you sure you want to delete this impact metric? This action cannot be undone."
+                                           title="Delete">
+                                            <i class="feather-trash-2"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             @empty

@@ -1,5 +1,11 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Edit Story')
+@section('bread_crumb')
+    <li class="breadcrumb-item"><a href="{{ route('stories.index') }}">Stories</a></li>
+    <li class="breadcrumb-item active">Edit Story</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-xl-9 mx-auto">
@@ -23,6 +29,10 @@
                             @error('rating')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
+                        </div>
+                        <div class="col-md-12">
+                            <label for="order" class="form-label">Order</label>
+                            <input type="number" name="order" class="form-control" id="order" value="{{ $data->order ?? 0 }}" placeholder="Enter Order (e.g., 1, 2, 3...)">
                         </div>
                         <div class="col-md-12">
                             <label for="beneficiary_name" class="form-label">Beneficiary Name</label>

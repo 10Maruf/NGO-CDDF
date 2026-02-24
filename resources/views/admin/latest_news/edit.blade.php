@@ -1,9 +1,15 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Edit News / Event')
+@section('bread_crumb')
+    <li class="breadcrumb-item"><a href="{{ route('news.index') }}">News & Events</a></li>
+    <li class="breadcrumb-item active">Edit</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-xl-9 mx-auto">
-        <h6 class="mb-0 text-uppercase">Edit Latest  News</h6>
+        <h6 class="mb-0 text-uppercase">Edit News / Event</h6>
         <hr/>
         <div class="card">
             <div class="card-body">
@@ -11,7 +17,7 @@
                     <div class="alert alert-success">{{ session()->get('update') }}</div>
                 @endif
                 <div class="p-4 border rounded">
-                    <form class="row g-3" action="{{ route('news.update',$news->id) }}" method="post" enctype="multipart/form-data">
+                    <form class="row g-3" id="newsForm" action="{{ route('news.update', $news->id) }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="col-md-12">
                             <label for="title" class="form-label">Title</label>
@@ -21,25 +27,61 @@
                             @enderror
                         </div>
                         <div class="col-md-12">
-                            <label for="img" class="form-label">Image</label>
+                            <label for="category" class="form-label">Category</label>
+                            <select name="category" id="category" class="form-select @error('category') is-invalid @enderror">
+                                <option value="news"  {{ ($news->category ?? 'news') == 'news'  ? 'selected' : '' }}>News</option>
+                                <option value="event" {{ ($news->category ?? '') == 'event' ? 'selected' : '' }}>Event</option>
+                            </select>
+                            @error('category')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-12">
+                            <label for="img" class="form-label">Cover Image <span class="text-muted">(leave blank to keep current)</span></label>
                             <input type="file" name="image" class="form-control" id="img">
-                            <span class="text-info">Image Dimension Must be (725 X 375) and maximum size 300 kb.</span>
+                            <span class="text-info">Cover image dimension: 725×375 px, max 2MB.</span>
                         </div>
                         <div class="col-md-12">
-                            <label for="img" class="form-label">Old Image:</label>
-                            <img src="{{ asset('images/news/'.$news->image) }}" alt="" width="100">
+                            <label class="form-label">Current Cover Image</label><br>
+                            <img src="{{ asset('images/news/'.$news->image) }}" alt="Cover" width="120" class="rounded border">
                         </div>
                         <div class="col-md-12">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea id="description" name="description" class="form-control @error('description') is-invalid @enderror" rows="3">
-                                {{ $news->description }}
-                            </textarea>
+                            <label for="gallery" class="form-label">Add Gallery Images <span class="text-muted">(optional, multiple)</span></label>
+                            <input type="file" name="gallery[]" class="form-control" id="gallery" multiple>
+                            <span class="text-info">Select multiple images to add to the gallery. Max 2MB each.</span>
+                        </div>
+
+                        {{-- Existing gallery images --}}
+                        @if ($galleryImages->isNotEmpty())
+                        <div class="col-md-12">
+                            <label class="form-label">Current Gallery Images</label>
+                            <div class="d-flex flex-wrap gap-2 mt-1">
+                                @foreach ($galleryImages as $gi)
+                                <div class="text-center" style="position:relative;">
+                                    <img src="{{ asset('images/news/'.$gi->image) }}" alt="Gallery" width="100" class="rounded border">
+                                    <br>
+                                    <a href="{{ route('news.gallery.delete', $gi->id) }}"
+                                       class="btn btn-danger btn-sm mt-1"
+                                       onclick="return confirm('Delete this gallery image?')">
+                                        <i class="feather-trash-2"></i> Delete
+                                    </a>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
+
+                        <div class="col-md-12">
+                            <label class="form-label">Description</label>
+                            {{-- Hidden textarea holds the actual submitted value --}}
+                            <textarea id="description" name="description" class="d-none @error('description') is-invalid @enderror">{{ $news->description }}</textarea>
+                            <div id="description-editor" style="min-height: 220px;"></div>
                             @error('description')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-12">
-                            <button class="btn btn-primary" type="submit">Submit</button>
+                            <button class="btn btn-primary" type="submit">Update</button>
                         </div>
                     </form>
                 </div>
@@ -49,3 +91,65 @@
 </div>
 
 @endsection
+
+@push('styles')
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<style>
+    /* Force the container to not exceed a certain height and handle overflow */
+    #description-editor { 
+        background: #fff; 
+        border: 1px solid #ced4da; 
+        border-radius: 0 0 .25rem .25rem; 
+        height: 300px; /* Set a fixed height for the container */
+    }
+    
+    /* Ensure the editor area respects the container height */
+    .ql-container {
+        height: 300px !important;
+    }
+    
+    /* Make the editor content scrollable */
+    .ql-editor {
+        min-height: 100%;
+        max-height: 100%;
+        overflow-y: auto;
+    }
+    
+    .ql-toolbar.ql-snow { 
+        border-radius: .25rem .25rem 0 0; 
+        border: 1px solid #ced4da;
+        border-bottom: none;
+    }
+</style>
+@endpush
+
+@push('scripts')
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+<script>
+    var quill = new Quill('#description-editor', {
+        theme: 'snow',
+        placeholder: 'Write description here...',
+        modules: {
+            toolbar: [
+                [{ 'header': [1,2,3,false] }],
+                ['bold','italic','underline','strike'],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                [{ 'align': [] }],
+                ['link','blockquote'],
+                ['clean']
+            ]
+        }
+    });
+
+    // Pre-fill editor with existing description
+    var existing = document.getElementById('description').value.trim();
+    if (existing) { quill.clipboard.dangerouslyPasteHTML(existing); }
+
+    // Sync editor content to hidden textarea before submit
+    var form = document.getElementById('newsForm');
+    form.addEventListener('submit', function() {
+        document.getElementById('description').value = quill.root.innerHTML;
+    });
+</script>
+@endpush

@@ -1,5 +1,11 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Edit Impact Metric')
+@section('bread_crumb')
+    <li class="breadcrumb-item"><a href="{{ route('impact.index') }}">Impact Metrics</a></li>
+    <li class="breadcrumb-item active">Edit Metric</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-xl-10 mx-auto">

@@ -1,47 +1,87 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Policy & Guidelines')
+@section('bread_crumb')
+    <li class="breadcrumb-item">Policy & Guidelines</li>
+@endsection
+
 @section('content')
 <div class="row">
-    <div class="col-xl-12 mx-auto">
-        <h6 class="mb-0 text-uppercase">All Policy & Guideline</h6>
+    <div class="col-md-12 mx-auto">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h6 class="mb-0 text-uppercase">All Policy & Guidelines</h6>
+            <a href="{{ route('policy.create') }}" class="btn btn-primary btn-sm">
+                <i class="feather-plus me-1"></i> Add Policy
+            </a>
+        </div>
         <hr/>
         <div class="card">
             <div class="card-body">
-                @if(session()->has('success'))
-                    <div class="alert alert-danger">
-                        {{ session()->get('success') }}
-                    </div>
+                @if (session()->has('success'))
+                    <div class="alert alert-success">{{ session()->get('success') }}</div>
                 @endif
+                <div class="d-flex justify-content-end mb-3">
+                    <a href="{{ route('policy.create') }}" class="btn btn-sm btn-primary">
+                        <i class="feather-plus"></i> Add New
+                    </a>
+                </div>
                 <div class="p-4 border rounded table-responsive">
-                    <table class="table">
+                    <table class="table table-hover table-striped">
                         <thead>
                             <tr>
                                 <th>SL.</th>
-                                <th>Name</th>
-                                <th>File</th>
-                                <th>Action</th>
+                                <th>Title</th>
+                                <th>Thumbnail</th>
+                                <th>PDF File</th>
+                                <th>Description</th>
+
+                                <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($file as $key => $value)
-                                <tr>
-                                    <td>{{ ++$key }}</td>
-                                    <td>
-                                        {{ Str::limit($value->name, 30, '...') }}
-                                    </td>
-                                    <td>
-                                        {{ $value->file }}
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('policy.edit',$value->id) }}" class="btn btn-sm btn-primary text-white text-center">
-                                            <i class="fadeIn animated bx bx-edit"></i>
+                            @forelse ($items as $key => $item)
+                            <tr>
+                                <td class="align-middle">{{ ++$key }}</td>
+                                <td class="align-middle">{{ $item->title }}</td>
+                                <td class="align-middle">
+                                    @if ($item->thumbnail)
+                                        <img src="{{ asset('images/policy_guideline/thumbnails/'.$item->thumbnail) }}" alt="{{ $item->title }}" width="50" height="40" class="rounded">
+                                    @else
+                                        <span class="text-muted">No Image</span>
+                                    @endif
+                                </td>
+                                <td class="align-middle">
+                                    @if ($item->pdf_file)
+                                        <a href="{{ asset('images/policy_guideline/pdfs/'.$item->pdf_file) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                            <i class="bx bx-download"></i> View PDF
                                         </a>
-                                        <a href="{{ route('policy.delete',$value->id) }}" class="btn btn-sm btn-danger text-white text-center">
-                                            <i class="fadeIn animated bx bx-trash-alt"></i>
+                                    @else
+                                        <span class="text-muted">No PDF</span>
+                                    @endif
+                                </td>
+                                <td class="align-middle">{{ Str::limit($item->description, 30, '...') }}</td>
+
+                                <td class="align-middle">
+                                    <div class="table-actions justify-content-center">
+                                        <a href="{{ route('policy.edit', $item->id) }}" class="btn btn-primary" title="Edit">
+                                            <i class="feather-edit"></i>
                                         </a>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                        <a href="{{ route('policy.delete', $item->id) }}" class="btn btn-danger" title="Delete" data-delete data-delete-title="Delete Policy" data-delete-message="Are you sure you want to delete this policy? This action cannot be undone.">
+                                            <i class="feather-trash-2"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="7" class="text-center py-4">
+                                    <div class="text-muted">
+                                        <i class="feather-file"></i>
+                                        <p class="mt-2">No records found. <a href="{{ route('policy.create') }}">Add first one</a></p>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -49,5 +89,4 @@
         </div>
     </div>
 </div>
-
 @endsection

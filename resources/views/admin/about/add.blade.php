@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'About Us')
+@section('bread_crumb')
+    <li class="breadcrumb-item">About Us</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-xl-9 mx-auto">

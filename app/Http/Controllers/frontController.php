@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Project;
+use App\Models\YoutubeVideo;
 use Illuminate\Support\Facades\DB;
 
 class frontController extends Controller
@@ -47,10 +49,15 @@ class frontController extends Controller
         return view('frontend.origin_affilation',compact('affilation'));
     }
 
-    // executive committee
+    // Organogram / Organizational Structure
     public function committee(){
-        $committee = DB::table('executive_committee')->orderBy('order', 'asc')->get();
-        return view('frontend.exe_committee', compact('committee'));
+        $orgMembers = DB::table('org_members')
+            ->where('is_active', true)
+            ->orderBy('order', 'asc')
+            ->get()
+            ->groupBy('org_type');
+
+        return view('frontend.exe_committee', compact('orgMembers'));
     }
 
     // Message form Cheif Executive
@@ -69,6 +76,17 @@ class frontController extends Controller
     public function impact(){
         $impact = DB::table('impact')->orderBy('order', 'asc')->get();
         return view('frontend.impact', compact('impact'));
+    }
+
+    // Focus Area Detail
+    public function focusAreaDetail($id){
+        $area = DB::table('focus_areas')->where('id', $id)->where('is_active', 1)->firstOrFail();
+        $relatedProjects = \App\Models\Project::with('focusAreas')
+            ->active()
+            ->whereHas('focusAreas', fn($q) => $q->where('focus_areas.id', $id))
+            ->orderBy('order')
+            ->get();
+        return view('frontend.focus_area_detail', compact('area', 'relatedProjects'));
     }
 
     // Key Focus Area
@@ -125,33 +143,51 @@ class frontController extends Controller
         return view('frontend.key_focus', compact('focus_areas'));
     }
 
-    // Project Archieve
+    // Project Archive (completed projects)
     public function proj_archieve(){
-        $project = DB::table('projects')->get();
-        return view('frontend.project_archieve',compact('project'));
+        $project = Project::active()->completed()->orderBy('order')->orderByDesc('created_at')->get();
+        return view('frontend.project_archieve', compact('project'));
     }
 
-    // Ongoing Project
+    // Ongoing Projects
     public function ongoing_project(){
-        $project = DB::table('ongoing_project')->paginate(15);
-        return view('frontend.ongoing_project',compact('project'));
+        $status = request('status', 'all'); // 'all', 'ongoing', 'completed'
+        
+        $query = Project::with(['partners','focusAreas'])->active();
+        
+        if ($status === 'ongoing') {
+            $query->ongoing();
+        } elseif ($status === 'completed') {
+            $query->completed();
+        }
+        
+        $project = $query->orderBy('order')->orderByDesc('created_at')->paginate(12);
+        
+        return view('frontend.ongoing_project', compact('project', 'status'));
     }
 
-    //__ongoing Project view__//
+    // Project Detail View
     public function project_view($id){
-        $project = DB::table('ongoing_project')->where('id',$id)->first();
-        return view('frontend.project_view',compact('project'));
+        $project       = Project::with(['partners','focusAreas','galleryImages'])->findOrFail($id);
+        $galleryImages = $project->galleryImages;
+        return view('frontend.project_view', compact('project', 'galleryImages'));
     }
 
     //__Latest News All__//
     public function news_all(){
-        $news = DB::table('latest_news')->paginate(15);
-        return view('frontend.news_all',compact('news'));
+        $category = request('category'); // 'news', 'event', or null for all
+        $query = DB::table('latest_news')->orderBy('id', 'desc');
+        if ($category && in_array($category, ['news', 'event'])) {
+            $query->where('category', $category);
+        }
+        $news = $query->paginate(9);
+        return view('frontend.news_all', compact('news', 'category'));
     }
 
     // Youtube
     public function youtube(){
-        return view('frontend.youtube');
+        $videos = YoutubeVideo::orderBy('order', 'asc')->orderBy('id', 'desc')->get();
+        return view('frontend.youtube', compact('videos'));
     }
 
     // Programs
@@ -180,8 +216,9 @@ class frontController extends Controller
 
     //__Latest News view__//
     public function news_view($id){
-        $news = DB::table('latest_news')->where('id',$id)->first();
-        return view('frontend.news_view',compact('news'));
+        $news          = DB::table('latest_news')->where('id', $id)->first();
+        $galleryImages = DB::table('latest_news_images')->where('news_id', $id)->get();
+        return view('frontend.news_view', compact('news', 'galleryImages'));
     }
 
     // Events Calender
@@ -209,14 +246,43 @@ class frontController extends Controller
 
     // Get Involved
     public function career(){
-        $career = DB::table('invoked')->get();
+        $career = DB::table('careers')->orderBy('created_at', 'desc')->get();
         return view('frontend.career',compact('career'));
     }
 
-    // Volunteer Opportunities
+    // Volunteers
     public function volOpportunities(){
-        $volunteers = DB::table('volunteers')->where('status', 'open')->orderBy('id', 'desc')->get();
+        $volunteers = \App\Models\VolunteerApplication::where('status', 'approved')->orderBy('id', 'desc')->get();
         return view('frontend.volunteer_opportunities', compact('volunteers'));
+    }
+
+    // Volunteer Application Submit
+    public function volunteerApplyStore(Request $request){
+        $request->validate([
+            'name'  => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'photo' => 'nullable|mimes:jpg,png,jpeg,gif|max:2048',
+        ]);
+
+        $photoName = null;
+        if ($photo = $request->file('photo')) {
+            $photoName = rand(10000, 99999) . 'vol.' . $photo->getClientOriginalExtension();
+            $photo->move(public_path('images/volunteers'), $photoName);
+        }
+
+        \App\Models\VolunteerApplication::create([
+            'name'    => $request->name,
+            'email'   => $request->email,
+            'phone'   => $request->phone,
+            'photo'   => $photoName,
+            'address' => $request->address,
+            'skills'  => $request->skills,
+            'message' => $request->message,
+            'status'  => 'pending',
+        ]);
+
+        return redirect()->back()->with('apply_success', 'Your application has been submitted! We will get back to you soon.');
     }
 
     // Donate
@@ -269,6 +335,7 @@ class frontController extends Controller
     public function messageStore(Request $request){
         $validatedData = $request->validate([
             'name' => 'required',
+            'contact_number' => 'nullable|string|max:20',
             'email' => 'required',
             'subject' => 'required',
             'message' => 'required'
@@ -276,6 +343,7 @@ class frontController extends Controller
 
         $message = array([
             'name' => $request->name,
+            'contact_number' => $request->contact_number,
             'email' => $request->email,
             'subject' => $request->subject,
             'message' => $request->message
@@ -287,8 +355,56 @@ class frontController extends Controller
 
     //__All Photos
     public function all_photos(){
-        $photos = DB::table('gallery')->paginate('30');
-        return view('frontend.photos_all',compact('photos'));
+        // Each source: newest first (id DESC), limited pool → then shuffle within recents
+        $eventCovers = DB::table('latest_news')
+            ->where('category', 'event')
+            ->whereNotNull('image')->where('image', '!=', '')
+            ->orderBy('id', 'desc')->limit(40)
+            ->select('title', 'image', DB::raw("'images/news/' as folder"))
+            ->get();
+
+        $eventGallery = DB::table('latest_news_images')
+            ->join('latest_news', 'latest_news_images.news_id', '=', 'latest_news.id')
+            ->where('latest_news.category', 'event')
+            ->whereNotNull('latest_news_images.image')->where('latest_news_images.image', '!=', '')
+            ->orderBy('latest_news_images.id', 'desc')->limit(40)
+            ->select('latest_news.title', 'latest_news_images.image', DB::raw("'images/news/' as folder"))
+            ->get();
+
+        $newsCovers = DB::table('latest_news')
+            ->where('category', 'news')
+            ->whereNotNull('image')->where('image', '!=', '')
+            ->orderBy('id', 'desc')->limit(40)
+            ->select('title', 'image', DB::raw("'images/news/' as folder"))
+            ->get();
+
+        $newsGallery = DB::table('latest_news_images')
+            ->join('latest_news', 'latest_news_images.news_id', '=', 'latest_news.id')
+            ->where('latest_news.category', 'news')
+            ->whereNotNull('latest_news_images.image')->where('latest_news_images.image', '!=', '')
+            ->orderBy('latest_news_images.id', 'desc')->limit(40)
+            ->select('latest_news.title', 'latest_news_images.image', DB::raw("'images/news/' as folder"))
+            ->get();
+
+        $projectCovers = DB::table('projects')
+            ->whereNotNull('cover_image')->where('cover_image', '!=', '')
+            ->orderBy('id', 'desc')->limit(40)
+            ->select('title', 'cover_image as image', DB::raw("'images/project/' as folder"))
+            ->get();
+
+        $projectGallery = DB::table('project_images')
+            ->join('projects', 'project_images.project_id', '=', 'projects.id')
+            ->whereNotNull('project_images.image')->where('project_images.image', '!=', '')
+            ->orderBy('project_images.id', 'desc')->limit(40)
+            ->select('projects.title', 'project_images.image', DB::raw("'images/project/' as folder"))
+            ->get();
+
+        // Merge recent pools, shuffle within them, take 50-60
+        $all = $eventCovers->merge($eventGallery)->merge($newsCovers)->merge($newsGallery)->merge($projectCovers)->merge($projectGallery)->shuffle();
+        $take = min($all->count(), rand(50, 60));
+        $photos = $all->take($take);
+
+        return view('frontend.photos_all', compact('photos'));
     }
 
     // FAQ

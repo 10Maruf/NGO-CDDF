@@ -1,9 +1,19 @@
 @extends('layouts.admin')
 
+@section('title_l1', 'Publications')
+@section('bread_crumb')
+    <li class="breadcrumb-item">Publications</li>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
-        <h6 class="mb-0 text-uppercase">All Publications</h6>
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h6 class="mb-0 text-uppercase">All Publications</h6>
+            <a href="{{ route('publications.add') }}" class="btn btn-primary btn-sm">
+                <i class="feather-plus me-1"></i> Add Publication
+            </a>
+        </div>
         <hr/>
         <div class="card">
             <div class="card-body">
@@ -12,9 +22,9 @@
                         {{ session()->get('success') }}
                     </div>
                 @endif
-                <div class="mb-3">
-                    <a href="{{ route('publications.add') }}" class="btn btn-primary">
-                        <i class="bx bx-plus"></i> Add New Publication
+                <div class="d-flex justify-content-end mb-3">
+                    <a href="{{ route('publications.add') }}" class="btn btn-sm btn-primary">
+                        <i class="feather-plus"></i> Add New Publication
                     </a>
                 </div>
                 <div class="p-4 border rounded table-responsive">
@@ -26,7 +36,7 @@
                                 <th>Thumbnail</th>
                                 <th>PDF File</th>
                                 <th>Description</th>
-                                <th>Created Date</th>
+
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
@@ -51,15 +61,15 @@
                                         <span class="text-muted">No PDF</span>
                                     @endif
                                 </td>
-                                <td class="align-middle">{{ Str::limit($publication->description, 50, '...') }}</td>
-                                <td class="align-middle">{{ date('M d, Y', strtotime($publication->created_at)) }}</td>
-                                <td class="text-center align-middle">
-                                    <div class="d-flex align-items-center justify-content-center gap-1">
-                                        <a href="{{ route('publications.edit', $publication->id) }}" class="btn btn-sm btn-primary text-white" title="Edit">
-                                            <i class="fadeIn animated bx bx-edit"></i>
+                                <td class="align-middle">{{ Str::limit($publication->description, 30, '...') }}</td>
+
+                                <td class="align-middle">
+                                    <div class="table-actions justify-content-center">
+                                        <a href="{{ route('publications.edit', $publication->id) }}" class="btn btn-primary" title="Edit">
+                                            <i class="feather-edit"></i>
                                         </a>
-                                        <a href="{{ route('publications.delete', $publication->id) }}" class="btn btn-sm btn-danger text-white" title="Delete" onclick="return confirm('Are you sure you want to delete this publication?')">
-                                            <i class="fadeIn animated bx bx-trash-alt"></i>
+                                        <a href="{{ route('publications.delete', $publication->id) }}" class="btn btn-danger" title="Delete" data-delete data-delete-title="Delete Publication" data-delete-message="Are you sure you want to delete this publication? This action cannot be undone.">
+                                            <i class="feather-trash-2"></i>
                                         </a>
                                     </div>
                                 </td>
@@ -68,7 +78,7 @@
                             <tr>
                                 <td colspan="7" class="text-center py-4">
                                     <div class="text-muted">
-                                        <i class="bx bx-file bx-lg"></i>
+                                        <i class="feather-file"></i>
                                         <p class="mt-2">No publications found. <a href="{{ route('publications.add') }}">Add your first publication</a></p>
                                     </div>
                                 </td>
