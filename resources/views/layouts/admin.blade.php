@@ -204,20 +204,21 @@
 			min-width: 350px;
 		}
 
-		/* Active Menu Item Styling */
+		/* Active Menu Item Styling - Light Mode (Default) */
 		.nxl-item.active > .nxl-link,
 		.nxl-item .nxl-submenu .nxl-item.active > .nxl-link {
-			background-color: rgba(52, 111, 238, 0.1); /* Primary color with transparency */
-			color: #346fee;
+			background-color: rgba(52, 111, 238, 0.1) !important;
+			color: #346fee !important;
 			border-radius: 4px;
 			font-weight: 600;
 		}
 		
 		/* Dark Mode Active Menu Item */
+		html.app-skin-dark .nxl-link.active,
 		html.app-skin-dark .nxl-item.active > .nxl-link,
 		html.app-skin-dark .nxl-item .nxl-submenu .nxl-item.active > .nxl-link {
-			background-color: rgba(255, 255, 255, 0.1);
-			color: #ffffff;
+			background-color: rgba(52, 111, 238, 0.2) !important;
+			color: #346fee !important;
 		}
 
 		.nxl-item .nxl-submenu .nxl-item.active > .nxl-link:before {
@@ -225,7 +226,7 @@
 		}
 
 		html.app-skin-dark .nxl-item .nxl-submenu .nxl-item.active > .nxl-link:before {
-			background-color: #ffffff;
+			background-color: #346fee;
 		}
 
 		/* Fix for minimized sidebar submenu width */
@@ -480,75 +481,53 @@
 							<span class="nxl-mtext" data-translate="dashboard">Dashboard</span>
 						</a>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('slider.*') ? 'active' : '' }}">
+						<a href="{{ route('slider.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-image"></i></span>
-							<span class="nxl-mtext" data-translate="slider">Slider</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="slider">Slider</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('slider.add') }}" data-translate="add_slider">Add Slider</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('slider.index') }}" data-translate="all_slider">All Slider</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('project.*') ? 'active' : '' }}">
+						<a href="{{ route('project.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-folder"></i></span>
-							<span class="nxl-mtext" data-translate="projects">Projects</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="projects">Projects</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('project.add') }}" data-translate="add_project">Add Project</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('project.index') }}" data-translate="all_project">All Project</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('news.*') ? 'active' : '' }}">
+						<a href="{{ route('news.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-file-text"></i></span>
-							<span class="nxl-mtext" data-translate="latest_news">Latest News</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="latest_news">Latest News</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('news.add') }}" data-translate="add_news">Add News</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('news.index') }}" data-translate="all_news">All News</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('gallery.*') ? 'active' : '' }}">
+						<a href="{{ route('gallery.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-camera"></i></span>
-							<span class="nxl-mtext" data-translate="photo_gallery">Photo Gallery</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="photo_gallery">Photo Gallery</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('gallery.add') }}" data-translate="add_photo">Add Photo</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('gallery.index') }}" data-translate="all_photo">All Photo</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('subscribe.*') ? 'active' : '' }}">
+						<a href="{{ route('subscribe.all') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-bell"></i></span>
-							<span class="nxl-mtext" data-translate="subscribe">Subscribe</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="subscribe">Subscribe</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('subscribe.all') }}" data-translate="all_subscribe">All Subscribe</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('admin.donations.*') ? 'active' : '' }}">
+						<a href="{{ route('admin.donations.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-heart"></i></span>
-							<span class="nxl-mtext" data-translate="donation">Donate Now</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="donation">Donations</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('admin.payment_methods.add') }}" data-translate="add_payment_method">Add Payment Method</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('admin.payment_methods.index') }}" data-translate="all_payment_methods">All Payment Methods</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('admin.donations.index') }}" data-translate="all_donations">All Donations</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
-							<span class="nxl-micon"><i class="feather-target"></i></span>
-							<span class="nxl-mtext" data-translate="key_focus_area">Key Focus Area</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+					<li class="nxl-item {{ request()->routeIs('admin.payment_methods.*') ? 'active' : '' }}">
+						<a href="{{ route('admin.payment_methods.index') }}" class="nxl-link">
+							<span class="nxl-micon"><i class="feather-credit-card"></i></span>
+							<span class="nxl-mtext" data-translate="payment_methods">Payment Methods</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('admin.focus_areas.add') }}" data-translate="add_focus_area">Add Focus Area</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('admin.focus_areas.index') }}" data-translate="all_focus_areas">All Focus Areas</a></li>
-						</ul>
+					</li>
+					<li class="nxl-item {{ request()->routeIs('admin.focus_areas.*') ? 'active' : '' }}">
+						<a href="{{ route('admin.focus_areas.index') }}" class="nxl-link">
+							<span class="nxl-micon"><i class="feather-target"></i></span>
+							<span class="nxl-mtext" data-translate="key_focus_area">Key Focus Area</span>
+						</a>
 					</li>
 					<li class="nxl-item">
 						<a href="{{ route('logo.create') }}" class="nxl-link">
@@ -568,15 +547,11 @@
 							<span class="nxl-mtext" data-translate="mission_vision">Mission Vision</span>
 						</a>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('origin.legal_affilation.*') ? 'active' : '' }}">
+						<a href="{{ route('origin.legal_affilation.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-file"></i></span>
-							<span class="nxl-mtext" data-translate="origin_legal">Origin & Legal Affilation</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="origin_legal">Origin & Legal Affilation</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('origin.legal_affilation.create') }}" data-translate="add_affilation">Add Affilation</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('origin.legal_affilation.index') }}" data-translate="all_affilation">All Affilation</a></li>
-						</ul>
 					</li>
 					{{-- Executive Committee (legacy — replaced by Org. Structure)
 					<li class="nxl-item nxl-hasmenu">
@@ -603,94 +578,61 @@
 					</li>
 					--}}
 					{{-- Organizational Structure --}}
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('org.*') ? 'active' : '' }}">
+						<a href="{{ route('org.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-user-check"></i></span>
-							<span class="nxl-mtext">Org. Members</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext">Org. Members</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('org.add') }}">Add Member</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('org.index') }}">All Members</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					{{-- Programs (commented out)
+					<li class="nxl-item {{ request()->routeIs('programs.*') ? 'active' : '' }}">
+						<a href="{{ route('programs.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-briefcase"></i></span>
-							<span class="nxl-mtext" data-translate="programs">Programs</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="programs">Programs</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('programs.add') }}" data-translate="add_program">Add Program</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('programs.index') }}" data-translate="all_programs">All Programs</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					--}}
+					<li class="nxl-item {{ request()->routeIs('impact.*') ? 'active' : '' }}">
+						<a href="{{ route('impact.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-trending-up"></i></span>
-							<span class="nxl-mtext" data-translate="impact_metrics">Impact Metrics</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="impact_metrics">Impact Metrics</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('impact.add') }}" data-translate="add_impact">Add Impact</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('impact.index') }}" data-translate="all_impact">All Impact</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('stories.*') ? 'active' : '' }}">
+						<a href="{{ route('stories.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-star"></i></span>
-							<span class="nxl-mtext" data-translate="success_stories">Success Stories</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="success_stories">Success Stories</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('stories.add') }}" data-translate="add_story">Add Story</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('stories.index') }}" data-translate="all_stories">All Stories</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('chief.message.*') ? 'active' : '' }}">
+						<a href="{{ route('chief.message.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-message-circle"></i></span>
-							<span class="nxl-mtext" data-translate="chief_message">Chief Executive Message</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="chief_message">Chief Executive Message</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('chief.message.add') }}" data-translate="add_message">Add Message</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('chief.message.index') }}" data-translate="all_message">All Message</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('faq.*') ? 'active' : '' }}">
+						<a href="{{ route('faq.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-help-circle"></i></span>
-							<span class="nxl-mtext" data-translate="faq">FAQ</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="faq">FAQ</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('faq.add') }}" data-translate="add_faq">Add FAQ</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('faq.index') }}" data-translate="all_faq">All FAQ</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('admin.volunteer_applications.*') ? 'active' : '' }}">
+						<a href="{{ route('admin.volunteer_applications.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-smile"></i></span>
-							<span class="nxl-mtext" data-translate="volunteers">Volunteers</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="volunteers">Volunteers</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('admin.volunteer_applications.add') }}" data-translate="add_opportunity">Add Volunteer</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('admin.volunteer_applications.index') }}" data-translate="all_opportunities">All Volunteers</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('message.*') ? 'active' : '' }}">
+						<a href="{{ route('message.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-mail"></i></span>
-							<span class="nxl-mtext" data-translate="user_message">User Message</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="user_message">User Message</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('message.index') }}" data-translate="all_message">All Message</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('partner.*') ? 'active' : '' }}">
+						<a href="{{ route('partner.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-gift"></i></span>
-						<span class="nxl-mtext" data-translate="partners_donor">Partners & Donor</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="partners_donor">Partners & Donor</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('partner.create') }}" data-translate="add_partners_donor">Add Partners & Donor</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('partner.index') }}" data-translate="all_partners_donor">All Partners & Donor</a></li>
-						</ul>
 					</li>
 					{{-- <li class="nxl-item nxl-hasmenu">
 						<a href="javascript:void(0);" class="nxl-link">
@@ -702,65 +644,41 @@
 							<li class="nxl-item"><a class="nxl-link" href="{{ route('project.archive.index') }}" data-translate="all_project">All Project</a></li>
 						</ul>
 					</li> --}}
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('strategic_plans.*') ? 'active' : '' }}">
+						<a href="{{ route('strategic_plans.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-clipboard"></i></span>
-							<span class="nxl-mtext" data-translate="strategic_plan">Strategic Plan</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="strategic_plan">Strategic Plan</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('strategic_plans.create') }}" data-translate="add_strategic_plan">Add Strategic Plan</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('strategic_plans.index') }}" data-translate="all_strategic_plan">All Strategic Plan</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('policy.*') ? 'active' : '' }}">
+						<a href="{{ route('policy.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-shield"></i></span>
-							<span class="nxl-mtext" data-translate="policy_guideline">Policy and Guideline</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="policy_guideline">Policy and Guideline</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('policy.create') }}" data-translate="add_policy_guideline">Add Policy and Guideline</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('policy.index') }}" data-translate="all_policy_guideline">All Policy and Guideline</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('publications.*') ? 'active' : '' }}">
+						<a href="{{ route('publications.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-book"></i></span>
-							<span class="nxl-mtext" data-translate="publication">Publication</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="publication">Publication</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('publications.add') }}" data-translate="add_publication">Add Publication</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('publications.index') }}" data-translate="all_publications">All Publications</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('admin.youtube_videos.*') ? 'active' : '' }}">
+						<a href="{{ route('admin.youtube_videos.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-video"></i></span>
-							<span class="nxl-mtext">YouTube Videos</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext">YouTube Videos</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('admin.youtube_videos.add') }}">Add Video</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('admin.youtube_videos.index') }}">All Videos</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('invoked.*') ? 'active' : '' }}">
+						<a href="{{ route('invoked.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-flag"></i></span>
-							<span class="nxl-mtext" data-translate="career">Career</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="career">Career</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('invoked.create') }}" data-translate="add_career">Add Career</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('invoked.index') }}" data-translate="all_career">All Career</a></li>
-						</ul>
 					</li>
-					<li class="nxl-item nxl-hasmenu">
-						<a href="javascript:void(0);" class="nxl-link">
+					<li class="nxl-item {{ request()->routeIs('contact.*') ? 'active' : '' }}">
+						<a href="{{ route('contact.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-phone"></i></span>
-							<span class="nxl-mtext" data-translate="contact">Contact</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+							<span class="nxl-mtext" data-translate="contact">Contact</span>
 						</a>
-						<ul class="nxl-submenu">
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('contact.add') }}">Add Contact</a></li>
-							<li class="nxl-item"><a class="nxl-link" href="{{ route('contact.index') }}">All Contact</a></li>
-						</ul>
 					</li>
 				</ul>
 			</div>

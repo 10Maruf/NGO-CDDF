@@ -8,7 +8,12 @@
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
-        <h6 class="mb-0 text-uppercase">All Programs</h6>
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h6 class="mb-0 text-uppercase">All Programs</h6>
+            <a href="{{ route('programs.add') }}" class="btn btn-primary btn-sm">
+                <i class="feather-plus me-1"></i> Add Program
+            </a>
+        </div>
         <hr/>
         <div class="card">
             <div class="card-body">
