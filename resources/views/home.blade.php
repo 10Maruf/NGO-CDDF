@@ -860,9 +860,9 @@ CDDF - Home
                         <h4 class="fp-title">{{ $item->title }}</h4>
                         <div class="fp-badges">
                             <span class="fp-badge">{{ $item->status === 'ongoing' ? 'Current Projects' : 'Completed Projects' }}</span>
-                            @if($item->focusAreas->count() > 0)
-                                <span class="fp-badge">{{ $item->focusAreas->first()->title }}</span>
-                            @endif
+                            @foreach($item->focusAreas as $fa)
+                                <span class="fp-badge">{{ $fa->title }}</span>
+                            @endforeach
                         </div>
                         <div class="fp-date">
                             {{ $item->start_date ? $item->start_date->format('M d, Y') : $item->created_at->format('M d, Y') }}
@@ -879,9 +879,9 @@ CDDF - Home
                         <h4 class="fp-title">{{ $item->title }}</h4>
                         <div class="fp-badges">
                             <span class="fp-badge">{{ $item->status === 'ongoing' ? 'Current Projects' : 'Completed Projects' }}</span>
-                            @if($item->focusAreas->count() > 0)
-                                <span class="fp-badge">{{ $item->focusAreas->first()->title }}</span>
-                            @endif
+                            @foreach($item->focusAreas as $fa)
+                                <span class="fp-badge">{{ $fa->title }}</span>
+                            @endforeach
                         </div>
                         <div class="fp-date">
                             {{ $item->start_date ? $item->start_date->format('M d, Y') : $item->created_at->format('M d, Y') }}

@@ -81,7 +81,12 @@ class frontController extends Controller
     // Focus Area Detail
     public function focusAreaDetail($id){
         $area = DB::table('focus_areas')->where('id', $id)->where('is_active', 1)->firstOrFail();
-        return view('frontend.focus_area_detail', compact('area'));
+        $relatedProjects = \App\Models\Project::with('focusAreas')
+            ->active()
+            ->whereHas('focusAreas', fn($q) => $q->where('focus_areas.id', $id))
+            ->orderBy('order')
+            ->get();
+        return view('frontend.focus_area_detail', compact('area', 'relatedProjects'));
     }
 
     // Key Focus Area

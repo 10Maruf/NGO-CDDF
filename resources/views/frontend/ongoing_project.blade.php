@@ -90,6 +90,37 @@
     }
     .status-ongoing { background-color: #28a745; }
     .status-completed { background-color: #6c757d; }
+
+    /* Focus Area Tags on Image */
+    .fp-focus-tags {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        z-index: 4;
+    }
+    .fp-focus-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 9px;
+        border-radius: 20px;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: #fff;
+        background: rgba(248, 111, 45, 0.88);
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255,255,255,0.3);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+        white-space: nowrap;
+        letter-spacing: 0.3px;
+    }
+    .fp-focus-tag i {
+        font-size: 0.65rem;
+        opacity: 0.9;
+    }
     
     .fp-content {
         padding: 20px;
@@ -196,13 +227,17 @@
                             <span class="fp-status-badge {{ $data->status === 'ongoing' ? 'status-ongoing' : 'status-completed' }}">
                                 {{ ucfirst($data->status) }}
                             </span>
+                            @if($data->focusAreas->isNotEmpty())
+                                <div class="fp-focus-tags">
+                                    @foreach($data->focusAreas as $fa)
+                                        <span class="fp-focus-tag"><i class="fas fa-tag"></i> {{ $fa->title }}</span>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
                         <div class="fp-content">
                             <div class="fp-meta">
                                 <span><i class="fas fa-calendar-alt"></i> {{ \Carbon\Carbon::parse($data->start_date)->format('M Y') }}</span>
-                                @if($data->focusAreas->isNotEmpty())
-                                    <span><i class="fas fa-bullseye"></i> {{ Str::limit($data->focusAreas->first()->title, 15) }}</span>
-                                @endif
                             </div>
                             <h3 class="fp-title">{{ Str::limit($data->title, 50) }}</h3>
                             <p class="fp-desc">{{ Str::limit(strip_tags($data->short_description), 100) }}</p>

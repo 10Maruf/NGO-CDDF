@@ -64,7 +64,7 @@
                         Our Work
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="programsDropdown">
-                        <li><a class="dropdown-item {{ request()->routeIs('programs.all') ? 'active' : '' }}" href="{{ route('programs.all') }}">All Programs</a></li>
+                        {{-- <li><a class="dropdown-item {{ request()->routeIs('programs.all') ? 'active' : '' }}" href="{{ route('programs.all') }}">All Programs</a></li> --}}
                         <li><a class="dropdown-item {{ request()->routeIs('key.focus.area') ? 'active' : '' }}" href="{{ route('key.focus.area') }}">Key Focus Area</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('ongoing.project') ? 'active' : '' }}" href="{{ route('ongoing.project') }}">Projects</a></li>
                         {{-- <li><a class="dropdown-item {{ request()->routeIs('success.stories') ? 'active' : '' }}" href="{{ route('success.stories') }}">Success Stories</a></li> --}}
@@ -87,7 +87,7 @@
                         <li><a class="dropdown-item {{ request()->routeIs('donate') ? 'active' : '' }}" href="{{ route('donate') }}">Donate</a></li>
                         {{-- <li><a class="dropdown-item {{ request()->routeIs('fundraising') ? 'active' : '' }}" href="{{ route('fundraising') }}">Fundraising Campaign</a></li> --}}
                         {{-- <li><a class="dropdown-item {{ request()->routeIs('corporate.partnership') ? 'active' : '' }}" href="{{ route('corporate.partnership') }}">Corporate Partnership</a></li> --}}
-                        <li><a class="dropdown-item {{ request()->routeIs('invoked.career') ? 'active' : '' }}" href="{{ route('invoked.career') }}">Career with AFAD</a></li>
+                        <li><a class="dropdown-item {{ request()->routeIs('invoked.career') ? 'active' : '' }}" href="{{ route('invoked.career') }}">Career with CDDF</a></li>
                     </ul>
                 </li>
 
@@ -106,7 +106,7 @@
                         <li><a class="dropdown-item {{ request()->routeIs('latest.news.all') ? 'active' : '' }}" href="{{ route('latest.news.all') }}">News & Events</a></li>
                         {{-- <li><a class="dropdown-item {{ request()->routeIs('events.calender') ? 'active' : '' }}" href="{{ route('events.calender') }}">Events Calender</a></li> --}}
                         <li><a class="dropdown-item {{ request()->routeIs('youtube.video') ? 'active' : '' }}" href="{{ route('youtube.video') }}">Youtube Video</a></li>
-                        <li><a class="dropdown-item {{ request()->routeIs('strategic.plan') ? 'active' : '' }}" href="{{ route('strategic.plan') }}">AFAD Strategic Plan</a></li>
+                        <li><a class="dropdown-item {{ request()->routeIs('strategic.plan') ? 'active' : '' }}" href="{{ route('strategic.plan') }}">Strategic Plan</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('policy.guideline') ? 'active' : '' }}" href="{{ route('policy.guideline') }}">Policy & Guideline</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('publication') ? 'active' : '' }}" href="{{ route('publication') }}">Publication</a></li>
                         <li><a class="dropdown-item {{ request()->routeIs('photo.all') ? 'active' : '' }}" href="{{ route('photo.all') }}">Photo Gallery</a></li>
