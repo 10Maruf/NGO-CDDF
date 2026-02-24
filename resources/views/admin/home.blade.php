@@ -327,6 +327,7 @@
         </div>
     </div>
 
+    {{-- Gallery Photos stat card disabled — gallery now auto-generated from news/projects
     <div class="col-xxl-2 col-lg-4 col-md-6">
         <div class="card stretch stretch-full">
             <div class="card-body">
@@ -340,6 +341,7 @@
             </div>
         </div>
     </div>
+    --}}
 
     <!-- Charts Row -->
     <div class="col-xxl-8">

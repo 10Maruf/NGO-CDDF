@@ -15,7 +15,38 @@ Route::get('/', function () {
     $slider       = DB::table('slider')->orderBy('order', 'asc')->get();
     $project      = \App\Models\Project::with('focusAreas')->active()->orderBy('is_featured','desc')->orderBy('order')->take(12)->get();
     $news         = DB::table('latest_news')->take(6)->get();
-    $gallery      = DB::table('gallery')->orderBy('id', 'desc')->take(8)->get();
+    // Gallery: newest-first pool from each source, then shuffle within recents
+    $galleryPool = DB::table('latest_news')
+        ->whereNotNull('image')->where('image', '!=', '')
+        ->orderBy('id', 'desc')->limit(20)
+        ->select('title', 'image', DB::raw("'images/news/' as folder"))
+        ->get()
+        ->merge(
+            DB::table('projects')
+                ->whereNotNull('cover_image')->where('cover_image', '!=', '')
+                ->orderBy('id', 'desc')->limit(20)
+                ->select('title', 'cover_image as image', DB::raw("'images/project/' as folder"))
+                ->get()
+        )
+        ->merge(
+            DB::table('latest_news_images')
+                ->join('latest_news', 'latest_news_images.news_id', '=', 'latest_news.id')
+                ->whereNotNull('latest_news_images.image')->where('latest_news_images.image', '!=', '')
+                ->orderBy('latest_news_images.id', 'desc')->limit(20)
+                ->select('latest_news.title', 'latest_news_images.image', DB::raw("'images/news/' as folder"))
+                ->get()
+        )
+        ->merge(
+            DB::table('project_images')
+                ->join('projects', 'project_images.project_id', '=', 'projects.id')
+                ->whereNotNull('project_images.image')->where('project_images.image', '!=', '')
+                ->orderBy('project_images.id', 'desc')->limit(20)
+                ->select('projects.title', 'project_images.image', DB::raw("'images/project/' as folder"))
+                ->get()
+        )
+        ->shuffle();
+    $gallery    = $galleryPool->take(8);
+    $galleryAll = $galleryPool;
     $application  = DB::table('applications')->get()->first();
     $programs     = DB::table('programs')->orderBy('created_at', 'desc')->take(6)->get();
     $stories      = DB::table('stories')->orderBy('order', 'asc')->orderBy('id', 'desc')->get();
@@ -24,7 +55,7 @@ Route::get('/', function () {
     $partners     = DB::table('partners')->get();
     $impacts      = DB::table('impact')->orderBy('order', 'asc')->get();
 
-    return view('home', compact('slider', 'project', 'news', 'gallery', 'application', 'programs', 'stories', 'about_us', 'focus_areas', 'partners', 'impacts'));
+    return view('home', compact('slider', 'project', 'news', 'gallery', 'galleryAll', 'application', 'programs', 'stories', 'about_us', 'focus_areas', 'partners', 'impacts'));
 });
 
 Route::post('user/subscribe', [frontController::class, 'subscribe'])->name('user.subscribe');

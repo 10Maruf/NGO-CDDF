@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\DonationController;
 use App\Http\Controllers\Admin\ExecutiveCommitteeController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\FocusAreaController;
-use App\Http\Controllers\Admin\galleryController;
+// use App\Http\Controllers\Admin\galleryController; // Gallery disabled
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ImpactController;
 use App\Http\Controllers\Admin\invokedController;
@@ -80,13 +80,13 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::post('/news/update/{id}', [newsController::class, 'update'])->name('news.update');
     Route::get('/news/gallery-image/delete/{imageId}', [newsController::class, 'deleteGalleryImage'])->name('news.gallery.delete');
 
-    // Photo Gallery
-    Route::get('/gallery/add', [galleryController::class, 'add'])->name('gallery.add');
-    Route::post('/gallery/store', [galleryController::class, 'store'])->name('gallery.store');
-    Route::get('/gallery/index', [galleryController::class, 'index'])->name('gallery.index');
-    Route::get('/gallery/delete/{id}', [galleryController::class, 'destroy'])->name('gallery.delete');
-    Route::get('/gallery/edit/{id}', [galleryController::class, 'edit'])->name('gallery.edit');
-    Route::post('/gallery/update/{id}', [galleryController::class, 'update'])->name('gallery.update');
+    // Photo Gallery — disabled (gallery now auto-generated from news/projects)
+    // Route::get('/gallery/add', [galleryController::class, 'add'])->name('gallery.add');
+    // Route::post('/gallery/store', [galleryController::class, 'store'])->name('gallery.store');
+    // Route::get('/gallery/index', [galleryController::class, 'index'])->name('gallery.index');
+    // Route::get('/gallery/delete/{id}', [galleryController::class, 'destroy'])->name('gallery.delete');
+    // Route::get('/gallery/edit/{id}', [galleryController::class, 'edit'])->name('gallery.edit');
+    // Route::post('/gallery/update/{id}', [galleryController::class, 'update'])->name('gallery.update');
 
     // Subscribe
     Route::get('admin/subscribe', [subscribeController::class, 'index'])->name('subscribe.all');

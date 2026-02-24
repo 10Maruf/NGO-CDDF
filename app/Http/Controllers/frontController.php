@@ -355,8 +355,56 @@ class frontController extends Controller
 
     //__All Photos
     public function all_photos(){
-        $photos = DB::table('gallery')->orderBy('id', 'desc')->paginate(30);
-        return view('frontend.photos_all',compact('photos'));
+        // Each source: newest first (id DESC), limited pool → then shuffle within recents
+        $eventCovers = DB::table('latest_news')
+            ->where('category', 'event')
+            ->whereNotNull('image')->where('image', '!=', '')
+            ->orderBy('id', 'desc')->limit(40)
+            ->select('title', 'image', DB::raw("'images/news/' as folder"))
+            ->get();
+
+        $eventGallery = DB::table('latest_news_images')
+            ->join('latest_news', 'latest_news_images.news_id', '=', 'latest_news.id')
+            ->where('latest_news.category', 'event')
+            ->whereNotNull('latest_news_images.image')->where('latest_news_images.image', '!=', '')
+            ->orderBy('latest_news_images.id', 'desc')->limit(40)
+            ->select('latest_news.title', 'latest_news_images.image', DB::raw("'images/news/' as folder"))
+            ->get();
+
+        $newsCovers = DB::table('latest_news')
+            ->where('category', 'news')
+            ->whereNotNull('image')->where('image', '!=', '')
+            ->orderBy('id', 'desc')->limit(40)
+            ->select('title', 'image', DB::raw("'images/news/' as folder"))
+            ->get();
+
+        $newsGallery = DB::table('latest_news_images')
+            ->join('latest_news', 'latest_news_images.news_id', '=', 'latest_news.id')
+            ->where('latest_news.category', 'news')
+            ->whereNotNull('latest_news_images.image')->where('latest_news_images.image', '!=', '')
+            ->orderBy('latest_news_images.id', 'desc')->limit(40)
+            ->select('latest_news.title', 'latest_news_images.image', DB::raw("'images/news/' as folder"))
+            ->get();
+
+        $projectCovers = DB::table('projects')
+            ->whereNotNull('cover_image')->where('cover_image', '!=', '')
+            ->orderBy('id', 'desc')->limit(40)
+            ->select('title', 'cover_image as image', DB::raw("'images/project/' as folder"))
+            ->get();
+
+        $projectGallery = DB::table('project_images')
+            ->join('projects', 'project_images.project_id', '=', 'projects.id')
+            ->whereNotNull('project_images.image')->where('project_images.image', '!=', '')
+            ->orderBy('project_images.id', 'desc')->limit(40)
+            ->select('projects.title', 'project_images.image', DB::raw("'images/project/' as folder"))
+            ->get();
+
+        // Merge recent pools, shuffle within them, take 50-60
+        $all = $eventCovers->merge($eventGallery)->merge($newsCovers)->merge($newsGallery)->merge($projectCovers)->merge($projectGallery)->shuffle();
+        $take = min($all->count(), rand(50, 60));
+        $photos = $all->take($take);
+
+        return view('frontend.photos_all', compact('photos'));
     }
 
     // FAQ

@@ -499,12 +499,14 @@
 							<span class="nxl-mtext" data-translate="latest_news">Latest News</span>
 						</a>
 					</li>
+					{{-- Photo Gallery menu disabled — gallery now auto-generated from news/projects
 					<li class="nxl-item {{ request()->routeIs('gallery.*') ? 'active' : '' }}">
 						<a href="{{ route('gallery.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-camera"></i></span>
 							<span class="nxl-mtext" data-translate="photo_gallery">Photo Gallery</span>
 						</a>
 					</li>
+					--}}
 					<li class="nxl-item {{ request()->routeIs('subscribe.*') ? 'active' : '' }}">
 						<a href="{{ route('subscribe.all') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-bell"></i></span>

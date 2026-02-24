@@ -43,7 +43,7 @@ class HomeController extends Controller
             'partners_count' => DB::table('partners')->count(),
             'team_members_count' => DB::table('team_members')->count(),
             'focus_areas_count' => DB::table('focus_areas')->count(),
-            'gallery_count' => DB::table('gallery')->count(),
+            // 'gallery_count' => DB::table('gallery')->count(), // Gallery disabled — auto-generated from news/projects
         ];
 
         // Recent Activities

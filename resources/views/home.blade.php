@@ -1575,38 +1575,65 @@ CDDF - Home
     background-size:cover;
     background-position:center;
     display:flex;
-    align-items:center;
+    align-items:flex-end;
     justify-content:center;
     overflow:hidden;
     text-decoration:none;
 }
-.cddf-gallery-tile::after {
+.cddf-gallery-tile::before {
     content:'';
     position:absolute;
     inset:0;
-    background:rgba(0,0,0,0.22);
-    transition:all 0.3s ease;
+    background:rgba(0,0,0,0.18);
+    transition:background 0.3s ease;
+    z-index:1;
 }
+.cddf-gallery-tile-overlay {
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    background:linear-gradient(transparent, rgba(0,0,0,0.78));
+    padding:28px 10px 10px;
+    transform:translateY(100%);
+    transition:transform 0.32s ease;
+    z-index:3;
+}
+.cddf-gallery-tile-overlay span {
+    display:block;
+    color:#fff;
+    font-size:0.78rem;
+    font-weight:600;
+    line-height:1.3;
+    text-align:center;
+    letter-spacing:0.3px;
+    text-shadow:0 1px 3px rgba(0,0,0,0.6);
+}
+.cddf-gallery-tile:hover .cddf-gallery-tile-overlay { transform:translateY(0); }
+.cddf-gallery-tile:hover::before { background:rgba(0,0,0,0.08); }
 .cddf-gallery-tile .gal-icon {
-    position:relative;
-    z-index:2;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    z-index:4;
     width:48px;
     height:48px;
-    background:rgba(255,255,255,0.85);
+    background:rgba(255,255,255,0.88);
     border-radius:50%;
     opacity:0;
     display:flex;
     align-items:center;
     justify-content:center;
-    transition:all 0.3s ease;
+    transition:opacity 0.3s ease;
     color:#f86f2d;
     font-size:1rem;
 }
 .cddf-gallery-tile:hover .gal-icon { opacity:1; }
-.cddf-gallery-tile:hover::after { opacity:0; }
 @media(max-width:575px){ .cddf-gallery-tile{ width:50%; height:160px; } }
 @media(min-width:576px) and (max-width:767px){ .cddf-gallery-tile{ width:50%; height:180px; } }
 @media(min-width:768px) and (max-width:991px){ .cddf-gallery-tile{ width:33.333%; height:190px; } }
+.mfp-title { color:#eee; font-size:0.88rem; text-align:center; padding:6px 10px; }
 </style>
 
 <section style="background:#f9f5f1; padding-top:60px; padding-bottom:0;">
@@ -1620,11 +1647,20 @@ CDDF - Home
     </div>
     <div class="cddf-gallery-grid">
         @foreach($gallery as $data)
-        <a href="{{ asset('images/gallery/'.$data->image) }}"
+        <a href="{{ asset($data->folder.$data->image) }}"
            class="cddf-gallery-tile image-popup-gallery"
-           style="background-image:url('{{ asset('images/gallery/'.$data->image) }}');">
+           data-title="{{ $data->title }}"
+           style="background-image:url('{{ asset($data->folder.$data->image) }}');">
             <div class="gal-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+            <div class="cddf-gallery-tile-overlay"><span>{{ $data->title }}</span></div>
         </a>
+        @endforeach
+        {{-- Hidden anchors: remaining photos included in popup gallery navigation --}}
+        @foreach($galleryAll->skip(8) as $data)
+        <a href="{{ asset($data->folder.$data->image) }}"
+           class="image-popup-gallery"
+           data-title="{{ $data->title }}"
+           style="display:none;"></a>
         @endforeach
     </div>
     <div class="text-center py-4" style="background:#f9f5f1;">
@@ -1647,7 +1683,6 @@ CDDF - Home
 .mfp-with-zoom.mfp-ready.mfp-bg { opacity: 0.8; }
 .mfp-with-zoom.mfp-removing .mfp-container,
 .mfp-with-zoom.mfp-removing.mfp-bg { opacity: 0; }
-.cddf-gallery-tile::after { pointer-events: none; }
 </style>
 @endpush
 @push('js')
@@ -1667,7 +1702,10 @@ $(document).ready(function(){
             preload: [0,1]
         },
         image: {
-            verticalFit: true
+            verticalFit: true,
+            titleSrc: function(item) {
+                return item.el.attr('data-title') || '';
+            }
         },
         zoom: {
             enabled: true,
