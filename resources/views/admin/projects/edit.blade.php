@@ -65,6 +65,40 @@
                             @error('cover_image')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
+                        {{-- ── Gallery Images ───────────────────────────────── --}}
+                        <div class="col-md-12">
+                            <label class="form-label fw-semibold">Gallery Images যোগ করুন <span class="text-muted fw-normal">(optional, multiple)</span></label>
+                            <input type="file" name="gallery[]" accept="image/*"
+                                   class="form-control @error('gallery.*') is-invalid @enderror"
+                                   multiple>
+                            <small class="text-muted">Multiple images select করুন — max 2 MB each। নতুন images আগেরগুলোর সাথে যুক্ত হবে।</small>
+                            @error('gallery.*')<div class="text-danger mt-1">{{ $message }}</div>@enderror
+                        </div>
+
+                        {{-- ── Existing Gallery Images ──────────────────────── --}}
+                        @if (!empty($galleryImages) && $galleryImages->isNotEmpty())
+                        <div class="col-md-12">
+                            <label class="form-label fw-semibold">Current Gallery Images</label>
+                            <div class="d-flex flex-wrap gap-2 mt-1">
+                                @foreach ($galleryImages as $gi)
+                                <div class="text-center" style="position:relative;">
+                                    <img src="{{ asset('images/project/' . $gi->image) }}"
+                                         alt="Gallery"
+                                         width="110"
+                                         class="rounded border"
+                                         style="object-fit:cover;height:80px;">
+                                    <br>
+                                    <a href="{{ route('project.gallery.delete', $gi->id) }}"
+                                       class="btn btn-danger btn-sm mt-1"
+                                       onclick="return confirm('এই gallery image টি delete করবেন?')">
+                                        <i class="feather-trash-2"></i> Delete
+                                    </a>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
+
                         {{-- ── Descriptions ─────────────────────────────────── --}}
                         <div class="col-md-12">
                             <label class="form-label fw-semibold">

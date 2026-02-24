@@ -54,6 +54,16 @@
                             @error('cover_image')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
+                        {{-- ── Gallery Images ───────────────────────────────── --}}
+                        <div class="col-md-12">
+                            <label class="form-label fw-semibold">Gallery Images <span class="text-muted fw-normal">(optional, multiple)</span></label>
+                            <input type="file" name="gallery[]" accept="image/*"
+                                   class="form-control @error('gallery.*') is-invalid @enderror"
+                                   multiple>
+                            <small class="text-muted">Multiple images select করুন — max 2 MB each (JPEG/PNG/WebP/GIF)</small>
+                            @error('gallery.*')<div class="text-danger mt-1">{{ $message }}</div>@enderror
+                        </div>
+
                         {{-- ── Descriptions ─────────────────────────────────── --}}
                         <div class="col-md-12">
                             <label class="form-label fw-semibold">

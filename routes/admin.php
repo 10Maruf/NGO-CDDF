@@ -69,6 +69,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/project/delete/{id}', [projectController::class, 'destroy'])->name('project.delete');
     Route::get('/project/edit/{id}', [projectController::class, 'edit'])->name('project.edit');
     Route::post('/project/update/{id}', [projectController::class, 'update'])->name('project.update');
+    Route::get('/project/gallery-image/delete/{imageId}', [projectController::class, 'deleteGalleryImage'])->name('project.gallery.delete');
 
     // Latest News
     Route::get('/news/add', [newsController::class, 'add'])->name('news.add');

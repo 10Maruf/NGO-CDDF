@@ -168,8 +168,9 @@ class frontController extends Controller
 
     // Project Detail View
     public function project_view($id){
-        $project = Project::with(['partners','focusAreas'])->findOrFail($id);
-        return view('frontend.project_view', compact('project'));
+        $project       = Project::with(['partners','focusAreas','galleryImages'])->findOrFail($id);
+        $galleryImages = $project->galleryImages;
+        return view('frontend.project_view', compact('project', 'galleryImages'));
     }
 
     //__Latest News All__//

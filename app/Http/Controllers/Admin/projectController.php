@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FocusArea;
 use App\Models\Partner;
 use App\Models\Project;
+use App\Models\ProjectImage;
 use Illuminate\Http\Request;
 
 class projectController extends Controller
@@ -72,7 +73,11 @@ class projectController extends Controller
             'focus_area_ids'    => 'nullable|array',
         ]);
 
-        // Image upload
+        // Gallery files — only keep files that actually uploaded successfully
+        $validGalleryFiles = collect($request->file('gallery', []))
+            ->filter(fn($f) => $f && $f->isValid());
+
+        // Cover image upload
         $imageName = null;
         if ($image = $request->file('cover_image')) {
             $imageName = rand(1000000, 9999999) . 'proj.' . $image->getClientOriginalExtension();
@@ -107,6 +112,16 @@ class projectController extends Controller
             $project->focusAreas()->sync($request->focus_area_ids);
         }
 
+        // Gallery images
+        foreach ($validGalleryFiles as $file) {
+            $galleryName = rand(1000000, 9999999) . 'proj_gallery.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images/project'), $galleryName);
+            ProjectImage::create([
+                'project_id' => $project->id,
+                'image'      => $galleryName,
+            ]);
+        }
+
         return redirect()->route('project.index')
             ->with('success', 'Project successfully added.');
     }
@@ -115,16 +130,17 @@ class projectController extends Controller
 
     public function edit($id)
     {
-        $project     = Project::with(['partners', 'focusAreas'])->findOrFail($id);
+        $project     = Project::with(['partners', 'focusAreas', 'galleryImages'])->findOrFail($id);
         $partners    = Partner::orderBy('name')->get();
         $focus_areas = FocusArea::where('is_active', true)->orderBy('order')->get();
 
         $selectedPartners   = $project->partners->pluck('id')->toArray();
         $selectedFocusAreas = $project->focusAreas->pluck('id')->toArray();
+        $galleryImages      = $project->galleryImages;
 
         return view('admin.projects.edit', compact(
             'project', 'partners', 'focus_areas',
-            'selectedPartners', 'selectedFocusAreas'
+            'selectedPartners', 'selectedFocusAreas', 'galleryImages'
         ));
     }
 
@@ -148,7 +164,11 @@ class projectController extends Controller
             'focus_area_ids'    => 'nullable|array',
         ]);
 
-        // Image update
+        // Gallery files — only keep files that actually uploaded successfully
+        $validGalleryFiles = collect($request->file('gallery', []))
+            ->filter(fn($f) => $f && $f->isValid());
+
+        // Cover image update
         $imageName = $project->cover_image;
         if ($image = $request->file('cover_image')) {
             $oldPath = public_path('images/project/' . $project->cover_image);
@@ -181,6 +201,16 @@ class projectController extends Controller
         $project->partners()->sync($request->input('partner_ids', []));
         $project->focusAreas()->sync($request->input('focus_area_ids', []));
 
+        // Append new gallery images
+        foreach ($validGalleryFiles as $file) {
+            $galleryName = rand(1000000, 9999999) . 'proj_gallery.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images/project'), $galleryName);
+            ProjectImage::create([
+                'project_id' => $project->id,
+                'image'      => $galleryName,
+            ]);
+        }
+
         return redirect()->route('project.index')
             ->with('success', 'Project successfully updated.');
     }
@@ -196,11 +226,34 @@ class projectController extends Controller
             @unlink($oldPath);
         }
 
+        // Delete gallery images
+        foreach ($project->galleryImages as $gi) {
+            $giPath = public_path('images/project/' . $gi->image);
+            if (file_exists($giPath)) {
+                @unlink($giPath);
+            }
+        }
+        $project->galleryImages()->delete();
+
         $project->partners()->detach();
         $project->focusAreas()->detach();
         $project->delete();
 
         return redirect()->route('project.index')
             ->with('success', 'Project deleted successfully.');
+    }
+
+    // -- Delete single gallery image -------------------------------------------
+
+    public function deleteGalleryImage($imageId)
+    {
+        $gi = ProjectImage::findOrFail($imageId);
+        $path = public_path('images/project/' . $gi->image);
+        if (file_exists($path)) {
+            @unlink($path);
+        }
+        $gi->delete();
+
+        return redirect()->back()->with('success', 'Gallery image deleted.');
     }
 }

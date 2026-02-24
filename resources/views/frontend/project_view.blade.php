@@ -44,7 +44,31 @@
                     <div style="font-size: 1.05rem; line-height: 1.8; color: #444; text-align: justify;">
                         {!! $project->detail_description !!}
                     </div>
-                    
+
+                    {{-- Gallery Grid --}}
+                    @if(isset($galleryImages) && $galleryImages->isNotEmpty())
+                    <div class="mt-5 pt-4 border-top">
+                        <h3 style="font-size: 1.8rem; font-weight: 700; color: #333; margin-bottom: 20px; border-bottom: 2px solid #f86f2d; padding-bottom: 10px; display: inline-block;">
+                            Project Gallery
+                        </h3>
+                        <div class="row g-3 mt-2">
+                            @foreach($galleryImages as $img)
+                            <div class="col-md-4 col-sm-6">
+                                <a href="{{ asset('images/project/' . $img->image) }}"
+                                   class="ratio ratio-4x3 overflow-hidden rounded shadow-sm d-block image-popup-gallery position-relative gallery-item">
+                                    <img src="{{ asset('images/project/' . $img->image) }}"
+                                         alt="Project Gallery"
+                                         class="w-100 h-100 object-fit-cover">
+                                    <div class="gallery-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                                        <i class="fas fa-search-plus text-white fa-2x"></i>
+                                    </div>
+                                </a>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
                     <div class="mt-5">
                         <a href="{{ route('ongoing.project') }}" class="btn btn-outline-secondary rounded-pill px-4">
                             <i class="fa fa-arrow-left me-2"></i> Back to Projects
@@ -155,5 +179,37 @@
         </div>
     </div>
 </section>
+
+@push('css')
+<link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
+<style>
+.gallery-item { position: relative; display: block; }
+.gallery-overlay {
+    background: rgba(0,0,0,0.4);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.gallery-item:hover .gallery-overlay { opacity: 1; }
+.gallery-item:hover .fa-search-plus { transform: scale(1.2); transition: transform 0.3s ease; }
+</style>
+@endpush
+
+@push('js')
+<script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+<script>
+$(document).ready(function() {
+    $('.image-popup-gallery').magnificPopup({
+        type: 'image',
+        gallery: {
+            enabled: true,
+            navigateByImgClick: true,
+            preload: [0, 1]
+        },
+        mainClass: 'mfp-with-zoom',
+        zoom: { enabled: true, duration: 300 }
+    });
+});
+</script>
+@endpush
 
 @endsection

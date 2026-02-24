@@ -65,6 +65,15 @@ class Project extends Model
         );
     }
 
+    /**
+     * Gallery images for this project.
+     * Table: project_images (id, project_id, image)
+     */
+    public function galleryImages()
+    {
+        return $this->hasMany(\App\Models\ProjectImage::class, 'project_id');
+    }
+
     // ── Accessors ─────────────────────────────────────────────────────────────
 
     public function getCoverImageUrlAttribute(): string
