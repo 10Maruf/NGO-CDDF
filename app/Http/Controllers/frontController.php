@@ -60,6 +60,35 @@ class frontController extends Controller
         return view('frontend.exe_committee', compact('orgMembers'));
     }
 
+    // Governance Level
+    public function governanceLevel(){
+        $orgMembers = DB::table('org_members')
+            ->where('is_active', true)
+            ->orderBy('order', 'asc')
+            ->get()
+            ->groupBy('org_type');
+
+        $scrollTarget = 'governance-level';
+        return view('frontend.exe_committee', compact('orgMembers', 'scrollTarget'));
+    }
+
+    // Management Level
+    public function managementLevel(){
+        $orgMembers = DB::table('org_members')
+            ->where('is_active', true)
+            ->orderBy('order', 'asc')
+            ->get()
+            ->groupBy('org_type');
+
+        $scrollTarget = 'management-level';
+        return view('frontend.exe_committee', compact('orgMembers', 'scrollTarget'));
+    }
+
+    // Organogram
+    public function organogram(){
+        return view('frontend.organogram');
+    }
+
     // Message form Cheif Executive
     public function cheif_msg(){
         $message = DB::table('chief_executive_message')->orderBy('id', 'desc')->first();

@@ -31,13 +31,13 @@
       </div>
 
       {{-- ===================== VISUAL ORGANOGRAM CHART ===================== --}}
-      <div class="card shadow-sm mb-5" data-aos="fade-up" data-aos-delay="100">
+      <div id="organogram" class="card shadow-sm mb-5" data-aos="fade-up" data-aos-delay="100">
         <div class="card-body py-4">
           <h5 class="text-center fw-bold text-primary mb-4">Organizational Chart</h5>
           <div class="org-chart-wrapper">
 
             {{-- GOVERNANCE LEVEL --}}
-            <div class="org-level-label text-primary fw-bold text-center mb-2">GOVERNANCE LEVEL</div>
+            <div id="governance-level" class="org-level-label text-primary fw-bold text-center mb-2">GOVERNANCE LEVEL</div>
             <div class="org-row">
               <div class="org-box org-governance">
                 <span class="badge-count">{{ isset($orgMembers['general_council']) ? count($orgMembers['general_council']) : 21 }}</span>
@@ -62,7 +62,7 @@
             <div class="org-gap"></div>
 
             {{-- MANAGEMENT LEVEL --}}
-            <div class="org-level-label text-success fw-bold text-center mb-2">MANAGEMENT LEVEL</div>
+            <div id="management-level" class="org-level-label text-success fw-bold text-center mb-2">MANAGEMENT LEVEL</div>
             <div class="org-row">
               <div class="org-box org-ed">
                 Executive Director (ED)
@@ -201,6 +201,19 @@
 
     </div>
   </section>
+
+@if(isset($scrollTarget))
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var target = document.getElementById('{{ $scrollTarget }}');
+    if (target) {
+      setTimeout(function() {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    }
+  });
+</script>
+@endif
 
 {{-- Organogram Chart CSS --}}
 <style>
