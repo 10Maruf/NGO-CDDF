@@ -12,22 +12,26 @@ class OrgMember extends Model
         'org_type',
         'name',
         'designation',
-        'department',
         'bio',
         'photo',
         'facebook',
         'twitter',
         'instagram',
         'youtube',
+        'linkedin',
         'contact_number',
         'email',
         'message',
+        'joining_date',
+        'education',
+        'experience_years',
         'order',
         'is_active',
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
+        'is_active'    => 'boolean',
+        'joining_date' => 'date',
     ];
 
     public static $orgTypes = [

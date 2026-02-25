@@ -64,7 +64,7 @@
                                 </td>
                                 <td>
                                     <div class="fw-semibold" style="font-size:13px;">{{ $item->name }}</div>
-                                    <div class="text-muted" style="font-size:11px;">{{ $item->designation }}{{ $item->department ? ' · ' . $item->department : '' }}</div>
+                                    <div class="text-muted" style="font-size:11px;">{{ $item->designation }}</div>
                                 </td>
                                 <td>
                                     @php

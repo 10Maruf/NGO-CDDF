@@ -165,12 +165,7 @@
                 <div class="card-body py-2 px-2">
                   <h6 class="fw-bold mb-0" style="font-size:13px;">{{ $member->name }}</h6>
                   <p class="text-muted mb-1" style="font-size:11px;">{{ $member->designation }}</p>
-                  @if($member->department)
-                    <span class="badge rounded-pill"
-                          style="background:{{ $section['color'] }}; color:{{ $section['dark_text'] ? '#000' : '#fff' }}; font-size:10px;">
-                      {{ $member->department }}
-                    </span>
-                  @endif
+
                   @if($member->bio)
                     <p class="text-muted mt-1 mb-0" style="font-size:11px;">{{ Str::limit($member->bio, 80) }}</p>
                   @endif
@@ -187,6 +182,9 @@
                     @endif
                     @if($member->youtube)
                       <a href="{{ $member->youtube }}" target="_blank" class="btn btn-sm btn-outline-danger p-1" style="font-size:11px;"><i class="bx bxl-youtube"></i></a>
+                    @endif
+                    @if($member->linkedin)
+                      <a href="{{ $member->linkedin }}" target="_blank" class="btn btn-sm btn-outline-primary p-1" style="font-size:11px;"><i class="bx bxl-linkedin"></i></a>
                     @endif
                   </div>
                   @endif

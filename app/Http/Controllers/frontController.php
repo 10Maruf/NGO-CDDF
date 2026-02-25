@@ -62,14 +62,10 @@ class frontController extends Controller
 
     // Governance Level
     public function governanceLevel(){
-        $orgMembers = DB::table('org_members')
-            ->where('is_active', true)
-            ->orderBy('order', 'asc')
-            ->get()
-            ->groupBy('org_type');
-
-        $scrollTarget = 'governance-level';
-        return view('frontend.exe_committee', compact('orgMembers', 'scrollTarget'));
+        $gc = DB::table('org_members')->where('is_active', 1)->where('org_type', 'general_council')->orderBy('order')->get();
+        $ec = DB::table('org_members')->where('is_active', 1)->where('org_type', 'executive_committee')->orderBy('order')->get();
+        $ac = DB::table('org_members')->where('is_active', 1)->where('org_type', 'advisory_council')->orderBy('order')->get();
+        return view('frontend.governance_level', compact('gc', 'ec', 'ac'));
     }
 
     // Management Level
