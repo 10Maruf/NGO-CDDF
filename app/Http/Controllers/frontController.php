@@ -70,14 +70,12 @@ class frontController extends Controller
 
     // Management Level
     public function managementLevel(){
-        $orgMembers = DB::table('org_members')
-            ->where('is_active', true)
-            ->orderBy('order', 'asc')
-            ->get()
-            ->groupBy('org_type');
-
-        $scrollTarget = 'management-level';
-        return view('frontend.exe_committee', compact('orgMembers', 'scrollTarget'));
+        $ed      = DB::table('org_members')->where('is_active', 1)->where('org_type', 'executive_director')->orderBy('order')->get();
+        $smt     = DB::table('org_members')->where('is_active', 1)->where('org_type', 'senior_management')->orderBy('order')->get();
+        $mid     = DB::table('org_members')->where('is_active', 1)->where('org_type', 'mid_management')->orderBy('order')->get();
+        $field   = DB::table('org_members')->where('is_active', 1)->where('org_type', 'field_staff')->orderBy('order')->get();
+        $support = DB::table('org_members')->where('is_active', 1)->where('org_type', 'support_staff')->orderBy('order')->get();
+        return view('frontend.management_level', compact('ed', 'smt', 'mid', 'field', 'support'));
     }
 
     // Organogram
