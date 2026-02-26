@@ -46,12 +46,6 @@
                             @error('designation') <div class="text-danger">{{ $message }}</div> @enderror
                         </div>
 
-                        {{-- Department --}}
-                        <div class="col-md-12">
-                            <label for="department" class="form-label">Department <span class="text-muted">(Optional)</span></label>
-                            <input type="text" name="department" class="form-control" id="department" value="{{ $data->department }}">
-                        </div>
-
                         {{-- Photo --}}
                         <div class="col-md-12">
                             <label for="img" class="form-label">Photo <span class="text-muted">(Optional — leave blank to keep current)</span></label>
@@ -87,6 +81,22 @@
                             <textarea name="message" class="form-control" rows="3">{{ $data->message }}</textarea>
                         </div>
 
+                        {{-- Joining Date --}}
+                        <div class="col-md-6">
+                            <label class="form-label">Joining Date <span class="text-muted">(Optional)</span></label>
+                            <input type="date" name="joining_date" class="form-control" value="{{ $data->joining_date ? \Carbon\Carbon::parse($data->joining_date)->format('Y-m-d') : '' }}">
+                        </div>
+
+                        {{-- Education & Experience --}}
+                        <div class="col-md-8">
+                            <label class="form-label">Education <span class="text-muted">(Optional)</span></label>
+                            <input type="text" name="education" class="form-control" value="{{ $data->education }}" placeholder="e.g. MSS, Dhaka University">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Experience (Years) <span class="text-muted">(Optional)</span></label>
+                            <input type="number" name="experience_years" class="form-control" value="{{ $data->experience_years }}" min="0" max="60" placeholder="e.g. 15">
+                        </div>
+
                         {{-- Social Links --}}
                         <div class="col-12"><hr><p class="fw-semibold mb-0">Social Links <span class="text-muted small">(Optional)</span></p></div>
                         <div class="col-md-6">
@@ -104,6 +114,10 @@
                         <div class="col-md-6">
                             <label class="form-label">YouTube URL</label>
                             <input type="url" name="youtube" class="form-control" value="{{ $data->youtube }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">LinkedIn URL</label>
+                            <input type="url" name="linkedin" class="form-control" value="{{ $data->linkedin }}">
                         </div>
                         <div class="col-12"><hr></div>
 

@@ -38,6 +38,7 @@
                 {{-- Our People --}}
                 @php
                     $peopleActive = request()->routeIs(
+                        'governance.level','management.level','organogram',
                         'team.members','executive.committee','cheif.message'
                     );
                 @endphp
@@ -46,9 +47,9 @@
                         Our People
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="peopleDropdown">
-                        <li><a class="dropdown-item {{ request()->routeIs('team.members') ? 'active' : '' }}" href="{{ route('team.members') }}">Team Members</a></li>
-                        <li><a class="dropdown-item {{ request()->routeIs('executive.committee') ? 'active' : '' }}" href="{{ route('executive.committee') }}">Executive Committee</a></li>
-                        <li><a class="dropdown-item {{ request()->routeIs('cheif.message') ? 'active' : '' }}" href="{{ route('cheif.message') }}">Message from Chief Executive</a></li>
+                        <li><a class="dropdown-item {{ request()->routeIs('governance.level') ? 'active' : '' }}" href="{{ route('governance.level') }}">Governance Level</a></li>
+                        <li><a class="dropdown-item {{ request()->routeIs('management.level') ? 'active' : '' }}" href="{{ route('management.level') }}">Management Level</a></li>
+                        <li><a class="dropdown-item {{ request()->routeIs('organogram') ? 'active' : '' }}" href="{{ route('organogram') }}">Organizational Organogram</a></li>
                     </ul>
                 </li>
 

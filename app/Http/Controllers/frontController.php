@@ -60,6 +60,29 @@ class frontController extends Controller
         return view('frontend.exe_committee', compact('orgMembers'));
     }
 
+    // Governance Level
+    public function governanceLevel(){
+        $gc = DB::table('org_members')->where('is_active', 1)->where('org_type', 'general_council')->orderBy('order')->get();
+        $ec = DB::table('org_members')->where('is_active', 1)->where('org_type', 'executive_committee')->orderBy('order')->get();
+        $ac = DB::table('org_members')->where('is_active', 1)->where('org_type', 'advisory_council')->orderBy('order')->get();
+        return view('frontend.governance_level', compact('gc', 'ec', 'ac'));
+    }
+
+    // Management Level
+    public function managementLevel(){
+        $ed      = DB::table('org_members')->where('is_active', 1)->where('org_type', 'executive_director')->orderBy('order')->get();
+        $smt     = DB::table('org_members')->where('is_active', 1)->where('org_type', 'senior_management')->orderBy('order')->get();
+        $mid     = DB::table('org_members')->where('is_active', 1)->where('org_type', 'mid_management')->orderBy('order')->get();
+        $field   = DB::table('org_members')->where('is_active', 1)->where('org_type', 'field_staff')->orderBy('order')->get();
+        $support = DB::table('org_members')->where('is_active', 1)->where('org_type', 'support_staff')->orderBy('order')->get();
+        return view('frontend.management_level', compact('ed', 'smt', 'mid', 'field', 'support'));
+    }
+
+    // Organogram
+    public function organogram(){
+        return view('frontend.organogram');
+    }
+
     // Message form Cheif Executive
     public function cheif_msg(){
         $message = DB::table('chief_executive_message')->orderBy('id', 'desc')->first();

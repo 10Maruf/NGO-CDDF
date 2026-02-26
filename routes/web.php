@@ -66,6 +66,9 @@ Route::get('mission/vision', [frontController::class, 'vision_mission'])->name('
 Route::get('about/us/team/members', [frontController::class, 'teamMembers'])->name('team.members');
 Route::get('origin/affilation', [frontController::class, 'origin_affilation'])->name('origin_affilation');
 Route::get('committee', [frontController::class, 'committee'])->name('executive.committee');
+Route::get('governance/level', [frontController::class, 'governanceLevel'])->name('governance.level');
+Route::get('management/level', [frontController::class, 'managementLevel'])->name('management.level');
+Route::get('organogram', [frontController::class, 'organogram'])->name('organogram');
 Route::get('cheif/message', [frontController::class, 'cheif_msg'])->name('cheif.message');
 Route::get('partner/donor', [frontController::class, 'partner'])->name('partner.donor');
 Route::get('about/impact', [frontController::class, 'impact'])->name('about.impact');

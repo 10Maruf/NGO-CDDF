@@ -31,13 +31,13 @@
       </div>
 
       {{-- ===================== VISUAL ORGANOGRAM CHART ===================== --}}
-      <div class="card shadow-sm mb-5" data-aos="fade-up" data-aos-delay="100">
+      <div id="organogram" class="card shadow-sm mb-5" data-aos="fade-up" data-aos-delay="100">
         <div class="card-body py-4">
           <h5 class="text-center fw-bold text-primary mb-4">Organizational Chart</h5>
           <div class="org-chart-wrapper">
 
             {{-- GOVERNANCE LEVEL --}}
-            <div class="org-level-label text-primary fw-bold text-center mb-2">GOVERNANCE LEVEL</div>
+            <div id="governance-level" class="org-level-label text-primary fw-bold text-center mb-2">GOVERNANCE LEVEL</div>
             <div class="org-row">
               <div class="org-box org-governance">
                 <span class="badge-count">{{ isset($orgMembers['general_council']) ? count($orgMembers['general_council']) : 21 }}</span>
@@ -62,7 +62,7 @@
             <div class="org-gap"></div>
 
             {{-- MANAGEMENT LEVEL --}}
-            <div class="org-level-label text-success fw-bold text-center mb-2">MANAGEMENT LEVEL</div>
+            <div id="management-level" class="org-level-label text-success fw-bold text-center mb-2">MANAGEMENT LEVEL</div>
             <div class="org-row">
               <div class="org-box org-ed">
                 Executive Director (ED)
@@ -165,12 +165,7 @@
                 <div class="card-body py-2 px-2">
                   <h6 class="fw-bold mb-0" style="font-size:13px;">{{ $member->name }}</h6>
                   <p class="text-muted mb-1" style="font-size:11px;">{{ $member->designation }}</p>
-                  @if($member->department)
-                    <span class="badge rounded-pill"
-                          style="background:{{ $section['color'] }}; color:{{ $section['dark_text'] ? '#000' : '#fff' }}; font-size:10px;">
-                      {{ $member->department }}
-                    </span>
-                  @endif
+
                   @if($member->bio)
                     <p class="text-muted mt-1 mb-0" style="font-size:11px;">{{ Str::limit($member->bio, 80) }}</p>
                   @endif
@@ -188,6 +183,9 @@
                     @if($member->youtube)
                       <a href="{{ $member->youtube }}" target="_blank" class="btn btn-sm btn-outline-danger p-1" style="font-size:11px;"><i class="bx bxl-youtube"></i></a>
                     @endif
+                    @if($member->linkedin)
+                      <a href="{{ $member->linkedin }}" target="_blank" class="btn btn-sm btn-outline-primary p-1" style="font-size:11px;"><i class="bx bxl-linkedin"></i></a>
+                    @endif
                   </div>
                   @endif
                 </div>
@@ -201,6 +199,19 @@
 
     </div>
   </section>
+
+@if(isset($scrollTarget))
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var target = document.getElementById('{{ $scrollTarget }}');
+    if (target) {
+      setTimeout(function() {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    }
+  });
+</script>
+@endif
 
 {{-- Organogram Chart CSS --}}
 <style>
