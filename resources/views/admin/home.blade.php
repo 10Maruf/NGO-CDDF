@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title_l1', 'Dashboard')
+@section('title_l1', __('admin.dashboard'))
 @section('bread_crumb')
-    <li class="breadcrumb-item">Dashboard</li>
+    <li class="breadcrumb-item">{{ __('admin.dashboard') }}</li>
 @endsection
 
 @push('styles')
@@ -152,24 +152,24 @@
                             </span>
                         </div>
                         <h1 class="display-3 fw-bolder text-white mb-2" style="font-size: clamp(2rem, 5vw, 3rem); letter-spacing: -1px; text-shadow: 0 4px 20px rgba(0,0,0,0.3);">
-                            Building Resilience.
+                            {{ __('admin.building_resilience') }}
                         </h1>
                         <p class="lead text-white mb-3" style="max-width: 620px; font-size: clamp(1rem, 1.5vw, 1.15rem); opacity: 0.95; line-height: 1.6; font-weight: 400;">
-                            Championing the future of Bangladesh's river-erosion communities. From disaster relief to sustainable growth, we turn vulnerability into strength.
+                            {{ __('admin.cddf_description') }}
                         </p>
                         <div class="d-flex align-items-center mb-3 text-white-50" style="font-size: 0.85rem;">
-                            <span class="text-white fw-bold text-uppercase tracking-wider">CDDF</span>
+                            <span class="text-white fw-bold text-uppercase tracking-wider">{{ __('admin.cddf') }}</span>
                             <span class="mx-2">•</span>
-                            <span>Chilmari Distressed Development Foundation</span>
+                            <span>{{ __('admin.cddf_full') }}</span>
                             <span class="mx-2">|</span>
-                            <span class="badge reg-badge fw-normal">Reg. No. 2520</span>
+                            <span class="badge reg-badge fw-normal">{{ __('admin.reg_no') }}</span>
                         </div>
                         <div class="d-flex gap-3 flex-wrap">
                             <a href="{{ route('admin.donations.index') }}" class="btn btn-get-started btn-md px-4 py-2">
-                                View Donations
+                                {{ __('admin.view_donations') }}
                             </a>
                             <a href="{{ route('project.add') }}" class="btn btn-outline-light btn-md px-4 py-2">
-                                <i class="feather-plus me-2"></i>New Project
+                                <i class="feather-plus me-2"></i>{{ __('admin.new_project') }}
                             </a>
                         </div>
                     </div>
@@ -205,7 +205,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div class="me-3">
                     <h5 class="fs-4">৳{{ number_format($stats['donations_amount'], 2) }}</h5>
-                    <span class="text-muted">Total Verified</span>
+                    <span class="text-muted">{{ __('admin.total_verified') }}</span>
                 </div>
                 <div class="avatar-text avatar-lg bg-primary text-white rounded">
                     <span class="fs-3 fw-bold">৳</span>
@@ -219,7 +219,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div class="me-3">
                     <h5 class="fs-4">৳{{ number_format($stats['pending_donations_amount'], 2) }}</h5>
-                    <span class="text-muted">Pending Donations</span>
+                    <span class="text-muted">{{ __('admin.pending_donations') }}</span>
                 </div>
                 <div class="avatar-text avatar-lg bg-warning text-white rounded">
                     <i class="feather-clock"></i>
@@ -233,7 +233,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div class="me-3">
                     <h5 class="fs-4">{{ $stats['projects_count'] }}</h5>
-                    <span class="text-muted">Ongoing Projects</span>
+                    <span class="text-muted">{{ __('admin.ongoing_projects') }}</span>
                 </div>
                 <div class="avatar-text avatar-lg bg-info text-white rounded">
                     <i class="feather-briefcase"></i>
@@ -247,7 +247,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div class="me-3">
                     <h5 class="fs-4">{{ $stats['volunteers_active'] }}</h5>
-                    <span class="text-muted">Active Volunteers</span>
+                    <span class="text-muted">{{ __('admin.active_volunteers') }}</span>
                 </div>
                 <div class="avatar-text avatar-lg bg-success text-white rounded">
                     <i class="feather-users"></i>
@@ -260,7 +260,7 @@
     <div class="col-xxl-2 col-lg-4 col-md-6">
         <div class="card stretch stretch-full">
             <div class="card-body">
-                <div class="fs-12 fw-medium text-muted mb-3">Subscribers</div>
+                <div class="fs-12 fw-medium text-muted mb-3">{{ __('admin.subscribers') }}</div>
                 <div class="hstack justify-content-between lh-base">
                     <h3><span class="counter">{{ $stats['subscribers_count'] }}</span></h3>
                     <div class="hstack gap-2 fs-11 text-info">
@@ -274,7 +274,7 @@
     <div class="col-xxl-2 col-lg-4 col-md-6">
         <div class="card stretch stretch-full">
             <div class="card-body">
-                <div class="fs-12 fw-medium text-muted mb-3">Publications</div>
+                <div class="fs-12 fw-medium text-muted mb-3">{{ __('admin.publications') }}</div>
                 <div class="hstack justify-content-between lh-base">
                     <h3><span class="counter">{{ $stats['publications_count'] }}</span></h3>
                     <div class="hstack gap-2 fs-11 text-primary">
@@ -288,7 +288,7 @@
     <div class="col-xxl-2 col-lg-4 col-md-6">
         <div class="card stretch stretch-full">
             <div class="card-body">
-                <div class="fs-12 fw-medium text-muted mb-3">Latest News</div>
+                <div class="fs-12 fw-medium text-muted mb-3">{{ __('admin.latest_news') }}</div>
                 <div class="hstack justify-content-between lh-base">
                     <h3><span class="counter">{{ $stats['news_count'] }}</span></h3>
                     <div class="hstack gap-2 fs-11 text-success">
@@ -302,7 +302,7 @@
     <div class="col-xxl-2 col-lg-4 col-md-6">
         <div class="card stretch stretch-full">
             <div class="card-body">
-                <div class="fs-12 fw-medium text-muted mb-3">Success Stories</div>
+                <div class="fs-12 fw-medium text-muted mb-3">{{ __('admin.success_stories') }}</div>
                 <div class="hstack justify-content-between lh-base">
                     <h3><span class="counter">{{ $stats['stories_count'] }}</span></h3>
                     <div class="hstack gap-2 fs-11 text-warning">
@@ -316,7 +316,7 @@
     <div class="col-xxl-2 col-lg-4 col-md-6">
         <div class="card stretch stretch-full">
             <div class="card-body">
-                <div class="fs-12 fw-medium text-muted mb-3">Programs</div>
+                <div class="fs-12 fw-medium text-muted mb-3">{{ __('admin.programs') }}</div>
                 <div class="hstack justify-content-between lh-base">
                     <h3><span class="counter">{{ $stats['programs_count'] }}</span></h3>
                     <div class="hstack gap-2 fs-11 text-danger">
@@ -347,7 +347,7 @@
     <div class="col-xxl-8">
         <div class="card stretch stretch-full">
             <div class="card-header">
-                <h5 class="card-title">Donation Trends (Last 6 Months)</h5>
+                <h5 class="card-title">{{ __('admin.donation_trends') }}</h5>
             </div>
             <div class="card-body">
                 <div id="donationTrendChart"></div>
@@ -358,7 +358,7 @@
     <div class="col-xxl-4">
         <div class="card stretch stretch-full">
             <div class="card-header">
-                <h5 class="card-title">Donations by Method</h5>
+                <h5 class="card-title">{{ __('admin.donations_by_method') }}</h5>
             </div>
             <div class="card-body">
                 <div id="donationsMethodChart"></div>
@@ -370,8 +370,8 @@
     <div class="col-xxl-4">
         <div class="card stretch stretch-full border-warning">
             <div class="card-header">
-                <h5 class="card-title text-warning">Pending Donations</h5>
-                <a href="{{ route('admin.donations.index', ['status' => 'pending']) }}" class="btn btn-sm btn-light-brand">Review All</a>
+                <h5 class="card-title text-warning">{{ __('admin.pending_donations') }}</h5>
+                <a href="{{ route('admin.donations.index', ['status' => 'pending']) }}" class="btn btn-sm btn-light-brand">{{ __('admin.review_all') }}</a>
             </div>
             <div class="card-body">
                 @forelse($pendingDonations as $donation)
@@ -388,7 +388,7 @@
                     <span class="badge bg-soft-warning text-warning">{{ \Carbon\Carbon::parse($donation->created_at)->diffForHumans() }}</span>
                 </div>
                 @empty
-                <p class="text-muted text-center py-4">No pending donations</p>
+                <p class="text-muted text-center py-4">{{ __('admin.no_pending_donations') }}</p>
                 @endforelse
             </div>
         </div>
@@ -397,8 +397,8 @@
     <div class="col-xxl-4">
         <div class="card stretch stretch-full">
             <div class="card-header">
-                <h5 class="card-title">Recent Verified Donations</h5>
-                <a href="{{ route('admin.donations.index') }}" class="btn btn-sm btn-light-brand">View All</a>
+                <h5 class="card-title">{{ __('admin.recent_verified_donations') }}</h5>
+                <a href="{{ route('admin.donations.index') }}" class="btn btn-sm btn-light-brand">{{ __('admin.view_all') }}</a>
             </div>
             <div class="card-body">
                 @forelse($recentDonations as $donation)
@@ -415,7 +415,7 @@
                     <span class="badge bg-soft-success text-success">{{ \Carbon\Carbon::parse($donation->created_at)->diffForHumans() }}</span>
                 </div>
                 @empty
-                <p class="text-muted text-center py-4">No donations yet</p>
+                <p class="text-muted text-center py-4">{{ __('admin.no_donations_yet') }}</p>
                 @endforelse
             </div>
         </div>
@@ -424,8 +424,8 @@
     <div class="col-xxl-4">
         <div class="card stretch stretch-full">
             <div class="card-header">
-                <h5 class="card-title">Recent Applications</h5>
-                <a href="{{ route('admin.volunteer_applications.index') }}" class="btn btn-sm btn-light-brand">View All</a>
+                <h5 class="card-title">{{ __('admin.recent_applications') }}</h5>
+                <a href="{{ route('admin.volunteer_applications.index') }}" class="btn btn-sm btn-light-brand">{{ __('admin.view_all') }}</a>
             </div>
             <div class="card-body">
                 @forelse($recentVolunteers as $volunteer)
@@ -454,7 +454,7 @@
                     </div>
                 </div>
                 @empty
-                <p class="text-muted text-center py-4">No applications yet</p>
+                <p class="text-muted text-center py-4">{{ __('admin.no_applications_yet') }}</p>
                 @endforelse
             </div>
         </div>
@@ -463,8 +463,8 @@
     <div class="col-xxl-4">
         <div class="card stretch stretch-full">
             <div class="card-header">
-                <h5 class="card-title">Recent Messages</h5>
-                <a href="{{ route('message.index') }}" class="btn btn-sm btn-light-brand">View All</a>
+                <h5 class="card-title">{{ __('admin.recent_messages') }}</h5>
+                <a href="{{ route('message.index') }}" class="btn btn-sm btn-light-brand">{{ __('admin.view_all') }}</a>
             </div>
             <div class="card-body">
                 @forelse($recentMessages as $message)
@@ -481,7 +481,7 @@
                     <span class="badge bg-soft-info text-info">ID: {{ $message->id }}</span>
                 </div>
                 @empty
-                <p class="text-muted text-center py-4">No messages yet</p>
+                <p class="text-muted text-center py-4">{{ __('admin.no_messages_yet') }}</p>
                 @endforelse
             </div>
         </div>
@@ -491,27 +491,27 @@
     <div class="col-12">
         <div class="card stretch stretch-full">
             <div class="card-header">
-                <h5 class="card-title">Quick Actions</h5>
+                <h5 class="card-title">{{ __('admin.quick_actions') }}</h5>
             </div>
             <div class="card-body">
                 <div class="d-flex flex-wrap gap-2">
                     <a href="{{ route('donate') }}" class="btn btn-primary">
-                        <i class="feather-plus me-2"></i>Add Donation
+                        <i class="feather-plus me-2"></i>{{ __('admin.add_donation') }}
                     </a>
                     <a href="{{ route('project.add') }}" class="btn btn-success">
-                        <i class="feather-plus me-2"></i>Add Project
+                        <i class="feather-plus me-2"></i>{{ __('admin.add_project') }}
                     </a>
                     <a href="{{ route('news.add') }}" class="btn btn-info">
-                        <i class="feather-plus me-2"></i>Add News
+                        <i class="feather-plus me-2"></i>{{ __('admin.add_news') }}
                     </a>
                     <a href="{{ route('stories.add') }}" class="btn btn-warning">
-                        <i class="feather-plus me-2"></i>Add Story
+                        <i class="feather-plus me-2"></i>{{ __('admin.add_story') }}
                     </a>
                     <a href="{{ route('publications.add') }}" class="btn btn-secondary">
-                        <i class="feather-plus me-2"></i>Add Publication
+                        <i class="feather-plus me-2"></i>{{ __('admin.add_publication') }}
                     </a>
                     <a href="{{ route('strategic_plans.create') }}" class="btn btn-dark">
-                        <i class="feather-plus me-2"></i>Add Strategic Plan
+                        <i class="feather-plus me-2"></i>{{ __('admin.add_strategic_plan') }}
                     </a>
                 </div>
             </div>

@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="en">
+﻿<!doctype html>
+<html lang="{{ app()->getLocale() }}" class="{{ app()->getLocale() === 'bn' ? 'app-font-family-kalpurush' : '' }}">
 
 <head>
 	<!-- Required meta tags -->
@@ -26,6 +26,7 @@
     <!--! Legacy Icons CSS (Restore for Boxicons compatibility) -->
     <link href="{{ asset('admin/assets/css/icons.css') }}" rel="stylesheet">
 	<!--! END: Custom CSS-->
+
 	<style>
 		/* Duralux Native Dark Mode Implementation */
 		html.app-skin-dark {
@@ -376,7 +377,33 @@
 		.nxl-h-dropdown {
 			border: 1px solid #dee2e6;
 			box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            /* Fix for hover gap issue */
+            margin-top: 0 !important; 
+            padding-top: 5px; /* Add padding inside instead of margin outside */
 		}
+
+        /* Invisible bridge to prevent menu closing when moving cursor from icon to menu */
+        .nxl-h-dropdown::before {
+            content: "";
+            position: absolute;
+            top: -15px; /* Extend upwards to cover the gap */
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: transparent;
+            z-index: -1;
+        }
+
+        /* Ensure dropdown stays open when hovering the bridge */
+        .nxl-h-item:hover .nxl-h-dropdown {
+            display: block; /* Force display if JS is lagging */
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 		
 		.notifications-head {
 			padding: 12px 16px;
@@ -453,6 +480,36 @@
 
         .table-actions .btn-danger { color: #ef476f; background: transparent; border: 0; }
         .table-actions .btn-danger:hover { color: #fff; background: #ef476f; }
+
+		/* ===== Bangla Font Declarations ===== */
+		@font-face {
+			font-family: 'Kalpurush';
+			src: local('Kalpurush'), local('kalpurush');
+			font-weight: normal;
+			font-style: normal;
+			font-display: swap;
+		}
+
+		/* Bangla font-family CSS rules */
+		html.app-font-family-kalpurush body { font-family: 'Kalpurush', sans-serif; }
+		html.app-font-family-system-bangla body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; }
+
+		/* Bangla font badge in theme settings */
+		.bangla-font-divider {
+			width: 100%;
+			text-align: center;
+			padding: 6px 0 2px;
+			margin-top: 8px;
+		}
+		.bangla-font-divider span {
+			background: linear-gradient(135deg, #006A4E, #DC143C);
+			color: #fff;
+			font-size: 10px;
+			font-weight: 700;
+			padding: 2px 10px;
+			border-radius: 10px;
+			letter-spacing: 1px;
+		}
 	</style>
 	@stack('styles')
 	<!--! ================================================================ !-->
@@ -473,30 +530,30 @@
 			<div class="navbar-content">
 				<ul class="nxl-navbar">
 					<li class="nxl-item nxl-caption">
-						<label>Navigation</label>
+						<label>{{ __('admin.navigation') }}</label>
 					</li>
 					<li class="nxl-item">
 						<a href="{{ route('admin.home') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-home"></i></span>
-							<span class="nxl-mtext" data-translate="dashboard">Dashboard</span>
+							<span class="nxl-mtext">{{ __('admin.dashboard') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item {{ request()->routeIs('slider.*') ? 'active' : '' }}">
 						<a href="{{ route('slider.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-image"></i></span>
-							<span class="nxl-mtext" data-translate="slider">Slider</span>
+							<span class="nxl-mtext">{{ __('admin.slider') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item {{ request()->routeIs('project.*') ? 'active' : '' }}">
 						<a href="{{ route('project.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-folder"></i></span>
-							<span class="nxl-mtext" data-translate="projects">Projects</span>
+							<span class="nxl-mtext">{{ __('admin.projects') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item {{ request()->routeIs('news.*') ? 'active' : '' }}">
 						<a href="{{ route('news.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-file-text"></i></span>
-							<span class="nxl-mtext" data-translate="latest_news">Latest News</span>
+							<span class="nxl-mtext">{{ __('admin.latest_news') }}</span>
 						</a>
 					</li>
 					{{-- Photo Gallery menu disabled — gallery now auto-generated from news/projects
@@ -510,49 +567,49 @@
 					<li class="nxl-item {{ request()->routeIs('subscribe.*') ? 'active' : '' }}">
 						<a href="{{ route('subscribe.all') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-bell"></i></span>
-							<span class="nxl-mtext" data-translate="subscribe">Subscribe</span>
+							<span class="nxl-mtext">{{ __('admin.subscribe') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item {{ request()->routeIs('admin.donations.*') ? 'active' : '' }}">
 						<a href="{{ route('admin.donations.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-heart"></i></span>
-							<span class="nxl-mtext" data-translate="donation">Donations</span>
+							<span class="nxl-mtext">{{ __('admin.donations') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item {{ request()->routeIs('admin.payment_methods.*') ? 'active' : '' }}">
 						<a href="{{ route('admin.payment_methods.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-credit-card"></i></span>
-							<span class="nxl-mtext" data-translate="payment_methods">Payment Methods</span>
+							<span class="nxl-mtext">{{ __('admin.payment_methods') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item {{ request()->routeIs('admin.focus_areas.*') ? 'active' : '' }}">
 						<a href="{{ route('admin.focus_areas.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-target"></i></span>
-							<span class="nxl-mtext" data-translate="key_focus_area">Key Focus Area</span>
+							<span class="nxl-mtext">{{ __('admin.key_focus_area') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item">
 						<a href="{{ route('logo.create') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-settings"></i></span>
-							<span class="nxl-mtext" data-translate="application">Application</span>
+							<span class="nxl-mtext">{{ __('admin.application') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item">
 						<a href="{{ route('about.us.create') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-info"></i></span>
-							<span class="nxl-mtext" data-translate="about_us">About Us</span>
+							<span class="nxl-mtext">{{ __('admin.about_us') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item">
 						<a href="{{ route('mission.vision.create') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-award"></i></span>
-							<span class="nxl-mtext" data-translate="mission_vision">Mission Vision</span>
+							<span class="nxl-mtext">{{ __('admin.mission_vision') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item {{ request()->routeIs('origin.legal_affilation.*') ? 'active' : '' }}">
 						<a href="{{ route('origin.legal_affilation.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-file"></i></span>
-							<span class="nxl-mtext" data-translate="origin_legal">Origin & Legal Affilation</span>
+							<span class="nxl-mtext">{{ __('admin.origin_legal') }}</span>
 						</a>
 					</li>
 					{{-- Executive Committee (legacy — replaced by Org. Structure)
@@ -583,7 +640,7 @@
 					<li class="nxl-item {{ request()->routeIs('org.*') ? 'active' : '' }}">
 						<a href="{{ route('org.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-user-check"></i></span>
-							<span class="nxl-mtext">Org. Members</span>
+							<span class="nxl-mtext">{{ __('admin.org_members') }}</span>
 						</a>
 					</li>
 					{{-- Programs (commented out)
@@ -597,43 +654,43 @@
 					<li class="nxl-item {{ request()->routeIs('impact.*') ? 'active' : '' }}">
 						<a href="{{ route('impact.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-trending-up"></i></span>
-							<span class="nxl-mtext" data-translate="impact_metrics">Impact Metrics</span>
+							<span class="nxl-mtext">{{ __('admin.impact_metrics') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item {{ request()->routeIs('stories.*') ? 'active' : '' }}">
 						<a href="{{ route('stories.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-star"></i></span>
-							<span class="nxl-mtext" data-translate="success_stories">Success Stories</span>
+							<span class="nxl-mtext">{{ __('admin.success_stories') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item {{ request()->routeIs('chief.message.*') ? 'active' : '' }}">
 						<a href="{{ route('chief.message.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-message-circle"></i></span>
-							<span class="nxl-mtext" data-translate="chief_message">Chief Executive Message</span>
+							<span class="nxl-mtext">{{ __('admin.chief_message') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item {{ request()->routeIs('faq.*') ? 'active' : '' }}">
 						<a href="{{ route('faq.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-help-circle"></i></span>
-							<span class="nxl-mtext" data-translate="faq">FAQ</span>
+							<span class="nxl-mtext">{{ __('admin.faq') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item {{ request()->routeIs('admin.volunteer_applications.*') ? 'active' : '' }}">
 						<a href="{{ route('admin.volunteer_applications.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-smile"></i></span>
-							<span class="nxl-mtext" data-translate="volunteers">Volunteers</span>
+							<span class="nxl-mtext">{{ __('admin.volunteers') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item {{ request()->routeIs('message.*') ? 'active' : '' }}">
 						<a href="{{ route('message.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-mail"></i></span>
-							<span class="nxl-mtext" data-translate="user_message">User Message</span>
+							<span class="nxl-mtext">{{ __('admin.user_message') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item {{ request()->routeIs('partner.*') ? 'active' : '' }}">
 						<a href="{{ route('partner.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-gift"></i></span>
-							<span class="nxl-mtext" data-translate="partners_donor">Partners & Donor</span>
+							<span class="nxl-mtext">{{ __('admin.partners_donor') }}</span>
 						</a>
 					</li>
 					{{-- <li class="nxl-item nxl-hasmenu">
@@ -649,37 +706,37 @@
 					<li class="nxl-item {{ request()->routeIs('strategic_plans.*') ? 'active' : '' }}">
 						<a href="{{ route('strategic_plans.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-clipboard"></i></span>
-							<span class="nxl-mtext" data-translate="strategic_plan">Strategic Plan</span>
+							<span class="nxl-mtext">{{ __('admin.strategic_plan') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item {{ request()->routeIs('policy.*') ? 'active' : '' }}">
 						<a href="{{ route('policy.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-shield"></i></span>
-							<span class="nxl-mtext" data-translate="policy_guideline">Policy and Guideline</span>
+							<span class="nxl-mtext">{{ __('admin.policy_guideline') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item {{ request()->routeIs('publications.*') ? 'active' : '' }}">
 						<a href="{{ route('publications.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-book"></i></span>
-							<span class="nxl-mtext" data-translate="publication">Publication</span>
+							<span class="nxl-mtext">{{ __('admin.publication') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item {{ request()->routeIs('admin.youtube_videos.*') ? 'active' : '' }}">
 						<a href="{{ route('admin.youtube_videos.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-video"></i></span>
-							<span class="nxl-mtext">YouTube Videos</span>
+							<span class="nxl-mtext">{{ __('admin.youtube_videos') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item {{ request()->routeIs('invoked.*') ? 'active' : '' }}">
 						<a href="{{ route('invoked.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-flag"></i></span>
-							<span class="nxl-mtext" data-translate="career">Career</span>
+							<span class="nxl-mtext">{{ __('admin.career') }}</span>
 						</a>
 					</li>
 					<li class="nxl-item {{ request()->routeIs('contact.*') ? 'active' : '' }}">
 						<a href="{{ route('contact.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-phone"></i></span>
-							<span class="nxl-mtext" data-translate="contact">Contact</span>
+							<span class="nxl-mtext">{{ __('admin.contact') }}</span>
 						</a>
 					</li>
 				</ul>
@@ -730,20 +787,21 @@
 								<span class="input-group-text">
 									<i class="feather-search fs-6 text-muted"></i>
 								</span>
-								<input type="text" class="form-control search-input-field" placeholder="Search..." />
+								<input type="text" class="form-control search-input-field" placeholder="{{ __('admin.search') }}" />
 								<span class="input-group-text">
-									<button type="button" class="btn-close">
+									<button type="button" class="btn text-muted" id="clear-search-btn" style="background: none; opacity: 1; width: auto; height: auto; padding: 0; border: none; box-shadow: none;">
+										<i class="feather-x fs-6"></i>
 									</button>
 								</span>
 							</div>
 							<div class="dropdown-divider mt-0"></div>
 							<div class="search-items-wrapper">
 								<div class="searching-for px-3 py-2">
-									<p class="fs-11 fw-medium text-muted">I'm searching for...</p>
+									<p class="fs-11 fw-medium text-muted">{{ __('admin.searching_for') }}</p>
 									<div class="d-flex flex-wrap gap-1">
-										<a href="javascript:void(0);" class="flex-fill border rounded py-1 px-2 text-center fs-11 fw-semibold text-muted">Projects</a>
-										<a href="javascript:void(0);" class="flex-fill border rounded py-1 px-2 text-center fs-11 fw-semibold text-muted">Donations</a>
-										<a href="javascript:void(0);" class="flex-fill border rounded py-1 px-2 text-center fs-11 fw-semibold text-muted">Messages</a>
+										<a href="javascript:void(0);" class="flex-fill border rounded py-1 px-2 text-center fs-11 fw-semibold text-muted">{{ __('admin.projects') }}</a>
+										<a href="javascript:void(0);" class="flex-fill border rounded py-1 px-2 text-center fs-11 fw-semibold text-muted">{{ __('admin.donations') }}</a>
+										<a href="javascript:void(0);" class="flex-fill border rounded py-1 px-2 text-center fs-11 fw-semibold text-muted">{{ __('admin.user_message') }}</a>
 									</div>
 								</div>
 							</div>
@@ -753,20 +811,20 @@
 					<!--! [Start] Header Language !-->
 					<div class="dropdown nxl-h-item">
 						<a href="javascript:void(0);" class="nxl-head-link me-0" data-bs-toggle="dropdown" role="button" data-bs-auto-close="outside" id="current-language">
-							<div class="flag-icon bd" id="current-flag"></div>
+							<div class="flag-icon {{ app()->getLocale() == 'bn' ? 'bd' : 'us' }}" id="current-flag"></div>
 						</a>
 						<div class="dropdown-menu dropdown-menu-end nxl-h-dropdown" style="min-width: 250px;">
 							<div class="dropdown-header px-3 py-2">
-								<h6 class="fs-13 text-dark mb-0" data-translate="select_language">Select Language</h6>
-								<small class="text-muted" data-translate="languages_available">2 languages available!</small>
+								<h6 class="fs-13 text-dark mb-0">{{ __('admin.select_language') }}</h6>
+								<small class="text-muted">{{ __('admin.languages_available') }}</small>
 							</div>
 							<div class="dropdown-divider mt-0"></div>
 							<div class="px-3 pb-2">
-								<a href="javascript:void(0);" class="dropdown-item language-item p-0" onclick="changeLanguage('bd', 'Bengali', 'বাংলা')">
+								<a href="{{ route('lang.switch', 'bn') }}" class="dropdown-item language-item p-0">
 									<div class="flag-icon bd"></div>
 									<span class="language-text">বাংলা (Bengali)</span>
 								</a>
-								<a href="javascript:void(0);" class="dropdown-item language-item p-0" onclick="changeLanguage('us', 'English', 'English')">
+								<a href="{{ route('lang.switch', 'en') }}" class="dropdown-item language-item p-0">
 									<div class="flag-icon us"></div>
 									<span class="language-text">English</span>
 								</a>
@@ -784,7 +842,7 @@
 					<!--! [End] Header Fullscreen !-->
 					<!--! [Start] Header Theme Mode !-->
 					<div class="nxl-h-item d-none d-sm-flex">
-						<a href="javascript:void(0);" class="nxl-head-link me-0" data-bs-toggle="tooltip" title="Light/Dark Mode">
+						<a href="javascript:void(0);" class="nxl-head-link me-0" data-bs-toggle="tooltip" title="{{ __('admin.light_dark_mode') }}">
 							<i class="feather-moon"></i>
 						</a>
 					</div>
@@ -797,13 +855,13 @@
 						</a>
 						<div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-notifications-menu">
 							<div class="d-flex justify-content-between align-items-center notifications-head">
-								<h6 class="fw-bold text-dark mb-0">Notifications</h6>
-								<span class="fs-11 text-muted">(3 unread)</span>
+								<h6 class="fw-bold text-dark mb-0">{{ __('admin.notifications') }}</h6>
+								<span class="fs-11 text-muted">({{ __('admin.unread', ['count' => 3]) }})</span>
 							</div>
 							<div class="notifications-item">
 								<img src="{{ asset('admin/assets/images/duralux/avatar/1.png') }}" alt="" class="wd-35 ht-35 rounded-circle" />
 								<div class="notifications-desc">
-									<p class="font-weight-bold text-dark">New donation received</p>
+									<p class="font-weight-bold text-dark">{{ __('admin.new_donation_received') }}</p>
 									<span class="fs-12 text-muted">From: John Doe - $50</span>
 								</div>
 								<div class="notifications-date">
@@ -813,7 +871,7 @@
 							<div class="notifications-item">
 								<img src="{{ asset('admin/assets/images/duralux/avatar/2.png') }}" alt="" class="wd-35 ht-35 rounded-circle" />
 								<div class="notifications-desc">
-									<p class="font-weight-bold text-dark">New volunteer application</p>
+									<p class="font-weight-bold text-dark">{{ __('admin.new_volunteer_application') }}</p>
 									<span class="fs-12 text-muted">From: Sarah Wilson</span>
 								</div>
 								<div class="notifications-date">
@@ -823,7 +881,7 @@
 							<div class="notifications-item">
 								<img src="{{ asset('admin/assets/images/duralux/avatar/3.png') }}" alt="" class="wd-35 ht-35 rounded-circle" />
 								<div class="notifications-desc">
-									<p class="font-weight-bold text-dark">Project milestone reached</p>
+									<p class="font-weight-bold text-dark">{{ __('admin.project_milestone_reached') }}</p>
 									<span class="fs-12 text-muted">Clean Water Project - Phase 1</span>
 								</div>
 								<div class="notifications-date">
@@ -831,7 +889,7 @@
 								</div>
 							</div>
 							<div class="text-center notifications-footer">
-								<a href="javascript:void(0)" class="fs-13 fw-semibold text-dark">See all notifications</a>
+								<a href="javascript:void(0)" class="fs-13 fw-semibold text-dark">{{ __('admin.see_all_notifications') }}</a>
 							</div>
 						</div>
 					</div>
@@ -854,7 +912,7 @@
 							<div class="dropdown-divider"></div>
 							<a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
 								<i class="feather-log-out"></i>
-								<span>Logout</span>
+								<span>{{ __('admin.logout') }}</span>
 							</a>
 							<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
 								@csrf
@@ -890,7 +948,7 @@
                     <div class="page-header-right-items">
                         <div class="d-flex d-md-none">
                             <a href="javascript:void(0)" class="page-header-right-close-toggle">
-                                <i class="feather-arrow-left me-2"></i>Back
+                                <i class="feather-arrow-left me-2"></i>{{ __('admin.back') }}
                             </a>
                         </div>
                     </div>
@@ -919,11 +977,11 @@
 							<i class="feather-trash-2 text-white" style="font-size: 32px;"></i>
 						</div>
 					</div>
-					<h5 class="modal-title fw-bold mb-2" id="deleteConfirmModalLabel">Delete Item</h5>
-					<p class="text-muted mb-4" id="deleteConfirmMessage">Are you sure you want to delete this item? This action cannot be undone.</p>
+					<h5 class="modal-title fw-bold mb-2" id="deleteConfirmModalLabel">{{ __('admin.delete_item') }}</h5>
+					<p class="text-muted mb-4" id="deleteConfirmMessage">{{ __('admin.delete_confirm_message') }}</p>
 					<div class="d-flex gap-2 justify-content-center">
-						<button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
-						<a href="#" id="confirmDeleteBtn" class="btn btn-danger px-4">Delete</a>
+						<button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">{{ __('admin.cancel') }}</button>
+						<a href="#" id="confirmDeleteBtn" class="btn btn-danger px-4">{{ __('admin.delete') }}</a>
 					</div>
 				</div>
 			</div>
@@ -942,7 +1000,7 @@
         </div>
         <div class="customizer-sidebar-wrapper">
             <div class="customizer-sidebar-header px-4 ht-80 border-bottom d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Theme Settings</h5>
+                <h5 class="mb-0">{{ __('admin.theme_settings') }}</h5>
                 <a href="javascript:void(0);" class="cutomizer-close-trigger d-flex">
                     <i class="feather-x"></i>
                 </a>
@@ -1006,7 +1064,7 @@
                             <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-rubik">Rubik</label>
                         </div>
                         <div class="col-6 text-center single-option">
-                            <input type="radio" class="btn-check" id="app-font-family-inter" name="font-family" value="3" data-font-family="app-font-family-inter" checked>
+                            <input type="radio" class="btn-check" id="app-font-family-inter" name="font-family" value="3" data-font-family="app-font-family-inter">
                             <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-inter">Inter</label>
                         </div>
                         <div class="col-6 text-center single-option">
@@ -1085,9 +1143,21 @@
                             <input type="radio" class="btn-check" id="app-font-family-roboto-slab" name="font-family" value="22" data-font-family="app-font-family-roboto-slab">
                             <label class="py-2 fs-9 fw-bold text-dark text-uppercase text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-roboto-slab">Roboto Slab</label>
                         </div>
+                        {{-- Bangla Fonts Section --}}
+                        <div class="col-12 bangla-font-divider">
+                            <span>বাংলা ফন্ট</span>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-kalpurush" name="font-family" value="101" data-font-family="app-font-family-kalpurush">
+                            <label class="py-2 fs-9 fw-bold text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-kalpurush" style="font-family:'Kalpurush',sans-serif; color:#006A4E;">কালপুরুষ</label>
+                        </div>
+                        <div class="col-6 text-center single-option">
+                            <input type="radio" class="btn-check" id="app-font-family-system-bangla" name="font-family" value="102" data-font-family="app-font-family-system-bangla">
+                            <label class="py-2 fs-9 fw-bold text-spacing-1 border border-gray-2 w-100 h-100 c-pointer position-relative options-label" for="app-font-family-system-bangla" style="color:#006A4E;">সিস্টেম ফন্ট</label>
+                        </div>
                     </div>
                 </div>
-                <!--! END: [Typography] !-->
+                <!--! END: [Typography] -->
             </div>
             <div class="customizer-sidebar-footer px-4 ht-60 border-top d-flex align-items-center gap-2">
                 <div class="flex-fill w-100">
@@ -1111,6 +1181,149 @@
 	<!--! END: Apps Init !-->
 	<!--! BEGIN: Theme Customizer  !-->
 	<script src="{{ asset('admin/assets/js/theme-customizer-init.min.js') }}"></script>
+	<script>
+		// Bangla font patch — the original theme-customizer only knows
+		// about 22 built-in Latin font classes. This patch handles
+		// Bangla fonts (Kalpurush + System Font) for switching & restore.
+		(function() {
+			var banglaClasses = [
+				'app-font-family-kalpurush',
+				'app-font-family-system-bangla'
+			];
+			// All 22 original Latin font classes the theme-customizer knows
+			var latinClasses = [
+				'app-font-family-lato','app-font-family-rubik','app-font-family-inter',
+				'app-font-family-cinzel','app-font-family-source-sans-pro',
+				'app-font-family-nunito','app-font-family-roboto','app-font-family-ubuntu',
+				'app-font-family-poppins','app-font-family-raleway','app-font-family-system-ui',
+				'app-font-family-noto-sans','app-font-family-fira-sans',
+				'app-font-family-work-sans','app-font-family-open-sans',
+				'app-font-family-maven-pro','app-font-family-quicksand',
+				'app-font-family-montserrat','app-font-family-josefin-sans',
+				'app-font-family-ibm-plex-sans','app-font-family-montserrat-alt',
+				'app-font-family-roboto-slab'
+			];
+
+			function removeBanglaClasses() {
+				banglaClasses.forEach(function(cls) { $("html").removeClass(cls); });
+			}
+			function removeLatinClasses() {
+				latinClasses.forEach(function(cls) { $("html").removeClass(cls); });
+			}
+
+			// On any font-family radio change, force only the clicked radio to be checked
+			// and uncheck all others. The theme-customizer might be fighting us.
+			$(document).on('change', '[name="font-family"]', function() {
+				var selected = $(this).attr('data-font-family');
+				var $thisRadio = $(this);
+
+				// Ensure only this radio is checked visually
+				$('[name="font-family"]').not($thisRadio).prop('checked', false);
+				$thisRadio.prop('checked', true);
+
+				if (banglaClasses.indexOf(selected) !== -1) {
+					// Bangla font selected
+					setTimeout(function() {
+						removeLatinClasses();
+						removeBanglaClasses();
+						$("html").addClass(selected);
+						
+						// Save to language-specific key AND universal key
+						var currentLocale = '{{ app()->getLocale() }}';
+						localStorage.setItem('font-family-' + currentLocale, selected);
+						localStorage.setItem('font-family', selected);
+
+						// Force check again in case original script reverted it
+						$('[name="font-family"]').not($thisRadio).prop('checked', false);
+						$thisRadio.prop('checked', true);
+					}, 10);
+				} else {
+					// Latin font selected
+					removeBanglaClasses();
+					
+					// Save latin choice too
+					var currentLocale = '{{ app()->getLocale() }}';
+					localStorage.setItem('font-family-' + currentLocale, selected);
+					localStorage.setItem('font-family', selected);
+
+					// Trust original script to add the latin class, but ensure unchecked others
+					setTimeout(function() {
+						$('[name="font-family"]').not($thisRadio).prop('checked', false);
+						$thisRadio.prop('checked', true);
+					}, 10);
+				}
+			});
+
+			var currentLocale = '{{ app()->getLocale() }}';
+
+			// On page load: restore saved font or apply locale default.
+			// Use window.onload to ensure we run AFTER all other scripts.
+			$(window).on('load', function() {
+				// Clear any pre-checked radios first
+				$('[name="font-family"]').prop('checked', false);
+				
+				removeBanglaClasses();
+				
+				var saved;
+				// Load language-specific preference
+				if (currentLocale === 'bn') {
+					saved = localStorage.getItem('font-family-bn');
+					if (!saved) {
+						saved = 'app-font-family-kalpurush';
+						// Optional: save this default so next time it's explicit? 
+						// localStorage.setItem('font-family-bn', saved);
+					}
+				} else {
+					saved = localStorage.getItem('font-family-en');
+					if (!saved) {
+						saved = 'app-font-family-inter';
+						// localStorage.setItem('font-family-en', saved);
+					}
+				}
+				
+				// Apply it
+				if (banglaClasses.indexOf(saved) !== -1) {
+					// Is a Bangla font
+					removeLatinClasses(); 
+					$("html").addClass(saved);
+				} else {
+					// Is a Latin font - ensure class applied
+					removeLatinClasses(); 
+					$("html").addClass(saved);
+				}
+				
+				// Check the radio
+				var $targetRadio = $('[name="font-family"][data-font-family="' + saved + '"]');
+				if ($targetRadio.length) {
+					$targetRadio.prop('checked', true);
+				} else {
+					// Safe fallback
+					$('[name="font-family"][data-font-family="app-font-family-inter"]').prop('checked', true);
+				}
+			});
+			
+			// Extend Reset functionality
+			$(document).on('click', '[data-style="reset-all-common-style"]', function() {
+				var currentLocale = '{{ app()->getLocale() }}';
+				
+				localStorage.removeItem('font-family-en');
+				localStorage.removeItem('font-family-bn');
+				localStorage.removeItem('font-family');
+				
+				// Re-apply defaults immediately so the user sees the change without reload
+				// (The original theme script likely reloads or resets classes, but we want to be sure)
+				removeBanglaClasses();
+				removeLatinClasses();
+				
+				var defaultFont = (currentLocale === 'bn') ? 'app-font-family-kalpurush' : 'app-font-family-inter';
+				$("html").addClass(defaultFont);
+				
+				// Update radio button state
+				$('[name="font-family"]').prop('checked', false);
+				$('[name="font-family"][data-font-family="' + defaultFont + '"]').prop('checked', true);
+			});
+		})();
+	</script>
 	<!--! END: Theme Customizer !-->
 	<!--! BEGIN: Custom Header Scripts !-->
 	<script src="{{ asset('admin/assets/vendors/js/full-screen-helper.min.js') }}"></script>
@@ -1163,11 +1376,101 @@
 		// Search functionality
 		document.addEventListener('DOMContentLoaded', function() {
 			const searchInput = document.querySelector('.search-input-field');
-			if (searchInput) {
+			const clearBtn = document.querySelector('#clear-search-btn');
+			
+			// Ensure we are targeting the correct wrapper. 
+			// Based on HTML structure: .nxl-search-dropdown .search-items-wrapper
+			let searchResultsWrapper = document.querySelector('.search-items-wrapper');
+            
+            // If the wrapper doesn't exist inside the dropdown for some reason, we might need to be more specific or create it?
+            // But let's assume it exists based on the blade file.
+
+			if (searchInput && searchResultsWrapper) {
+				// Clear button functionality 
+				if (clearBtn) {
+					// Initially hide if empty
+					if (searchInput.value.trim() === '') {
+						clearBtn.style.display = 'none';
+					}
+					
+					clearBtn.addEventListener('click', function() {
+						searchInput.value = '';
+						searchInput.focus();
+						// Trigger input event to update results (will show default state)
+						searchInput.dispatchEvent(new Event('input'));
+						clearBtn.style.display = 'none';
+					});
+				}
+
 				searchInput.addEventListener('input', function() {
-					const query = this.value.toLowerCase();
-					// Add your search logic here
-					console.log('Searching for:', query);
+					const query = this.value.toLowerCase().trim();
+					
+					// Toggle clear button visibility
+					if (clearBtn) {
+						clearBtn.style.display = query.length > 0 ? 'block' : 'none';
+					}
+					
+					// Clear previous results
+					searchResultsWrapper.innerHTML = '';
+                    
+                    // Show "Searching..." placeholder if empty
+					if (query.length === 0) {
+						searchResultsWrapper.innerHTML = `
+							<div class="searching-for px-3 py-2 text-center">
+								<p class="fs-12 fw-medium text-muted">{{ __('admin.searching_for') }}</p>
+							</div>`;
+						return;
+					}
+
+					// Find all navigation items - We select ALL links, even those in submenus
+					const navLinks = document.querySelectorAll('.nxl-navigation a.nxl-link');
+					let resultsFound = false;
+
+                    // Container for results
+                    const listGroup = document.createElement('div');
+                    listGroup.className = 'list-group list-group-flush';
+
+					navLinks.forEach(link => {
+						// Skip if it's a parent menu toggle (has submenu but no direct link)
+						const href = link.getAttribute('href');
+						if (!href || href === 'javascript:void(0);' || href === '#' || href === '') return;
+
+						const textSpan = link.querySelector('.nxl-mtext');
+						const iconSpan = link.querySelector('.nxl-micon i');
+						
+						if (textSpan) {
+							const text = textSpan.textContent.trim();
+							if (text.toLowerCase().includes(query)) {
+								resultsFound = true;
+								
+								// Create result item
+								const resultItem = document.createElement('a');
+								resultItem.href = href;
+								resultItem.className = 'list-group-item list-group-item-action d-flex align-items-center py-2 px-3 border-0 hover-bg-light';
+								
+								// Clone the icon class or use default
+                                const iconClass = iconSpan ? iconSpan.className : 'feather-chevron-right';
+								
+								resultItem.innerHTML = `
+									<div class="avatar-text avatar-sm me-3 bg-light-primary text-primary rounded">
+										<i class="${iconClass}"></i>
+									</div>
+									<span class="fs-12 fw-bold text-dark">${text}</span>
+								`;
+								
+								listGroup.appendChild(resultItem);
+							}
+						}
+					});
+
+					if (resultsFound) {
+                        searchResultsWrapper.appendChild(listGroup);
+					} else {
+						searchResultsWrapper.innerHTML = `
+							<div class="px-3 py-3 text-center">
+								<p class="fs-12 fw-medium text-muted mb-0">{{ __('admin.no_results_found') ?? 'No results found' }}</p>
+							</div>`;
+					}
 				});
 			}
 		});
@@ -1217,213 +1520,6 @@
 			}
 		});
 		
-		// Translation dictionary
-		const translations = {
-			en: {
-				select_language: 'Select Language',
-				languages_available: '2 languages available!',
-				dashboard: 'Dashboard',
-				slider: 'Slider',
-				add_slider: 'Add Slider',
-				all_slider: 'All Slider',
-				projects: 'Projects',
-				add_project: 'Add Project',
-				all_project: 'All Project',
-				latest_news: 'Latest News',
-				add_news: 'Add News',
-				all_news: 'All News',
-				photo_gallery: 'Photo Gallery',
-				add_photo: 'Add Photo',
-				all_photo: 'All Photo',
-				subscribe: 'Subscribe',
-				all_subscribe: 'All Subscribe',
-				key_focus_area: 'Key Focus Area',
-				add_focus_area: 'Add Focus Area',
-				all_focus_areas: 'All Focus Areas',
-				application: 'Application',
-				about_us: 'About Us',
-				mission_vision: 'Mission Vision',
-				donation: 'Donation',
-				origin_legal: 'Origin & Legal Affiliation',
-				executive_committee: 'Executive Committee',
-				team_members: 'Team Members',
-				programs: 'Programs',
-				impact_metrics: 'Impact Metrics',
-				success_stories: 'Success Stories',
-				chief_message: 'Chief Executive Message',
-				faq: 'FAQ',
-				volunteers: 'Volunteers',
-				user_message: 'User Message',
-				partners_donor: 'Partners & Donor',
-				project_archive: 'Project Archive',
-				strategic_plan: 'Strategic Plan',
-				policy_guideline: 'Policy and Guideline',
-				publication: 'Publication',
-				add_affilation: 'Add Affilation',
-				all_affilation: 'All Affilation',
-				add_career: 'Add Career',
-				all_career: 'All Career',
-				career: 'Career',
-				contact: 'Contact',
-				// Submenu items
-				add_member: 'Add Member',
-				all_members: 'All Members',
-				add_program: 'Add Program',
-				all_programs: 'All Programs',
-				add_impact: 'Add Impact',
-				all_impact: 'All Impact',
-				add_story: 'Add Story',
-				all_stories: 'All Stories',
-				add_message: 'Add Message',
-				all_message: 'All Messages',
-				add_faq: 'Add FAQ',
-				all_faq: 'All FAQ',
-				add_opportunity: 'Add Volunteer',
-				all_opportunities: 'All Volunteers',
-				add_partners_donor: 'Add Partners & Donor',
-				all_partners_donor: 'All Partners & Donor',
-				add_strategic_plan: 'Add Strategic Plan',
-				all_strategic_plan: 'All Strategic Plan',
-				add_policy_guideline: 'Add Policy and Guideline',
-				all_policy_guideline: 'All Policy and Guideline',
-				add_publication: 'Add Publication',
-				all_publications: 'All Publications',
-				add_payment_method: 'Add Payment Method',
-				all_payment_methods: 'All Payment Methods',
-				all_donations: 'All Donations'
-			},
-			bn: {
-				select_language: 'ভাষা নির্বাচন করুন',
-				languages_available: '২টি ভাষা উপলব্ধ!',
-				dashboard: 'ড্যাশবোর্ড',
-				slider: 'স্লাইডার',
-				add_slider: 'স্লাইডার যোগ করুন',
-				all_slider: 'সব স্লাইডার',
-				ongoing_project: 'চলমান প্রকল্প',
-				add_project: 'প্রকল্প যোগ করুন',
-				all_project: 'সব প্রকল্প',
-				latest_news: 'সর্বশেষ সংবাদ',
-				add_news: 'সংবাদ যোগ করুন',
-				all_news: 'সব সংবাদ',
-				photo_gallery: 'ছবির গ্যালারি',
-				add_photo: 'ছবি যোগ করুন',
-				all_photo: 'সব ছবি',
-				subscribe: 'সাবস্ক্রাইব',
-				all_subscribe: 'সব সাবস্ক্রিপশন',
-				key_focus_area: 'মুখ্য ফোকাস এরিয়া',
-				add_focus_area: 'ফোকাস এরিয়া যোগ করুন',
-				all_focus_areas: 'সব ফোকাস এরিয়া',
-				application: 'এপ্লিকেশন',
-				about_us: 'আমাদের সম্পর্কে',
-				mission_vision: 'মিশন ভিশন',
-				donation: 'অনুদান',
-				origin_legal: 'উৎপত্তি ও আইনি সম্পর্ক',
-				executive_committee: 'নির্বাহী কমিটি',
-				team_members: 'টিম মেম্বার',
-				programs: 'কার্যক্রম',
-				impact_metrics: 'প্রভাব মেট্রিক্স',
-				success_stories: 'সফলতার গল্প',
-				chief_message: 'প্রধান নির্বাহীর বার্তা',
-				faq: 'সাধারণ প্রশ্ন',
-				volunteers: 'স্বেচ্ছাসেবক',
-				user_message: 'ব্যবহারকারীর বার্তা',
-				partners_donor: 'সাথী ও দাতা',
-				project_archive: 'প্রকল্প আর্কাইভ',
-				strategic_plan: 'স্ট্র্যাটেজিক প্ল্যান',
-				policy_guideline: 'নীতি ও নির্দেশনা',
-				publication: 'প্রকাশনা',
-				add_affilation: 'অ্যাফিলিয়েশন যোগ করুন',
-				all_affilation: 'সব অ্যাফিলিয়েশন',
-				add_career: 'ক্যারিয়ার যোগ করুন',
-				all_career: 'সব ক্যারিয়ার',
-				career: 'ক্যারিয়ার',
-				contact: 'যোগাযোগ',
-				// Submenu items
-				add_member: 'সদস্য যোগ করুন',
-				all_members: 'সব সদস্য',
-				add_program: 'প্রোগ্রাম যোগ করুন',
-				all_programs: 'সব প্রোগ্রাম',
-				add_impact: 'ইমপ্যাক্ট যোগ করুন',
-				all_impact: 'সব ইমপ্যাক্ট',
-				add_story: 'গল্প যোগ করুন',
-				all_stories: 'সব গল্প',
-				add_message: 'বার্তা যোগ করুন',
-				all_message: 'সব বার্তা',
-				add_faq: 'FAQ যোগ করুন',
-				all_faq: 'সব FAQ',
-				add_opportunity: 'স্বেচ্ছাসেবক যোগ করুন',
-				all_opportunities: 'সব স্বেচ্ছাসেবক',
-				add_partners_donor: 'সাথী ও দাতা যোগ করুন',
-				all_partners_donor: 'সব সাথী ও দাতা',
-				add_strategic_plan: 'স্ট্র্যাটেজিক প্ল্যান যোগ করুন',
-				all_strategic_plan: 'সব স্ট্র্যাটেজিক প্ল্যান',
-				add_policy_guideline: 'নীতি ও নির্দেশনা যোগ করুন',
-				all_policy_guideline: 'সব নীতি ও নির্দেশনা',
-				add_publication: 'প্রকাশনা যোগ করুন',
-				all_publications: 'সব প্রকাশনা',
-				add_payment_method: 'পেমেন্ট মেথড যোগ করুন',
-				all_payment_methods: 'সব পেমেন্ট মেথড',
-				all_donations: 'সব অনুদান'
-			}
-		};
-		
-		// Language switching functionality with translation
-		function changeLanguage(countryCode, languageName, localName) {
-			const currentFlag = document.getElementById('current-flag');
-			
-			// Update flag icon
-			currentFlag.className = `flag-icon ${countryCode}`;
-			currentFlag.setAttribute('data-country', countryCode);
-			currentFlag.setAttribute('data-language', languageName);
-			
-			// Store selected language in localStorage
-			localStorage.setItem('selected-language', countryCode);
-			localStorage.setItem('selected-language-name', languageName);
-			localStorage.setItem('selected-language-local', localName);
-			
-			// Apply translations
-			applyTranslations(languageName.toLowerCase());
-			
-			// Show confirmation with animation
-			currentFlag.style.transform = 'scale(1.2)';
-			setTimeout(() => {
-				currentFlag.style.transform = 'scale(1)';
-			}, 200);
-			
-			console.log(`Language changed to: ${languageName} (${localName})`);
-		}
-		
-		// Apply translations to elements
-		function applyTranslations(language) {
-			const langCode = language === 'bengali' ? 'bn' : 'en';
-			const trans = translations[langCode] || translations.en;
-			
-			// Translate elements with data-translate attribute
-			document.querySelectorAll('[data-translate]').forEach(element => {
-				const key = element.getAttribute('data-translate');
-				if (trans[key]) {
-					element.textContent = trans[key];
-				}
-			});
-		}
-		
-		// Load saved language on page load
-		document.addEventListener('DOMContentLoaded', function() {
-			const savedLang = localStorage.getItem('selected-language');
-			const savedLangName = localStorage.getItem('selected-language-name');
-			const savedLangLocal = localStorage.getItem('selected-language-local');
-			
-			if (savedLang && savedLangName) {
-				const currentFlag = document.getElementById('current-flag');
-				currentFlag.className = `flag-icon ${savedLang}`;
-				currentFlag.setAttribute('data-country', savedLang);
-				currentFlag.setAttribute('data-language', savedLangName);
-				
-				// Apply saved language translations
-				applyTranslations(savedLangName.toLowerCase());
-			}
-		});
-
 		// Active Menu Item Logic
 		document.addEventListener("DOMContentLoaded", function() {
 			const currentUrl = window.location.href.split('?')[0]; // Ignore query params

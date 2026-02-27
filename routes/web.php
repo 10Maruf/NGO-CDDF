@@ -5,6 +5,18 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/admin.php';
+
+/*
+|--------------------------------------------------------------------------
+| Language Switch Route
+|--------------------------------------------------------------------------
+*/
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['en', 'bn'])) {
+        session()->put('locale', $locale);
+    }
+    return redirect()->back();
+})->name('lang.switch');
 /*
 |--------------------------------------------------------------------------
 | Clints Routes
