@@ -77,7 +77,7 @@
 @section('content')
 
 {{-- ===== Hero Banner ===== --}}
-<div class="hero-wrap" style="background-image: url('{{ asset('static_image/news_event_blk.jpg') }}');
+<div class="hero-wrap" style="background-image: url('{{ (isset($application->policy_banner) && $application->policy_banner) ? asset('images/application/'.$application->policy_banner) : asset('static_image/news_event_blk.jpg') }}');
      background-size: cover; background-position: center; background-attachment: fixed;
      min-height: 340px; position: relative; display: flex; align-items: center;">
     <div class="overlay" style="position:absolute;inset:0;background:rgba(0,0,0,.62);"></div>
@@ -124,16 +124,11 @@
                         @php
                             $thumbRelPath = 'images/policy_guideline/thumbnails/'.$item->thumbnail;
                             $thumbAbsPath = public_path($thumbRelPath);
-                            // Ensure thumbnail is set, file exists, and path is valid
                             $hasThumb = !empty($item->thumbnail) && file_exists($thumbAbsPath);
                         @endphp
 
                         @if($hasThumb)
                             <img src="{{ asset($thumbRelPath) }}" alt="{{ $item->title }}">
-                        @elseif($item->pdf_file)
-                            <canvas class="pdf-thumb-canvas"
-                                    data-pdf-url="{{ asset('images/policy_guideline/pdfs/'.$item->pdf_file) }}"
-                                    style="width:100%;height:100%;object-fit:cover;display:block;"></canvas>
                         @else
                             <i class="fa-solid fa-file-pdf fa-4x" style="color:#f86f2d;opacity:.3;"></i>
                         @endif
@@ -177,42 +172,4 @@
 
 @endsection
 
-@push('js')
-{{-- PDF.js (for thumbnail fallback) --}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script>
-(function () {
-    /* Create a separate closure for PDF.js library to avoid conflicts */
-    const pdfjsLib = window['pdfjs-dist/build/pdf'];
-    if (!pdfjsLib) return;
-    pdfjsLib.GlobalWorkerOptions.workerSrc =
-        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-    /* ── Render Thumbnails (Card View) ───────────────────── */
-    document.querySelectorAll('.pdf-thumb-canvas').forEach(async function (canvas) {
-        const url = canvas.dataset.pdfUrl;
-        if (!url) return;
-        try {
-            const loadingTask = pdfjsLib.getDocument(url);
-            const pdf = await loadingTask.promise;
-            const page = await pdf.getPage(1);
-            const container = canvas.parentElement;
-            const W = container.clientWidth  || 320;
-            const H = container.clientHeight || 220;
-            const vp0 = page.getViewport({ scale: 1 });
-            const scale = Math.max(W / vp0.width, H / vp0.height);
-            const vp = page.getViewport({ scale });
-            canvas.width  = vp.width;
-            canvas.height = vp.height;
-            await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
-        } catch (e) {
-            /* PDF failed to load — show icon fallback */
-            canvas.insertAdjacentHTML('afterend',
-                '<i class="fa-solid fa-file-pdf fa-4x" style="color:#f86f2d;opacity:.3;"></i>');
-            canvas.remove();
-        }
-    });
-
-}());
-</script>
-@endpush

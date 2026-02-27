@@ -104,7 +104,7 @@ CDDF - Home
     }
 </style>
 
-<section class="py-5" style="background-image: url('{{ asset('static_image/mission-vision_bg.jpg') }}'); background-size: cover; background-position: center; background-attachment: fixed; position: relative;">
+<section class="py-5" style="background-image: url('{{ (isset($application->mission_vision_bg) && $application->mission_vision_bg) ? asset('images/application/'.$application->mission_vision_bg) : asset('static_image/mission-vision_bg.jpg') }}'); background-size: cover; background-position: center; background-attachment: fixed; position: relative;">
     <div style="position: absolute; inset: 0; background: rgba(0, 0, 0, 0.65);"></div>
     <div class="container" style="position: relative; z-index: 1;">
         {{-- Section Heading --}}
@@ -1745,7 +1745,7 @@ $(document).ready(function(){
         margin: 0 auto 20px;
     }
 </style>
-<div style="background-image: url('{{asset('img/map.png')}}'); background-attachment:fixed;">
+<div style="background-image: url('{{ (isset($application->impact_bg) && $application->impact_bg) ? asset('images/application/'.$application->impact_bg) : asset('img/map.png') }}'); background-attachment:fixed;">
     <div class="container">
         <div class="py-4 px-2">
             <div class="impact-header">
