@@ -13,7 +13,7 @@
                 <p class="mb-2" style="font-size: 0.9rem;">
                     <a href="{{ url('/') }}" style="color: #ffaa6e; text-decoration: none;">Home</a>
                     <span class="mx-2" style="color: #ccc;">/</span>
-                    <span style="color: #fff;">Our People</span>
+                    <span style="color: #fff;">Our Team</span>
                     <span class="mx-2" style="color: #ccc;">/</span>
                     <span style="color: #fff;">Governance Level</span>
                 </p>

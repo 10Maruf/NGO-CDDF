@@ -377,7 +377,8 @@ class frontController extends Controller
             'contact_number' => $request->contact_number,
             'email' => $request->email,
             'subject' => $request->subject,
-            'message' => $request->message
+            'message' => $request->message,
+            'created_at' => now(),
         ]);
 
         DB::table('messages')->insert($message);

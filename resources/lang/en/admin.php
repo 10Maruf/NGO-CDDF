@@ -18,7 +18,7 @@ return [
     'donations' => 'Donations',
     'payment_methods' => 'Payment Methods',
     'key_focus_area' => 'Key Focus Area',
-    'application' => 'Application',
+    'application' => 'Site Settings',
     'about_us' => 'About Us',
     'mission_vision' => 'Mission Vision',
     'origin_legal' => 'Origin & Legal Affiliation',
@@ -127,6 +127,7 @@ return [
     'timeline' => 'Timeline',
     'focus' => 'Focus',
     'partners' => 'Partners',
+    'donors' => 'Donors',
     'all' => 'All',
 
     // Status

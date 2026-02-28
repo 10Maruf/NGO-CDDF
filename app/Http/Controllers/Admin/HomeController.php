@@ -33,14 +33,16 @@ class HomeController extends Controller
             'pending_donations_amount' => DB::table('donations')->where('status', 'pending')->sum('amount') ?? 0,
             'volunteers_count' => DB::table('volunteer_applications')->count(),
             'volunteers_active' => DB::table('volunteer_applications')->where('status', 'approved')->count(),
-            'projects_count' => DB::table('projects')->count(),
+            'projects_count' => DB::table('projects')->where('status', 'ongoing')->count(),
             'subscribers_count' => DB::table('subscribe')->count(),
+            'org_members_count' => DB::table('org_members')->count(),
             'messages_count' => DB::table('messages')->count(),
             'publications_count' => DB::table('publications')->count(),
             'news_count' => DB::table('latest_news')->count(),
             'stories_count' => DB::table('stories')->count(),
             'programs_count' => DB::table('programs')->count(),
             'partners_count' => DB::table('partners')->count(),
+            'donors_count' => DB::table('donations')->where('status', 'verified')->distinct('donor_name')->count('donor_name'),
             'team_members_count' => DB::table('team_members')->count(),
             'focus_areas_count' => DB::table('focus_areas')->count(),
             // 'gallery_count' => DB::table('gallery')->count(), // Gallery disabled — auto-generated from news/projects
@@ -78,12 +80,26 @@ class HomeController extends Controller
             ->orderBy('month', 'asc')
             ->get();
 
-        // Donations by Payment Method for pie chart
-        $donationsByMethod = DB::table('payment_methods')
-            ->leftJoin('donations', 'payment_methods.id', '=', 'donations.payment_method_id')
-            ->select('payment_methods.type as name', DB::raw('COUNT(donations.id) as count'))
-            ->groupBy('payment_methods.id', 'payment_methods.type')
-            ->get();
+        // Org Members by Type for pie chart
+        $orgMembersByType = DB::table('org_members')
+            ->select('org_type as name', DB::raw('COUNT(*) as count'))
+            ->where('is_active', true)
+            ->groupBy('org_type')
+            ->get()
+            ->map(function ($item) {
+                $labels = [
+                    'general_council' => 'General Council',
+                    'executive_committee' => 'Executive Committee',
+                    'advisory_council' => 'Advisory Council',
+                    'executive_director' => 'Executive Director',
+                    'senior_management' => 'Senior Management',
+                    'mid_management' => 'Mid Management',
+                    'field_staff' => 'Field Staff',
+                    'support_staff' => 'Support Staff',
+                ];
+                $item->name = $labels[$item->name] ?? $item->name;
+                return $item;
+            });
 
         return view('admin.home', compact(
             'stats',
@@ -92,7 +108,7 @@ class HomeController extends Controller
             'recentVolunteers',
             'recentMessages',
             'donationsByMonth',
-            'donationsByMethod'
+            'orgMembersByType'
         ));
     }
 }

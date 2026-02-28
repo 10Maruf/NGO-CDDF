@@ -18,7 +18,7 @@ return [
     'donations' => 'অনুদান',
     'payment_methods' => 'পেমেন্ট মেথড',
     'key_focus_area' => 'মুখ্য ফোকাস এরিয়া',
-    'application' => 'অ্যাপ্লিকেশন',
+    'application' => 'সাইট সেটিংস',
     'about_us' => 'আমাদের সম্পর্কে',
     'mission_vision' => 'মিশন ভিশন',
     'origin_legal' => 'উৎপত্তি ও আইনি সম্পর্ক',
@@ -127,6 +127,7 @@ return [
     'timeline' => 'সময়রেখা',
     'focus' => 'ফোকাস',
     'partners' => 'সাথী',
+    'donors' => 'দাতা',
     'all' => 'সব',
 
     // স্ট্যাটাস

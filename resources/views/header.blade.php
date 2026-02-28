@@ -44,7 +44,7 @@
                 @endphp
                 <li class="nav-item dropdown {{ $peopleActive ? 'active' : '' }}">
                     <a class="nav-link dropdown-toggle {{ $peopleActive ? 'active' : '' }}" href="#" id="peopleDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Our People
+                        Our Team
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="peopleDropdown">
                         <li><a class="dropdown-item {{ request()->routeIs('governance.level') ? 'active' : '' }}" href="{{ route('governance.level') }}">Governance Level</a></li>

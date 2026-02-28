@@ -676,12 +676,12 @@
 							<span class="nxl-mtext">{{ __('admin.success_stories') }}</span>
 						</a>
 					</li>
-					<li class="nxl-item {{ request()->routeIs('chief.message.*') ? 'active' : '' }}">
+					{{-- <li class="nxl-item {{ request()->routeIs('chief.message.*') ? 'active' : '' }}">
 						<a href="{{ route('chief.message.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-message-circle"></i></span>
 							<span class="nxl-mtext">{{ __('admin.chief_message') }}</span>
 						</a>
-					</li>
+					</li> --}}
 					<li class="nxl-item {{ request()->routeIs('faq.*') ? 'active' : '' }}">
 						<a href="{{ route('faq.index') }}" class="nxl-link">
 							<span class="nxl-micon"><i class="feather-help-circle"></i></span>

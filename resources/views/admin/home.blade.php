@@ -260,11 +260,11 @@
     <div class="col-xxl-2 col-lg-4 col-md-6">
         <div class="card stretch stretch-full">
             <div class="card-body">
-                <div class="fs-12 fw-medium text-muted mb-3">{{ __('admin.subscribers') }}</div>
+                <div class="fs-12 fw-medium text-muted mb-3">{{ __('admin.org_members') }}</div>
                 <div class="hstack justify-content-between lh-base">
-                    <h3><span class="counter">{{ $stats['subscribers_count'] }}</span></h3>
-                    <div class="hstack gap-2 fs-11 text-info">
-                        <i class="feather-mail fs-12"></i>
+                    <h3><span class="counter">{{ $stats['org_members_count'] }}</span></h3>
+                    <div class="avatar-text avatar-md bg-soft-info text-info rounded">
+                        <i class="feather-users fs-3"></i>
                     </div>
                 </div>
             </div>
@@ -277,8 +277,8 @@
                 <div class="fs-12 fw-medium text-muted mb-3">{{ __('admin.publications') }}</div>
                 <div class="hstack justify-content-between lh-base">
                     <h3><span class="counter">{{ $stats['publications_count'] }}</span></h3>
-                    <div class="hstack gap-2 fs-11 text-primary">
-                        <i class="feather-book-open fs-12"></i>
+                    <div class="avatar-text avatar-md bg-soft-primary text-primary rounded">
+                        <i class="feather-book-open fs-3"></i>
                     </div>
                 </div>
             </div>
@@ -291,8 +291,8 @@
                 <div class="fs-12 fw-medium text-muted mb-3">{{ __('admin.latest_news') }}</div>
                 <div class="hstack justify-content-between lh-base">
                     <h3><span class="counter">{{ $stats['news_count'] }}</span></h3>
-                    <div class="hstack gap-2 fs-11 text-success">
-                        <i class="feather-file-text fs-12"></i>
+                    <div class="avatar-text avatar-md bg-soft-success text-success rounded">
+                        <i class="feather-file-text fs-3"></i>
                     </div>
                 </div>
             </div>
@@ -305,8 +305,8 @@
                 <div class="fs-12 fw-medium text-muted mb-3">{{ __('admin.success_stories') }}</div>
                 <div class="hstack justify-content-between lh-base">
                     <h3><span class="counter">{{ $stats['stories_count'] }}</span></h3>
-                    <div class="hstack gap-2 fs-11 text-warning">
-                        <i class="feather-award fs-12"></i>
+                    <div class="avatar-text avatar-md bg-soft-warning text-warning rounded">
+                        <i class="feather-award fs-3"></i>
                     </div>
                 </div>
             </div>
@@ -316,11 +316,25 @@
     <div class="col-xxl-2 col-lg-4 col-md-6">
         <div class="card stretch stretch-full">
             <div class="card-body">
-                <div class="fs-12 fw-medium text-muted mb-3">{{ __('admin.programs') }}</div>
+                <div class="fs-12 fw-medium text-muted mb-3">{{ __('admin.partners') }}</div>
                 <div class="hstack justify-content-between lh-base">
-                    <h3><span class="counter">{{ $stats['programs_count'] }}</span></h3>
-                    <div class="hstack gap-2 fs-11 text-danger">
-                        <i class="feather-target fs-12"></i>
+                    <h3><span class="counter">{{ $stats['partners_count'] }}</span></h3>
+                    <div class="avatar-text avatar-md bg-soft-danger text-danger rounded">
+                        <i class="feather-briefcase fs-3"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xxl-2 col-lg-4 col-md-6">
+        <div class="card stretch stretch-full">
+            <div class="card-body">
+                <div class="fs-12 fw-medium text-muted mb-3">{{ __('admin.donors') }}</div>
+                <div class="hstack justify-content-between lh-base">
+                    <h3><span class="counter">{{ $stats['donors_count'] }}</span></h3>
+                    <div class="avatar-text avatar-md bg-soft-teal text-teal rounded">
+                        <i class="feather-heart fs-3"></i>
                     </div>
                 </div>
             </div>
@@ -334,8 +348,8 @@
                 <div class="fs-12 fw-medium text-muted mb-3">Gallery Photos</div>
                 <div class="hstack justify-content-between lh-base">
                     <h3><span class="counter">{{ $stats['gallery_count'] }}</span></h3>
-                    <div class="hstack gap-2 fs-11 text-teal">
-                        <i class="feather-image fs-12"></i>
+                    <div class="avatar-text avatar-md bg-soft-teal text-teal rounded">
+                        <i class="feather-image fs-3"></i>
                     </div>
                 </div>
             </div>
@@ -358,10 +372,10 @@
     <div class="col-xxl-4">
         <div class="card stretch stretch-full">
             <div class="card-header">
-                <h5 class="card-title">{{ __('admin.donations_by_method') }}</h5>
+                <h5 class="card-title">{{ __('admin.org_members') }} by Type</h5>
             </div>
             <div class="card-body">
-                <div id="donationsMethodChart"></div>
+                <div id="orgMembersChart"></div>
             </div>
         </div>
     </div>
@@ -478,7 +492,7 @@
                             <p class="fs-11 text-muted mb-0">{{ Str::limit($message->subject ?? $message->message, 30) }}</p>
                         </div>
                     </div>
-                    <span class="badge bg-soft-info text-info">ID: {{ $message->id }}</span>
+                    <span class="fs-11 text-muted">{{ $message->created_at ? \Carbon\Carbon::parse($message->created_at)->diffForHumans() : 'N/A' }}</span>
                 </div>
                 @empty
                 <p class="text-muted text-center py-4">{{ __('admin.no_messages_yet') }}</p>
@@ -528,9 +542,9 @@
     const donationCounts = @json($donationsByMonth->pluck('count'));
     const donationAmounts = @json($donationsByMonth->pluck('total'));
     
-    // Donation Methods Data
-    const methods = @json($donationsByMethod->pluck('name'));
-    const methodCounts = @json($donationsByMethod->pluck('count'));
+    // Org Members Data
+    const orgTypes = @json($orgMembersByType->pluck('name'));
+    const orgTypeCounts = @json($orgMembersByType->pluck('count'));
 
     // Donation Trend Chart
     const donationTrendOptions = {
@@ -568,22 +582,22 @@
     const donationTrendChart = new ApexCharts(document.querySelector("#donationTrendChart"), donationTrendOptions);
     donationTrendChart.render();
     
-    // Donation Methods Chart
-    const donationsMethodOptions = {
-        series: methodCounts,
-        labels: methods,
+    // Org Members by Type Chart
+    const orgMembersChartOptions = {
+        series: orgTypeCounts,
+        labels: orgTypes,
         chart: {
             type: 'donut',
             height: 350,
         },
-        colors: ['#3a86ff', '#06d6a0', '#ffa400', '#ef476f', '#8338ec', '#fb5607'],
+        colors: ['#3a86ff', '#06d6a0', '#ffa400', '#ef476f', '#8338ec', '#fb5607', '#118ab2', '#073b4c'],
         legend: {
             position: 'bottom'
         }
     };
     
-    const donationsMethodChart = new ApexCharts(document.querySelector("#donationsMethodChart"), donationsMethodOptions);
-    donationsMethodChart.render();
+    const orgMembersChart = new ApexCharts(document.querySelector("#orgMembersChart"), orgMembersChartOptions);
+    orgMembersChart.render();
 </script>
 @endpush
 
