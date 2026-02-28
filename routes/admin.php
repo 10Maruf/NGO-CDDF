@@ -62,6 +62,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/slider/delete/{id}', [sliderController::class, 'destroy'])->name('slider.delete');
     Route::get('/slider/edit/{id}', [sliderController::class, 'edit'])->name('slider.edit');
     Route::post('/slider/update/{id}', [sliderController::class, 'update'])->name('slider.update');
+    Route::post('/slider/bulk-delete', [sliderController::class, 'bulkDelete'])->name('slider.bulk_delete');
+    Route::post('/slider/bulk-status', [sliderController::class, 'bulkStatus'])->name('slider.bulk_status');
+    Route::get('/slider/toggle-status/{id}', [sliderController::class, 'toggleStatus'])->name('slider.toggle_status');
 
     // Projects (ongoing & completed)
     Route::get('/project/add', [projectController::class, 'add'])->name('project.add');
