@@ -26,9 +26,10 @@ Route::get('/lang/{locale}', function ($locale) {
 Route::get('/', function () {
     $slider       = DB::table('slider')->where('status', 1)->orderBy('order', 'asc')->get();
     $project      = \App\Models\Project::with('focusAreas')->active()->orderBy('is_featured','desc')->orderBy('order')->take(12)->get();
-    $news         = DB::table('latest_news')->take(6)->get();
+    $news         = DB::table('latest_news')->where('status', 1)->take(6)->get();
     // Gallery: newest-first pool from each source, then shuffle within recents
     $galleryPool = DB::table('latest_news')
+        ->where('status', 1)
         ->whereNotNull('image')->where('image', '!=', '')
         ->orderBy('id', 'desc')->limit(20)
         ->select('title', 'image', DB::raw("'images/news/' as folder"))
@@ -43,6 +44,7 @@ Route::get('/', function () {
         ->merge(
             DB::table('latest_news_images')
                 ->join('latest_news', 'latest_news_images.news_id', '=', 'latest_news.id')
+                ->where('latest_news.status', 1)
                 ->whereNotNull('latest_news_images.image')->where('latest_news_images.image', '!=', '')
                 ->orderBy('latest_news_images.id', 'desc')->limit(20)
                 ->select('latest_news.title', 'latest_news_images.image', DB::raw("'images/news/' as folder"))

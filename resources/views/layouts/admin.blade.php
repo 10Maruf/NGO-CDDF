@@ -66,6 +66,15 @@
 		html.app-skin-dark .main-content {
 			background-color: #1e2139;
 		}
+
+		html.app-skin-dark #bulk-bar {
+			background: #242736 !important;
+			border-top-color: #2f3349 !important;
+			box-shadow: 0 -2px 12px rgba(0,0,0,0.4) !important;
+		}
+		html.app-skin-dark #bulk-bar .text-muted {
+			color: #b8c2cc !important;
+		}
 		
 		html.app-skin-dark .table {
 			color: #b8c2cc;
@@ -531,6 +540,9 @@
 
         .table-actions .btn-danger { color: #ef476f; background: transparent; border: 0; }
         .table-actions .btn-danger:hover { color: #fff; background: #ef476f; }
+
+        .table-actions .btn-secondary { color: #64748b; background: transparent; border: 0; }
+        .table-actions .btn-secondary:hover { color: #fff; background: #64748b; }
 
 		/* ===== Bangla Font Declarations ===== */
 		@font-face {

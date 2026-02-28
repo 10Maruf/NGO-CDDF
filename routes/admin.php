@@ -86,6 +86,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/news/edit/{id}', [newsController::class, 'edit'])->name('news.edit');
     Route::post('/news/update/{id}', [newsController::class, 'update'])->name('news.update');
     Route::get('/news/gallery-image/delete/{imageId}', [newsController::class, 'deleteGalleryImage'])->name('news.gallery.delete');
+    Route::post('/news/bulk-delete', [newsController::class, 'bulkDelete'])->name('news.bulk_delete');
+    Route::post('/news/bulk-status', [newsController::class, 'bulkStatus'])->name('news.bulk_status');
+    Route::get('/news/toggle-status/{id}', [newsController::class, 'toggleStatus'])->name('news.toggle_status');
 
     // Photo Gallery — disabled (gallery now auto-generated from news/projects)
     // Route::get('/gallery/add', [galleryController::class, 'add'])->name('gallery.add');
@@ -98,6 +101,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     // Subscribe
     Route::get('admin/subscribe', [subscribeController::class, 'index'])->name('subscribe.all');
     Route::get('admin/subscribe/delete/{id}', [subscribeController::class, 'destroy'])->name('subscribe.delete');
+    Route::post('admin/subscribe/bulk-delete', [subscribeController::class, 'bulkDelete'])->name('subscribe.bulk_delete');
 
     // Key Focus Area (Dynamic)
     Route::get('focus-areas/add', [FocusAreaController::class, 'create'])->name('admin.focus_areas.add');

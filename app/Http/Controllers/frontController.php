@@ -203,7 +203,7 @@ class frontController extends Controller
     //__Latest News All__//
     public function news_all(){
         $category = request('category'); // 'news', 'event', or null for all
-        $query = DB::table('latest_news')->orderBy('id', 'desc');
+        $query = DB::table('latest_news')->where('status', 1)->orderBy('id', 'desc');
         if ($category && in_array($category, ['news', 'event'])) {
             $query->where('category', $category);
         }
@@ -392,6 +392,7 @@ class frontController extends Controller
     public function all_photos(){
         // Each source: newest first (id DESC), limited pool → then shuffle within recents
         $eventCovers = DB::table('latest_news')
+            ->where('status', 1)
             ->where('category', 'event')
             ->whereNotNull('image')->where('image', '!=', '')
             ->orderBy('id', 'desc')->limit(40)
@@ -400,6 +401,7 @@ class frontController extends Controller
 
         $eventGallery = DB::table('latest_news_images')
             ->join('latest_news', 'latest_news_images.news_id', '=', 'latest_news.id')
+            ->where('latest_news.status', 1)
             ->where('latest_news.category', 'event')
             ->whereNotNull('latest_news_images.image')->where('latest_news_images.image', '!=', '')
             ->orderBy('latest_news_images.id', 'desc')->limit(40)
@@ -407,6 +409,7 @@ class frontController extends Controller
             ->get();
 
         $newsCovers = DB::table('latest_news')
+            ->where('status', 1)
             ->where('category', 'news')
             ->whereNotNull('image')->where('image', '!=', '')
             ->orderBy('id', 'desc')->limit(40)
@@ -415,6 +418,7 @@ class frontController extends Controller
 
         $newsGallery = DB::table('latest_news_images')
             ->join('latest_news', 'latest_news_images.news_id', '=', 'latest_news.id')
+            ->where('latest_news.status', 1)
             ->where('latest_news.category', 'news')
             ->whereNotNull('latest_news_images.image')->where('latest_news_images.image', '!=', '')
             ->orderBy('latest_news_images.id', 'desc')->limit(40)

@@ -20,4 +20,13 @@ class subscribeController extends Controller
         return redirect()->back()->with('success','Successfully Deleted Subscription');
     }
 
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->ids;
+        if (!empty($ids)) {
+            DB::table('subscribe')->whereIn('id', $ids)->delete();
+        }
+        return response()->json(['success' => 'Subscribers deleted successfully.']);
+    }
+
 }

@@ -9,22 +9,7 @@
 <div class="row">
     <div class="col-xl-12 mx-auto">
         <div class="d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center gap-2">
-                <h6 class="mb-0 text-uppercase">All Projects</h6>
-                <div id="bulk-actions" class="d-none gap-1">
-                    <div class="table-actions">
-                        <button class="btn btn-danger btn-sm" id="bulk-delete" title="Delete Selected">
-                            <i class="feather-trash-2"></i>
-                        </button>
-                        <button class="btn btn-success btn-sm" id="bulk-activate" title="Activate">
-                            <i class="feather-check-circle"></i>
-                        </button>
-                        <button class="btn btn-secondary btn-sm" id="bulk-deactivate" title="Deactivate">
-                            <i class="feather-x-circle"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <h6 class="mb-0 text-uppercase">All Projects</h6>
             <a href="{{ route('project.add') }}" class="btn btn-primary btn-sm">
                 <i class="feather-plus me-1"></i> Add Project
             </a>
@@ -284,6 +269,31 @@
 </div>
 @endforeach
 
+{{-- Bulk Action Sticky Bar --}}
+<style> html.minimenu #bulk-bar { left: 100px !important; } </style>
+<div id="bulk-bar" style="display:none; position:fixed; bottom:0; left:280px; right:0; background:#fff; padding:12px 24px; z-index:1050; box-shadow:0 -2px 12px rgba(0,0,0,0.1); border-top:1px solid #e5e7eb; transition: left 0.3s ease;">
+    <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-primary px-3 py-2" id="bulk-count" style="font-size:1rem;">0</span>
+            <span class="text-muted small">items selected</span>
+        </div>
+        <div class="table-actions ms-4">
+            <button class="btn btn-danger" id="bulk-delete" title="Delete Selected">
+                <i class="feather-trash-2"></i>
+            </button>
+            <button class="btn btn-success" id="bulk-activate" title="Activate">
+                <i class="feather-check-circle"></i>
+            </button>
+            <button class="btn btn-secondary" id="bulk-deactivate" title="Deactivate">
+                <i class="feather-x-circle"></i>
+            </button>
+            <button class="btn btn-primary" id="bulk-clear" title="Clear Selection">
+                <i class="feather-x"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @push('scripts')
@@ -308,10 +318,12 @@
         });
 
         function toggleBulkActions() {
-            if ($('.select-item:checked').length > 0) {
-                $('#bulk-actions').removeClass('d-none').addClass('d-flex');
+            var count = $('.select-item:checked').length;
+            if (count > 0) {
+                $('#bulk-count').text(count);
+                $('#bulk-bar').css('display', 'flex');
             } else {
-                $('#bulk-actions').removeClass('d-flex').addClass('d-none');
+                $('#bulk-bar').hide();
             }
         }
 
@@ -344,6 +356,12 @@
 
         // Bulk Deactivate
         $('#bulk-deactivate').on('click', function () { updateStatus(0); });
+
+        // Clear Selection
+        $('#bulk-clear').on('click', function () {
+            $('.select-item, #select-all').prop('checked', false);
+            toggleBulkActions();
+        });
 
         function updateStatus(status) {
             var ids = [];
