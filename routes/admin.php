@@ -32,6 +32,7 @@ use App\Http\Controllers\Admin\OrgMemberController;
 use App\Http\Controllers\Admin\TeamMemberController;
 use App\Http\Controllers\Admin\VolunteerApplicationController;
 use App\Http\Controllers\Admin\YoutubeVideoController;
+use App\Http\Controllers\Admin\NotificationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -290,5 +291,11 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('youtube-videos/edit/{id}',   [YoutubeVideoController::class, 'edit'])->name('admin.youtube_videos.edit');
     Route::post('youtube-videos/update/{id}',[YoutubeVideoController::class, 'update'])->name('admin.youtube_videos.update');
     Route::get('youtube-videos/delete/{id}', [YoutubeVideoController::class, 'destroy'])->name('admin.youtube_videos.delete');
+
+    // __ Notifications __//
+    Route::get('notifications/read/{id}',      [NotificationController::class, 'markAsRead'])->name('admin.notifications.read');
+    Route::post('notifications/mark-all-read', [NotificationController::class, 'markAllRead'])->name('admin.notifications.markAllRead');
+    Route::get('notifications/delete/{id}',    [NotificationController::class, 'destroy'])->name('admin.notifications.delete');
+    Route::post('notifications/clear-read',    [NotificationController::class, 'clearRead'])->name('admin.notifications.clearRead');
 
 });

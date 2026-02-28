@@ -188,7 +188,20 @@
 			align-items: flex-start;
 			padding: 12px 16px;
 			border-bottom: 1px solid #eee;
+			transition: background-color 0.15s;
 		}
+		.notifications-item:hover {
+			background-color: #f0f4ff !important;
+		}
+
+		/* Soft Background Color Helpers */
+		.bg-soft-primary   { background-color: rgba(13,110,253,0.12) !important; }
+		.bg-soft-success   { background-color: rgba(25,135,84,0.12)  !important; }
+		.bg-soft-danger    { background-color: rgba(220,53,69,0.12)  !important; }
+		.bg-soft-warning   { background-color: rgba(255,193,7,0.12)  !important; }
+		.bg-soft-info      { background-color: rgba(13,202,240,0.12) !important; }
+		.bg-soft-secondary { background-color: rgba(108,117,125,0.12)!important; }
+		.bg-soft-dark      { background-color: rgba(33,37,41,0.12)   !important; }
 		
 		.notifications-desc {
 			flex: 1;
@@ -848,51 +861,230 @@
 					</div>
 					<!--! [End] Header Theme Mode !-->
 					<!--! [Start] Header Notifications !-->
-					<div class="dropdown nxl-h-item">
-						<a class="nxl-head-link me-0" data-bs-toggle="dropdown" href="#" role="button" data-bs-auto-close="outside" aria-expanded="false">
+					@php
+						$headerNotifications = \App\Models\AdminNotification::latest()->limit(50)->get();
+						$unreadNotifCount    = \App\Models\AdminNotification::unread()->count();
+					@endphp
+
+					<style>
+						/* ── Notification Dropdown ── */
+						.notif-dropdown-menu {
+							min-width: 370px;
+							max-height: 600px;
+							border-radius: 10px;
+							box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+							border: 1px solid rgba(0,0,0,0.08);
+							overflow: hidden;
+						}
+						/* When Bootstrap shows it, use flex layout */
+						.notif-dropdown-menu.show {
+							display: flex !important;
+							flex-direction: column !important;
+						}
+						.notif-scroll-area {
+							max-height: 450px;
+							overflow-y: auto;
+						}
+						.notif-scroll-area::-webkit-scrollbar { width: 5px; }
+						.notif-scroll-area::-webkit-scrollbar-thumb { background: #dee2e6; border-radius: 4px; }
+						.notif-item-row a:hover { background-color: #f2f4f6 !important; }
+						.notif-item-row.is-unread a { background-color: #eaf3ff; }
+						.notif-item-row.is-unread a:hover { background-color: #ddeeff !important; }
+						.notif-filter-btn { transition: all 0.15s; border: none; cursor: pointer; }
+						.notif-filter-btn.active { background-color: #1a73e8 !important; color: #fff !important; }
+						.notif-filter-btn:not(.active) { background-color: #f0f2f5 !important; color: #444 !important; }
+					</style>
+
+					<div class="nxl-h-item">
+						{{-- Bell Toggle Button --}}
+						<a class="nxl-head-link me-0" href="javascript:void(0);" id="notifBellBtn" role="button">
 							<i class="feather-bell"></i>
-							<span class="badge bg-danger nxl-h-badge">3</span>
+							@if($unreadNotifCount > 0)
+								<span class="badge bg-danger nxl-h-badge" id="notifBadge">{{ $unreadNotifCount > 99 ? '99+' : $unreadNotifCount }}</span>
+							@endif
 						</a>
-						<div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-notifications-menu">
-							<div class="d-flex justify-content-between align-items-center notifications-head">
-								<h6 class="fw-bold text-dark mb-0">{{ __('admin.notifications') }}</h6>
-								<span class="fs-11 text-muted">({{ __('admin.unread', ['count' => 3]) }})</span>
-							</div>
-							<div class="notifications-item">
-								<img src="{{ asset('admin/assets/images/duralux/avatar/1.png') }}" alt="" class="wd-35 ht-35 rounded-circle" />
-								<div class="notifications-desc">
-									<p class="font-weight-bold text-dark">{{ __('admin.new_donation_received') }}</p>
-									<span class="fs-12 text-muted">From: John Doe - $50</span>
+
+						{{-- Dropdown Panel --}}
+						<div id="notifDropdown" class="notif-dropdown-menu dropdown-menu dropdown-menu-end nxl-h-dropdown px-0 py-0" style="position:absolute; top:100%; right:0; display:none; z-index:1050;">
+
+							{{-- Header --}}
+							<div class="px-3 pt-3 pb-2 border-bottom bg-white" style="flex-shrink:0;">
+								<div class="d-flex justify-content-between align-items-center mb-2">
+									<h6 class="fw-bold text-dark mb-0 fs-15">Notifications</h6>
+									<div class="d-flex align-items-center gap-2">
+										{{-- Mark all as read: compact inline button --}}
+										<form action="{{ route('admin.notifications.markAllRead') }}" method="POST" class="mb-0">
+											@csrf
+											<button type="submit" class="btn btn-link p-0 fs-12 fw-semibold text-primary text-decoration-none lh-1" style="white-space:nowrap;">
+												Mark all read
+											</button>
+										</form>
+									</div>
 								</div>
-								<div class="notifications-date">
-									<span class="fs-11 text-muted">2 min ago</span>
-								</div>
-							</div>
-							<div class="notifications-item">
-								<img src="{{ asset('admin/assets/images/duralux/avatar/2.png') }}" alt="" class="wd-35 ht-35 rounded-circle" />
-								<div class="notifications-desc">
-									<p class="font-weight-bold text-dark">{{ __('admin.new_volunteer_application') }}</p>
-									<span class="fs-12 text-muted">From: Sarah Wilson</span>
-								</div>
-								<div class="notifications-date">
-									<span class="fs-11 text-muted">10 min ago</span>
-								</div>
-							</div>
-							<div class="notifications-item">
-								<img src="{{ asset('admin/assets/images/duralux/avatar/3.png') }}" alt="" class="wd-35 ht-35 rounded-circle" />
-								<div class="notifications-desc">
-									<p class="font-weight-bold text-dark">{{ __('admin.project_milestone_reached') }}</p>
-									<span class="fs-12 text-muted">Clean Water Project - Phase 1</span>
-								</div>
-								<div class="notifications-date">
-									<span class="fs-11 text-muted">1 hour ago</span>
+								{{-- Filter Tabs --}}
+								<div class="d-flex gap-2">
+									<button class="notif-filter-btn active rounded-pill px-3 py-1 fs-12 fw-semibold" data-filter="all">All</button>
+									<button class="notif-filter-btn rounded-pill px-3 py-1 fs-12 fw-semibold" data-filter="unread">Unread</button>
 								</div>
 							</div>
-							<div class="text-center notifications-footer">
-								<a href="javascript:void(0)" class="fs-13 fw-semibold text-dark">{{ __('admin.see_all_notifications') }}</a>
+
+							{{-- Scrollable List --}}
+							<div class="notif-scroll-area">
+								<div id="notifList">
+									@forelse($headerNotifications as $notif)
+										<div class="notif-item-row {{ !$notif->is_read ? 'is-unread' : '' }}" data-status="{{ !$notif->is_read ? 'unread' : 'read' }}">
+											<a href="{{ route('admin.notifications.read', $notif->id) }}" class="d-flex align-items-center px-3 py-3 text-decoration-none text-dark border-bottom">
+												<div class="flex-shrink-0 me-3">
+													<div class="d-flex align-items-center justify-content-center rounded-circle bg-soft-{{ $notif->icon_color }} text-{{ $notif->icon_color }}" style="width:42px;height:42px;">
+														<i class="{{ $notif->icon }}"></i>
+													</div>
+												</div>
+												<div class="flex-grow-1" style="min-width:0;">
+													<div class="d-flex justify-content-between align-items-center">
+														<span class="fw-semibold fs-13 text-dark text-truncate" style="max-width:185px;">{{ $notif->title }}</span>
+														<span class="fs-10 text-muted ms-2 flex-shrink-0">{{ $notif->time_ago }}</span>
+													</div>
+													<p class="mb-0 fs-12 text-muted text-truncate">{{ Str::limit($notif->message, 58) }}</p>
+												</div>
+												@if(!$notif->is_read)
+													<span class="ms-2 bg-primary rounded-circle d-block flex-shrink-0" style="width:8px;height:8px;"></span>
+												@endif
+											</a>
+										</div>
+									@empty
+										<div class="text-center py-5">
+											<i class="feather-bell-off text-muted opacity-25" style="font-size:36px;"></i>
+											<p class="text-muted fs-13 mt-2 mb-0">No notifications yet</p>
+										</div>
+									@endforelse
+								</div>
+
+								{{-- Empty State for Unread Tab --}}
+								<div id="notifEmptyUnread" class="text-center py-5 d-none">
+									<i class="feather-check-circle text-success opacity-50" style="font-size:36px;"></i>
+									<p class="text-muted fs-13 mt-2 mb-0">No unread notifications</p>
+								</div>
+
+								{{-- See Previous Button --}}
+								@if($headerNotifications->count() > 7)
+									<a href="javascript:void(0);" id="notifSeeMore" class="d-block text-center py-3 fw-semibold fs-13 text-primary border-top text-decoration-none" style="background:#fafafa;">
+										See previous notifications
+									</a>
+								@endif
 							</div>
+
 						</div>
 					</div>
+
+					<script>
+					(function() {
+						document.addEventListener('DOMContentLoaded', function () {
+							var bell        = document.getElementById('notifBellBtn');
+							var panel       = document.getElementById('notifDropdown');
+							var filterBtns  = document.querySelectorAll('.notif-filter-btn');
+							var rows        = document.querySelectorAll('.notif-item-row');
+							var seeMoreBtn  = document.getElementById('notifSeeMore');
+							var emptyUnread = document.getElementById('notifEmptyUnread');
+							var isExpanded  = false;
+							var currentFilter = 'all';
+
+							if (!bell || !panel) return;
+
+							// ── 1. Toggle Panel on Bell Click ──
+							bell.addEventListener('click', function (e) {
+								e.stopPropagation();
+								var isVisible = panel.style.display === 'flex';
+								panel.style.display = isVisible ? 'none' : 'flex';
+								panel.style.flexDirection = 'column';
+							});
+
+							// ── 2. Close When Clicking Outside ──
+							document.addEventListener('click', function (e) {
+								if (!panel.contains(e.target) && e.target !== bell && !bell.contains(e.target)) {
+									panel.style.display = 'none';
+								}
+							});
+
+							// ── 3. Prevent panel itself from closing on inside click ──
+							panel.addEventListener('click', function (e) {
+								e.stopPropagation();
+							});
+
+							// ── 4. updateView Function ──
+							function updateView(filter) {
+								currentFilter = filter;
+								var matchCount   = 0;
+								var visibleCount = 0;
+
+								// Count how many match this filter
+								rows.forEach(function(row) {
+									var status = row.getAttribute('data-status');
+									if (filter === 'all' || (filter === 'unread' && status === 'unread')) {
+										matchCount++;
+									}
+								});
+
+								// Apply visibility
+								rows.forEach(function(row) {
+									var status = row.getAttribute('data-status');
+									var matches = (filter === 'all') || (filter === 'unread' && status === 'unread');
+
+									if (matches) {
+										// For 'all' tab: limit to 7 unless expanded
+										if (filter === 'all' && !isExpanded && visibleCount >= 7) {
+											row.style.display = 'none';
+										} else {
+											row.style.display = '';
+											visibleCount++;
+										}
+									} else {
+										row.style.display = 'none';
+									}
+								});
+
+								// See More button (only on 'all' tab, only if collapsed and there are more than 7)
+								if (seeMoreBtn) {
+									seeMoreBtn.style.display = (filter === 'all' && !isExpanded && matchCount > 7) ? 'block' : 'none';
+								}
+
+								// Empty state for unread
+								if (emptyUnread) {
+									emptyUnread.classList.toggle('d-none', !(filter === 'unread' && matchCount === 0));
+								}
+
+								// Update filter button styles
+								filterBtns.forEach(function(btn) {
+									if (btn.getAttribute('data-filter') === filter) {
+										btn.classList.add('active');
+									} else {
+										btn.classList.remove('active');
+									}
+								});
+							}
+
+							// ── 5. Filter Button Clicks ──
+							filterBtns.forEach(function(btn) {
+								btn.addEventListener('click', function(e) {
+									e.stopPropagation();
+									isExpanded = false; // collapse on tab switch
+									updateView(this.getAttribute('data-filter'));
+								});
+							});
+
+							// ── 6. See More Click ──
+							if (seeMoreBtn) {
+								seeMoreBtn.addEventListener('click', function(e) {
+									e.stopPropagation();
+									isExpanded = true;
+									updateView(currentFilter);
+								});
+							}
+
+							// ── 7. Initial Render ──
+							updateView('all');
+						});
+					})();
+					</script>
 					<!--! [End] Header Notifications !-->
 					<!--! [Start] Header User !-->
 					<div class="dropdown nxl-h-item">

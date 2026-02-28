@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\YoutubeVideo;
+use App\Services\NotificationService;
 use Illuminate\Support\Facades\DB;
 
 class frontController extends Controller
@@ -28,6 +29,9 @@ class frontController extends Controller
         ]);
 
         DB::table('subscribe')->insert($subscribe);
+
+        NotificationService::newSubscriber($request->email);
+
         return redirect()->back()->with('success','Thanks for Subscribed us!!!!');
     }
 
@@ -294,7 +298,7 @@ class frontController extends Controller
             $photo->move(public_path('images/volunteers'), $photoName);
         }
 
-        \App\Models\VolunteerApplication::create([
+        $volunteer = \App\Models\VolunteerApplication::create([
             'name'    => $request->name,
             'email'   => $request->email,
             'phone'   => $request->phone,
@@ -304,6 +308,8 @@ class frontController extends Controller
             'message' => $request->message,
             'status'  => 'pending',
         ]);
+
+        NotificationService::newVolunteer($request->name, $volunteer->id);
 
         return redirect()->back()->with('apply_success', 'Your application has been submitted! We will get back to you soon.');
     }
@@ -324,7 +330,7 @@ class frontController extends Controller
             'payment_method_id' => 'required|exists:payment_methods,id',
         ]);
 
-        \App\Models\Donation::create([
+        $donation = \App\Models\Donation::create([
             'donor_name' => $request->donor_name,
             'donor_phone' => $request->donor_phone,
             'transaction_id' => $request->transaction_id,
@@ -332,6 +338,8 @@ class frontController extends Controller
             'payment_method_id' => $request->payment_method_id,
             'status' => 'pending',
         ]);
+
+        NotificationService::newDonation($request->donor_name, $request->amount, $donation->id);
 
         return redirect()->back()->with('success', 'Thank you for your donation! We will verify it soon.');
     }
@@ -373,6 +381,9 @@ class frontController extends Controller
         ]);
 
         DB::table('messages')->insert($message);
+
+        NotificationService::newMessage($request->name);
+
         return redirect()->back()->with('success','Successfully Submitted Your Message.');
     }
 

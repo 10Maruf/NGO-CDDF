@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\VolunteerApplication;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class VolunteerApplicationController extends Controller
@@ -110,7 +111,11 @@ class VolunteerApplicationController extends Controller
             'status' => 'required|in:pending,approved,rejected',
         ]);
 
-        VolunteerApplication::findOrFail($id)->update(['status' => $request->status]);
+        $vol = VolunteerApplication::findOrFail($id);
+        $vol->update(['status' => $request->status]);
+
+        NotificationService::volunteerStatusUpdated($vol->name, $request->status);
+
         return redirect()->back()->with('update', 'Status updated successfully');
     }
 

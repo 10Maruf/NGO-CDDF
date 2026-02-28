@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -44,6 +45,9 @@ class PublicationController extends Controller
         ];
 
         DB::table('publications')->insert($publication);
+
+        NotificationService::newPublication($request->title);
+
         return redirect()->back()->with('success', 'Publication added successfully');
     }
 

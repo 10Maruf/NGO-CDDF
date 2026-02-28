@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Donation;
 use App\Models\PaymentMethod;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class DonationController extends Controller
@@ -44,6 +45,8 @@ class DonationController extends Controller
             'status' => 'verified',
             'admin_note' => $request->admin_note
         ]);
+
+        NotificationService::donationVerified($donation->donor_name, $donation->amount);
         
         return redirect()->back()->with('success', 'Donation verified successfully!');
     }
@@ -56,6 +59,8 @@ class DonationController extends Controller
             'status' => 'rejected',
             'admin_note' => $request->admin_note
         ]);
+
+        NotificationService::donationRejected($donation->donor_name, $donation->amount);
         
         return redirect()->back()->with('success', 'Donation rejected!');
     }

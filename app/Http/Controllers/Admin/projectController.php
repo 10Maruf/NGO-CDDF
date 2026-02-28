@@ -7,6 +7,7 @@ use App\Models\FocusArea;
 use App\Models\Partner;
 use App\Models\Project;
 use App\Models\ProjectImage;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class projectController extends Controller
@@ -121,6 +122,8 @@ class projectController extends Controller
                 'image'      => $galleryName,
             ]);
         }
+
+        NotificationService::newProject($project->title);
 
         return redirect()->route('project.index')
             ->with('success', 'Project successfully added.');
