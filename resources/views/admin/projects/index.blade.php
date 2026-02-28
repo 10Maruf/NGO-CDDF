@@ -9,8 +9,23 @@
 <div class="row">
     <div class="col-xl-12 mx-auto">
         <div class="d-flex justify-content-between align-items-center">
-            <h6 class="mb-0 text-uppercase">All Projects</h6>
-            <a href="{{ route('project.add') }}" class="btn btn-primary">
+            <div class="d-flex align-items-center gap-2">
+                <h6 class="mb-0 text-uppercase">All Projects</h6>
+                <div id="bulk-actions" class="d-none gap-1">
+                    <div class="table-actions">
+                        <button class="btn btn-danger btn-sm" id="bulk-delete" title="Delete Selected">
+                            <i class="feather-trash-2"></i>
+                        </button>
+                        <button class="btn btn-success btn-sm" id="bulk-activate" title="Activate">
+                            <i class="feather-check-circle"></i>
+                        </button>
+                        <button class="btn btn-secondary btn-sm" id="bulk-deactivate" title="Deactivate">
+                            <i class="feather-x-circle"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <a href="{{ route('project.add') }}" class="btn btn-primary btn-sm">
                 <i class="feather-plus me-1"></i> Add Project
             </a>
         </div>
@@ -65,6 +80,7 @@
                     <table class="table table-bordered align-middle">
                         <thead class="table-light">
                             <tr>
+                                <th width="40"><input type="checkbox" id="select-all"></th>
                                 <th width="60">#</th>
                                 <th width="80">Image</th>
                                 <th>Title</th>
@@ -80,6 +96,7 @@
                         <tbody>
                             @forelse ($projects as $item)
                                 <tr>
+                                    <td><input type="checkbox" class="select-item" value="{{ $item->id }}"></td>
                                     <td>{{ $item->id }}</td>
                                     <td>
                                         @if ($item->cover_image)
@@ -136,16 +153,27 @@
                                     </td>
                                     <td>
                                         <div class="table-actions">
-                                            <button type="button" class="btn btn-info text-white" title="View"
+                                            <button type="button" class="btn btn-info btn-sm text-white" title="View"
                                                     data-bs-toggle="modal" data-bs-target="#viewProjectModal{{ $item->id }}">
                                                 <i class="feather-eye"></i>
                                             </button>
                                             <a href="{{ route('project.edit', $item->id) }}"
-                                               class="btn btn-primary" title="Edit">
+                                               class="btn btn-primary btn-sm" title="Edit">
                                                 <i class="feather-edit"></i>
                                             </a>
+                                            @if($item->is_active)
+                                                <a href="{{ route('project.toggle_status', $item->id) }}"
+                                                   class="btn btn-success btn-sm" title="Active – Click to Deactivate">
+                                                    <i class="feather-check-circle"></i>
+                                                </a>
+                                            @else
+                                                <a href="{{ route('project.toggle_status', $item->id) }}"
+                                                   class="btn btn-secondary btn-sm" title="Inactive – Click to Activate">
+                                                    <i class="feather-x-circle"></i>
+                                                </a>
+                                            @endif
                                             <a href="{{ route('project.delete', $item->id) }}"
-                                               class="btn btn-danger"
+                                               class="btn btn-danger btn-sm"
                                                data-delete
                                                data-delete-title="Delete Project"
                                                data-delete-message="Are you sure you want to delete '{{ $item->title }}'? This action cannot be undone."
@@ -157,7 +185,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="11" class="text-center text-muted py-4">No projects found. <a href="{{ route('project.add') }}">Add one now.</a></td>
+                                    <td colspan="12" class="text-center text-muted py-4">No projects found. <a href="{{ route('project.add') }}">Add one now.</a></td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -260,12 +288,75 @@
 
 @push('scripts')
 <script>
-    // Fix for modal backdrop issue in some admin templates
-    $(document).ready(function() {
+    $(document).ready(function () {
+
+        // Fix for modal backdrop issue
         $('.modal').on('show.bs.modal', function () {
-            // Move modal to body to avoid z-index issues with parent containers
             $(this).appendTo('body');
         });
+
+        // Select All
+        $('#select-all').on('change', function () {
+            $('.select-item').prop('checked', $(this).prop('checked'));
+            toggleBulkActions();
+        });
+
+        // Individual Select
+        $('.select-item').on('change', function () {
+            $('#select-all').prop('checked', $('.select-item:checked').length === $('.select-item').length);
+            toggleBulkActions();
+        });
+
+        function toggleBulkActions() {
+            if ($('.select-item:checked').length > 0) {
+                $('#bulk-actions').removeClass('d-none').addClass('d-flex');
+            } else {
+                $('#bulk-actions').removeClass('d-flex').addClass('d-none');
+            }
+        }
+
+        // Bulk Delete
+        $('#bulk-delete').on('click', function () {
+            var ids = [];
+            $('.select-item:checked').each(function () { ids.push($(this).val()); });
+            if (ids.length === 0) return;
+
+            var deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+            $('#deleteConfirmModalLabel').text('Delete Selected Projects');
+            $('#deleteConfirmMessage').text('Are you sure you want to delete ' + ids.length + ' selected project(s)? This action cannot be undone.');
+            $('#confirmDeleteBtn').off('click.bulk').attr('href', '#');
+            $('#confirmDeleteBtn').on('click.bulk', function (e) {
+                e.preventDefault();
+                deleteModal.hide();
+                $.ajax({
+                    url: "{{ route('project.bulk_delete') }}",
+                    method: 'POST',
+                    data: { ids: ids, _token: "{{ csrf_token() }}" },
+                    success: function () { location.reload(); },
+                    error:   function () { alert('Something went wrong!'); }
+                });
+            });
+            deleteModal.show();
+        });
+
+        // Bulk Activate
+        $('#bulk-activate').on('click', function () { updateStatus(1); });
+
+        // Bulk Deactivate
+        $('#bulk-deactivate').on('click', function () { updateStatus(0); });
+
+        function updateStatus(status) {
+            var ids = [];
+            $('.select-item:checked').each(function () { ids.push($(this).val()); });
+            $.ajax({
+                url: "{{ route('project.bulk_status') }}",
+                method: 'POST',
+                data: { ids: ids, status: status, _token: "{{ csrf_token() }}" },
+                success: function () { location.reload(); },
+                error:   function () { alert('Something went wrong!'); }
+            });
+        }
+
     });
 </script>
 @endpush

@@ -74,6 +74,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/project/edit/{id}', [projectController::class, 'edit'])->name('project.edit');
     Route::post('/project/update/{id}', [projectController::class, 'update'])->name('project.update');
     Route::get('/project/gallery-image/delete/{imageId}', [projectController::class, 'deleteGalleryImage'])->name('project.gallery.delete');
+    Route::post('/project/bulk-delete', [projectController::class, 'bulkDelete'])->name('project.bulk_delete');
+    Route::post('/project/bulk-status', [projectController::class, 'bulkStatus'])->name('project.bulk_status');
+    Route::get('/project/toggle-status/{id}', [projectController::class, 'toggleStatus'])->name('project.toggle_status');
 
     // Latest News
     Route::get('/news/add', [newsController::class, 'add'])->name('news.add');
