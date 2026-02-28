@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title_l1', 'Invoked Items')
+@section('title_l1', 'Careers')
 @section('bread_crumb')
-    <li class="breadcrumb-item">Invoked</li>
+    <li class="breadcrumb-item">Careers</li>
 @endsection
 
 @section('content')

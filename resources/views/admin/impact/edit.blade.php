@@ -140,13 +140,11 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
+                        <div class="col-12 d-flex align-items-center gap-2">
                             <button class="btn btn-primary px-4" type="submit">
                                 <i class="bx bx-save"></i> Update Impact
                             </button>
-                            <a href="{{ route('impact.index') }}" class="btn btn-secondary px-4">
-                                <i class="bx bx-x"></i> Cancel
-                            </a>
+                            <a href="{{ route('impact.index') }}" class="btn btn-danger px-4">Cancel</a>
                         </div>
                     </form>
                 </div>

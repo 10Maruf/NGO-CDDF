@@ -34,9 +34,6 @@
                             {{ \App\Models\OrgMember::$orgTypeLabels[$key] ?? $key }}
                         </a>
                     @endforeach
-                    <a href="{{ route('org.add') }}" class="btn btn-sm btn-success ms-auto">
-                        <i class="feather-plus me-1"></i> Add Member
-                    </a>
                 </div>
 
                 <div class="table-responsive">

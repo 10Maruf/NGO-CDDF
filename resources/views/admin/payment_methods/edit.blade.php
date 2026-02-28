@@ -134,13 +134,11 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
-                            <button class="btn btn-primary" type="submit">
+                        <div class="col-12 d-flex align-items-center gap-2">
+                            <button class="btn btn-primary px-4" type="submit">
                                 <i class="feather-save me-1"></i> Update Payment Method
                             </button>
-                            <a href="{{ route('admin.payment_methods.index') }}" class="btn btn-secondary ms-2">
-                                Cancel
-                            </a>
+                            <a href="{{ route('admin.payment_methods.index') }}" class="btn btn-danger px-4">Cancel</a>
                         </div>
                     </form>
                 </div>

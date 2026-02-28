@@ -65,8 +65,9 @@
                                 <option value="rejected" {{ $data->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
                             </select>
                         </div>
-                        <div class="col-12">
-                            <button class="btn btn-primary" type="submit">Update</button>
+                        <div class="col-12 d-flex align-items-center gap-2">
+                            <button class="btn btn-primary px-4" type="submit">Update</button>
+                            <a href="{{ route('admin.volunteer_applications.index') }}" class="btn btn-danger px-4">Cancel</a>
                         </div>
                     </form>
                 </div>

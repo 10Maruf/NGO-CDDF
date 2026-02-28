@@ -128,13 +128,11 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
-                            <button class="btn btn-primary" type="submit">
+                        <div class="col-12 d-flex align-items-center gap-2">
+                            <button class="btn btn-primary px-4" type="submit">
                                 <i class="feather-save me-1"></i> Save Payment Method
                             </button>
-                            <a href="{{ route('admin.payment_methods.index') }}" class="btn btn-secondary ms-2">
-                                Back to List
-                            </a>
+                            <a href="{{ route('admin.payment_methods.index') }}" class="btn btn-secondary px-4">Back to List</a>
                         </div>
                     </form>
                 </div>

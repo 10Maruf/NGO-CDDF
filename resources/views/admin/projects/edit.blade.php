@@ -260,11 +260,11 @@
                         </div>
 
                         {{-- ── Submit ───────────────────────────────────────── --}}
-                        <div class="col-12 pt-2">
+                        <div class="col-12 pt-2 d-flex align-items-center gap-2">
                             <button class="btn btn-primary px-4" type="submit" id="submit-btn">
                                 <i class="feather-save me-1"></i> Update Project
                             </button>
-                            <a href="{{ route('project.index') }}" class="btn btn-light ms-2">Cancel</a>
+                            <a href="{{ route('project.index') }}" class="btn btn-danger px-4">Cancel</a>
                         </div>
 
                     </form>

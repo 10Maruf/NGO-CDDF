@@ -138,13 +138,11 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
+                        <div class="col-12 d-flex align-items-center gap-2">
                             <button class="btn btn-primary px-4" type="submit">
                                 <i class="bx bx-save"></i> Save Impact
                             </button>
-                            <a href="{{ route('impact.index') }}" class="btn btn-secondary px-4">
-                                <i class="bx bx-x"></i> Cancel
-                            </a>
+                            <a href="{{ route('impact.index') }}" class="btn btn-secondary px-4">Back to List</a>
                         </div>
                     </form>
                 </div>

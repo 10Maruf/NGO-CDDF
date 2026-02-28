@@ -51,11 +51,11 @@
                             <small class="text-muted">Lower number = shown first.</small>
                         </div>
 
-                        <div class="col-12 d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">
+                        <div class="col-12 d-flex align-items-center gap-2">
+                            <button type="submit" class="btn btn-primary px-4">
                                 <i class="feather-save me-1"></i> Save Video
                             </button>
-                            <a href="{{ route('admin.youtube_videos.index') }}" class="btn btn-secondary">Cancel</a>
+                            <a href="{{ route('admin.youtube_videos.index') }}" class="btn btn-secondary px-4">Back to List</a>
                         </div>
                     </form>
                 </div>
