@@ -3,7 +3,7 @@
 @section('content')
 
 {{-- ===== Hero / Page Banner ===== --}}
-<div class="hero-wrap" style="background-image: url('{{ asset('static_image/focus_areas_blk.jpeg') }}'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 340px; position: relative; display: flex; align-items: center;">
+<div class="hero-wrap" style="background-image: url('{{ (isset($application->key_focus_banner) && $application->key_focus_banner) ? asset('images/application/'.$application->key_focus_banner) : asset('static_image/focus_areas_blk.jpeg') }}'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 340px; position: relative; display: flex; align-items: center;">
     <div class="overlay" style="position: absolute; inset: 0; background: rgba(0,0,0,0.60);"></div>
     <div class="container" style="position: relative; z-index: 1;">
         <div class="row justify-content-center">

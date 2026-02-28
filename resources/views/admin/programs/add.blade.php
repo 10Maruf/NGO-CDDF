@@ -55,8 +55,9 @@
                             <label for="start_date" class="form-label">Start Date (Optional)</label>
                             <input type="date" name="start_date" class="form-control" id="start_date">
                         </div>
-                        <div class="col-12">
-                            <button class="btn btn-primary" type="submit">Submit</button>
+                        <div class="col-12 d-flex align-items-center gap-2">
+                            <button class="btn btn-primary px-4" type="submit">Submit</button>
+                            <a href="{{ route('programs.index') }}" class="btn btn-secondary px-4">Back to List</a>
                         </div>
                     </form>
                 </div>

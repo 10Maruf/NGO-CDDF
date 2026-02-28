@@ -135,9 +135,9 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
+                        <div class="col-12 d-flex align-items-center gap-2">
                             <button class="btn btn-primary px-4" type="submit">Add Member</button>
-                            <a href="{{ route('org.index') }}" class="btn btn-secondary ms-2">Back to List</a>
+                            <a href="{{ route('org.index') }}" class="btn btn-secondary px-4">Back to List</a>
                         </div>
                     </form>
                 </div>

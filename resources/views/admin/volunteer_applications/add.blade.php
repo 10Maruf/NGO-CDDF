@@ -59,8 +59,9 @@
                                 <option value="rejected" {{ old('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
                             </select>
                         </div>
-                        <div class="col-12">
-                            <button class="btn btn-primary" type="submit">Submit</button>
+                        <div class="col-12 d-flex align-items-center gap-2">
+                            <button class="btn btn-primary px-4" type="submit">Submit</button>
+                            <a href="{{ route('admin.volunteer_applications.index') }}" class="btn btn-secondary px-4">Back to List</a>
                         </div>
                     </form>
                 </div>

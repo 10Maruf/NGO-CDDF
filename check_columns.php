@@ -10,8 +10,5 @@ $app = require_once __DIR__.'/bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
-echo "Policy Guideline Columns:\n";
-print_r(Schema::getColumnListing('policy_guideline'));
-
-echo "\nLegal Affilation Columns:\n";
-print_r(Schema::getColumnListing('legal_affilation'));
+echo "latest_news Columns:\n";
+print_r(Schema::getColumnListing('latest_news'));

@@ -134,4 +134,55 @@ class FocusAreaController extends Controller
 
         return redirect()->route('admin.focus_areas.index')->with('success', 'Focus Area deleted successfully');
     }
+
+    public function toggleStatus($id)
+    {
+        $focus_area = DB::table('focus_areas')->where('id', $id)->first();
+        if (!$focus_area) {
+            return redirect()->route('admin.focus_areas.index')->with('error', 'Focus Area not found');
+        }
+
+        DB::table('focus_areas')->where('id', $id)->update([
+            'is_active' => !$focus_area->is_active,
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Status updated successfully');
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (empty($ids)) {
+            return response()->json(['error' => 'No items selected'], 400);
+        }
+
+        $items = DB::table('focus_areas')->whereIn('id', $ids)->get();
+        foreach ($items as $item) {
+            if (!empty($item->icon_path)) {
+                Storage::disk('public')->delete($item->icon_path);
+            }
+            if ($item->image_path) {
+                Storage::disk('public')->delete($item->image_path);
+            }
+        }
+
+        DB::table('focus_areas')->whereIn('id', $ids)->delete();
+        return response()->json(['success' => true]);
+    }
+
+    public function bulkStatus(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        $status = $request->input('status');
+        if (empty($ids)) {
+            return response()->json(['error' => 'No items selected'], 400);
+        }
+
+        DB::table('focus_areas')->whereIn('id', $ids)->update([
+            'is_active' => (bool) $status,
+            'updated_at' => now(),
+        ]);
+        return response()->json(['success' => true]);
+    }
 }

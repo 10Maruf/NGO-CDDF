@@ -153,9 +153,9 @@
                             @error('is_active')<div class="text-danger">{{ $message }}</div>@enderror
                         </div>
 
-                        <div class="col-12">
-                            <button class="btn btn-primary" type="submit" id="submit-btn" style="position: relative; z-index: 10;">Update</button>
-                            <a href="{{ route('admin.focus_areas.index') }}" class="btn btn-light">Back</a>
+                        <div class="col-12 d-flex align-items-center gap-2">
+                            <button class="btn btn-primary px-4" type="submit" id="submit-btn" style="position: relative; z-index: 10;">Update</button>
+                            <a href="{{ route('admin.focus_areas.index') }}" class="btn btn-danger px-4">Cancel</a>
                         </div>
                     </form>
                 </div>

@@ -35,9 +35,9 @@ class OrgMember extends Model
     ];
 
     public static $orgTypes = [
-        'general_council'    => 'General Council (GC) — 21 Members',
-        'executive_committee'=> 'Executive Committee (EC) — 07 Members',
-        'advisory_council'   => 'Advisory Council — 03 Members',
+        'general_council'    => 'General Council (GC)',
+        'executive_committee'=> 'Executive Committee (EC)',
+        'advisory_council'   => 'Advisory Council (AC)',
         'executive_director' => 'Executive Director (ED)',
         'senior_management'  => 'Senior Management Team (SMT)',
         'mid_management'     => 'Mid-Level Management',

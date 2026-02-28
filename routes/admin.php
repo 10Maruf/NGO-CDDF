@@ -32,6 +32,7 @@ use App\Http\Controllers\Admin\OrgMemberController;
 use App\Http\Controllers\Admin\TeamMemberController;
 use App\Http\Controllers\Admin\VolunteerApplicationController;
 use App\Http\Controllers\Admin\YoutubeVideoController;
+use App\Http\Controllers\Admin\NotificationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -61,6 +62,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/slider/delete/{id}', [sliderController::class, 'destroy'])->name('slider.delete');
     Route::get('/slider/edit/{id}', [sliderController::class, 'edit'])->name('slider.edit');
     Route::post('/slider/update/{id}', [sliderController::class, 'update'])->name('slider.update');
+    Route::post('/slider/bulk-delete', [sliderController::class, 'bulkDelete'])->name('slider.bulk_delete');
+    Route::post('/slider/bulk-status', [sliderController::class, 'bulkStatus'])->name('slider.bulk_status');
+    Route::get('/slider/toggle-status/{id}', [sliderController::class, 'toggleStatus'])->name('slider.toggle_status');
 
     // Projects (ongoing & completed)
     Route::get('/project/add', [projectController::class, 'add'])->name('project.add');
@@ -70,6 +74,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/project/edit/{id}', [projectController::class, 'edit'])->name('project.edit');
     Route::post('/project/update/{id}', [projectController::class, 'update'])->name('project.update');
     Route::get('/project/gallery-image/delete/{imageId}', [projectController::class, 'deleteGalleryImage'])->name('project.gallery.delete');
+    Route::post('/project/bulk-delete', [projectController::class, 'bulkDelete'])->name('project.bulk_delete');
+    Route::post('/project/bulk-status', [projectController::class, 'bulkStatus'])->name('project.bulk_status');
+    Route::get('/project/toggle-status/{id}', [projectController::class, 'toggleStatus'])->name('project.toggle_status');
 
     // Latest News
     Route::get('/news/add', [newsController::class, 'add'])->name('news.add');
@@ -79,6 +86,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/news/edit/{id}', [newsController::class, 'edit'])->name('news.edit');
     Route::post('/news/update/{id}', [newsController::class, 'update'])->name('news.update');
     Route::get('/news/gallery-image/delete/{imageId}', [newsController::class, 'deleteGalleryImage'])->name('news.gallery.delete');
+    Route::post('/news/bulk-delete', [newsController::class, 'bulkDelete'])->name('news.bulk_delete');
+    Route::post('/news/bulk-status', [newsController::class, 'bulkStatus'])->name('news.bulk_status');
+    Route::get('/news/toggle-status/{id}', [newsController::class, 'toggleStatus'])->name('news.toggle_status');
 
     // Photo Gallery — disabled (gallery now auto-generated from news/projects)
     // Route::get('/gallery/add', [galleryController::class, 'add'])->name('gallery.add');
@@ -91,6 +101,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     // Subscribe
     Route::get('admin/subscribe', [subscribeController::class, 'index'])->name('subscribe.all');
     Route::get('admin/subscribe/delete/{id}', [subscribeController::class, 'destroy'])->name('subscribe.delete');
+    Route::post('admin/subscribe/bulk-delete', [subscribeController::class, 'bulkDelete'])->name('subscribe.bulk_delete');
 
     // Key Focus Area (Dynamic)
     Route::get('focus-areas/add', [FocusAreaController::class, 'create'])->name('admin.focus_areas.add');
@@ -99,11 +110,15 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('focus-areas/edit/{id}', [FocusAreaController::class, 'edit'])->name('admin.focus_areas.edit');
     Route::post('focus-areas/update/{id}', [FocusAreaController::class, 'update'])->name('admin.focus_areas.update');
     Route::get('focus-areas/delete/{id}', [FocusAreaController::class, 'destroy'])->name('admin.focus_areas.delete');
+    Route::get('focus-areas/toggle/{id}', [FocusAreaController::class, 'toggleStatus'])->name('admin.focus_areas.toggle');
+    Route::post('focus-areas/bulk-delete', [FocusAreaController::class, 'bulkDelete'])->name('admin.focus_areas.bulk_delete');
+    Route::post('focus-areas/bulk-status', [FocusAreaController::class, 'bulkStatus'])->name('admin.focus_areas.bulk_status');
 
     // Message
     Route::get('message/index', [messageController::class, 'index'])->name('message.index');
     Route::get('message/delete/{id}', [messageController::class, 'destroy'])->name('message.delete');
     Route::get('message/view/{id}', [messageController::class, 'view'])->name('message.view');
+    Route::post('message/bulk-delete', [messageController::class, 'bulkDelete'])->name('message.bulk_delete');
 
     // Contact
     Route::get('contact/add', [ContactController::class, 'add'])->name('contact.add');
@@ -112,6 +127,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('contact/edit/{id}', [ContactController::class, 'edit'])->name('contact.edit');
     Route::post('contact/update/{id}', [ContactController::class, 'update'])->name('contact.update');
     Route::get('contact/delete/{id}', [ContactController::class, 'destroy'])->name('contact.delete');
+    Route::post('contact/bulk-delete', [ContactController::class, 'bulkDelete'])->name('contact.bulk_delete');
+    Route::post('contact/bulk-status', [ContactController::class, 'bulkStatus'])->name('contact.bulk_status');
 
     // __ about us__//
     Route::get('about/us/add', [aboutusController::class, 'create'])->name('about.us.create');
@@ -128,6 +145,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/origin/legal_affilation/delete/{id}', [legalAffilationController::class, 'destroy'])->name('origin.legal_affilation.delete');
     Route::get('/origin/legal_affilation/edit/{id}', [legalAffilationController::class, 'edit'])->name('origin.legal_affilation.edit');
     Route::post('origin/legal_affilation/update/{id}', [legalAffilationController::class, 'update'])->name('origin.legal_affilation.update');
+    Route::post('origin/legal_affilation/bulk-delete', [legalAffilationController::class, 'bulkDelete'])->name('origin.legal_affilation.bulk_delete');
 
     // __Partner's and Donor's __//
     Route::get('partner/create', [partnersController::class, 'create'])->name('partner.create');
@@ -136,6 +154,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('partner/delete/{id}', [partnersController::class, 'destroy'])->name('partner.delete');
     Route::get('partner/edit/{id}', [partnersController::class, 'edit'])->name('partner.edit');
     Route::post('partner/update/{id}', [partnersController::class, 'update'])->name('partner.update');
+    Route::post('partner/bulk-delete', [partnersController::class, 'bulkDelete'])->name('partner.bulk_delete');
 
     // __Project Archive __//
     Route::get('project/archive/create', [projectArchiveController::class, 'create'])->name('project.archive.create');
@@ -152,6 +171,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('policy/delete/{id}', [policyController::class, 'destroy'])->name('policy.delete');
     Route::get('policy/edit/{id}', [policyController::class, 'edit'])->name('policy.edit');
     Route::post('policy/update/{id}', [policyController::class, 'update'])->name('policy.update');
+    Route::post('policy/bulk-delete', [policyController::class, 'bulkDelete'])->name('policy.bulk_delete');
 
     // __ Strategic Plan __//
     Route::get('strategic-plans/create', [StrategicPlanController::class, 'create'])->name('strategic_plans.create');
@@ -160,6 +180,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('strategic-plans/delete/{id}', [StrategicPlanController::class, 'destroy'])->name('strategic_plans.delete');
     Route::get('strategic-plans/edit/{id}', [StrategicPlanController::class, 'edit'])->name('strategic_plans.edit');
     Route::post('strategic-plans/update/{id}', [StrategicPlanController::class, 'update'])->name('strategic_plans.update');
+    Route::post('strategic-plans/bulk-delete', [StrategicPlanController::class, 'bulkDelete'])->name('strategic_plans.bulk_delete');
 
     // __ Publications __//
     Route::get('publications/add', [PublicationController::class, 'add'])->name('publications.add');
@@ -168,6 +189,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('publications/delete/{id}', [PublicationController::class, 'destroy'])->name('publications.delete');
     Route::get('publications/edit/{id}', [PublicationController::class, 'edit'])->name('publications.edit');
     Route::post('publications/update/{id}', [PublicationController::class, 'update'])->name('publications.update');
+    Route::post('publications/bulk-delete', [PublicationController::class, 'bulkDelete'])->name('publications.bulk_delete');
 
     // __ Careers __//
     Route::get('careers/add', [CareerController::class, 'add'])->name('careers.add');
@@ -176,14 +198,15 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('careers/delete/{id}', [CareerController::class, 'destroy'])->name('careers.delete');
     Route::get('careers/edit/{id}', [CareerController::class, 'edit'])->name('careers.edit');
     Route::post('careers/update/{id}', [CareerController::class, 'update'])->name('careers.update');
+    Route::post('careers/bulk-delete', [CareerController::class, 'bulkDelete'])->name('careers.bulk_delete');
 
-    // __Get Invoked __//
-    Route::get('invoked/create', [invokedController::class, 'create'])->name('invoked.create');
-    Route::post('invoked/store', [invokedController::class, 'store'])->name('invoked.store');
-    Route::get('invoked/index', [invokedController::class, 'index'])->name('invoked.index');
-    Route::get('invoked/delete/{id}', [invokedController::class, 'destroy'])->name('invoked.delete');
-    Route::get('invoked/edit/{id}', [invokedController::class, 'edit'])->name('invoked.edit');
-    Route::post('invoked/update/{id}', [invokedController::class, 'update'])->name('invoked.update');
+    // __Get Invoked (Legacy Redirect to Careers) __//
+    Route::get('invoked/index', function() { return redirect()->route('careers.index'); })->name('invoked.index');
+    Route::get('invoked/create', function() { return redirect()->route('careers.add'); })->name('invoked.create');
+    // Route::post('invoked/store', [invokedController::class, 'store'])->name('invoked.store');
+    // Route::get('invoked/delete/{id}', [invokedController::class, 'destroy'])->name('invoked.delete');
+    // Route::get('invoked/edit/{id}', [invokedController::class, 'edit'])->name('invoked.edit');
+    // Route::post('invoked/update/{id}', [invokedController::class, 'update'])->name('invoked.update');
 
     // __ Applicaiton Logo, Favicon __//
     Route::get('logo/create', [applicationController::class, 'create'])->name('logo.create');
@@ -216,6 +239,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('org-members/delete/{id}', [OrgMemberController::class, 'destroy'])->name('org.delete');
     Route::get('org-members/edit/{id}', [OrgMemberController::class, 'edit'])->name('org.edit');
     Route::post('org-members/update/{id}', [OrgMemberController::class, 'update'])->name('org.update');
+    Route::get('org-members/toggle/{id}', [OrgMemberController::class, 'toggleStatus'])->name('org.toggle');
+    Route::post('org-members/bulk-delete', [OrgMemberController::class, 'bulkDelete'])->name('org.bulk_delete');
+    Route::post('org-members/bulk-status', [OrgMemberController::class, 'bulkStatus'])->name('org.bulk_status');
 
     // __ Programs __//
     Route::get('programs/add', [ProgramController::class, 'add'])->name('programs.add');
@@ -232,6 +258,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('impact/delete/{id}', [ImpactController::class, 'destroy'])->name('impact.delete');
     Route::get('impact/edit/{id}', [ImpactController::class, 'edit'])->name('impact.edit');
     Route::post('impact/update/{id}', [ImpactController::class, 'update'])->name('impact.update');
+    Route::post('impact/bulk-delete', [ImpactController::class, 'bulkDelete'])->name('impact.bulk_delete');
 
     // __ Success Stories __//
     Route::get('stories/add', [StoryController::class, 'add'])->name('stories.add');
@@ -240,6 +267,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('stories/delete/{id}', [StoryController::class, 'destroy'])->name('stories.delete');
     Route::get('stories/edit/{id}', [StoryController::class, 'edit'])->name('stories.edit');
     Route::post('stories/update/{id}', [StoryController::class, 'update'])->name('stories.update');
+    Route::post('stories/bulk-delete', [StoryController::class, 'bulkDelete'])->name('stories.bulk_delete');
 
     // __ Chief Executive Message __//
     Route::get('chief/message/add', [ChiefMessageController::class, 'add'])->name('chief.message.add');
@@ -256,6 +284,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('faq/delete/{id}', [FaqController::class, 'destroy'])->name('faq.delete');
     Route::get('faq/edit/{id}', [FaqController::class, 'edit'])->name('faq.edit');
     Route::post('faq/update/{id}', [FaqController::class, 'update'])->name('faq.update');
+    Route::post('faq/bulk-delete', [FaqController::class, 'bulkDelete'])->name('faq.bulk_delete');
 
     // __ Volunteer Applications __//
     Route::get('volunteer-applications/index',        [VolunteerApplicationController::class, 'index'])->name('admin.volunteer_applications.index');
@@ -266,6 +295,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::post('volunteer-applications/update/{id}',[VolunteerApplicationController::class, 'update'])->name('admin.volunteer_applications.update');
     Route::post('volunteer-applications/status/{id}',[VolunteerApplicationController::class, 'updateStatus'])->name('admin.volunteer_applications.status');
     Route::get('volunteer-applications/delete/{id}', [VolunteerApplicationController::class, 'destroy'])->name('admin.volunteer_applications.delete');
+    Route::post('volunteer-applications/bulk-delete', [VolunteerApplicationController::class, 'bulkDelete'])->name('admin.volunteer_applications.bulk_delete');
+    Route::post('volunteer-applications/bulk-status', [VolunteerApplicationController::class, 'bulkStatus'])->name('admin.volunteer_applications.bulk_status');
 
     // __ Payment Methods __//
     Route::get('payment-methods/add', [PaymentMethodController::class, 'add'])->name('admin.payment_methods.add');
@@ -275,6 +306,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('payment-methods/edit/{id}', [PaymentMethodController::class, 'edit'])->name('admin.payment_methods.edit');
     Route::post('payment-methods/update/{id}', [PaymentMethodController::class, 'update'])->name('admin.payment_methods.update');
     Route::get('payment-methods/toggle/{id}', [PaymentMethodController::class, 'toggleStatus'])->name('admin.payment_methods.toggle');
+    Route::post('payment-methods/bulk-delete', [PaymentMethodController::class, 'bulkDelete'])->name('admin.payment_methods.bulk_delete');
+    Route::post('payment-methods/bulk-status', [PaymentMethodController::class, 'bulkStatus'])->name('admin.payment_methods.bulk_status');
 
     // __ Donations __//
     Route::get('donations/index', [DonationController::class, 'index'])->name('admin.donations.index');
@@ -282,6 +315,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::post('donations/verify/{id}', [DonationController::class, 'verify'])->name('admin.donations.verify');
     Route::post('donations/reject/{id}', [DonationController::class, 'reject'])->name('admin.donations.reject');
     Route::get('donations/delete/{id}', [DonationController::class, 'destroy'])->name('admin.donations.delete');
+    Route::post('donations/bulk-delete', [DonationController::class, 'bulkDelete'])->name('admin.donations.bulk_delete');
+    Route::post('donations/bulk-status', [DonationController::class, 'bulkStatus'])->name('admin.donations.bulk_status');
 
     // __ YouTube Videos __//
     Route::get('youtube-videos/index',       [YoutubeVideoController::class, 'index'])->name('admin.youtube_videos.index');
@@ -290,5 +325,12 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('youtube-videos/edit/{id}',   [YoutubeVideoController::class, 'edit'])->name('admin.youtube_videos.edit');
     Route::post('youtube-videos/update/{id}',[YoutubeVideoController::class, 'update'])->name('admin.youtube_videos.update');
     Route::get('youtube-videos/delete/{id}', [YoutubeVideoController::class, 'destroy'])->name('admin.youtube_videos.delete');
+    Route::post('youtube-videos/bulk-delete', [YoutubeVideoController::class, 'bulkDelete'])->name('admin.youtube_videos.bulk_delete');
+
+    // __ Notifications __//
+    Route::get('notifications/read/{id}',      [NotificationController::class, 'markAsRead'])->name('admin.notifications.read');
+    Route::post('notifications/mark-all-read', [NotificationController::class, 'markAllRead'])->name('admin.notifications.markAllRead');
+    Route::get('notifications/delete/{id}',    [NotificationController::class, 'destroy'])->name('admin.notifications.delete');
+    Route::post('notifications/clear-read',    [NotificationController::class, 'clearRead'])->name('admin.notifications.clearRead');
 
 });

@@ -122,4 +122,28 @@ class legalAffilationController extends Controller
         DB::table('legal_affilation')->where('id', $id)->delete();
         return redirect()->back()->with('success', 'Legal Affiliation deleted successfully');
     }
+
+    // Bulk Delete
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (empty($ids)) {
+            return response()->json(['error' => 'No items selected'], 400);
+        }
+
+        $items = DB::table('legal_affilation')->whereIn('id', $ids)->get();
+        foreach ($items as $item) {
+            if (!empty($item->thumbnail)) {
+                $old = public_path('images/legal_affilation/thumbnails/' . $item->thumbnail);
+                if (file_exists($old)) @unlink($old);
+            }
+            if (!empty($item->pdf_file)) {
+                $old = public_path('images/legal_affilation/pdfs/' . $item->pdf_file);
+                if (file_exists($old)) @unlink($old);
+            }
+        }
+
+        DB::table('legal_affilation')->whereIn('id', $ids)->delete();
+        return response()->json(['success' => true]);
+    }
 }

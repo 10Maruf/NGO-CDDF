@@ -51,9 +51,9 @@
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="col-12">
-                            <button class="btn btn-primary" type="submit">Submit</button>
-                            <a href="{{ route('strategic_plans.index') }}" class="btn btn-secondary">Cancel</a>
+                        <div class="col-12 d-flex align-items-center gap-2">
+                            <button class="btn btn-primary px-4" type="submit">Submit</button>
+                            <a href="{{ route('strategic_plans.index') }}" class="btn btn-secondary px-4">Back to List</a>
                         </div>
                     </form>
                 </div>

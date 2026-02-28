@@ -41,7 +41,7 @@ class sliderController extends Controller
 
     // index
     public function index(){
-        $slider = DB::table('slider')->orderBy('order', 'asc')->get();
+        $slider = DB::table('slider')->orderBy('id', 'desc')->get();
         return view('admin.slider.index',compact('slider'));
     }
 
@@ -95,5 +95,49 @@ class sliderController extends Controller
 
         DB::table('slider')->where('id',$id)->update($slider);
         return redirect()->back()->with('success', 'Successfully Updated data');
+    }
+
+    // Toggle Status
+    public function toggleStatus($id)
+    {
+        $slider = DB::table('slider')->where('id', $id)->first();
+        if ($slider) {
+            $newStatus = $slider->status ? 0 : 1;
+            DB::table('slider')->where('id', $id)->update(['status' => $newStatus]);
+        }
+        return redirect()->back()->with('success', 'Status updated successfully.');
+    }
+
+    // Bulk Delete
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids');
+        if ($ids) {
+            foreach ($ids as $id) {
+                $slider = DB::table('slider')->where('id', $id)->first();
+                if ($slider && $slider->image) {
+                     $delOldImage = public_path('images/slider/' . $slider->image);
+                    if (file_exists($delOldImage)){
+                        @unlink($delOldImage);
+                    }
+                }
+                DB::table('slider')->where('id', $id)->delete();
+            }
+            return response()->json(['success' => 'Selected sliders deleted successfully.']);
+        }
+        return response()->json(['error' => 'No items selected.'], 400);
+    }
+
+    // Bulk Status Update
+    public function bulkStatus(Request $request)
+    {
+        $ids = $request->input('ids');
+        $status = $request->input('status');
+
+        if ($ids) {
+            DB::table('slider')->whereIn('id', $ids)->update(['status' => $status]);
+            return response()->json(['success' => 'Status updated successfully.']);
+        }
+        return response()->json(['error' => 'No items selected.'], 400);
     }
 }

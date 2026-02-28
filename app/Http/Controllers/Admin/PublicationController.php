@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -44,6 +45,9 @@ class PublicationController extends Controller
         ];
 
         DB::table('publications')->insert($publication);
+
+        NotificationService::newPublication($request->title);
+
         return redirect()->back()->with('success', 'Publication added successfully');
     }
 
@@ -127,5 +131,26 @@ class PublicationController extends Controller
 
         DB::table('publications')->where('id', $id)->delete();
         return redirect()->back()->with('success', 'Publication deleted successfully');
+    }
+
+    // Bulk Delete
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (!empty($ids)) {
+            $items = DB::table('publications')->whereIn('id', $ids)->get();
+            foreach ($items as $item) {
+                if (!empty($item->thumbnail)) {
+                    $old = public_path('images/publications/thumbnails/' . $item->thumbnail);
+                    if (file_exists($old)) @unlink($old);
+                }
+                if (!empty($item->pdf_file)) {
+                    $old = public_path('images/publications/pdfs/' . $item->pdf_file);
+                    if (file_exists($old)) @unlink($old);
+                }
+            }
+            DB::table('publications')->whereIn('id', $ids)->delete();
+        }
+        return response()->json(['success' => true]);
     }
 }

@@ -7,6 +7,7 @@ use App\Models\FocusArea;
 use App\Models\Partner;
 use App\Models\Project;
 use App\Models\ProjectImage;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class projectController extends Controller
@@ -36,8 +37,7 @@ class projectController extends Controller
              $query->whereDate('end_date', '<=', $request->end_date);
         }
 
-        $projects = $query->orderBy('order')
-            ->orderByDesc('created_at')
+        $projects = $query->orderByDesc('id')
             ->get();
 
         $all_focus_areas = FocusArea::all(); // Pass focus areas to the view for the filter dropdown
@@ -121,6 +121,8 @@ class projectController extends Controller
                 'image'      => $galleryName,
             ]);
         }
+
+        NotificationService::newProject($project->title);
 
         return redirect()->route('project.index')
             ->with('success', 'Project successfully added.');
@@ -241,6 +243,57 @@ class projectController extends Controller
 
         return redirect()->route('project.index')
             ->with('success', 'Project deleted successfully.');
+    }
+
+    // -- Toggle Active Status ------------------------------------------------
+
+    public function toggleStatus($id)
+    {
+        $project = Project::findOrFail($id);
+        $project->update(['is_active' => !$project->is_active]);
+        return redirect()->back()->with('success', 'Project status updated.');
+    }
+
+    // -- Bulk Delete ----------------------------------------------------------
+
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids');
+        if (!$ids) {
+            return response()->json(['error' => 'No items selected.'], 400);
+        }
+        foreach ($ids as $id) {
+            $project = Project::find($id);
+            if (!$project) continue;
+            // Delete cover image
+            if ($project->cover_image) {
+                $path = public_path('images/project/' . $project->cover_image);
+                if (file_exists($path)) @unlink($path);
+            }
+            // Delete gallery images
+            foreach ($project->galleryImages as $gi) {
+                $giPath = public_path('images/project/' . $gi->image);
+                if (file_exists($giPath)) @unlink($giPath);
+            }
+            $project->galleryImages()->delete();
+            $project->partners()->detach();
+            $project->focusAreas()->detach();
+            $project->delete();
+        }
+        return response()->json(['success' => 'Selected projects deleted successfully.']);
+    }
+
+    // -- Bulk Status ----------------------------------------------------------
+
+    public function bulkStatus(Request $request)
+    {
+        $ids    = $request->input('ids');
+        $status = $request->input('status');
+        if (!$ids) {
+            return response()->json(['error' => 'No items selected.'], 400);
+        }
+        Project::whereIn('id', $ids)->update(['is_active' => $status]);
+        return response()->json(['success' => 'Status updated successfully.']);
     }
 
     // -- Delete single gallery image -------------------------------------------

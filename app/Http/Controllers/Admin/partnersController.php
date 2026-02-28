@@ -96,5 +96,22 @@ class partnersController extends Controller
 
     }
 
+    // Bulk Delete
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (!empty($ids)) {
+            $partners = DB::table('partners')->whereIn('id', $ids)->get();
+            foreach ($partners as $partner) {
+                if (!empty($partner->image)) {
+                    $old = public_path('images/partner/' . $partner->image);
+                    if (file_exists($old)) @unlink($old);
+                }
+            }
+            DB::table('partners')->whereIn('id', $ids)->delete();
+        }
+        return response()->json(['success' => true]);
+    }
+
 
 }

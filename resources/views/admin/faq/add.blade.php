@@ -41,8 +41,9 @@
                             <label for="order" class="form-label">Order</label>
                             <input type="number" name="order" class="form-control" id="order" value="0">
                         </div>
-                        <div class="col-12">
-                            <button class="btn btn-primary" type="submit">Submit</button>
+                        <div class="col-12 d-flex align-items-center gap-2">
+                            <button class="btn btn-primary px-4" type="submit">Submit</button>
+                            <a href="{{ route('faq.index') }}" class="btn btn-secondary px-4">Back to List</a>
                         </div>
                     </form>
                 </div>

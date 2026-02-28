@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
-            <img src="{{ asset('images/application/'.application()->main_logo) }}" alt="AFAD" id="logo" height="46">
+            <img src="{{ asset('images/application/'.application()->main_logo) }}" alt="CDDF" id="logo" height="46">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#ftco-nav"
                 aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +44,7 @@
                 @endphp
                 <li class="nav-item dropdown {{ $peopleActive ? 'active' : '' }}">
                     <a class="nav-link dropdown-toggle {{ $peopleActive ? 'active' : '' }}" href="#" id="peopleDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Our People
+                        Our Team
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="peopleDropdown">
                         <li><a class="dropdown-item {{ request()->routeIs('governance.level') ? 'active' : '' }}" href="{{ route('governance.level') }}">Governance Level</a></li>

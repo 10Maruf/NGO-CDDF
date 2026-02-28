@@ -5,7 +5,7 @@
 @section('content')
 
 {{-- ===== Hero Banner ===== --}}
-<div class="hero-wrap" style="background-image: url('{{ asset('static_image/about_us_bg.jpg') }}'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 340px; position: relative; display: flex; align-items: center;">
+<div class="hero-wrap" style="background-image: url('{{ (isset($application->governance_banner) && $application->governance_banner) ? asset('images/application/'.$application->governance_banner) : asset('static_image/about_us_bg.jpg') }}'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 340px; position: relative; display: flex; align-items: center;">
     <div class="overlay" style="position: absolute; inset: 0; background: rgba(0,0,0,0.60);"></div>
     <div class="container" style="position: relative; z-index: 1;">
         <div class="row justify-content-center">
@@ -13,7 +13,7 @@
                 <p class="mb-2" style="font-size: 0.9rem;">
                     <a href="{{ url('/') }}" style="color: #ffaa6e; text-decoration: none;">Home</a>
                     <span class="mx-2" style="color: #ccc;">/</span>
-                    <span style="color: #fff;">Our People</span>
+                    <span style="color: #fff;">Our Team</span>
                     <span class="mx-2" style="color: #ccc;">/</span>
                     <span style="color: #fff;">Governance Level</span>
                 </p>

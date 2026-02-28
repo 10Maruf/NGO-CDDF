@@ -25,7 +25,7 @@
 	<link rel="stylesheet" href="{{ asset('admin/assets/css/dark-theme.css') }}" />
 	<link rel="stylesheet" href="{{ asset('admin/assets/css/semi-dark.css') }}" />
 	<link rel="stylesheet" href="{{ asset('admin/assets/css/header-colors.css') }}" />
-	<title>AFADBD | Admin</title>
+	<title>CDDF | Admin</title>
 </head>
 
 <body>
@@ -38,7 +38,7 @@
 					<img src="{{ asset('images/application/'.application()->fav_icon) }}" class="logo-icon" alt="logo icon">
 				</div>
 				<div>
-					<h4 class="logo-text text-danger">AFADBD</h4>
+					<h4 class="logo-text text-danger">CDDF</h4>
 				</div>
 				<div class="toggle-icon ms-auto"><i class='bx bx-arrow-to-left text-danger'></i>
 				</div>
@@ -827,7 +827,7 @@
 		<!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
 		<!--End Back To Top Button-->
 		<footer class="page-footer">
-			<p class="mb-0">Copyright © {{ @date('Y') }}. All right reserved AFADBD</p>
+			<p class="mb-0">Copyright © {{ @date('Y') }}. All right reserved CDDF</p>
 		</footer>
 	</div>
 	<!--end wrapper-->

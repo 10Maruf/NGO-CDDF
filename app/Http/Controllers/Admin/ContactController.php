@@ -109,4 +109,25 @@ class ContactController extends Controller
         DB::table('contacts')->where('id', $id)->delete();
         return redirect()->back()->with('success', 'Contact deleted successfully');
     }
+
+    // Bulk Delete
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (!empty($ids)) {
+            DB::table('contacts')->whereIn('id', $ids)->delete();
+        }
+        return response()->json(['success' => true]);
+    }
+
+    // Bulk Status Update
+    public function bulkStatus(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        $status = $request->input('status', 'active');
+        if (!empty($ids)) {
+            DB::table('contacts')->whereIn('id', $ids)->update(['status' => $status, 'updated_at' => now()]);
+        }
+        return response()->json(['success' => true]);
+    }
 }

@@ -59,7 +59,7 @@ class newsController extends Controller
     // index
     public function index()
     {
-        $news = DB::table('latest_news')->get();
+        $news = DB::table('latest_news')->orderBy('id', 'desc')->get();
         return view('admin.latest_news.index', compact('news'));
     }
 
@@ -110,6 +110,53 @@ class newsController extends Controller
             DB::table('latest_news_images')->where('id', $imageId)->delete();
         }
         return redirect()->back()->with('update', 'Gallery image deleted');
+    }
+
+    // Toggle Status
+    public function toggleStatus($id)
+    {
+        $news = DB::table('latest_news')->where('id', $id)->first();
+        if ($news) {
+            DB::table('latest_news')->where('id', $id)->update(['status' => $news->status ? 0 : 1]);
+        }
+        return redirect()->back()->with('success', 'Status updated successfully.');
+    }
+
+    // Bulk Delete
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids');
+        if (!$ids) {
+            return response()->json(['error' => 'No items selected.'], 400);
+        }
+        foreach ($ids as $id) {
+            $news = DB::table('latest_news')->where('id', $id)->first();
+            if (!$news) continue;
+            if ($news->image) {
+                $path = public_path('images/news/' . $news->image);
+                if (file_exists($path)) @unlink($path);
+            }
+            $galleryImages = DB::table('latest_news_images')->where('news_id', $id)->get();
+            foreach ($galleryImages as $gi) {
+                $giPath = public_path('images/news/' . $gi->image);
+                if (file_exists($giPath)) @unlink($giPath);
+            }
+            DB::table('latest_news_images')->where('news_id', $id)->delete();
+            DB::table('latest_news')->where('id', $id)->delete();
+        }
+        return response()->json(['success' => 'Selected news deleted successfully.']);
+    }
+
+    // Bulk Status
+    public function bulkStatus(Request $request)
+    {
+        $ids    = $request->input('ids');
+        $status = $request->input('status');
+        if (!$ids) {
+            return response()->json(['error' => 'No items selected.'], 400);
+        }
+        DB::table('latest_news')->whereIn('id', $ids)->update(['status' => $status]);
+        return response()->json(['success' => 'Status updated successfully.']);
     }
 
     // Update

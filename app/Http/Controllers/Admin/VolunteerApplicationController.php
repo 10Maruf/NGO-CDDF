@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\VolunteerApplication;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class VolunteerApplicationController extends Controller
@@ -110,7 +111,11 @@ class VolunteerApplicationController extends Controller
             'status' => 'required|in:pending,approved,rejected',
         ]);
 
-        VolunteerApplication::findOrFail($id)->update(['status' => $request->status]);
+        $vol = VolunteerApplication::findOrFail($id);
+        $vol->update(['status' => $request->status]);
+
+        NotificationService::volunteerStatusUpdated($vol->name, $request->status);
+
         return redirect()->back()->with('update', 'Status updated successfully');
     }
 
@@ -125,6 +130,38 @@ class VolunteerApplicationController extends Controller
 
         $record->delete();
         return redirect()->back()->with('success', 'Deleted successfully');
+    }
+
+    // Bulk Delete
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (empty($ids)) {
+            return response()->json(['error' => 'No items selected'], 400);
+        }
+
+        $items = VolunteerApplication::whereIn('id', $ids)->get();
+        foreach ($items as $item) {
+            if ($item->photo && file_exists(public_path($this->photoFolder . '/' . $item->photo))) {
+                @unlink(public_path($this->photoFolder . '/' . $item->photo));
+            }
+        }
+
+        VolunteerApplication::whereIn('id', $ids)->delete();
+        return response()->json(['success' => true]);
+    }
+
+    // Bulk Status Update
+    public function bulkStatus(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        $status = $request->input('status');
+        if (empty($ids) || !in_array($status, ['pending', 'approved', 'rejected'])) {
+            return response()->json(['error' => 'Invalid request'], 400);
+        }
+
+        VolunteerApplication::whereIn('id', $ids)->update(['status' => $status]);
+        return response()->json(['success' => true]);
     }
 }
 

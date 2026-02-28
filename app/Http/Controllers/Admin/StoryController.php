@@ -110,4 +110,24 @@ class StoryController extends Controller
         DB::table('stories')->where('id', $id)->update($data);
         return redirect()->back()->with('update', 'Successfully Updated');
     }
+
+    // Bulk Delete
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (empty($ids)) {
+            return response()->json(['error' => 'No items selected'], 400);
+        }
+
+        $items = DB::table('stories')->whereIn('id', $ids)->get();
+        foreach ($items as $item) {
+            if ($item->image) {
+                $path = public_path('images/stories/' . $item->image);
+                if (file_exists($path)) @unlink($path);
+            }
+        }
+
+        DB::table('stories')->whereIn('id', $ids)->delete();
+        return response()->json(['success' => true]);
+    }
 }

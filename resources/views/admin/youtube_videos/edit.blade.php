@@ -55,11 +55,11 @@
                                  style="width:200px; border-radius:8px;">
                         </div>
 
-                        <div class="col-12 d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">
+                        <div class="col-12 d-flex align-items-center gap-2">
+                            <button type="submit" class="btn btn-primary px-4">
                                 <i class="feather-save me-1"></i> Update Video
                             </button>
-                            <a href="{{ route('admin.youtube_videos.index') }}" class="btn btn-secondary">Cancel</a>
+                            <a href="{{ route('admin.youtube_videos.index') }}" class="btn btn-danger px-4">Cancel</a>
                         </div>
                     </form>
                 </div>

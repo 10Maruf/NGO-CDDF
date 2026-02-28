@@ -131,7 +131,7 @@
                             <label class="form-label fw-semibold">Implementing Partner <small class="text-muted fw-normal">(lead org — free text)</small></label>
                             <input type="text" name="implementing_partner" value="{{ old('implementing_partner') }}"
                                    class="form-control @error('implementing_partner') is-invalid @enderror"
-                                   placeholder="e.g. AFAD in partnership with UNHCR">
+                                   placeholder="e.g. CDDF in partnership with UNHCR">
                             @error('implementing_partner')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
@@ -216,11 +216,11 @@
                         </div>
 
                         {{-- ── Submit ───────────────────────────────────────── --}}
-                        <div class="col-12 pt-2">
+                        <div class="col-12 pt-2 d-flex align-items-center gap-2">
                             <button class="btn btn-primary px-4" type="submit" id="submit-btn">
                                 <i class="feather-save me-1"></i> Save Project
                             </button>
-                            <a href="{{ route('project.index') }}" class="btn btn-light ms-2">Cancel</a>
+                            <a href="{{ route('project.index') }}" class="btn btn-secondary px-4">Back to List</a>
                         </div>
 
                     </form>

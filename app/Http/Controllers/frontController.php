@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\YoutubeVideo;
+use App\Services\NotificationService;
 use Illuminate\Support\Facades\DB;
 
 class frontController extends Controller
@@ -28,6 +29,9 @@ class frontController extends Controller
         ]);
 
         DB::table('subscribe')->insert($subscribe);
+
+        NotificationService::newSubscriber($request->email);
+
         return redirect()->back()->with('success','Thanks for Subscribed us!!!!');
     }
 
@@ -130,7 +134,7 @@ class frontController extends Controller
             $focus_areas = collect([
                 (object)[
                     'title' => 'Women Empowerment',
-                    'description' => 'AFAD mainly focuses on women empowerment, eradicating the gender Based Violence in community level, sub-distrit, district and national level.  AFAD undertakes initiatives that empower the destitute and neglected portion of women who are deprived from rights and to ensure equal rights and opportunities for them. AFAD  works on acclerating the women dignity and eqaul opportunity. AFAD sensitizes the government and non-government institutions for strengthening the socio-economic status of women, and ensuring the full enforcement of such arrangement though training and advocacy. It also sensitizes and influences the different level of stakeholders (policy makers, local government representatives, media, communities and religious leaders) on GVB. AFAD provides the income generation training to the women for the socio-economic empowerment.',
+                    'description' => 'CDDF mainly focuses on women empowerment, eradicating the gender Based Violence in community level, sub-distrit, district and national level.  CDDF undertakes initiatives that empower the destitute and neglected portion of women who are deprived from rights and to ensure equal rights and opportunities for them. CDDF  works on acclerating the women dignity and eqaul opportunity. CDDF sensitizes the government and non-government institutions for strengthening the socio-economic status of women, and ensuring the full enforcement of such arrangement though training and advocacy. It also sensitizes and influences the different level of stakeholders (policy makers, local government representatives, media, communities and religious leaders) on GVB. CDDF provides the income generation training to the women for the socio-economic empowerment.',
                     'icon_class' => null,
                     'icon_path' => null,
                     'image_path' => null,
@@ -138,7 +142,7 @@ class frontController extends Controller
                 ],
                 (object)[
                     'title' => 'Community Empowerment',
-                    'description' => 'AFAD believes Community empowerment is only possible when everyone’s voices are heard. Women’s voices, particularly those living in poverty, are often unheard. Women often have the least power in communities, usually not knowing their rights or how to realize them, meaning the potential of half the population is not realized. As a result, AFAD Providing people, especially women living in poverty, with the tools to claim entitlements, develop leadership and take collective action through community-level organizations. In parallel, equipping local governments to be more accountable and responsive, creating violence-free enabling environments for women through realizing their potential, and increasing access to information and services. AFAD works on strengthening women-led community based organizations to uphold voices and realize their rights. Awareness for prevention and action to address violence, particularly against women and children. At the same time, though increasing access to the the information, AFAD creating sustainable impact as institutions become more accountable and pro-poor through ensuring access of the community to information.',
+                    'description' => 'CDDF believes Community empowerment is only possible when everyone’s voices are heard. Women’s voices, particularly those living in poverty, are often unheard. Women often have the least power in communities, usually not knowing their rights or how to realize them, meaning the potential of half the population is not realized. As a result, CDDF Providing people, especially women living in poverty, with the tools to claim entitlements, develop leadership and take collective action through community-level organizations. In parallel, equipping local governments to be more accountable and responsive, creating violence-free enabling environments for women through realizing their potential, and increasing access to information and services. CDDF works on strengthening women-led community based organizations to uphold voices and realize their rights. Awareness for prevention and action to address violence, particularly against women and children. At the same time, though increasing access to the the information, CDDF creating sustainable impact as institutions become more accountable and pro-poor through ensuring access of the community to information.',
                     'icon_class' => null,
                     'icon_path' => null,
                     'image_path' => null,
@@ -146,7 +150,7 @@ class frontController extends Controller
                 ],
                 (object)[
                     'title' => 'Livelihood',
-                    'description' => 'AFAD is playing influential role in the development sectors for bringing a sustainable livelihoods and social changes of the women.  AFAD try to  Improve the livelihoods, income and food security of extremely poor women, children and men living on the norther Baangladesh particularly the  island char. AFAD  provide technical skills training, grants or interest-free loans to procure a viable market asset or start a business. Promoting agricultural farming, disaster preparedness, livelihood security, access to finance and micro-enterprise as means of income. AFAD works  for the market linkage.',
+                    'description' => 'CDDF is playing influential role in the development sectors for bringing a sustainable livelihoods and social changes of the women.  CDDF try to  Improve the livelihoods, income and food security of extremely poor women, children and men living on the norther Baangladesh particularly the  island char. CDDF  provide technical skills training, grants or interest-free loans to procure a viable market asset or start a business. Promoting agricultural farming, disaster preparedness, livelihood security, access to finance and micro-enterprise as means of income. CDDF works  for the market linkage.',
                     'icon_class' => null,
                     'icon_path' => null,
                     'image_path' => null,
@@ -199,7 +203,7 @@ class frontController extends Controller
     //__Latest News All__//
     public function news_all(){
         $category = request('category'); // 'news', 'event', or null for all
-        $query = DB::table('latest_news')->orderBy('id', 'desc');
+        $query = DB::table('latest_news')->where('status', 1)->orderBy('id', 'desc');
         if ($category && in_array($category, ['news', 'event'])) {
             $query->where('category', $category);
         }
@@ -294,7 +298,7 @@ class frontController extends Controller
             $photo->move(public_path('images/volunteers'), $photoName);
         }
 
-        \App\Models\VolunteerApplication::create([
+        $volunteer = \App\Models\VolunteerApplication::create([
             'name'    => $request->name,
             'email'   => $request->email,
             'phone'   => $request->phone,
@@ -304,6 +308,8 @@ class frontController extends Controller
             'message' => $request->message,
             'status'  => 'pending',
         ]);
+
+        NotificationService::newVolunteer($request->name, $volunteer->id);
 
         return redirect()->back()->with('apply_success', 'Your application has been submitted! We will get back to you soon.');
     }
@@ -324,7 +330,7 @@ class frontController extends Controller
             'payment_method_id' => 'required|exists:payment_methods,id',
         ]);
 
-        \App\Models\Donation::create([
+        $donation = \App\Models\Donation::create([
             'donor_name' => $request->donor_name,
             'donor_phone' => $request->donor_phone,
             'transaction_id' => $request->transaction_id,
@@ -332,6 +338,8 @@ class frontController extends Controller
             'payment_method_id' => $request->payment_method_id,
             'status' => 'pending',
         ]);
+
+        NotificationService::newDonation($request->donor_name, $request->amount, $donation->id);
 
         return redirect()->back()->with('success', 'Thank you for your donation! We will verify it soon.');
     }
@@ -369,10 +377,14 @@ class frontController extends Controller
             'contact_number' => $request->contact_number,
             'email' => $request->email,
             'subject' => $request->subject,
-            'message' => $request->message
+            'message' => $request->message,
+            'created_at' => now(),
         ]);
 
         DB::table('messages')->insert($message);
+
+        NotificationService::newMessage($request->name);
+
         return redirect()->back()->with('success','Successfully Submitted Your Message.');
     }
 
@@ -380,6 +392,7 @@ class frontController extends Controller
     public function all_photos(){
         // Each source: newest first (id DESC), limited pool → then shuffle within recents
         $eventCovers = DB::table('latest_news')
+            ->where('status', 1)
             ->where('category', 'event')
             ->whereNotNull('image')->where('image', '!=', '')
             ->orderBy('id', 'desc')->limit(40)
@@ -388,6 +401,7 @@ class frontController extends Controller
 
         $eventGallery = DB::table('latest_news_images')
             ->join('latest_news', 'latest_news_images.news_id', '=', 'latest_news.id')
+            ->where('latest_news.status', 1)
             ->where('latest_news.category', 'event')
             ->whereNotNull('latest_news_images.image')->where('latest_news_images.image', '!=', '')
             ->orderBy('latest_news_images.id', 'desc')->limit(40)
@@ -395,6 +409,7 @@ class frontController extends Controller
             ->get();
 
         $newsCovers = DB::table('latest_news')
+            ->where('status', 1)
             ->where('category', 'news')
             ->whereNotNull('image')->where('image', '!=', '')
             ->orderBy('id', 'desc')->limit(40)
@@ -403,6 +418,7 @@ class frontController extends Controller
 
         $newsGallery = DB::table('latest_news_images')
             ->join('latest_news', 'latest_news_images.news_id', '=', 'latest_news.id')
+            ->where('latest_news.status', 1)
             ->where('latest_news.category', 'news')
             ->whereNotNull('latest_news_images.image')->where('latest_news_images.image', '!=', '')
             ->orderBy('latest_news_images.id', 'desc')->limit(40)

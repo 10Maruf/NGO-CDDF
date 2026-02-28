@@ -25,7 +25,7 @@
                             <label for="title" class="form-label">Video Title <span class="text-danger">*</span></label>
                             <input type="text" name="title" id="title"
                                    class="form-control @error('title') is-invalid @enderror"
-                                   placeholder="e.g. AFAD Annual Report 2025"
+                                   placeholder="e.g. CDDF Annual Report 2025"
                                    value="{{ old('title') }}">
                             @error('title')
                                 <div class="text-danger small">{{ $message }}</div>
@@ -51,11 +51,11 @@
                             <small class="text-muted">Lower number = shown first.</small>
                         </div>
 
-                        <div class="col-12 d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">
+                        <div class="col-12 d-flex align-items-center gap-2">
+                            <button type="submit" class="btn btn-primary px-4">
                                 <i class="feather-save me-1"></i> Save Video
                             </button>
-                            <a href="{{ route('admin.youtube_videos.index') }}" class="btn btn-secondary">Cancel</a>
+                            <a href="{{ route('admin.youtube_videos.index') }}" class="btn btn-secondary px-4">Back to List</a>
                         </div>
                     </form>
                 </div>

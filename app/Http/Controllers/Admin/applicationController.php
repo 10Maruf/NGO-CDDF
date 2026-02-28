@@ -75,15 +75,40 @@ class applicationController extends Controller
 
         }
 
+        // Process all banner/background image uploads
+        $bannerFields = [
+            'career_hero_banner', 'about_us_banner', 'contact_banner', 'donate_banner',
+            'faq_banner', 'mission_vision_banner', 'key_focus_banner', 'governance_banner',
+            'management_banner', 'organogram_banner', 'news_banner', 'projects_banner',
+            'volunteer_banner', 'gallery_banner', 'origin_banner', 'policy_banner',
+            'strategic_plan_banner', 'publication_banner', 'youtube_banner',
+            'mission_vision_bg', 'impact_bg',
+        ];
+
+        $bannerData = [];
+        foreach ($bannerFields as $field) {
+            if ($file = $request->file($field)) {
+                $request->validate([$field => ['mimes:jpeg,png,jpg,webp', 'max:2048']]);
+                if (!empty($application) && !empty($application->$field) && file_exists(public_path('images/application/' . $application->$field))) {
+                    @unlink(public_path('images/application/' . $application->$field));
+                }
+                $fileName = rand(100000, 999999) . $field . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images/application/'), $fileName);
+                $bannerData[$field] = $fileName;
+            } else {
+                $bannerData[$field] = (!empty($application) && isset($application->$field)) ? $application->$field : '';
+            }
+        }
+
         $matchThese = ['id' => 1];
-        DB::table('applications')->updateOrInsert($matchThese,[
+        DB::table('applications')->updateOrInsert($matchThese, array_merge([
             'main_logo' => $main_logo_path_name,
             'fav_icon' => $fev_icon_path_name,
             'facebook' => $request->fb,
             'twitter' => $request->twitter,
             'instagram' => $request->insta,
             'youtube' => $request->youtube,
-        ]);
+        ], $bannerData));
 
         return redirect()->back()->with('success','Successfully Inserted Data');
     }

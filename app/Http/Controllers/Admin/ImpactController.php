@@ -91,5 +91,16 @@ class ImpactController extends Controller
 
         return redirect()->back()->with('update', 'Impact metric successfully updated!');
     }
+
+    // Bulk Delete
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (empty($ids)) {
+            return response()->json(['error' => 'No items selected'], 400);
+        }
+        Impact::whereIn('id', $ids)->delete();
+        return response()->json(['success' => true]);
+    }
 }
 

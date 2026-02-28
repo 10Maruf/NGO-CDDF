@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 
-@section('title_l1', 'Add Invoked Item')
+@section('title_l1', 'Add Career')
 @section('bread_crumb')
-    <li class="breadcrumb-item"><a href="{{ route('invoked.index') }}">Invoked</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('invoked.index') }}">Careers</a></li>
     <li class="breadcrumb-item active">Add New</li>
 @endsection
 
 @section('content')
 <div class="row">
     <div class="col-xl-9 mx-auto">
-        <h6 class="mb-0 text-uppercase">Add Invoked </h6>
+        <h6 class="mb-0 text-uppercase">Add Career</h6>
         <hr/>
         <div class="card">
             <div class="card-body">
@@ -35,8 +35,9 @@
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="col-12">
-                            <button class="btn btn-primary" type="submit">Submit</button>
+                        <div class="col-12 d-flex align-items-center gap-2">
+                            <button class="btn btn-primary px-4" type="submit">Submit</button>
+                            <a href="{{ route('invoked.index') }}" class="btn btn-secondary px-4">Back to List</a>
                         </div>
                     </form>
                 </div>

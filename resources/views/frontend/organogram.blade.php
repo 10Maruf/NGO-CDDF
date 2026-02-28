@@ -5,7 +5,7 @@
 @section('content')
 
 {{-- ===== Hero / Page Banner ===== --}}
-<div class="hero-wrap" style="background-image: url('{{ asset('static_image/about_us_bg.jpg') }}'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 340px; position: relative; display: flex; align-items: center;">
+<div class="hero-wrap" style="background-image: url('{{ (isset($application->organogram_banner) && $application->organogram_banner) ? asset('images/application/'.$application->organogram_banner) : asset('static_image/about_us_bg.jpg') }}'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 340px; position: relative; display: flex; align-items: center;">
     <div class="overlay" style="position: absolute; inset: 0; background: rgba(0,0,0,0.60);"></div>
     <div class="container" style="position: relative; z-index: 1;">
         <div class="row justify-content-center">
@@ -13,7 +13,7 @@
                 <p class="mb-2" style="font-size: 0.9rem;">
                     <a href="{{ url('/') }}" style="color: #ffaa6e; text-decoration: none;">Home</a>
                     <span class="mx-2" style="color: #ccc;">/</span>
-                    <a href="{{ route('governance.level') }}" style="color: #ffaa6e; text-decoration: none;">Our People</a>
+                    <a href="{{ route('governance.level') }}" style="color: #ffaa6e; text-decoration: none;">Our Team</a>
                     <span class="mx-2" style="color: #ccc;">/</span>
                     <span style="color: #fff;">Organizational Organogram</span>
                 </p>
@@ -33,7 +33,7 @@
         <div class="text-center mb-2">
             <h2 class="org-main-title">Organizational Chart</h2>
             <p class="text-muted" style="font-size: 0.92rem;">Board, Executive Committee &amp; Management Structure</p>
-            <a href="{{ asset('frontend/file/AFAD_Organogram.pdf') }}" target="_blank"
+            <a href="{{ asset('frontend/file/CDDF_Organogram.pdf') }}" target="_blank"
                class="btn btn-sm px-4 py-2 mt-1"
                style="background: #f86f2d; color: #fff; border-radius: 50px; font-size: 0.85rem; font-weight: 600; box-shadow: 0 3px 10px rgba(248,111,45,0.35);">
                 <i class="fa-solid fa-cloud-arrow-down me-1"></i> Download PDF
