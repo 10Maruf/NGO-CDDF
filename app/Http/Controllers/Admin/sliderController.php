@@ -41,7 +41,7 @@ class sliderController extends Controller
 
     // index
     public function index(){
-        $slider = DB::table('slider')->orderBy('order', 'asc')->get();
+        $slider = DB::table('slider')->orderBy('id', 'desc')->get();
         return view('admin.slider.index',compact('slider'));
     }
 

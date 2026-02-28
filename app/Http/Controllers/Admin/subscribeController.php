@@ -10,7 +10,7 @@ class subscribeController extends Controller
 {
     // index
     public function index(){
-        $subscribe = DB::table('subscribe')->get();
+        $subscribe = DB::table('subscribe')->orderBy('id', 'desc')->get();
         return view('admin.subscribe.all',compact('subscribe'));
     }
 

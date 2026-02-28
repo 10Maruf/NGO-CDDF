@@ -59,7 +59,7 @@ class newsController extends Controller
     // index
     public function index()
     {
-        $news = DB::table('latest_news')->get();
+        $news = DB::table('latest_news')->orderBy('id', 'desc')->get();
         return view('admin.latest_news.index', compact('news'));
     }
 

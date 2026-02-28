@@ -37,8 +37,7 @@ class projectController extends Controller
              $query->whereDate('end_date', '<=', $request->end_date);
         }
 
-        $projects = $query->orderBy('order')
-            ->orderByDesc('created_at')
+        $projects = $query->orderByDesc('id')
             ->get();
 
         $all_focus_areas = FocusArea::all(); // Pass focus areas to the view for the filter dropdown
