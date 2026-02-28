@@ -9,17 +9,14 @@
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
-        <h6 class="mb-0 text-uppercase">All Payment Methods</h6>
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h6 class="mb-0 text-uppercase">All Payment Methods</h6>
+            <a href="{{ route('admin.payment_methods.add') }}" class="btn btn-primary btn-sm">
+                <i class="feather-plus me-1"></i> Add New Method
+            </a>
+        </div>
         <hr/>
         <div class="card">
-            <div class="card-header bg-white">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h6 class="mb-0">Payment Methods List</h6>
-                    <a href="{{ route('admin.payment_methods.add') }}" class="btn btn-primary btn-sm">
-                        <i class="feather-plus"></i> Add New Method
-                    </a>
-                </div>
-            </div>
             <div class="card-body">
                 @if (session()->has('success'))
                     <div class="alert alert-success alert-dismissible fade show">
@@ -71,19 +68,19 @@
                                     <span class="badge bg-dark">{{ $item->display_order }}</span>
                                 </td>
                                 <td class="text-center">
-                                    <div class="btn-group" role="group">
+                                    <div class="table-actions justify-content-center">
                                         <a href="{{ route('admin.payment_methods.toggle', $item->id) }}" 
-                                           class="btn btn-sm {{ $item->is_active ? 'btn-warning' : 'btn-success' }}" 
+                                           class="btn {{ $item->is_active ? 'btn-warning' : 'btn-success' }}" 
                                            title="{{ $item->is_active ? 'Deactivate' : 'Activate' }}">
-                                            <i class="bx {{ $item->is_active ? 'bx-hide' : 'bx-show' }}"></i>
+                                            <i class="feather-{{ $item->is_active ? 'eye-off' : 'eye' }}"></i>
                                         </a>
                                         <a href="{{ route('admin.payment_methods.edit', $item->id) }}" 
-                                           class="btn btn-sm btn-primary" 
+                                           class="btn btn-primary" 
                                            title="Edit">
                                             <i class="feather-edit"></i>
                                         </a>
                                         <a href="{{ route('admin.payment_methods.delete', $item->id) }}" 
-                                           class="btn btn-sm btn-danger" 
+                                           class="btn btn-danger" 
                                            data-delete 
                                            data-delete-title="Delete Payment Method" 
                                            data-delete-message="Are you sure you want to delete this payment method? This action cannot be undone."
