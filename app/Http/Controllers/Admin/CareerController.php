@@ -125,4 +125,25 @@ class CareerController extends Controller
         DB::table('careers')->where('id', $id)->delete();
         return redirect()->back()->with('success', 'Career deleted successfully');
     }
+
+    // Bulk Delete
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (!empty($ids)) {
+            $items = DB::table('careers')->whereIn('id', $ids)->get();
+            foreach ($items as $item) {
+                if (!empty($item->thumbnail)) {
+                    $old = public_path('images/careers/thumbnails/' . $item->thumbnail);
+                    if (file_exists($old)) @unlink($old);
+                }
+                if (!empty($item->pdf_file)) {
+                    $old = public_path('images/careers/pdfs/' . $item->pdf_file);
+                    if (file_exists($old)) @unlink($old);
+                }
+            }
+            DB::table('careers')->whereIn('id', $ids)->delete();
+        }
+        return response()->json(['success' => true]);
+    }
 }

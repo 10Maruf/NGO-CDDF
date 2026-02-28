@@ -127,7 +127,7 @@ class NotificationService
             'career',
             'New Career Posted',
             "New job posting for \"{$title}\" has been added",
-            route('admin.careers.index')
+            route('careers.index')
         );
     }
 
@@ -138,7 +138,7 @@ class NotificationService
             'publication',
             'New Publication',
             "Publication \"{$title}\" has been added",
-            route('admin.publications.index')
+            route('publications.index')
         );
     }
 
@@ -149,7 +149,7 @@ class NotificationService
             'contact',
             'New Contact Submission',
             "{$name} submitted the contact form",
-            route('admin.contacts.index')
+            route('contact.index')
         );
     }
 

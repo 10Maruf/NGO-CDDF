@@ -149,4 +149,54 @@ class OrgMemberController extends Controller
         DB::table('org_members')->where('id', $id)->delete();
         return redirect()->back()->with('success', 'Member deleted successfully!');
     }
+
+    // Toggle Status
+    public function toggleStatus($id)
+    {
+        $item = DB::table('org_members')->where('id', $id)->first();
+        if (!$item) abort(404);
+
+        DB::table('org_members')->where('id', $id)->update([
+            'is_active' => !$item->is_active,
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Status updated successfully!');
+    }
+
+    // Bulk Delete
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (empty($ids)) {
+            return response()->json(['error' => 'No items selected'], 400);
+        }
+
+        $items = DB::table('org_members')->whereIn('id', $ids)->get();
+        foreach ($items as $item) {
+            if ($item->photo) {
+                $oldPath = public_path($this->photoFolder . '/' . $item->photo);
+                if (file_exists($oldPath)) @unlink($oldPath);
+            }
+        }
+
+        DB::table('org_members')->whereIn('id', $ids)->delete();
+        return response()->json(['success' => true]);
+    }
+
+    // Bulk Status Update
+    public function bulkStatus(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        $status = $request->input('status');
+        if (empty($ids)) {
+            return response()->json(['error' => 'No items selected'], 400);
+        }
+
+        DB::table('org_members')->whereIn('id', $ids)->update([
+            'is_active' => (int) $status,
+            'updated_at' => now(),
+        ]);
+        return response()->json(['success' => true]);
+    }
 }

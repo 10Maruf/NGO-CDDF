@@ -152,4 +152,33 @@ class PaymentMethodController extends Controller
         
         return redirect()->back()->with('success', 'Status updated successfully!');
     }
+
+    // Bulk Delete
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (empty($ids)) {
+            return response()->json(['error' => 'No items selected'], 400);
+        }
+        $methods = PaymentMethod::whereIn('id', $ids)->get();
+        foreach ($methods as $method) {
+            if ($method->icon_image) {
+                Storage::disk('public')->delete($method->icon_image);
+            }
+        }
+        PaymentMethod::whereIn('id', $ids)->delete();
+        return response()->json(['success' => true]);
+    }
+
+    // Bulk Status Update
+    public function bulkStatus(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        $status = $request->input('status');
+        if (empty($ids)) {
+            return response()->json(['error' => 'No items selected'], 400);
+        }
+        PaymentMethod::whereIn('id', $ids)->update(['is_active' => $status]);
+        return response()->json(['success' => true]);
+    }
 }

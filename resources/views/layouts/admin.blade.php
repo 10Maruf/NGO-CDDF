@@ -790,9 +790,9 @@
 							<span class="nxl-mtext">{{ __('admin.youtube_videos') }}</span>
 						</a>
 					</li>
-					<li class="nxl-item {{ request()->routeIs('invoked.*') ? 'active' : '' }}">
-						<a href="{{ route('invoked.index') }}" class="nxl-link">
-							<span class="nxl-micon"><i class="feather-flag"></i></span>
+					<li class="nxl-item {{ request()->routeIs('careers.*') ? 'active' : '' }}">
+						<a href="{{ route('careers.index') }}" class="nxl-link">
+							<span class="nxl-micon"><i class="feather-briefcase"></i></span>
 							<span class="nxl-mtext">{{ __('admin.career') }}</span>
 						</a>
 					</li>
@@ -1811,9 +1811,46 @@
 		});
 
 		// Delete Confirmation Modal Handler
+		// Expose a global helper for bulk actions to use
+		window.deleteConfirmModal = {
+			show: function(title, message, callback) {
+				const modalEl = document.getElementById('deleteConfirmModal');
+				if (!modalEl) return;
+				
+				// Use BS5 instance method if possible
+				let modal = bootstrap.Modal.getInstance(modalEl);
+				if (!modal) {
+					modal = new bootstrap.Modal(modalEl);
+				}
+				
+				const label = document.getElementById('deleteConfirmModalLabel');
+				const msg = document.getElementById('deleteConfirmMessage');
+				const btn = document.getElementById('confirmDeleteBtn');
+				
+				if(label) label.textContent = title;
+				if(msg) msg.textContent = message;
+				
+				// Clone button to remove previous listeners
+				const newBtn = btn.cloneNode(true);
+				btn.parentNode.replaceChild(newBtn, btn);
+				
+				// Make sure it doesn't navigate if it was an anchor
+				newBtn.removeAttribute('href');
+				
+				newBtn.addEventListener('click', function(e) {
+					e.preventDefault();
+					if (callback) callback();
+					modal.hide();
+				});
+				
+				modal.show();
+			}
+		};
+
 		document.addEventListener('DOMContentLoaded', function() {
-			const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
-			const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+			const modalEl = document.getElementById('deleteConfirmModal');
+			if (!modalEl) return;
+			
 			const deleteModalLabel = document.getElementById('deleteConfirmModalLabel');
 			const deleteModalMessage = document.getElementById('deleteConfirmMessage');
 			
@@ -1828,13 +1865,23 @@
 					const customMessage = deleteLink.getAttribute('data-delete-message') || 'Are you sure you want to delete this item? This action cannot be undone.';
 					const deleteUrl = deleteLink.getAttribute('href');
 					
+					const btn = document.getElementById('confirmDeleteBtn');
+					
 					// Update modal content
-					deleteModalLabel.textContent = customTitle;
-					deleteModalMessage.textContent = customMessage;
-					confirmDeleteBtn.setAttribute('href', deleteUrl);
+					if(deleteModalLabel) deleteModalLabel.textContent = customTitle;
+					if(deleteModalMessage) deleteModalMessage.textContent = customMessage;
+					
+					// Reset button for standard link navigation
+                    const newBtn = btn.cloneNode(true);
+                    btn.parentNode.replaceChild(newBtn, btn);
+                    newBtn.setAttribute('href', deleteUrl);
 					
 					// Show modal
-					deleteModal.show();
+					let modal = bootstrap.Modal.getInstance(modalEl);
+					if (!modal) {
+						modal = new bootstrap.Modal(modalEl);
+					}
+					modal.show();
 				}
 			});
 		});

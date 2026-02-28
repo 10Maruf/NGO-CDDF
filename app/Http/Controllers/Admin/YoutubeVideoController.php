@@ -67,4 +67,14 @@ class YoutubeVideoController extends Controller
         return redirect()->route('admin.youtube_videos.index')
                          ->with('success', 'Video deleted successfully.');
     }
+
+    // Bulk Delete
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (!empty($ids)) {
+            YoutubeVideo::whereIn('id', $ids)->delete();
+        }
+        return response()->json(['success' => true]);
+    }
 }

@@ -127,4 +127,25 @@ class StrategicPlanController extends Controller
         DB::table('strategic_plans')->where('id', $id)->delete();
         return redirect()->back()->with('success', 'Strategic Plan deleted successfully');
     }
+
+    // Bulk Delete
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (!empty($ids)) {
+            $items = DB::table('strategic_plans')->whereIn('id', $ids)->get();
+            foreach ($items as $item) {
+                if (!empty($item->thumbnail)) {
+                    $old = public_path('images/strategic_plans/thumbnails/' . $item->thumbnail);
+                    if (file_exists($old)) @unlink($old);
+                }
+                if (!empty($item->pdf_file)) {
+                    $old = public_path('images/strategic_plans/pdfs/' . $item->pdf_file);
+                    if (file_exists($old)) @unlink($old);
+                }
+            }
+            DB::table('strategic_plans')->whereIn('id', $ids)->delete();
+        }
+        return response()->json(['success' => true]);
+    }
 }

@@ -74,4 +74,15 @@ class FaqController extends Controller
         DB::table('faq')->where('id', $id)->update($data);
         return redirect()->back()->with('update', 'Successfully Updated');
     }
+
+    // Bulk Delete
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (empty($ids)) {
+            return response()->json(['error' => 'No items selected'], 400);
+        }
+        DB::table('faq')->whereIn('id', $ids)->delete();
+        return response()->json(['success' => true]);
+    }
 }

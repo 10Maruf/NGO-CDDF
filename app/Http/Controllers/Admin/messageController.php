@@ -28,4 +28,14 @@ class messageController extends Controller
         }
         return view('admin.message.view',compact('message'));
     }
+
+    // Bulk Delete
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (!empty($ids)) {
+            DB::table('messages')->whereIn('id', $ids)->delete();
+        }
+        return response()->json(['success' => true]);
+    }
 }

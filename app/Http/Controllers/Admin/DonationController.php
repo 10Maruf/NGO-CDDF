@@ -73,4 +73,27 @@ class DonationController extends Controller
         
         return redirect()->back()->with('success', 'Donation deleted successfully!');
     }
+
+    // Bulk Delete
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (empty($ids)) {
+            return response()->json(['error' => 'No items selected'], 400);
+        }
+        Donation::whereIn('id', $ids)->delete();
+        return response()->json(['success' => true]);
+    }
+
+    // Bulk Status Update (verify / reject)
+    public function bulkStatus(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        $status = $request->input('status'); // 'verified' or 'rejected'
+        if (empty($ids) || !in_array($status, ['verified', 'rejected', 'pending'])) {
+            return response()->json(['error' => 'Invalid request'], 400);
+        }
+        Donation::whereIn('id', $ids)->update(['status' => $status]);
+        return response()->json(['success' => true]);
+    }
 }
