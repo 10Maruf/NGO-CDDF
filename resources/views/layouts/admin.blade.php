@@ -121,12 +121,17 @@
 			border-color: #2f3349;
 		}
 		
-		html.app-skin-dark .text-dark {
+		html.app-skin-dark .bg-white {
+			background-color: #2f3349 !important;
 			color: #b8c2cc !important;
+		}
+
+		html.app-skin-dark .text-dark {
+			color: #e4e6eb !important;
 		}
 		
 		html.app-skin-dark .text-muted {
-			color: #6c757d !important;
+			color: #a0a6ac !important;
 		}
 		
 		/* Additional Duralux Navigation and Header Dark Mode */
@@ -191,7 +196,14 @@
 			transition: background-color 0.15s;
 		}
 		.notifications-item:hover {
-			background-color: #f0f4ff !important;
+			background-color: #f0f4ff;
+		}
+		
+		html.app-skin-dark .notifications-item {
+			border-color: #495057 !important;
+		}
+		html.app-skin-dark .notifications-item:hover {
+			background-color: #3b4059 !important;
 		}
 
 		/* Soft Background Color Helpers */
@@ -203,6 +215,15 @@
 		.bg-soft-secondary { background-color: rgba(108,117,125,0.12)!important; }
 		.bg-soft-dark      { background-color: rgba(33,37,41,0.12)   !important; }
 		
+		/* Soft Background Color Helpers Dark Mode Adjustments */
+		html.app-skin-dark .bg-soft-primary   { background-color: rgba(13,110,253,0.2) !important; color: #6ea8fe !important; }
+		html.app-skin-dark .bg-soft-success   { background-color: rgba(25,135,84,0.2)  !important; color: #75b798 !important; }
+		html.app-skin-dark .bg-soft-danger    { background-color: rgba(220,53,69,0.2)  !important; color: #ea868f !important; }
+		html.app-skin-dark .bg-soft-warning   { background-color: rgba(255,193,7,0.2)  !important; color: #ffda6a !important; }
+		html.app-skin-dark .bg-soft-info      { background-color: rgba(13,202,240,0.2) !important; color: #6edff6 !important; }
+		html.app-skin-dark .bg-soft-secondary { background-color: rgba(108,117,125,0.2)!important; color: #a7acb1 !important; }
+		html.app-skin-dark .bg-soft-dark      { background-color: rgba(228,230,235,0.2)!important; color: #e4e6eb !important; }
+
 		.notifications-desc {
 			flex: 1;
 			margin-left: 12px;
@@ -216,6 +237,23 @@
 		/* Search Dropdown */
 		.nxl-search-dropdown {
 			min-width: 350px;
+		}
+		
+		html.app-skin-dark .notif-item-row .border-bottom {
+			border-color: #495057 !important;
+		}
+		
+		html.app-skin-dark .notifications-item {
+			border-color: #495057 !important;
+		}
+
+		/* Fix for text-truncate color conflict in dark mode */
+		html.app-skin-dark .text-truncate.text-muted {
+			color: #a0a6ac !important;
+		}
+		
+		html.app-skin-dark .text-truncate:not(.text-muted) {
+			color: #e4e6eb !important;
 		}
 
 		/* Active Menu Item Styling - Light Mode (Default) */
@@ -890,6 +928,26 @@
 						.notif-item-row a:hover { background-color: #f2f4f6 !important; }
 						.notif-item-row.is-unread a { background-color: #eaf3ff; }
 						.notif-item-row.is-unread a:hover { background-color: #ddeeff !important; }
+						
+						/* Dark Mode Overrides for Unread Notifications */
+						html.app-skin-dark .notif-item-row.is-unread a { 
+							background-color: rgba(13, 110, 253, 0.15) !important; 
+						}
+						html.app-skin-dark .notif-item-row.is-unread a:hover { 
+							background-color: rgba(13, 110, 253, 0.25) !important; 
+						}
+
+						/* Dark Mode Override for READ Notifications hover */
+						html.app-skin-dark .notif-item-row:not(.is-unread) a:hover {
+							background-color: #3b4059 !important;
+						}
+
+						/* Filter Buttons Dark Mode */
+						html.app-skin-dark .notif-filter-btn:not(.active) {
+							background-color: #3b4059 !important;
+							color: #b8c2cc !important;
+						}
+
 						.notif-filter-btn { transition: all 0.15s; border: none; cursor: pointer; }
 						.notif-filter-btn.active { background-color: #1a73e8 !important; color: #fff !important; }
 						.notif-filter-btn:not(.active) { background-color: #f0f2f5 !important; color: #444 !important; }
@@ -967,9 +1025,7 @@
 
 								{{-- See Previous Button --}}
 								@if($headerNotifications->count() > 7)
-									<a href="javascript:void(0);" id="notifSeeMore" class="d-block text-center py-3 fw-semibold fs-13 text-primary border-top text-decoration-none" style="background:#fafafa;">
-										See previous notifications
-									</a>
+									<a href="javascript:void(0);" id="notifSeeMore" class="d-block text-center py-3 fw-semibold fs-13 text-primary border-top text-decoration-none bg-light-subtle">
 								@endif
 							</div>
 
