@@ -1089,15 +1089,15 @@ CDDF - Home
 {{-- Latest News and Events --}}
 <style>
     /* News & Events Section */
-    .afad-news-section {
+    .cddf-news-section {
         padding: 80px 0;
         background: #f8f9fa;
     }
-    .afad-section-heading {
+    .cddf-section-heading {
         text-align: center;
         margin-bottom: 50px;
     }
-    .afad-section-heading .subheading {
+    .cddf-section-heading .subheading {
         font-size: 13px;
         font-weight: 700;
         letter-spacing: 3px;
@@ -1106,7 +1106,7 @@ CDDF - Home
         margin-bottom: 10px;
         display: block;
     }
-    .afad-section-heading h2 {
+    .cddf-section-heading h2 {
         font-size: 32px;
         font-weight: 700;
         color: #1a1a2e;
@@ -1114,7 +1114,7 @@ CDDF - Home
         padding-bottom: 15px;
         margin-bottom: 16px;
     }
-    .afad-section-heading h2::after {
+    .cddf-section-heading h2::after {
         content: '';
         position: absolute;
         bottom: 0;
@@ -1125,13 +1125,13 @@ CDDF - Home
         background: #f86f2d;
         border-radius: 2px;
     }
-    .afad-section-heading p {
+    .cddf-section-heading p {
         color: #6c757d;
         max-width: 580px;
         margin: 0 auto;
         font-size: 15px;
     }
-    .afad-blog-entry {
+    .cddf-blog-entry {
         border: 1px solid #f0f0f0;
         background: #fff;
         overflow: hidden;
@@ -1142,11 +1142,11 @@ CDDF - Home
         display: flex;
         flex-direction: column;
     }
-    .afad-blog-entry:hover {
+    .cddf-blog-entry:hover {
         transform: translateY(-6px);
         box-shadow: 0px 12px 40px -10px rgba(0,0,0,0.22);
     }
-    .afad-block-img {
+    .cddf-block-img {
         overflow: hidden;
         background-size: cover;
         background-repeat: no-repeat;
@@ -1156,7 +1156,7 @@ CDDF - Home
         height: 230px;
         position: relative;
     }
-    .afad-block-img .afad-cat-badge {
+    .cddf-block-img .cddf-cat-badge {
         position: absolute;
         top: 14px;
         left: 14px;
@@ -1168,7 +1168,7 @@ CDDF - Home
         border-radius: 3px;
         z-index: 1;
     }
-    .afad-blog-text {
+    .cddf-blog-text {
         padding: 24px 22px 20px;
         flex: 1;
         display: flex;
@@ -1183,44 +1183,44 @@ CDDF - Home
         margin-left: auto;
         margin-right: auto;
     }
-    .afad-blog-meta {
+    .cddf-blog-meta {
         display: flex;
         align-items: center;
         gap: 14px;
         margin-bottom: 10px;
         flex-wrap: wrap;
     }
-    .afad-blog-meta span {
+    .cddf-blog-meta span {
         font-size: 13px;
         color: #96a1af;
     }
-    .afad-blog-meta span i {
+    .cddf-blog-meta span i {
         color: #f86f2d;
         margin-right: 4px;
     }
-    .afad-blog-text .heading {
+    .cddf-blog-text .heading {
         font-size: 17px;
         font-weight: 600;
         margin-bottom: 10px;
         line-height: 1.45;
         flex-shrink: 0;
     }
-    .afad-blog-text .heading a {
+    .cddf-blog-text .heading a {
         color: #1a1a2e;
         text-decoration: none;
         transition: color 0.2s;
     }
-    .afad-blog-text .heading a:hover {
+    .cddf-blog-text .heading a:hover {
         color: #f86f2d;
     }
-    .afad-blog-text .excerpt {
+    .cddf-blog-text .excerpt {
         font-size: 14px;
         color: #6c757d;
         line-height: 1.65;
         flex: 1;
         margin-bottom: 16px;
     }
-    .afad-read-more {
+    .cddf-read-more {
         display: inline-flex;
         align-items: center;
         gap: 6px;
@@ -1231,28 +1231,28 @@ CDDF - Home
         letter-spacing: 0.5px;
         transition: gap 0.2s;
     }
-    .afad-read-more:hover {
+    .cddf-read-more:hover {
         color: #d9541a;
         gap: 10px;
     }
-    .afad-time-loc {
+    .cddf-time-loc {
         font-size: 13px;
         color: #96a1af;
         margin-bottom: 12px;
     }
-    .afad-time-loc span {
+    .cddf-time-loc span {
         margin-right: 12px;
         white-space: nowrap;
     }
-    .afad-time-loc span i {
+    .cddf-time-loc span i {
         color: #f86f2d;
         margin-right: 4px;
     }
-    .afad-view-all-wrap {
+    .cddf-view-all-wrap {
         text-align: center;
         margin-top: 50px;
     }
-    .afad-btn-viewall {
+    .cddf-btn-viewall {
         display: inline-flex;
         align-items: center;
         gap: 8px;
@@ -1267,7 +1267,7 @@ CDDF - Home
         transition: background 0.25s, transform 0.2s;
         border: none;
     }
-    .afad-btn-viewall:hover {
+    .cddf-btn-viewall:hover {
         background: #d9541a;
         color: #fff;
         transform: translateY(-2px);
@@ -1275,9 +1275,9 @@ CDDF - Home
 </style>
 
 {{-- ── Latest News & Events ─────────────────────────────────────────────── --}}
-<section class="afad-news-section">
+<section class="cddf-news-section">
     <div class="container">
-        <div class="afad-section-heading">
+        <div class="cddf-section-heading">
             <span class="subheading">Stay Informed</span>
             <h2>Latest News <span style="color:#f86f2d;">&amp;</span> Events</h2>
             <p>Follow our work and stay up to date with the stories and events that matter most.</p>
@@ -1287,17 +1287,17 @@ CDDF - Home
             @forelse ($news->take(6) as $data)
                 @php $isEvent = ($data->category ?? 'news') === 'event'; @endphp
                 <div class="col-md-4 d-flex mb-4">
-                    <div class="afad-blog-entry w-100">
+                    <div class="cddf-blog-entry w-100">
                         <a href="{{ route('latest.news.view', $data->id) }}"
-                           class="afad-block-img"
+                           class="cddf-block-img"
                            style="background-image: url('{{ asset('images/news/'.$data->image) }}');">
-                            <span class="afad-cat-badge {{ $isEvent ? 'bg-warning text-dark' : 'bg-primary text-white' }}">
+                            <span class="cddf-cat-badge {{ $isEvent ? 'bg-warning text-dark' : 'bg-primary text-white' }}">
                                 <i class="fas {{ $isEvent ? 'fa-calendar-check' : 'fa-newspaper' }} me-1"></i>
                                 {{ $isEvent ? 'Event' : 'News' }}
                             </span>
                         </a>
-                        <div class="afad-blog-text">
-                            <div class="afad-blog-meta">
+                        <div class="cddf-blog-text">
+                            <div class="cddf-blog-meta">
                                 <span><i class="fas fa-calendar-alt"></i>{{ date("d M, Y") }}</span>
                                 <span><i class="fas fa-user"></i> CDDF</span>
                             </div>
@@ -1307,7 +1307,7 @@ CDDF - Home
                                 </a>
                             </h3>
                             @if ($isEvent)
-                                <p class="afad-time-loc">
+                                <p class="cddf-time-loc">
                                     <span><i class="fas fa-clock"></i> All Day</span>
                                     <span><i class="fas fa-map-marker-alt"></i> CDDF Venue</span>
                                 </p>
@@ -1315,7 +1315,7 @@ CDDF - Home
                             <p class="excerpt">
                                 {!! Str::limit(strip_tags($data->description), 110, '...') !!}
                             </p>
-                            <a href="{{ route('latest.news.view', $data->id) }}" class="afad-read-more">
+                            <a href="{{ route('latest.news.view', $data->id) }}" class="cddf-read-more">
                                 {{ $isEvent ? 'Join Event' : 'Read More' }}
                                 <i class="fas fa-arrow-right" style="font-size:11px;"></i>
                             </a>
@@ -1327,8 +1327,8 @@ CDDF - Home
             @endforelse
         </div>
 
-        <div class="afad-view-all-wrap">
-            <a href="{{ route('latest.news.all') }}" class="afad-btn-viewall">
+        <div class="cddf-view-all-wrap">
+            <a href="{{ route('latest.news.all') }}" class="cddf-btn-viewall">
                 <i class="fas fa-eye"></i> View All News &amp; Events
             </a>
         </div>

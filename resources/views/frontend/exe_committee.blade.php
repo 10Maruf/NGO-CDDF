@@ -23,7 +23,7 @@
           The general body comprises of 21 renowned women rights activists. The Executive Committee (EC) consists of
           07 women members. The Chief Executive is responsible to the EC and thereby the General Body.
         </p>
-        <a href="{{ asset('frontend/file/AFAD_Organogram.pdf') }}" target="_blank"
+        <a href="{{ asset('frontend/file/CDDF_Organogram.pdf') }}" target="_blank"
            class="btn btn-primary border border-dark mt-2"
            style="font-size:16px; font-weight:500; box-shadow: 4px 4px 0 rgba(0,0,0,1);">
           <i class="fa-solid fa-cloud-arrow-down me-1"></i> Download Organogram PDF

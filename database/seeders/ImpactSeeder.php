@@ -17,7 +17,7 @@ class ImpactSeeder extends Seeder
                 'title'        => 'Years of Service',
                 'metric_value' => '1998',
                 'metric_unit'  => 'since',
-                'description'  => 'AFAD-CDDF has been serving communities in northern Bangladesh since 1998.',
+                'description'  => 'CDDF has been serving communities in northern Bangladesh since 1998.',
                 'icon'         => 'fa-regular fa-calendar-check',
                 'year'         => null,
                 'order'        => 1,

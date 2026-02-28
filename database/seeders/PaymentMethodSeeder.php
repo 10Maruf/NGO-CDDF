@@ -21,7 +21,7 @@ class PaymentMethodSeeder extends Seeder
             [
                 'type' => 'bkash',
                 'icon_image' => null, // Will use existing img/bkash.png from public folder
-                'account_name' => 'AFAD Bangladesh',
+                'account_name' => 'CDDF Bangladesh',
                 'account_number' => '+8801825-003211',
                 'bank_details' => null,
                 'is_active' => true,
@@ -32,7 +32,7 @@ class PaymentMethodSeeder extends Seeder
             [
                 'type' => 'nagad',
                 'icon_image' => null, // Will use existing img/nagad.png from public folder
-                'account_name' => 'AFAD Bangladesh',
+                'account_name' => 'CDDF Bangladesh',
                 'account_number' => '+8801825-003211',
                 'bank_details' => null,
                 'is_active' => true,
@@ -43,7 +43,7 @@ class PaymentMethodSeeder extends Seeder
             [
                 'type' => 'rocket',
                 'icon_image' => null, // Will use existing img/rocket.png from public folder
-                'account_name' => 'AFAD Bangladesh',
+                'account_name' => 'CDDF Bangladesh',
                 'account_number' => '+8801825-003211',
                 'bank_details' => null,
                 'is_active' => true,
@@ -54,7 +54,7 @@ class PaymentMethodSeeder extends Seeder
             [
                 'type' => 'upay',
                 'icon_image' => null, // Will use existing img/upay.png from public folder
-                'account_name' => 'AFAD Bangladesh',
+                'account_name' => 'CDDF Bangladesh',
                 'account_number' => '+8801825-003211',
                 'bank_details' => null,
                 'is_active' => true,
@@ -65,7 +65,7 @@ class PaymentMethodSeeder extends Seeder
             [
                 'type' => 'bank',
                 'icon_image' => null,
-                'account_name' => 'AFAD Bangladesh',
+                'account_name' => 'CDDF Bangladesh',
                 'account_number' => '2050 2250 2050 XXXX',
                 'bank_details' => json_encode([
                     'bank_name' => 'Islami Bank Bangladesh Limited (IBBL)',

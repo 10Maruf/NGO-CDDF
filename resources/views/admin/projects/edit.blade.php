@@ -172,7 +172,7 @@
                             <input type="text" name="implementing_partner"
                                    value="{{ old('implementing_partner', $project->implementing_partner) }}"
                                    class="form-control @error('implementing_partner') is-invalid @enderror"
-                                   placeholder="e.g. AFAD in partnership with UNHCR">
+                                   placeholder="e.g. CDDF in partnership with UNHCR">
                             @error('implementing_partner')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 

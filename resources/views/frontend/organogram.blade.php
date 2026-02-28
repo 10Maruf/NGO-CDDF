@@ -33,7 +33,7 @@
         <div class="text-center mb-2">
             <h2 class="org-main-title">Organizational Chart</h2>
             <p class="text-muted" style="font-size: 0.92rem;">Board, Executive Committee &amp; Management Structure</p>
-            <a href="{{ asset('frontend/file/AFAD_Organogram.pdf') }}" target="_blank"
+            <a href="{{ asset('frontend/file/CDDF_Organogram.pdf') }}" target="_blank"
                class="btn btn-sm px-4 py-2 mt-1"
                style="background: #f86f2d; color: #fff; border-radius: 50px; font-size: 0.85rem; font-weight: 600; box-shadow: 0 3px 10px rgba(248,111,45,0.35);">
                 <i class="fa-solid fa-cloud-arrow-down me-1"></i> Download PDF

@@ -25,7 +25,7 @@
                             <label for="title" class="form-label">Video Title <span class="text-danger">*</span></label>
                             <input type="text" name="title" id="title"
                                    class="form-control @error('title') is-invalid @enderror"
-                                   placeholder="e.g. AFAD Annual Report 2025"
+                                   placeholder="e.g. CDDF Annual Report 2025"
                                    value="{{ old('title') }}">
                             @error('title')
                                 <div class="text-danger small">{{ $message }}</div>
