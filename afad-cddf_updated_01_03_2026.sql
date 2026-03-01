@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2026 at 06:55 PM
+-- Generation Time: Mar 01, 2026 at 07:40 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -80,7 +80,8 @@ INSERT INTO `admin_notifications` (`id`, `type`, `title`, `message`, `icon`, `ic
 (13, 'message', 'New Message Received', 'Mofassel Alam Maruf sent a new message', 'feather-mail', 'primary', 'http://127.0.0.1:8000/admin/message/index', 1, '2026-02-28 04:30:57', '2026-02-28 04:22:07', '2026-02-28 04:30:57'),
 (14, 'message', 'New Message Received', 'kire sent a new message', 'feather-mail', 'primary', 'http://127.0.0.1:8000/admin/message/index', 0, NULL, '2026-02-28 04:57:20', '2026-02-28 04:57:20'),
 (15, 'subscriber', 'New Subscriber', 'sub@gmail.com subscribed to the newsletter', 'feather-user-plus', 'warning', 'http://127.0.0.1:8000/admin/admin/subscribe', 0, NULL, '2026-02-28 05:49:21', '2026-02-28 05:49:21'),
-(16, 'career', 'New Career Posted', 'New job posting for \"hello test career\" has been added', 'feather-briefcase', 'dark', 'http://127.0.0.1:8000/admin/careers/index', 0, NULL, '2026-02-28 11:00:13', '2026-02-28 11:00:13');
+(16, 'career', 'New Career Posted', 'New job posting for \"hello test career\" has been added', 'feather-briefcase', 'dark', 'http://127.0.0.1:8000/admin/careers/index', 0, NULL, '2026-02-28 11:00:13', '2026-02-28 11:00:13'),
+(17, 'donation', 'Donation Verified', '৳2300.00 donation from Keramot Ali has been verified', 'feather-check-circle', 'success', 'http://127.0.0.1:8000/admin/donations/index', 0, NULL, '2026-03-01 08:28:03', '2026-03-01 08:28:03');
 
 -- --------------------------------------------------------
 
@@ -256,7 +257,7 @@ CREATE TABLE `donations` (
 
 INSERT INTO `donations` (`id`, `donor_name`, `donor_phone`, `transaction_id`, `amount`, `payment_method_id`, `status`, `admin_note`, `created_at`, `updated_at`) VALUES
 (1, 'Mofassel Alam Maruf', '01997900840', '34HUHIF8472X', 10000.00, 2, 'verified', NULL, '2026-02-06 07:12:16', '2026-02-11 12:30:21'),
-(2, 'Keramot Ali', '01345676543', '2JKF46JNFDJEN', 2300.00, 3, 'rejected', NULL, '2026-02-11 13:20:37', '2026-02-13 13:16:43');
+(2, 'Keramot Ali', '01345676543', '2JKF46JNFDJEN', 2300.00, 3, 'pending', NULL, '2026-02-11 13:20:37', '2026-03-01 08:31:57');
 
 -- --------------------------------------------------------
 
@@ -363,7 +364,7 @@ CREATE TABLE `focus_areas` (
 
 INSERT INTO `focus_areas` (`id`, `title`, `description`, `detail_description`, `icon_class`, `icon_path`, `image_path`, `order`, `is_active`, `created_at`, `updated_at`) VALUES
 (1, 'Women Empowerment', 'Protecting women from domestic violence and early marriage while promoting equal rights, leadership, and economic independence through skill development and advocacy.', '<h2 class=\"ql-align-justify\"><strong><u>Women Empowerment</u></strong></h2><p class=\"ql-align-justify\">We believe that empowering women is the most effective way to transform families and entire communities. Our initiatives focus on protecting rights, ensuring safety, and fostering independence for women from all walks of life.</p><ol><li class=\"ql-align-justify\"><strong>Protection Against Domestic Violence:</strong> Providing a safe haven, legal counseling, and psychosocial support to women facing abuse, ensuring they can live a life free from fear.</li><li class=\"ql-align-justify\"><strong>Early Marriage Prevention:</strong> Actively working at the grassroots level to stop child marriage through community awareness, parental counseling, and advocacy for girls\' education.</li><li class=\"ql-align-justify\"><strong>Economic Independence:</strong> Creating opportunities for vocational training and self-employment to help women become financially self-reliant and decision-makers in their households.</li><li class=\"ql-align-justify\"><strong>Rights &amp; Awareness:</strong> Educating women about their legal rights, including the <strong>Right to Information Act</strong>, to ensure they can access public services and justice effectively.</li><li class=\"ql-align-justify\"><strong>Social Inclusion:</strong> Promoting the leadership of women in community forums to ensure their voices are heard in local governance and social development.</li></ol><p><br></p>', 'fa-solid fa-venus-double', NULL, 'focus_areas/l8sq2R4t6Hc2rBotwoHhDVjNTeQfIuQ5DUJfRADT.jpg', 1, 1, '2026-02-20 11:35:54', '2026-02-20 12:49:37'),
-(2, 'Quality Education', 'Ensuring quality primary education, preventing school dropouts, and providing scholarships from primary to college level to build a literate and empowered generation.', NULL, 'fa-solid fa-graduation-cap', NULL, NULL, 2, 1, '2026-02-20 11:35:54', '2026-02-20 11:35:54'),
+(2, 'Quality Education', 'Ensuring quality primary education, preventing school dropouts, and providing scholarships from primary to college level to build a literate and empowered generation.', '<p><br></p>', 'fa-solid fa-graduation-cap', NULL, 'focus_areas/MYI9gRIfMoClpOGFzLwqxR9yzzanrNRvVWeV08zF.webp', 2, 1, '2026-02-20 11:35:54', '2026-03-01 10:51:35'),
 (3, 'Disaster Management', 'Providing humanitarian support during disasters and emergencies — including floods, cyclones, and health crises like COVID-19 — with rapid response and recovery programs.', NULL, 'fa-solid fa-house-flood-water', NULL, NULL, 3, 1, '2026-02-20 11:35:54', '2026-02-20 11:35:54'),
 (4, 'Disability Inclusion', 'Empowering persons with disabilities through skills training, rights advocacy, device support, and inclusive community programs to integrate them into mainstream society.', NULL, 'fa-solid fa-wheelchair', NULL, NULL, 4, 1, '2026-02-20 11:35:54', '2026-02-20 11:35:54'),
 (5, 'WATSAN', 'Ensuring access to safe drinking water, proper sanitation and hygiene facilities, with special focus on women and children in underserved communities.', NULL, 'fa-solid fa-droplet', NULL, NULL, 5, 1, '2026-02-20 11:35:54', '2026-02-20 11:35:54'),
@@ -1709,7 +1710,7 @@ ALTER TABLE `about_us`
 -- AUTO_INCREMENT for table `admin_notifications`
 --
 ALTER TABLE `admin_notifications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `applications`
