@@ -24,30 +24,33 @@
                 @endif
                 <div class="p-4 border rounded table-responsive">
                     <table class="table table-hover table-striped">
-                        <thead>
+                        <thead class="table-light border-bottom border-2">
                             <tr>
                                 <th style="width:40px"><input type="checkbox" id="select-all"></th>
                                 <th>SL.</th>
                                 <th>Partner's/Donor's Name</th>
-                                <th>Image</th>
-                                <th class="text-center">Action</th>
+                                <th style="width:100px">Image</th>
+                                <th class="text-center" style="width:130px">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($partner as $key=>$partner)
+                            @foreach ($partner as $key=>$p)
                             <tr>
-                                <td class="align-middle"><input type="checkbox" class="select-item" value="{{ $partner->id }}"></td>
+                                <td class="align-middle"><input type="checkbox" class="select-item" value="{{ $p->id }}"></td>
                                 <td class="align-middle">{{ ++$key }}</td>
-                                <td class="align-middle">{{ $partner->name }}</td>
+                                <td class="align-middle fw-semibold">{{ $p->name }}</td>
                                 <td class="align-middle">
-                                    <img src="{{ asset('images/partner/'.$partner->image) }}" alt="" width="50">
+                                    <img src="{{ asset('images/partner/'.$p->image) }}" alt="{{ $p->name }}" width="50" class="rounded">
                                 </td>
                                 <td class="align-middle">
                                     <div class="table-actions justify-content-center">
-                                        <a href="{{ route('partner.edit',$partner->id) }}" class="btn btn-primary" title="Edit">
+                                        <button type="button" class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#viewPartnerModal{{ $p->id }}" title="View">
+                                            <i class="feather-eye"></i>
+                                        </button>
+                                        <a href="{{ route('partner.edit',$p->id) }}" class="btn btn-primary" title="Edit">
                                             <i class="feather-edit"></i>
                                         </a>
-                                        <a href="{{ route('partner.delete',$partner->id) }}" class="btn btn-danger" data-delete data-delete-title="Delete Partner" data-delete-message="Are you sure you want to delete this partner? This action cannot be undone." title="Delete">
+                                        <a href="{{ route('partner.delete',$p->id) }}" class="btn btn-danger" data-delete data-delete-title="Delete Partner" data-delete-message="Are you sure you want to delete this partner? This action cannot be undone." title="Delete">
                                             <i class="feather-trash-2"></i>
                                         </a>
                                     </div>
@@ -61,6 +64,28 @@
         </div>
     </div>
 </div>
+
+<!-- View Partner Modals -->
+@foreach ($partner as $p)
+<div class="modal fade" id="viewPartnerModal{{ $p->id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Partner Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img src="{{ asset('images/partner/'.$p->image) }}" alt="{{ $p->name }}" class="img-fluid rounded mb-3" style="max-height:180px; object-fit:contain;">
+                <h5 class="fw-bold mb-0">{{ $p->name }}</h5>
+            </div>
+            <div class="modal-footer">
+                <a href="{{ route('partner.edit', $p->id) }}" class="btn btn-primary btn-sm"><i class="feather-edit me-1"></i>Edit</a>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
 
 <!-- Bulk Action Bar -->
 <style> html.minimenu #bulk-bar { left: 100px !important; } </style>
@@ -84,6 +109,10 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
+        $('.modal').on('show.bs.modal', function() {
+            $(this).appendTo('body');
+        });
+
         $('#select-all').on('change', function() {
             $('.select-item').prop('checked', $(this).prop('checked'));
             toggleBulkActions();

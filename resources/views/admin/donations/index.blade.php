@@ -82,11 +82,9 @@
                                 <td><small>{{ $item->created_at->format('d M Y') }}<br>{{ $item->created_at->format('h:i A') }}</small></td>
                                 <td class="text-center">
                                     <div class="table-actions justify-content-center">
-                                        <a href="{{ route('admin.donations.show', $item->id) }}" 
-                                           class="btn btn-info" 
-                                           title="View Details">
-                                            <i class="bx bx-show"></i>
-                                        </a>
+                                        <button type="button" class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#viewDonationModal{{ $item->id }}" title="View Details">
+                                            <i class="feather-eye"></i>
+                                        </button>
 
                                         {{-- Change Status Trigger --}}
                                         <button class="btn btn-warning single-status-trigger" type="button"
@@ -137,6 +135,67 @@
         </div>
     </div>
 </div>
+
+{{-- View Donation Modals --}}
+@foreach ($data as $item)
+<div class="modal fade" id="viewDonationModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Donation Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted fw-semibold">Donor Name</div>
+                    <div class="col-md-8 fw-bold">{{ $item->donor_name }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted fw-semibold">Phone</div>
+                    <div class="col-md-8">{{ $item->donor_phone ?? '—' }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted fw-semibold">Transaction ID</div>
+                    <div class="col-md-8"><code>{{ $item->transaction_id }}</code></div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted fw-semibold">Amount</div>
+                    <div class="col-md-8 fw-bold">৳ {{ number_format($item->amount, 2) }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted fw-semibold">Payment Method</div>
+                    <div class="col-md-8">
+                        @if($item->paymentMethod)
+                            <span class="badge bg-info">{{ ucfirst($item->paymentMethod->type) }}</span>
+                        @else
+                            <span class="badge bg-secondary">N/A</span>
+                        @endif
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted fw-semibold">Status</div>
+                    <div class="col-md-8">
+                        @if($item->status == 'pending')
+                            <span class="badge bg-warning">Pending</span>
+                        @elseif($item->status == 'verified')
+                            <span class="badge bg-success">Verified</span>
+                        @else
+                            <span class="badge bg-danger">Rejected</span>
+                        @endif
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 text-muted fw-semibold">Date</div>
+                    <div class="col-md-8 text-muted small">{{ $item->created_at->format('d M Y, h:i A') }}</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
 
 {{-- Bulk Action Sticky Bar --}}
 <style> html.minimenu #bulk-bar { left: 100px !important; } html.minimenu #single-status-bar { left: 100px !important; }</style>
@@ -189,6 +248,10 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
+        // Fix modal z-index inside stacked layouts
+        $('.modal').on('show.bs.modal', function() {
+            $(this).appendTo('body');
+        });
 
         // Single Status Bar Logic
         let actionUrlBase = "{{ route('admin.donations.change_status', ':id') }}";

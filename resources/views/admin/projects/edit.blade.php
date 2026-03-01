@@ -56,7 +56,7 @@
                                     <img src="{{ asset('images/project/' . $project->cover_image) }}"
                                          alt="Current cover"
                                          style="max-height:120px;border-radius:6px;border:1px solid #dee2e6;">
-                                    <small class="d-block text-muted mt-1">নতুন image upload করলে পুরনোটি replace হবে।</small>
+                                    <small class="d-block text-muted mt-1">Uploading a new image will replace the existing one.</small>
                                 </div>
                             @endif
                             <input type="file" name="cover_image" accept="image/*"
@@ -67,11 +67,11 @@
 
                         {{-- ── Gallery Images ───────────────────────────────── --}}
                         <div class="col-md-12">
-                            <label class="form-label fw-semibold">Gallery Images যোগ করুন <span class="text-muted fw-normal">(optional, multiple)</span></label>
+                            <label class="form-label fw-semibold">Add Gallery Images <span class="text-muted fw-normal">(optional, multiple)</span></label>
                             <input type="file" name="gallery[]" accept="image/*"
                                    class="form-control @error('gallery.*') is-invalid @enderror"
                                    multiple>
-                            <small class="text-muted">Multiple images select করুন — max 2 MB each। নতুন images আগেরগুলোর সাথে যুক্ত হবে।</small>
+                            <small class="text-muted">Select multiple images — max 2 MB each. New images will be appended to existing ones.</small>
                             @error('gallery.*')<div class="text-danger mt-1">{{ $message }}</div>@enderror
                         </div>
 
@@ -90,7 +90,7 @@
                                     <br>
                                     <a href="{{ route('project.gallery.delete', $gi->id) }}"
                                        class="btn btn-danger btn-sm mt-1"
-                                       onclick="return confirm('এই gallery image টি delete করবেন?')">
+                                       onclick="return confirm('Are you sure you want to delete this gallery image?')">
                                         <i class="feather-trash-2"></i> Delete
                                     </a>
                                 </div>
@@ -103,18 +103,18 @@
                         <div class="col-md-12">
                             <label class="form-label fw-semibold">
                                 Short Description <span class="text-danger">*</span>
-                                <small class="text-muted fw-normal">(project card-এ দেখাবে)</small>
+                                <small class="text-muted fw-normal">(shown on project card)</small>
                             </label>
                             <textarea name="short_description" rows="3"
                                       class="form-control @error('short_description') is-invalid @enderror"
-                                      placeholder="সংক্ষেপে project বর্ণনা করুন...">{{ old('short_description', $project->short_description) }}</textarea>
+                                      placeholder="Briefly describe the project...">{{ old('short_description', $project->short_description) }}</textarea>
                             @error('short_description')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
                         <div class="col-md-12">
                             <label class="form-label fw-semibold">
                                 Detail Description
-                                <small class="text-muted fw-normal">(detail page-এ দেখাবে)</small>
+                                <small class="text-muted fw-normal">(shown on detail page)</small>
                             </label>
                             <div id="editor-container" style="height:320px;"></div>
                             <input type="hidden" name="detail_description" id="detail_description_input">
@@ -135,7 +135,7 @@
                             <input type="date" name="end_date"
                                    value="{{ old('end_date', $project->end_date?->format('Y-m-d')) }}"
                                    class="form-control @error('end_date') is-invalid @enderror">
-                            <small class="text-muted">Ongoing হলে খালি রাখুন</small>
+                            <small class="text-muted">Leave empty if ongoing</small>
                             @error('end_date')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
@@ -196,7 +196,7 @@
                                         </label>
                                     </div>
                                 @empty
-                                    <p class="text-muted mb-0">কোনো partner নেই।</p>
+                                    <p class="text-muted mb-0">No partners available.</p>
                                 @endforelse
                             </div>
                             @error('partner_ids')<div class="text-danger mt-1">{{ $message }}</div>@enderror
@@ -225,7 +225,7 @@
                                         </label>
                                     </div>
                                 @empty
-                                    <p class="text-muted mb-0">কোনো focus area নেই।</p>
+                                    <p class="text-muted mb-0">No focus areas available.</p>
                                 @endforelse
                             </div>
                             @error('focus_area_ids')<div class="text-danger mt-1">{{ $message }}</div>@enderror
@@ -254,7 +254,7 @@
                                        id="is_featured"
                                        {{ old('is_featured', $project->is_featured) ? 'checked' : '' }}>
                                 <label class="form-check-label fw-semibold" for="is_featured">
-                                    Featured (Homepage-এ highlight করবে)
+                                    Featured (Highlights on Homepage)
                                 </label>
                             </div>
                         </div>

@@ -23,33 +23,38 @@
                     </div>
                 @endif
                 <div class="p-4 border rounded table-responsive">
-                    <table class="table table-hover table-striped">
-                        <thead>
+                    <table class="table table-hover table-striped align-middle">
+                        <thead class="table-light border-bottom border-2">
                             <tr>
                                 <th style="width:40px"><input type="checkbox" id="select-all"></th>
                                 <th>SL.</th>
-                                <th>Name</th>
-                                <th>Contact</th>
-                                <th>Email</th>
+                                <th style="width:160px">Name</th>
+                                <th style="width:180px">Contact & Email</th>
                                 <th>Subject</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center" style="width:120px">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($message as $key=>$message)
+                            @foreach ($message as $key=>$msg)
                             <tr>
-                                <td class="align-middle"><input type="checkbox" class="select-item" value="{{ $message->id }}"></td>
-                                <td class="align-middle">{{ ++$key }}</td>
-                                <td class="align-middle" style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ $message->name }}">{{ $message->name }}</td>
-                                <td class="align-middle">{{ $message->contact_number }}</td>
-                                <td class="align-middle">{{ $message->email }}</td>
-                                <td class="align-middle" style="max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ $message->subject }}">{{ $message->subject }}</td>
-                                <td class="align-middle">
+                                <td><input type="checkbox" class="select-item" value="{{ $msg->id }}"></td>
+                                <td>{{ ++$key }}</td>
+                                <td class="fw-semibold">{{ $msg->name }}</td>
+                                <td>
+                                    @if($msg->contact_number)
+                                        <div class="text-muted small">{{ $msg->contact_number }}</div>
+                                    @endif
+                                    @if($msg->email)
+                                        <div class="text-muted small">{{ $msg->email }}</div>
+                                    @endif
+                                </td>
+                                <td style="max-width:220px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="{{ $msg->subject }}">{{ $msg->subject }}</td>
+                                <td>
                                     <div class="table-actions justify-content-center">
-                                        <a href="{{ route('message.view',$message->id) }}" class="btn btn-info" title="View">
-                                            <i class="lni lni-eye"></i>
-                                        </a>
-                                        <a href="{{ route('message.delete',$message->id) }}" class="btn btn-danger" data-delete data-delete-title="Delete Message" data-delete-message="Are you sure you want to delete this message? This action cannot be undone." title="Delete">
+                                        <button type="button" class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#viewMsgModal{{ $msg->id }}" title="View">
+                                            <i class="feather-eye"></i>
+                                        </button>
+                                        <a href="{{ route('message.delete',$msg->id) }}" class="btn btn-danger" data-delete data-delete-title="Delete Message" data-delete-message="Are you sure you want to delete this message? This action cannot be undone." title="Delete">
                                             <i class="feather-trash-2"></i>
                                         </a>
                                     </div>
@@ -63,6 +68,55 @@
         </div>
     </div>
 </div>
+
+<!-- View Message Modals -->
+@foreach ($message as $msg)
+<div class="modal fade" id="viewMsgModal{{ $msg->id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Message Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted fw-semibold">Name</div>
+                    <div class="col-md-8">{{ $msg->name }}</div>
+                </div>
+                @if($msg->contact_number)
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted fw-semibold">Contact Number</div>
+                    <div class="col-md-8">{{ $msg->contact_number }}</div>
+                </div>
+                @endif
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted fw-semibold">Email</div>
+                    <div class="col-md-8">{{ $msg->email }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted fw-semibold">Subject</div>
+                    <div class="col-md-8 fw-bold">{{ $msg->subject }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted fw-semibold">Message</div>
+                    <div class="col-md-8">
+                        <p style="word-break:break-word; white-space:pre-wrap; overflow-wrap:break-word; margin:0;">{{ $msg->message }}</p>
+                    </div>
+                </div>
+                @if($msg->created_at)
+                <div class="row">
+                    <div class="col-md-4 text-muted fw-semibold">Received At</div>
+                    <div class="col-md-8 text-muted small">{{ \Carbon\Carbon::parse($msg->created_at)->format('d M Y, h:i A') }}</div>
+                </div>
+                @endif
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
 
 <!-- Bulk Action Bar -->
 <style> html.minimenu #bulk-bar { left: 100px !important; } </style>
@@ -86,6 +140,11 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
+        // Fix modal z-index inside stacked layouts
+        $('.modal').on('show.bs.modal', function() {
+            $(this).appendTo('body');
+        });
+
         $('#select-all').on('change', function() {
             $('.select-item').prop('checked', $(this).prop('checked'));
             toggleBulkActions();

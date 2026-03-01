@@ -21,18 +21,16 @@
                     <div class="alert alert-success">{{ session()->get('success') }}</div>
                 @endif
                 <div class="p-4 border rounded table-responsive">
-                    <table class="table table-hover table-striped">
-                        <thead>
+                    <table class="table table-hover table-striped align-middle">
+                        <thead class="table-light border-bottom border-2">
                             <tr>
                                 <th style="width:40px"><input type="checkbox" id="select-all"></th>
                                 <th>SL.</th>
                                 <th>Type</th>
-                                <th>Title/Designation</th>
-                                <th>Name/Address</th>
-                                <th>Mobile</th>
-                                <th>Email</th>
+                                <th>Title & Name/Address</th>
+                                <th style="width:200px">Mobile & Email</th>
                                 <th>Status</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center" style="width:160px">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,25 +47,36 @@
                                         <span class="badge bg-primary">Person</span>
                                     @endif
                                 </td>
-                                <td class="align-middle">{{ $contact->title }}</td>
-                                <td class="align-middle">
-                                    @if($contact->type == 'head_office' || $contact->type == 'branch')
-                                        {{ Str::limit($contact->address, 50) }}
-                                    @else
-                                        {{ $contact->name }}
+                                <td>
+                                    <div class="fw-semibold">{{ $contact->title }}</div>
+                                    <div class="text-muted small">
+                                        @if($contact->type == 'head_office' || $contact->type == 'branch')
+                                            {{ Str::limit($contact->address, 50) }}
+                                        @else
+                                            {{ $contact->name }}
+                                        @endif
+                                    </div>
+                                </td>
+                                <td>
+                                    @if($contact->mobile)
+                                        <div class="small">{{ $contact->mobile }}</div>
+                                    @endif
+                                    @if($contact->email)
+                                        <div class="text-muted small">{{ $contact->email }}</div>
                                     @endif
                                 </td>
-                                <td class="align-middle">{{ $contact->mobile }}</td>
-                                <td class="align-middle">{{ $contact->email }}</td>
-                                <td class="align-middle">
+                                <td>
                                     @if($contact->status == 'active')
                                         <span class="badge bg-success">Active</span>
                                     @else
                                         <span class="badge bg-secondary">Inactive</span>
                                     @endif
                                 </td>
-                                <td class="align-middle">
+                                <td>
                                     <div class="table-actions justify-content-center">
+                                        <button type="button" class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#viewContactModal{{ $contact->id }}" title="View">
+                                            <i class="feather-eye"></i>
+                                        </button>
                                         @if($contact->status == 'active')
                                             <button class="btn btn-success btn-sm status-toggle" data-id="{{ $contact->id }}" data-status="inactive" title="Active (Click to Deactivate)">
                                                 <i class="feather-check-circle"></i>
@@ -88,7 +97,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="9" class="text-center text-muted py-4">No contacts found. Add your first contact!</td>
+                                <td colspan="7" class="text-center text-muted py-4">No contacts found. Add your first contact!</td>
                             </tr>
                             @endforelse
                         </tbody>
@@ -98,6 +107,79 @@
         </div>
     </div>
 </div>
+
+<!-- View Contact Modals -->
+@forelse ($contacts as $contact)
+<div class="modal fade" id="viewContactModal{{ $contact->id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Contact Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted fw-semibold">Type</div>
+                    <div class="col-md-8">
+                        @if($contact->type == 'head_office')
+                            <span class="badge bg-success">Head Office</span>
+                        @elseif($contact->type == 'branch')
+                            <span class="badge bg-info">Branch</span>
+                        @else
+                            <span class="badge bg-primary">Person</span>
+                        @endif
+                    </div>
+                </div>
+                @if($contact->title)
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted fw-semibold">Title / Designation</div>
+                    <div class="col-md-8">{{ $contact->title }}</div>
+                </div>
+                @endif
+                @if($contact->name)
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted fw-semibold">Name</div>
+                    <div class="col-md-8 fw-semibold">{{ $contact->name }}</div>
+                </div>
+                @endif
+                @if($contact->address)
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted fw-semibold">Address</div>
+                    <div class="col-md-8">{{ $contact->address }}</div>
+                </div>
+                @endif
+                @if($contact->mobile)
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted fw-semibold">Mobile</div>
+                    <div class="col-md-8">{{ $contact->mobile }}</div>
+                </div>
+                @endif
+                @if($contact->email)
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted fw-semibold">Email</div>
+                    <div class="col-md-8">{{ $contact->email }}</div>
+                </div>
+                @endif
+                <div class="row">
+                    <div class="col-md-4 text-muted fw-semibold">Status</div>
+                    <div class="col-md-8">
+                        @if($contact->status == 'active')
+                            <span class="badge bg-success">Active</span>
+                        @else
+                            <span class="badge bg-secondary">Inactive</span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="{{ route('contact.edit', $contact->id) }}" class="btn btn-primary btn-sm"><i class="feather-edit me-1"></i>Edit</a>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@empty
+@endforelse
 
 <!-- Bulk Action Bar -->
 <style> html.minimenu #bulk-bar { left: 100px !important; } </style>
@@ -127,6 +209,10 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
+        $('.modal').on('show.bs.modal', function() {
+            $(this).appendTo('body');
+        });
+
         $('#select-all').on('change', function() {
             $('.select-item').prop('checked', $(this).prop('checked'));
             toggleBulkActions();

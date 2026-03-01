@@ -32,13 +32,13 @@
                         </div>
 
                         <div class="col-md-12">
-                            <label class="form-label">Short Description <small class="text-muted">(homepage card-এ দেখাবে)</small></label>
+                            <label class="form-label">Short Description <small class="text-muted">(shown on homepage card)</small></label>
                             <textarea name="description" rows="4" class="form-control @error('description') is-invalid @enderror">{{ old('description', $focus_area->description) }}</textarea>
                             @error('description')<div class="text-danger">{{ $message }}</div>@enderror
                         </div>
 
                         <div class="col-md-12">
-                            <label class="form-label">Detailed Description <small class="text-muted">(detail page-এ দেখাবে)</small></label>
+                            <label class="form-label">Detailed Description <small class="text-muted">(shown on detail page)</small></label>
                             
                             {{-- Quill Editor Container --}}
                             <div id="editor-container" style="height: 300px;"></div>
