@@ -24,13 +24,13 @@
                         </div>
 
                         <div class="col-md-12">
-                            <label class="form-label">Short Description <small class="text-muted">(homepage card-এ দেখাবে)</small></label>
-                            <textarea name="description" rows="4" class="form-control @error('description') is-invalid @enderror" placeholder="2-3 line-এ সংক্ষেপে লিখুন...">{{ old('description') }}</textarea>
+                            <label class="form-label">Short Description <small class="text-muted">(shows on homepage card)</small></label>
+                            <textarea name="description" rows="4" class="form-control @error('description') is-invalid @enderror" placeholder="Write briefly in 2-3 lines...">{{ old('description') }}</textarea>
                             @error('description')<div class="text-danger">{{ $message }}</div>@enderror
                         </div>
 
                         <div class="col-md-12">
-                            <label class="form-label">Detailed Description <small class="text-muted">(detail page-এ দেখাবে)</small></label>
+                            <label class="form-label">Detailed Description <small class="text-muted">(shows on detail page)</small></label>
                             
                             {{-- Quill Editor Container --}}
                             <div id="editor-container" style="height: 300px;"></div>
@@ -113,7 +113,7 @@
                         </div>
 
                         <div class="col-md-12">
-                            <label class="form-label">Hero Image <small class="text-muted">(Learn More page-এ দেখাবে — recommended: 1200×500px)</small></label>
+                            <label class="form-label">Hero Image <small class="text-muted">(shows on Learn More page — recommended: 1200×500px)</small></label>
                             <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" accept="image/*">
                             @error('image')<div class="text-danger">{{ $message }}</div>@enderror
                         </div>
@@ -158,7 +158,7 @@
     document.addEventListener("DOMContentLoaded", function() {
         var quill = new Quill('#editor-container', {
             theme: 'snow',
-            placeholder: 'বিস্তারিত লিখুন...',
+            placeholder: 'Write contents here...',
             modules: {
                 toolbar: [
                     [{ 'header': [1, 2, 3, false] }],

@@ -60,7 +60,7 @@
                             <input type="file" name="gallery[]" accept="image/*"
                                    class="form-control @error('gallery.*') is-invalid @enderror"
                                    multiple>
-                            <small class="text-muted">Multiple images select করুন — max 2 MB each (JPEG/PNG/WebP/GIF)</small>
+                            <small class="text-muted">Select multiple images — max 2 MB each (JPEG/PNG/WebP/GIF)</small>
                             @error('gallery.*')<div class="text-danger mt-1">{{ $message }}</div>@enderror
                         </div>
 
@@ -68,18 +68,18 @@
                         <div class="col-md-12">
                             <label class="form-label fw-semibold">
                                 Short Description <span class="text-danger">*</span>
-                                <small class="text-muted fw-normal">(project card-এ দেখাবে — 2-3 লাইন)</small>
+                                <small class="text-muted fw-normal">(shows on project card — 2-3 lines)</small>
                             </label>
                             <textarea name="short_description" rows="3"
                                       class="form-control @error('short_description') is-invalid @enderror"
-                                      placeholder="সংক্ষেপে project বর্ণনা করুন...">{{ old('short_description') }}</textarea>
+                                      placeholder="Briefly describe the project...">{{ old('short_description') }}</textarea>
                             @error('short_description')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
                         <div class="col-md-12">
                             <label class="form-label fw-semibold">
                                 Detail Description
-                                <small class="text-muted fw-normal">(detail page-এ দেখাবে — bold, italic ইত্যাদি ব্যবহার করুন)</small>
+                                <small class="text-muted fw-normal">(shows on detail page — you can format with bold, italic, etc.)</small>
                             </label>
                             <div id="editor-container" style="height:320px;"></div>
                             <input type="hidden" name="detail_description" id="detail_description_input">
@@ -98,7 +98,7 @@
                             <label class="form-label fw-semibold">End Date</label>
                             <input type="date" name="end_date" value="{{ old('end_date') }}"
                                    class="form-control @error('end_date') is-invalid @enderror">
-                            <small class="text-muted">Ongoing project হলে খালি রাখুন</small>
+                            <small class="text-muted">Leave empty for ongoing projects</small>
                             @error('end_date')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
@@ -139,7 +139,7 @@
                         <div class="col-md-12">
                             <label class="form-label fw-semibold">
                                 Donors / Partners
-                                <small class="text-muted fw-normal">(partners table থেকে — multiple select করুন)</small>
+                                <small class="text-muted fw-normal">(from partners table — you can select multiple)</small>
                             </label>
                             <div class="border rounded p-3" style="max-height:180px;overflow-y:auto;">
                                 @forelse ($partners as $partner)
@@ -154,7 +154,7 @@
                                         </label>
                                     </div>
                                 @empty
-                                    <p class="text-muted mb-0">কোনো partner নেই। <a href="{{ route('admin.partners.add') ?? '#' }}">Add Partner</a></p>
+                                    <p class="text-muted mb-0">No partners found. <a href="{{ route('admin.partners.add') ?? '#' }}">Add Partner</a></p>
                                 @endforelse
                             </div>
                             @error('partner_ids')<div class="text-danger mt-1">{{ $message }}</div>@enderror
@@ -164,7 +164,7 @@
                         <div class="col-md-12">
                             <label class="form-label fw-semibold">
                                 Focus Areas
-                                <small class="text-muted fw-normal">(focus_areas table থেকে — multiple select করুন)</small>
+                                <small class="text-muted fw-normal">(from focus_areas table — you can select multiple)</small>
                             </label>
                             <div class="border rounded p-3" style="max-height:180px;overflow-y:auto;">
                                 @forelse ($focus_areas as $area)
@@ -182,7 +182,7 @@
                                         </label>
                                     </div>
                                 @empty
-                                    <p class="text-muted mb-0">কোনো focus area নেই।</p>
+                                    <p class="text-muted mb-0">No focus areas found.</p>
                                 @endforelse
                             </div>
                             @error('focus_area_ids')<div class="text-danger mt-1">{{ $message }}</div>@enderror
@@ -210,7 +210,7 @@
                                        id="is_featured"
                                        {{ old('is_featured') ? 'checked' : '' }}>
                                 <label class="form-check-label fw-semibold" for="is_featured">
-                                    Featured (Homepage-এ highlight করবে)
+                                    Featured (highlights on Homepage)
                                 </label>
                             </div>
                         </div>
@@ -243,7 +243,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     var quill = new Quill('#editor-container', {
         theme: 'snow',
-        placeholder: 'Project সম্পর্কে বিস্তারিত লিখুন...',
+        placeholder: 'Write project details here...',
         modules: {
             toolbar: [
                 [{ header: [1, 2, 3, false] }],

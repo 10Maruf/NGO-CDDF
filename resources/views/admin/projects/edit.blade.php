@@ -287,7 +287,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     var quill = new Quill('#editor-container', {
         theme: 'snow',
-        placeholder: 'Project সম্পর্কে বিস্তারিত লিখুন...',
+        placeholder: 'Write detail description here...',
         modules: {
             toolbar: [
                 [{ header: [1, 2, 3, false] }],

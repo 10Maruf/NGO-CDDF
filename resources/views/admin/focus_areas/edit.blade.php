@@ -122,7 +122,7 @@
                         </div>
 
                         <div class="col-md-12">
-                            <label class="form-label">Replace Hero Image <small class="text-muted">(Learn More page-এ দেখাবে)</small></label>
+                            <label class="form-label">Replace Hero Image <small class="text-muted">(shows on Learn More page)</small></label>
                             <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" accept="image/*">
                             @error('image')<div class="text-danger">{{ $message }}</div>@enderror
 
