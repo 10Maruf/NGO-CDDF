@@ -39,7 +39,6 @@
                                 <th style="width:55px">Icon</th>
                                 <th>Title &amp; Description</th>
                                 <th style="width:140px">Metric</th>
-                                <th style="width:70px" class="text-center">Year</th>
                                 <th style="width:60px" class="text-center">Order</th>
                                 <th style="width:130px" class="text-center">Action</th>
                             </tr>
@@ -62,18 +61,8 @@
                                         <div class="text-muted" style="font-size:11px; max-width:280px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ $item->description }}</div>
                                     @endif
                                 </td>
-                                <td>
-                                    <span class="badge bg-primary" style="font-size:13px;">{{ $item->metric_value }}</span>
-                                    @if($item->metric_unit)
-                                        <small class="text-muted d-block">{{ $item->metric_unit }}</small>
-                                    @endif
-                                </td>
-                                <td class="text-center">
-                                    @if($item->year)
-                                        <span class="badge bg-info">{{ $item->year }}</span>
-                                    @else
-                                        <span class="text-muted">-</span>
-                                    @endif
+                                <td style="white-space:nowrap;">
+                                    <span class="badge bg-primary" style="font-size:13px;">{{ $item->metric_value }}@if($item->metric_unit)<span style="font-weight:400;"> {{ $item->metric_unit }}</span>@endif</span>
                                 </td>
                                 <td class="text-center">
                                     <span class="badge bg-secondary">{{ $item->order }}</span>
@@ -102,7 +91,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="8" class="text-center py-4">
+                                <td colspan="7" class="text-center py-4">
                                     <i class="bx bx-folder-open" style="font-size: 48px; color: #ccc;"></i>
                                     <p class="text-muted mt-2">No impact metrics found. <a href="{{ route('impact.add') }}">Add one now</a></p>
                                 </td>
@@ -145,12 +134,6 @@
                         <tr>
                             <th class="text-muted small" style="width:120px">Description</th>
                             <td class="small">{{ $item->description }}</td>
-                        </tr>
-                        @endif
-                        @if($item->year)
-                        <tr>
-                            <th class="text-muted small">Year</th>
-                            <td><span class="badge bg-info">{{ $item->year }}</span></td>
                         </tr>
                         @endif
                         <tr>

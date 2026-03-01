@@ -24,32 +24,34 @@
                     <div class="alert alert-danger">{{ session()->get('update') }}</div>
                 @endif
                 <div class="p-4 border rounded table-responsive">
-                    <table class="table table-hover table-striped">
-                        <thead>
+                    <table class="table table-hover table-striped align-middle">
+                        <thead class="table-light border-bottom border-2">
                             <tr>
-                                <th width="40"><input type="checkbox" id="select-all"></th>
-                                <th>SL.</th>
-                                <th>Order</th>
-                                <th>Beneficiary Name</th>
-                                <th>Beneficiary Title</th>
-                                <th>Image</th>
-                                <th>Rating</th>
-                                <th>Date</th>
-                                <th class="text-center">Action</th>
+                                <th style="width:40px"><input type="checkbox" id="select-all"></th>
+                                <th style="width:40px">#</th>
+                                <th style="width:55px">Image</th>
+                                <th>Name &amp; Title</th>
+                                <th style="width:100px" class="text-center">Rating</th>
+                                <th style="width:60px" class="text-center">Order</th>
+                                <th style="width:130px" class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $key=>$item)
                             <tr>
                                 <td><input type="checkbox" class="select-item" value="{{ $item->id }}"></td>
-                                <td class="align-middle">{{ ++$key }}</td>
-                                <td class="align-middle">{{ $item->order ?? 0 }}</td>
-                                <td class="align-middle">{{ $item->beneficiary_name }}</td>
-                                <td class="align-middle">{{ $item->beneficiary_title }}</td>
-                                <td class="align-middle">
-                                    <img src="{{ asset('images/stories/'.$item->image) }}" alt="" width="50">
+                                <td>{{ ++$key }}</td>
+                                <td>
+                                    <img src="{{ asset('images/stories/'.$item->image) }}"
+                                         onerror="this.src='{{ asset('img/testimonial.jpg') }}'"
+                                         alt="{{ $item->beneficiary_name }}" width="45" height="45"
+                                         class="rounded-circle object-fit-cover border">
                                 </td>
-                                <td class="align-middle">
+                                <td>
+                                    <div class="fw-semibold" style="font-size:13px;">{{ $item->beneficiary_name }}</div>
+                                    <div class="text-muted" style="font-size:11px;">{{ $item->beneficiary_title }}</div>
+                                </td>
+                                <td class="text-center">
                                     @for($i = 1; $i <= 5; $i++)
                                         @if($i <= $item->rating)
                                             <span class="text-warning">&#9733;</span>
@@ -58,9 +60,15 @@
                                         @endif
                                     @endfor
                                 </td>
-                                <td class="align-middle">{{ $item->date }}</td>
-                                <td class="align-middle">
+                                <td class="text-center">
+                                    <span class="badge bg-secondary">{{ $item->order ?? 0 }}</span>
+                                </td>
+                                <td class="text-center">
                                     <div class="table-actions justify-content-center">
+                                        <button type="button" class="btn btn-info text-white" title="View"
+                                                data-bs-toggle="modal" data-bs-target="#viewStoryModal{{ $item->id }}">
+                                            <i class="feather-eye"></i>
+                                        </button>
                                         <a href="{{ route('stories.edit',$item->id) }}" class="btn btn-primary" title="Edit">
                                             <i class="feather-edit"></i>
                                         </a>
@@ -78,6 +86,63 @@
         </div>
     </div>
 </div>
+
+{{-- View Modals --}}
+@foreach ($data as $item)
+<div class="modal fade" id="viewStoryModal{{ $item->id }}" tabindex="-1" aria-hidden="true" style="z-index: 1055;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ $item->beneficiary_name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <img src="{{ asset('images/stories/'.$item->image) }}"
+                         onerror="this.src='{{ asset('img/testimonial.jpg') }}'"
+                         alt="{{ $item->beneficiary_name }}"
+                         class="rounded-circle border" style="width:70px;height:70px;object-fit:cover;">
+                    <div>
+                        <div class="fw-semibold">{{ $item->beneficiary_name }}</div>
+                        <div class="text-muted small">{{ $item->beneficiary_title }}</div>
+                        <div class="mt-1">
+                            @for($i = 1; $i <= 5; $i++)
+                                @if($i <= $item->rating)
+                                    <span class="text-warning">&#9733;</span>
+                                @else
+                                    <span class="text-muted">&#9734;</span>
+                                @endif
+                            @endfor
+                        </div>
+                    </div>
+                </div>
+                @if(isset($item->story) && $item->story)
+                    <div class="bg-light p-3 rounded border-start border-4 border-primary">
+                        <p class="mb-0 small fst-italic" style="white-space:pre-line;">"{{ $item->story }}"</p>
+                    </div>
+                @endif
+                @if(isset($item->description) && $item->description)
+                    <div class="bg-light p-3 rounded border-start border-4 border-primary mt-2">
+                        <p class="mb-0 small" style="white-space:pre-line;">{{ $item->description }}</p>
+                    </div>
+                @endif
+            </div>
+            <div class="modal-footer bg-light">
+                <a href="{{ route('stories.edit', $item->id) }}" class="btn btn-primary btn-sm">
+                    <i class="feather-edit me-1"></i> Edit
+                </a>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var modalEl = document.getElementById('viewStoryModal{{ $item->id }}');
+        if (modalEl) { modalEl.addEventListener('show.bs.modal', function () { $(this).appendTo('body'); }); }
+    });
+</script>
+@endforeach
 
 {{-- Bulk Action Sticky Bar --}}
 <style> html.minimenu #bulk-bar { left: 100px !important; } </style>
