@@ -24,27 +24,41 @@
                     <div class="alert alert-danger">{{ session()->get('update') }}</div>
                 @endif
                 <div class="p-4 border rounded table-responsive">
-                    <table class="table table-hover table-striped">
-                        <thead>
+                    <table class="table table-hover table-striped align-middle">
+                        <thead class="table-light border-bottom border-2">
                             <tr>
-                                <th width="40"><input type="checkbox" id="select-all"></th>
-                                <th>SL.</th>
+                                <th style="width:40px"><input type="checkbox" id="select-all"></th>
+                                <th style="width:40px">#</th>
                                 <th>Question</th>
-                                <th>Category</th>
-                                <th>Order</th>
-                                <th class="text-center">Action</th>
+                                <th style="width:150px">Category</th>
+                                <th style="width:60px" class="text-center">Order</th>
+                                <th style="width:130px" class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $key=>$item)
                             <tr>
                                 <td><input type="checkbox" class="select-item" value="{{ $item->id }}"></td>
-                                <td class="align-middle">{{ ++$key }}</td>
-                                <td class="align-middle">{{ $item->question }}</td>
-                                <td class="align-middle">{{ $item->category }}</td>
-                                <td class="align-middle">{{ $item->order }}</td>
-                                <td class="align-middle">
+                                <td>{{ ++$key }}</td>
+                                <td>
+                                    <div class="fw-semibold" style="font-size:13px;">{{ $item->question }}</div>
+                                </td>
+                                <td>
+                                    @if($item->category)
+                                        <span class="badge bg-info text-dark">{{ $item->category }}</span>
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    <span class="badge bg-secondary">{{ $item->order }}</span>
+                                </td>
+                                <td class="text-center">
                                     <div class="table-actions justify-content-center">
+                                        <button type="button" class="btn btn-info text-white" title="View"
+                                                data-bs-toggle="modal" data-bs-target="#viewFaqModal{{ $item->id }}">
+                                            <i class="feather-eye"></i>
+                                        </button>
                                         <a href="{{ route('faq.edit',$item->id) }}" class="btn btn-primary" title="Edit">
                                             <i class="feather-edit"></i>
                                         </a>
@@ -62,6 +76,49 @@
         </div>
     </div>
 </div>
+
+{{-- View Modals --}}
+@foreach ($data as $item)
+<div class="modal fade" id="viewFaqModal{{ $item->id }}" tabindex="-1" aria-hidden="true" style="z-index: 1055;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">FAQ Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if($item->category)
+                    <div class="mb-3">
+                        <span class="badge bg-info text-dark">{{ $item->category }}</span>
+                    </div>
+                @endif
+                <div class="mb-3">
+                    <label class="small text-muted fw-bold d-block mb-1">Question</label>
+                    <p class="fw-semibold mb-0">{{ $item->question }}</p>
+                </div>
+                @if(isset($item->answer) && $item->answer)
+                <div class="bg-light p-3 rounded border-start border-4 border-primary">
+                    <label class="small text-muted fw-bold d-block mb-1">Answer</label>
+                    <p class="mb-0 small" style="white-space:pre-line;">{{ $item->answer }}</p>
+                </div>
+                @endif
+            </div>
+            <div class="modal-footer bg-light">
+                <a href="{{ route('faq.edit', $item->id) }}" class="btn btn-primary btn-sm">
+                    <i class="feather-edit me-1"></i> Edit
+                </a>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var modalEl = document.getElementById('viewFaqModal{{ $item->id }}');
+        if (modalEl) { modalEl.addEventListener('show.bs.modal', function () { $(this).appendTo('body'); }); }
+    });
+</script>
+@endforeach
 
 {{-- Bulk Action Sticky Bar --}}
 <style> html.minimenu #bulk-bar { left: 100px !important; } </style>

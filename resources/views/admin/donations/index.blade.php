@@ -89,13 +89,12 @@
                                         </a>
 
                                         {{-- Change Status Trigger --}}
-                                        <button class="btn btn-sm btn-light single-status-trigger" type="button"
+                                        <button class="btn btn-warning single-status-trigger" type="button"
                                                 title="Change Status"
                                                 data-id="{{ $item->id }}"
                                                 data-current="{{ $item->status }}"
-                                                data-name="{{ $item->donor_name }}"
-                                                style="border:none;background:transparent;padding:4px 6px;line-height:1;">
-                                            <i class="bx bx-transfer-alt" style="font-size:18px;color:#6c757d;"></i>
+                                                data-name="{{ $item->donor_name }}">
+                                            <i class="bx bx-transfer-alt"></i>
                                         </button>
 
                                         <a href="{{ route('admin.donations.delete', $item->id) }}" 
