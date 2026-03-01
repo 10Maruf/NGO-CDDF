@@ -92,6 +92,10 @@
                                 </td>
                                 <td class="align-middle">
                                     <div class="table-actions justify-content-center">
+                                        <button type="button" class="btn btn-info text-white" title="View"
+                                                data-bs-toggle="modal" data-bs-target="#viewOrgMemberModal{{ $item->id }}">
+                                            <i class="feather-eye"></i>
+                                        </button>
                                         @if($item->is_active)
                                             <a href="{{ route('org.toggle', $item->id) }}" class="btn btn-success" title="Active – Click to Deactivate">
                                                 <i class="feather-check-circle"></i>
@@ -123,6 +127,136 @@
         </div>
     </div>
 </div>
+
+{{-- View Modals --}}
+@foreach ($data as $item)
+<div class="modal fade" id="viewOrgMemberModal{{ $item->id }}" tabindex="-1" aria-hidden="true" style="z-index: 1055;">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Member Details: {{ $item->name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-4">
+                    {{-- Left Column: Image & Contact --}}
+                    <div class="col-md-4 text-center border-end">
+                        <img src="{{ asset('images/org_members/' . $item->photo) }}"
+                             onerror="this.src='{{ asset('img/testimonial.jpg') }}'"
+                             alt="{{ $item->name }}" class="img-fluid rounded border mb-3" style="max-height: 250px; object-fit: cover; width: 100%;">
+                        
+                        <div class="mb-3">
+                            <h5 class="mb-1">{{ $item->name }}</h5>
+                            <p class="text-muted small mb-2">{{ $item->designation }}</p>
+                            @php
+                                $badges = [
+                                    'general_council'    => 'bg-info text-dark',
+                                    'executive_committee'=> 'bg-primary',
+                                    'advisory_council'   => 'bg-warning text-dark',
+                                    'executive_director' => 'bg-danger',
+                                    'senior_management'  => 'bg-success',
+                                    'mid_management'     => 'bg-secondary',
+                                    'field_staff'        => 'bg-dark',
+                                    'support_staff'      => 'bg-light text-dark border',
+                                ];
+                                $badge = $badges[$item->org_type] ?? 'bg-secondary';
+                                $label = \App\Models\OrgMember::$orgTypeLabels[$item->org_type] ?? $item->org_type;
+                            @endphp
+                            <span class="badge {{ $badge }}">{{ $label }}</span>
+                        </div>
+
+                        <div class="d-flex justify-content-center gap-3 fs-5 mb-3">
+                            @if(isset($item->facebook) && $item->facebook)
+                                <a href="{{ $item->facebook }}" target="_blank" class="text-primary"><i class="feather-facebook"></i></a>
+                            @endif
+                            @if(isset($item->twitter) && $item->twitter)
+                                <a href="{{ $item->twitter }}" target="_blank" class="text-info"><i class="feather-twitter"></i></a>
+                            @endif
+                            @if(isset($item->instagram) && $item->instagram)
+                                <a href="{{ $item->instagram }}" target="_blank" class="text-danger"><i class="feather-instagram"></i></a>
+                            @endif
+                            @if(isset($item->linkedin) && $item->linkedin)
+                                <a href="{{ $item->linkedin }}" target="_blank" class="text-primary"><i class="feather-linkedin"></i></a>
+                            @endif
+                            @if(isset($item->youtube) && $item->youtube)
+                                <a href="{{ $item->youtube }}" target="_blank" class="text-danger"><i class="feather-youtube"></i></a>
+                            @endif
+                        </div>
+
+                        <div class="text-start px-2">
+                            @if(isset($item->email) && $item->email)
+                                <div class="d-flex align-items-center mb-2 small">
+                                    <i class="feather-mail me-2 text-muted"></i> {{ $item->email }}
+                                </div>
+                            @endif
+                            @if(isset($item->contact_number) && $item->contact_number)
+                                <div class="d-flex align-items-center mb-2 small">
+                                    <i class="feather-phone me-2 text-muted"></i> {{ $item->contact_number }}
+                                </div>
+                            @endif
+                            @if(isset($item->joining_date) && $item->joining_date)
+                                <div class="d-flex align-items-center mb-2 small">
+                                    <i class="feather-calendar me-2 text-muted"></i> Joined: {{ \Carbon\Carbon::parse($item->joining_date)->format('M d, Y') }}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
+                    {{-- Right Column: Bio & Other Details --}}
+                    <div class="col-md-8">
+                        <h6 class="border-bottom pb-2 mb-3">Professional Summary</h6>
+                        
+                        @if(isset($item->bio) && $item->bio)
+                            <div class="mb-4 text-justify">
+                                <p class="text-muted small" style="white-space: pre-line;">{{ $item->bio }}</p>
+                            </div>
+                        @else
+                            <p class="text-muted small fst-italic">No biography available.</p>
+                        @endif
+
+                        @if(isset($item->message) && $item->message)
+                            <div class="bg-light p-3 rounded mb-3 border-start border-4 border-primary">
+                                <h6 class="small fw-bold text-primary mb-1">Message</h6>
+                                <p class="mb-0 small fst-italic">"{{ $item->message }}"</p>
+                            </div>
+                        @endif
+
+                        <div class="row g-3">
+                            @if(isset($item->education) && $item->education)
+                            <div class="col-md-6">
+                                <label class="small text-muted fw-bold d-block">Education</label>
+                                <span class="small">{{ $item->education }}</span>
+                            </div>
+                            @endif
+                            @if(isset($item->experience_years) && $item->experience_years)
+                            <div class="col-md-6">
+                                <label class="small text-muted fw-bold d-block">Experience</label>
+                                <span class="small">{{ $item->experience_years }} Years</span>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-light">
+                <a href="{{ route('org.edit', $item->id) }}" class="btn btn-primary btn-sm">
+                    <i class="feather-edit me-1"></i> Edit
+                </a>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fix Modal Backdrop -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var modalEl = document.getElementById('viewOrgMemberModal{{ $item->id }}');
+        modalEl.addEventListener('show.bs.modal', function () {
+            $(this).appendTo('body');
+        });
+    });
+</script>
+@endforeach
 
 {{-- Bulk Action Sticky Bar --}}
 <style> html.minimenu #bulk-bar { left: 100px !important; } </style>

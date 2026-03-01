@@ -8,17 +8,14 @@
 @section('content')
 <div class="row">
     <div class="col-md-12 mx-auto">
-        <h6 class="mb-0 text-uppercase">All Impact Metrics</h6>
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h6 class="mb-0 text-uppercase">All Impact Metrics</h6>
+            <a href="{{ route('impact.add') }}" class="btn btn-primary btn-sm">
+                <i class="feather-plus me-1"></i> Add Impact
+            </a>
+        </div>
         <hr/>
         <div class="card">
-            <div class="card-header bg-white">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h6 class="mb-0">Impact Metrics List</h6>
-                    <a href="{{ route('impact.add') }}" class="btn btn-primary btn-sm">
-                        <i class="feather-plus"></i> Add New Impact
-                    </a>
-                </div>
-            </div>
             <div class="card-body">
                 @if (session()->has('success'))
                     <div class="alert alert-success alert-dismissible fade show">
@@ -37,15 +34,14 @@
                     <table class="table table-hover table-striped align-middle">
                         <thead class="table-light">
                             <tr>
-                                <th width="3%"><input type="checkbox" id="select-all"></th>
-                                <th width="5%">SL</th>
-                                <th width="10%">Icon</th>
-                                <th width="20%">Title</th>
-                                <th width="18%">Metric</th>
-                                <th width="22%">Description</th>
-                                <th width="8%">Year</th>
-                                <th width="7%">Order</th>
-                                <th width="10%" class="text-center">Action</th>
+                                <th style="width:40px"><input type="checkbox" id="select-all"></th>
+                                <th style="width:40px">#</th>
+                                <th style="width:55px">Icon</th>
+                                <th>Title &amp; Description</th>
+                                <th style="width:140px">Metric</th>
+                                <th style="width:70px" class="text-center">Year</th>
+                                <th style="width:60px" class="text-center">Order</th>
+                                <th style="width:130px" class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,32 +56,34 @@
                                         <span class="badge bg-secondary">No Icon</span>
                                     @endif
                                 </td>
-                                <td><strong>{{ $item->title }}</strong></td>
                                 <td>
-                                    <span class="badge bg-primary" style="font-size: 14px;">
-                                        {{ $item->metric_value }}
-                                    </span>
-                                    <small class="text-muted">{{ $item->metric_unit }}</small>
-                                </td>
-                                <td>
+                                    <div class="fw-semibold" style="font-size:13px;">{{ $item->title }}</div>
                                     @if($item->description)
-                                        {{ Str::limit($item->description, 60) }}
-                                    @else
-                                        <span class="text-muted">-</span>
+                                        <div class="text-muted" style="font-size:11px; max-width:280px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ $item->description }}</div>
                                     @endif
                                 </td>
                                 <td>
+                                    <span class="badge bg-primary" style="font-size:13px;">{{ $item->metric_value }}</span>
+                                    @if($item->metric_unit)
+                                        <small class="text-muted d-block">{{ $item->metric_unit }}</small>
+                                    @endif
+                                </td>
+                                <td class="text-center">
                                     @if($item->year)
                                         <span class="badge bg-info">{{ $item->year }}</span>
                                     @else
                                         <span class="text-muted">-</span>
                                     @endif
                                 </td>
-                                <td>
-                                    <span class="badge bg-dark">{{ $item->order }}</span>
+                                <td class="text-center">
+                                    <span class="badge bg-secondary">{{ $item->order }}</span>
                                 </td>
                                 <td class="text-center">
                                     <div class="table-actions justify-content-center">
+                                        <button type="button" class="btn btn-info text-white" title="View"
+                                                data-bs-toggle="modal" data-bs-target="#viewImpactModal{{ $item->id }}">
+                                            <i class="feather-eye"></i>
+                                        </button>
                                         <a href="{{ route('impact.edit',$item->id) }}" 
                                            class="btn btn-primary" 
                                            title="Edit">
@@ -104,7 +102,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="9" class="text-center py-4">
+                                <td colspan="8" class="text-center py-4">
                                     <i class="bx bx-folder-open" style="font-size: 48px; color: #ccc;"></i>
                                     <p class="text-muted mt-2">No impact metrics found. <a href="{{ route('impact.add') }}">Add one now</a></p>
                                 </td>
@@ -117,6 +115,71 @@
         </div>
     </div>
 </div>
+
+{{-- View Modals --}}
+@foreach ($data as $item)
+<div class="modal fade" id="viewImpactModal{{ $item->id }}" tabindex="-1" aria-hidden="true" style="z-index: 1055;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ $item->title }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{-- Metric Value --}}
+                <div class="text-center mb-4">
+                    @if($item->icon)
+                        <i class="{{ $item->icon }}" style="font-size: 48px; color: #0d6efd;"></i>
+                    @endif
+                    <div class="mt-2">
+                        <span class="badge bg-primary" style="font-size:20px; padding:10px 20px;">{{ $item->metric_value }}</span>
+                        @if($item->metric_unit)
+                            <div class="text-muted mt-1">{{ $item->metric_unit }}</div>
+                        @endif
+                    </div>
+                </div>
+
+                <table class="table table-borderless table-sm">
+                    <tbody>
+                        @if($item->description)
+                        <tr>
+                            <th class="text-muted small" style="width:120px">Description</th>
+                            <td class="small">{{ $item->description }}</td>
+                        </tr>
+                        @endif
+                        @if($item->year)
+                        <tr>
+                            <th class="text-muted small">Year</th>
+                            <td><span class="badge bg-info">{{ $item->year }}</span></td>
+                        </tr>
+                        @endif
+                        <tr>
+                            <th class="text-muted small">Order</th>
+                            <td><span class="badge bg-secondary">{{ $item->order }}</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer bg-light">
+                <a href="{{ route('impact.edit', $item->id) }}" class="btn btn-primary btn-sm">
+                    <i class="feather-edit me-1"></i> Edit
+                </a>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var modalEl = document.getElementById('viewImpactModal{{ $item->id }}');
+        if (modalEl) {
+            modalEl.addEventListener('show.bs.modal', function () {
+                $(this).appendTo('body');
+            });
+        }
+    });
+</script>
+@endforeach
 
 {{-- Bulk Action Sticky Bar --}}
 <style> html.minimenu #bulk-bar { left: 100px !important; } </style>

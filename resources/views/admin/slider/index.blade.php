@@ -22,12 +22,11 @@
                         <thead>
                             <tr>
                                 <th width="40"><input type="checkbox" id="select-all"></th>
-                                <th>SL.</th>
-                                <th>Order</th>
-                                <th>Title</th>
-                                <th>Image</th>
-                                <th>Description</th>
-                                <th>Status</th>
+                                <th width="50">SL</th>
+                                <th width="60">Order</th>
+                                <th>Title & Description</th>
+                                <th width="80">Image</th>
+                                <th width="90">Status</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
@@ -37,11 +36,13 @@
                                 <td><input type="checkbox" class="select-item" value="{{ $row->id }}"></td>
                                 <td class="align-middle">{{ ++$key }}</td>
                                 <td class="align-middle">{{ $row->order }}</td>
-                                <td class="align-middle w-25">{{ $row->title }}</td>
                                 <td class="align-middle">
-                                    <img src="{{ asset('images/slider/'.$row->image) }}" alt="" width="50">
+                                    <div class="fw-semibold" style="max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="{{ $row->title }}">{{ $row->title }}</div>
+                                    <small class="text-muted">{{ Str::limit($row->description, 50, '...') }}</small>
                                 </td>
-                                <td class="align-middle w-25">{{ Str::limit($row->description,30,'..' )}}</td>
+                                <td class="align-middle">
+                                    <img src="{{ asset('images/slider/'.$row->image) }}" alt="" width="60" style="border-radius:4px;object-fit:cover;height:40px;">
+                                </td>
                                 <td class="align-middle">
                                     @if(isset($row->status) && $row->status == 1)
                                         <span class="badge bg-success">Active</span>
@@ -51,6 +52,10 @@
                                 </td>
                                 <td class="align-middle">
                                     <div class="table-actions justify-content-center">
+                                        <button type="button" class="btn btn-info btn-sm" title="View"
+                                                data-bs-toggle="modal" data-bs-target="#viewSliderModal{{ $row->id }}">
+                                            <i class="feather-eye"></i>
+                                        </button>
                                         <a href="{{ route('slider.edit',$row->id) }}" class="btn btn-primary btn-sm" title="Edit">
                                             <i class="feather-edit"></i>
                                         </a>
@@ -77,6 +82,47 @@
         </div>
     </div>
 </div>
+
+{{-- View Modals --}}
+@foreach ($slider as $row)
+<div class="modal fade" id="viewSliderModal{{ $row->id }}" tabindex="-1" aria-hidden="true" style="z-index: 1055;">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ $row->title }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                @if($row->image)
+                    <img src="{{ asset('images/slider/'.$row->image) }}" alt="{{ $row->title }}"
+                         class="img-fluid rounded mb-3 w-100" style="max-height:300px;object-fit:cover;">
+                @endif
+                <table class="table table-borderless table-sm">
+                    <tr><td width="120"><strong>Title:</strong></td><td>{{ $row->title }}</td></tr>
+                    <tr><td><strong>Description:</strong></td><td>{{ $row->description }}</td></tr>
+                    <tr><td><strong>Order:</strong></td><td>{{ $row->order }}</td></tr>
+                    <tr>
+                        <td><strong>Status:</strong></td>
+                        <td>
+                            @if($row->status == 1)
+                                <span class="badge bg-success">Active</span>
+                            @else
+                                <span class="badge bg-secondary">Inactive</span>
+                            @endif
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <a href="{{ route('slider.edit',$row->id) }}" class="btn btn-primary btn-sm">
+                    <i class="feather-edit me-1"></i> Edit
+                </a>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
 
 {{-- Bulk Action Sticky Bar --}}
 <style> html.minimenu #bulk-bar { left: 100px !important; } </style>
@@ -106,6 +152,11 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
+        // Fix for modal backdrop issue
+        $('.modal').on('show.bs.modal', function () {
+            $(this).appendTo('body');
+        });
+
         // Select All
         $('#select-all').on('change', function() {
             var isChecked = $(this).prop('checked');

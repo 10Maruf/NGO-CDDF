@@ -71,10 +71,8 @@
                                 <th>Title</th>
                                 <th width="100">Status</th>
                                 <th width="100">Timeline</th>
-                                <th width="80">Partners</th>
-                                <th width="80">Focus</th>
-                                <th width="80">Featured</th>
-                                <th width="80">Active</th>
+                                <th width="100" class="text-center">Stats</th>
+                                <th width="100" class="text-center">Flags</th>
                                 <th width="160">Actions</th>
                             </tr>
                         </thead>
@@ -117,23 +115,17 @@
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <span class="badge bg-info">{{ $item->partners_count }}</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge bg-warning text-dark">{{ $item->focus_areas_count }}</span>
+                                        <small class="d-block"><i class="feather-users text-info me-1"></i>{{ $item->partners_count }} Partners</small>
+                                        <small class="d-block"><i class="feather-target text-warning me-1"></i>{{ $item->focus_areas_count }} Focus</small>
                                     </td>
                                     <td class="text-center">
                                         @if ($item->is_featured)
-                                            <span class="badge bg-primary">Yes</span>
-                                        @else
-                                            <span class="badge bg-light text-dark">No</span>
+                                            <span class="badge bg-primary d-block mb-1">Featured</span>
                                         @endif
-                                    </td>
-                                    <td class="text-center">
                                         @if ($item->is_active)
-                                            <span class="badge bg-success">Active</span>
+                                            <span class="badge bg-success d-block">Active</span>
                                         @else
-                                            <span class="badge bg-secondary">Inactive</span>
+                                            <span class="badge bg-secondary d-block">Inactive</span>
                                         @endif
                                     </td>
                                     <td>
@@ -170,7 +162,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="12" class="text-center text-muted py-4">No projects found. <a href="{{ route('project.add') }}">Add one now.</a></td>
+                                    <td colspan="10" class="text-center text-muted py-4">No projects found. <a href="{{ route('project.add') }}">Add one now.</a></td>
                                 </tr>
                             @endforelse
                         </tbody>

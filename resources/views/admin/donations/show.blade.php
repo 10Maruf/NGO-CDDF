@@ -15,9 +15,6 @@
             <div class="card-header bg-white">
                 <div class="d-flex justify-content-between align-items-center">
                     <h6 class="mb-0">Donation #{{ $data->id }}</h6>
-                    <a href="{{ route('admin.donations.index') }}" class="btn btn-secondary btn-sm">
-                        <i class="bx bx-arrow-back"></i> Back to List
-                    </a>
                 </div>
             </div>
             <div class="card-body">
@@ -131,7 +128,7 @@
                                     <div class="mb-3">
                                         <label class="form-label fw-semibold">Change Status</label>
                                         <div class="d-flex gap-2 flex-wrap">
-                                            <div class="form-check form-check-inline border rounded px-3 py-2 {{ $data->status == 'pending' ? 'bg-warning bg-opacity-10 border-warning' : '' }}">
+                                            <div class="form-check form-check-inline border rounded px-3 py-2 {{ $data->status == 'pending' ? 'bg-light border-warning' : '' }}">
                                                 <input class="form-check-input" type="radio" name="status" id="status_pending" value="pending"
                                                     {{ $data->status == 'pending' ? 'checked' : '' }}>
                                                 <label class="form-check-label text-warning fw-semibold" for="status_pending">
@@ -159,21 +156,25 @@
                                         <textarea name="admin_note" id="admin_note" class="form-control" rows="2"
                                                   placeholder="Add any note about this donation...">{{ $data->admin_note }}</textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-primary"
-                                            onclick="return confirm('Are you sure you want to update the status?')">
-                                        <i class="bx bx-save me-1"></i> Update Status
-                                    </button>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex gap-2">
+                                            <button type="submit" class="btn btn-primary"
+                                                    onclick="return confirm('Are you sure you want to update the status?')">
+                                                <i class="bx bx-save me-1"></i> Update Status
+                                            </button>
+                                            <a href="{{ route('admin.donations.index') }}" class="btn btn-secondary">
+                                                <i class="bx bx-arrow-back me-1"></i> Back to List
+                                            </a>
+                                        </div>
+                                        <a href="{{ route('admin.donations.delete', $data->id) }}" 
+                                           class="btn btn-danger" 
+                                           data-delete 
+                                           data-delete-title="Delete Donation" 
+                                           data-delete-message="Are you sure you want to delete this donation? This action cannot be undone.">
+                                            <i class="feather-trash-2 me-1"></i> Delete Donation
+                                        </a>
+                                    </div>
                                 </form>
-
-                                <hr>
-
-                                <a href="{{ route('admin.donations.delete', $data->id) }}" 
-                                   class="btn btn-danger" 
-                                   data-delete 
-                                   data-delete-title="Delete Donation" 
-                                   data-delete-message="Are you sure you want to delete this donation? This action cannot be undone.">
-                                    <i class="feather-trash-2"></i> Delete Donation
-                                </a>
                             </div>
                         </div>
                     </div>

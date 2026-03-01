@@ -28,11 +28,13 @@
                         <thead>
                             <tr>
                                 <th width="40"><input type="checkbox" id="select-all"></th>
-                                <th width="60">#</th>
-                                <th>Title</th>
-                                <th width="90">Order</th>
-                                <th width="110">Status</th>
-                                <th width="160">Actions</th>
+                                <th width="50">#</th>
+                                <th width="60" class="text-center">Icon</th>
+                                <th width="90" class="text-center">Hero Image</th>
+                                <th>Title & Description</th>
+                                <th width="80" class="text-center">Order</th>
+                                <th width="100" class="text-center">Status</th>
+                                <th width="140" class="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,35 +42,56 @@
                                 <tr>
                                     <td><input type="checkbox" class="select-item" value="{{ $item->id }}"></td>
                                     <td>{{ $item->id }}</td>
-                                    <td>
-                                        <div class="fw-bold">{{ $item->title }}</div>
-                                        <div class="text-muted" style="max-width: 650px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                            {{ $item->description }}
-                                        </div>
-                                    </td>
-                                    <td>{{ $item->order }}</td>
-                                    <td>
-                                        @if ($item->is_active)
-                                            <span class="badge bg-success">Active</span>
+                                    <td class="text-center">
+                                        @if (isset($item->icon_class) && $item->icon_class)
+                                            <i class="{{ $item->icon_class }} fs-4 text-primary"></i>
                                         @else
-                                            <span class="badge bg-secondary">Inactive</span>
+                                            <span class="text-muted">—</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        @if (isset($item->image_path) && $item->image_path)
+                                            <img src="{{ asset('storage/'.$item->image_path) }}" alt="" style="width:60px;height:40px;object-fit:cover;border-radius:4px;">
+                                        @else
+                                            <span class="text-muted">—</span>
                                         @endif
                                     </td>
                                     <td>
-                                        <div class="table-actions">
+                                        <div class="fw-bold" style="max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $item->title }}">{{ $item->title }}</div>
+                                        <div class="text-muted small" style="max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $item->description }}">
+                                            {{ $item->description }}
+                                        </div>
+                                    </td>
+                                    <td class="text-center">{{ $item->order }}</td>
+                                    <td class="text-center">
+                                        @if ($item->is_active)
+                                            <span class="badge bg-success d-block mb-1">Active</span>
+                                        @else
+                                            <span class="badge bg-secondary d-block mb-1">Inactive</span>
+                                        @endif
+                                        @if (isset($item->show_on_navbar) && $item->show_on_navbar)
+                                            <span class="badge bg-info d-block">Navbar</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="table-actions justify-content-center">
+                                            <button type="button" class="btn btn-info btn-sm text-white" title="View"
+                                                    data-bs-toggle="modal" data-bs-target="#viewFocusModal{{ $item->id }}">
+                                                <i class="feather-eye"></i>
+                                            </button>
+                                            <a href="{{ route('admin.focus_areas.edit', $item->id) }}" class="btn btn-primary btn-sm" title="Edit">
+                                                <i class="feather-edit"></i>
+                                            </a>
                                             @if ($item->is_active)
-                                                <a href="{{ route('admin.focus_areas.toggle', $item->id) }}" class="btn btn-success" title="Active – Click to Deactivate">
+                                                <a href="{{ route('admin.focus_areas.toggle', $item->id) }}" class="btn btn-success btn-sm" title="Active – Click to Deactivate">
                                                     <i class="feather-check-circle"></i>
                                                 </a>
                                             @else
-                                                <a href="{{ route('admin.focus_areas.toggle', $item->id) }}" class="btn btn-secondary" title="Inactive – Click to Activate">
+                                                <a href="{{ route('admin.focus_areas.toggle', $item->id) }}" class="btn btn-secondary btn-sm" title="Inactive – Click to Activate">
                                                     <i class="feather-x-circle"></i>
                                                 </a>
                                             @endif
-                                            <a href="{{ route('admin.focus_areas.edit', $item->id) }}" class="btn btn-primary" title="Edit">
-                                                <i class="feather-edit"></i>
-                                            </a>
-                                            <a href="{{ route('admin.focus_areas.delete', $item->id) }}" class="btn btn-danger" data-delete data-delete-title="Delete Focus Area" data-delete-message="Are you sure you want to delete this focus area? This action cannot be undone." title="Delete">
+                                            <a href="{{ route('admin.focus_areas.delete', $item->id) }}" class="btn btn-danger btn-sm" data-delete data-delete-title="Delete Focus Area" data-delete-message="Are you sure you want to delete this focus area? This action cannot be undone." title="Delete">
                                                 <i class="feather-trash-2"></i>
                                             </a>
                                         </div>
@@ -76,7 +99,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                <td colspan="6" class="text-center text-muted">No focus areas found.</td>
+                                <td colspan="8" class="text-center text-muted py-4">No focus areas found.</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -87,6 +110,94 @@
 
     </div>
 </div>
+
+{{-- View Modals --}}
+@foreach ($focus_areas as $item)
+<div class="modal fade" id="viewFocusModal{{ $item->id }}" tabindex="-1" aria-hidden="true" style="z-index: 1055;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ $item->title }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-start">
+                <div class="row mb-4 align-items-center">
+                    <div class="col-8 text-center border-end">
+                        <label class="d-block text-muted small mb-2">Hero Image</label>
+                        @if (isset($item->image_path) && $item->image_path)
+                            <img src="{{ asset('storage/'.$item->image_path) }}" alt="{{ $item->title }}"
+                                 class="img-fluid rounded shadow-sm" style="max-height: 200px; object-fit: cover;">
+                        @else
+                            <div class="bg-light rounded p-4 text-muted"><i class="feather-image fs-1"></i><br>No Image</div>
+                        @endif
+                    </div>
+                    <div class="col-4 text-center">
+                        <label class="d-block text-muted small mb-2">Icon</label>
+                        @if (isset($item->icon_class) && $item->icon_class)
+                            <i class="{{ $item->icon_class }} text-primary" style="font-size: 60px;"></i>
+                        @else
+                            <span class="text-muted">No Icon</span>
+                        @endif
+                    </div>
+                </div>
+
+                <table class="table table-bordered table-sm">
+                    <tbody>
+                        <tr>
+                            <th width="30%" class="bg-light">Title</th>
+                            <td>{{ $item->title }}</td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Order</th>
+                            <td>{{ $item->order }}</td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Status</th>
+                            <td>
+                                @if ($item->is_active)
+                                    <span class="badge bg-success">Active</span>
+                                @else
+                                    <span class="badge bg-secondary">Inactive</span>
+                                @endif
+                                
+                                @if (isset($item->show_on_navbar) && $item->show_on_navbar)
+                                    <span class="badge bg-info ms-1">Navbar</span>
+                                @endif
+                                @if (isset($item->show_on_footer) && $item->show_on_footer)
+                                    <span class="badge bg-info ms-1">Footer</span>
+                                @endif
+                                @if (isset($item->show_on_learn_more) && $item->show_on_learn_more)
+                                    <span class="badge bg-primary ms-1">Learn More</span>
+                                @endif
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="mt-3">
+                    <h6 class="fw-bold border-bottom pb-2 text-primary">Description</h6>
+                    <p class="text-muted">{{ $item->description }}</p>
+                </div>
+                
+                @if($item->detail_description)
+                <div class="mt-3">
+                    <h6 class="fw-bold border-bottom pb-2 text-primary">Full Details</h6>
+                    <div class="p-3 bg-light rounded border">
+                        {!! $item->detail_description !!}
+                    </div>
+                </div>
+                @endif
+            </div>
+            <div class="modal-footer">
+                <a href="{{ route('admin.focus_areas.edit', $item->id) }}" class="btn btn-primary btn-sm">
+                    <i class="feather-edit me-1"></i> Edit
+                </a>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
 
 {{-- Bulk Action Sticky Bar --}}
 <style> html.minimenu #bulk-bar { left: 100px !important; } </style>
@@ -116,6 +227,11 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
+        // Fix for modal backdrop issue
+        $('.modal').on('show.bs.modal', function () {
+            $(this).appendTo('body');
+        });
+
         $('#select-all').on('change', function() {
             $('.select-item').prop('checked', $(this).prop('checked'));
             toggleBulkActions();
