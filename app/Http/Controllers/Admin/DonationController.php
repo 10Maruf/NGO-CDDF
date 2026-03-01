@@ -65,6 +65,29 @@ class DonationController extends Controller
         return redirect()->back()->with('success', 'Donation rejected!');
     }
 
+    // Change Status (any → any)
+    public function changeStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,verified,rejected',
+        ]);
+
+        $donation = Donation::findOrFail($id);
+        $oldStatus = $donation->status;
+        $donation->update([
+            'status'     => $request->status,
+            'admin_note' => $request->admin_note,
+        ]);
+
+        if ($request->status === 'verified' && $oldStatus !== 'verified') {
+            NotificationService::donationVerified($donation->donor_name, $donation->amount);
+        } elseif ($request->status === 'rejected' && $oldStatus !== 'rejected') {
+            NotificationService::donationRejected($donation->donor_name, $donation->amount);
+        }
+
+        return redirect()->back()->with('success', 'Donation status updated to ' . ucfirst($request->status) . '!');
+    }
+
     // Delete donation
     public function destroy($id)
     {

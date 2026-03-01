@@ -87,24 +87,17 @@
                                            title="View Details">
                                             <i class="bx bx-show"></i>
                                         </a>
-                                        @if($item->status == 'pending')
-                                        <form action="{{ route('admin.donations.verify', $item->id) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            <button type="submit" class="btn btn-success" 
-                                                    onclick="return confirm('Verify this donation?')"
-                                                    title="Verify">
-                                                <i class="bx bx-check"></i>
-                                            </button>
-                                        </form>
-                                        <form action="{{ route('admin.donations.reject', $item->id) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            <button type="submit" class="btn btn-warning" 
-                                                    onclick="return confirm('Reject this donation?')"
-                                                    title="Reject">
-                                                <i class="bx bx-x"></i>
-                                            </button>
-                                        </form>
-                                        @endif
+
+                                        {{-- Change Status Trigger --}}
+                                        <button class="btn btn-sm btn-light single-status-trigger" type="button"
+                                                title="Change Status"
+                                                data-id="{{ $item->id }}"
+                                                data-current="{{ $item->status }}"
+                                                data-name="{{ $item->donor_name }}"
+                                                style="border:none;background:transparent;padding:4px 6px;line-height:1;">
+                                            <i class="bx bx-transfer-alt" style="font-size:18px;color:#6c757d;"></i>
+                                        </button>
+
                                         <a href="{{ route('admin.donations.delete', $item->id) }}" 
                                            class="btn btn-danger" 
                                            data-delete 
@@ -147,7 +140,7 @@
 </div>
 
 {{-- Bulk Action Sticky Bar --}}
-<style> html.minimenu #bulk-bar { left: 100px !important; } </style>
+<style> html.minimenu #bulk-bar { left: 100px !important; } html.minimenu #single-status-bar { left: 100px !important; }</style>
 <div id="bulk-bar" style="display:none; position:fixed; bottom:0; left:280px; right:0; background:#fff; padding:12px 24px; z-index:1050; box-shadow:0 -2px 12px rgba(0,0,0,0.1); border-top:1px solid #e5e7eb; transition: left 0.3s ease;">
     <div class="d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-2">
@@ -165,23 +158,101 @@
     </div>
 </div>
 
+{{-- Single Status Change Sticky Bar --}}
+<div id="single-status-bar" style="display:none; position:fixed; bottom:0; left:280px; right:0; background:#fff; padding:15px 24px; z-index:1050; box-shadow:0 -2px 12px rgba(0,0,0,0.1); border-top:1px solid #e5e7eb; transition: left 0.3s ease;">
+    <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center me-4">
+            <span class="fw-bold" style="font-size:1.1rem; color:#495057;" id="single-status-title">Change Status for: <span class="text-primary ms-1"></span></span>
+        </div>
+        <div class="d-flex align-items-center gap-4">
+            <form id="single-status-form" method="POST" class="d-flex gap-2 m-0" action="">
+                @csrf
+                <input type="hidden" name="status" id="single-status-input" value="">
+                
+                <button type="button" class="btn btn-warning btn-status-submit d-flex align-items-center gap-1" data-status="pending" title="Mark as Pending">
+                    <i class="bx bx-time fs-5"></i> Pending
+                </button>
+                <button type="button" class="btn btn-success btn-status-submit d-flex align-items-center gap-1" data-status="verified" title="Mark as Verified">
+                    <i class="bx bx-check-circle fs-5"></i> Verified
+                </button>
+                <button type="button" class="btn btn-danger btn-status-submit d-flex align-items-center gap-1" data-status="rejected" title="Mark as Rejected">
+                    <i class="bx bx-x-circle fs-5"></i> Rejected
+                </button>
+            </form>
+            
+            <button class="btn btn-secondary border-0 bg-light text-dark rounded-circle" id="single-status-close" title="Cancel" style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
+                <i class="bx bx-x fs-4"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        // Select All
+
+        // Single Status Bar Logic
+        let actionUrlBase = "{{ route('admin.donations.change_status', ':id') }}";
+        
+        $('.single-status-trigger').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            let donationId = $(this).data('id');
+            let currentStatus = $(this).data('current');
+            let donorName = $(this).data('name');
+            
+            // Set title and form action
+            $('#single-status-title span').text(donorName);
+            $('#single-status-form').attr('action', actionUrlBase.replace(':id', donationId));
+            
+            // Adjust buttons opacity based on current status
+            $('.btn-status-submit').each(function() {
+                if ($(this).data('status') === currentStatus) {
+                    $(this).css('opacity', '0.45').css('pointer-events', 'none');
+                } else {
+                    $(this).css('opacity', '1').css('pointer-events', 'auto');
+                }
+            });
+
+            // Hide bulk bar if open, show this bar
+            $('#bulk-bar').hide();
+            $('#single-status-bar').css('display', 'flex');
+        });
+
+        // Submit form via buttons
+        $('.btn-status-submit').on('click', function() {
+            let status = $(this).data('status');
+            let label = $(this).text().trim();
+            
+            if (confirm('Change status to ' + label + '?')) {
+                $('#single-status-input').val(status);
+                $('#single-status-form').submit();
+            }
+        });
+
+        // Close Single Status Bar
+        $('#single-status-close').on('click', function() {
+            $('#single-status-bar').hide();
+        });
+
+
+        // Select All -> Also hide single status bar
         $('#select-all').on('change', function() {
             var isChecked = $(this).prop('checked');
             $('.select-item').prop('checked', isChecked);
+            $('#single-status-bar').hide();
             toggleBulkActions();
         });
 
-        // Individual Select
+        // Individual Select -> Also hide single status bar
         $('.select-item').on('change', function() {
             if ($('.select-item:checked').length == $('.select-item').length) {
                 $('#select-all').prop('checked', true);
             } else {
                 $('#select-all').prop('checked', false);
             }
+            $('#single-status-bar').hide();
             toggleBulkActions();
         });
 

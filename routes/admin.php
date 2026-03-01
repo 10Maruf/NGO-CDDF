@@ -314,6 +314,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('donations/show/{id}', [DonationController::class, 'show'])->name('admin.donations.show');
     Route::post('donations/verify/{id}', [DonationController::class, 'verify'])->name('admin.donations.verify');
     Route::post('donations/reject/{id}', [DonationController::class, 'reject'])->name('admin.donations.reject');
+    Route::post('donations/change-status/{id}', [DonationController::class, 'changeStatus'])->name('admin.donations.change_status');
     Route::get('donations/delete/{id}', [DonationController::class, 'destroy'])->name('admin.donations.delete');
     Route::post('donations/bulk-delete', [DonationController::class, 'bulkDelete'])->name('admin.donations.bulk_delete');
     Route::post('donations/bulk-status', [DonationController::class, 'bulkStatus'])->name('admin.donations.bulk_status');

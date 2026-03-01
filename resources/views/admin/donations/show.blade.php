@@ -126,32 +126,44 @@
                                 <h6 class="mb-0">Actions</h6>
                             </div>
                             <div class="card-body">
-                                @if($data->status == 'pending')
-                                <form action="{{ route('admin.donations.verify', $data->id) }}" method="POST" class="d-inline">
+                                <form action="{{ route('admin.donations.change_status', $data->id) }}" method="POST">
                                     @csrf
                                     <div class="mb-3">
-                                        <label for="admin_note" class="form-label">Admin Note (Optional)</label>
-                                        <textarea name="admin_note" id="admin_note" class="form-control" rows="2" 
-                                                  placeholder="Add any note about this donation..."></textarea>
+                                        <label class="form-label fw-semibold">Change Status</label>
+                                        <div class="d-flex gap-2 flex-wrap">
+                                            <div class="form-check form-check-inline border rounded px-3 py-2 {{ $data->status == 'pending' ? 'bg-warning bg-opacity-10 border-warning' : '' }}">
+                                                <input class="form-check-input" type="radio" name="status" id="status_pending" value="pending"
+                                                    {{ $data->status == 'pending' ? 'checked' : '' }}>
+                                                <label class="form-check-label text-warning fw-semibold" for="status_pending">
+                                                    <i class="bx bx-time me-1"></i>Pending
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline border rounded px-3 py-2 {{ $data->status == 'verified' ? 'bg-success bg-opacity-10 border-success' : '' }}">
+                                                <input class="form-check-input" type="radio" name="status" id="status_verified" value="verified"
+                                                    {{ $data->status == 'verified' ? 'checked' : '' }}>
+                                                <label class="form-check-label text-success fw-semibold" for="status_verified">
+                                                    <i class="bx bx-check-circle me-1"></i>Verified
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline border rounded px-3 py-2 {{ $data->status == 'rejected' ? 'bg-danger bg-opacity-10 border-danger' : '' }}">
+                                                <input class="form-check-input" type="radio" name="status" id="status_rejected" value="rejected"
+                                                    {{ $data->status == 'rejected' ? 'checked' : '' }}>
+                                                <label class="form-check-label text-danger fw-semibold" for="status_rejected">
+                                                    <i class="bx bx-x-circle me-1"></i>Rejected
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <button type="submit" class="btn btn-success" 
-                                            onclick="return confirm('Are you sure you want to verify this donation?')">
-                                        <i class="bx bx-check-circle"></i> Verify Donation
+                                    <div class="mb-3">
+                                        <label for="admin_note" class="form-label">Admin Note (Optional)</label>
+                                        <textarea name="admin_note" id="admin_note" class="form-control" rows="2"
+                                                  placeholder="Add any note about this donation...">{{ $data->admin_note }}</textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary"
+                                            onclick="return confirm('Are you sure you want to update the status?')">
+                                        <i class="bx bx-save me-1"></i> Update Status
                                     </button>
                                 </form>
-
-                                <form action="{{ route('admin.donations.reject', $data->id) }}" method="POST" class="d-inline ms-2">
-                                    @csrf
-                                    <button type="submit" class="btn btn-warning" 
-                                            onclick="return confirm('Are you sure you want to reject this donation?')">
-                                        <i class="bx bx-x-circle"></i> Reject Donation
-                                    </button>
-                                </form>
-                                @else
-                                <div class="alert alert-info mb-0">
-                                    This donation has already been {{ $data->status }}.
-                                </div>
-                                @endif
 
                                 <hr>
 
