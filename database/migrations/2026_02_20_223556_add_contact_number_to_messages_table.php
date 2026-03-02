@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasTable('messages')) return;
         Schema::table('messages', function (Blueprint $table) {
             $table->string('contact_number')->nullable()->after('email');
         });

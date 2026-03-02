@@ -9,6 +9,7 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (!Schema::hasTable('legal_affilation')) return;
         Schema::table('legal_affilation', function (Blueprint $table) {
             $table->string('title')->nullable()->after('id');
             $table->text('description')->nullable()->after('title');

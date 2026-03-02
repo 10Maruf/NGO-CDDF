@@ -12,17 +12,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('policy_guideline', function (Blueprint $table) {
-            $table->timestamps();
-        });
+        if (Schema::hasTable('policy_guideline')) {
+            Schema::table('policy_guideline', function (Blueprint $table) {
+                $table->timestamps();
+            });
+            DB::table('policy_guideline')->update(['created_at' => now(), 'updated_at' => now()]);
+        }
 
-        Schema::table('legal_affilation', function (Blueprint $table) {
-            $table->timestamps();
-        });
+        if (Schema::hasTable('legal_affilation')) {
+            Schema::table('legal_affilation', function (Blueprint $table) {
+                $table->timestamps();
+            });
+            DB::table('legal_affilation')->update(['created_at' => now(), 'updated_at' => now()]);
+        }
         
-        // Fill timestamps for existing records
-        DB::table('policy_guideline')->update(['created_at' => now(), 'updated_at' => now()]);
-        DB::table('legal_affilation')->update(['created_at' => now(), 'updated_at' => now()]);
     }
 
     /**
@@ -30,12 +33,16 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('policy_guideline', function (Blueprint $table) {
-            $table->dropTimestamps();
-        });
+        if (Schema::hasTable('policy_guideline')) {
+            Schema::table('policy_guideline', function (Blueprint $table) {
+                $table->dropTimestamps();
+            });
+        }
 
-        Schema::table('legal_affilation', function (Blueprint $table) {
-            $table->dropTimestamps();
-        });
+        if (Schema::hasTable('legal_affilation')) {
+            Schema::table('legal_affilation', function (Blueprint $table) {
+                $table->dropTimestamps();
+            });
+        }
     }
 };

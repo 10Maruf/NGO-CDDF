@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasTable('messages')) return;
         Schema::table('messages', function (Blueprint $table) {
             $table->timestamp('created_at')->nullable()->after('message');
         });

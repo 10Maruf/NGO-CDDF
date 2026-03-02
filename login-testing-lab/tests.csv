@@ -1,0 +1,14 @@
+id,description,username,password,expected
+TC-01,Valid credentials,maruf,admin123,Login Successful
+TC-02,Wrong username,user,123456,Invalid Credentials
+TC-03,Empty username,,123456,Empty Fields
+TC-04,Spaces-only username,   ,123456,Invalid Credentials
+TC-05,Special chars username,adm!n@#,123456,Invalid Credentials
+TC-06,Uppercase username,ADMIN,123456,Invalid Credentials
+TC-07,Password too short,admin,123,Password Too Short
+TC-08,Empty password,admin,,Empty Fields
+TC-09,Spaces-only password,admin,      ,Invalid Credentials
+TC-10,Special chars password,admin,!@#$%^,Invalid Credentials
+TC-11,Letters-only password,admin,abcdef,Invalid Credentials
+TC-12,Wrong numeric password,admin,999999,Invalid Credentials
+TC-13,Both fields empty,,,Empty Fields

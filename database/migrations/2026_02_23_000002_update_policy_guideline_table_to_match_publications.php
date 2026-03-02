@@ -9,6 +9,7 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (!Schema::hasTable('policy_guideline')) return;
         Schema::table('policy_guideline', function (Blueprint $table) {
             $table->string('title')->nullable()->after('id');
             $table->text('description')->nullable()->after('title');

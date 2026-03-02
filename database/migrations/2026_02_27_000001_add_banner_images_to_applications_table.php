@@ -9,6 +9,7 @@ return new class extends Migration
 {
     public function up()
     {
+        if (!Schema::hasTable('applications')) return;
         Schema::table('applications', function (Blueprint $table) {
             // Page hero banners
             $table->string('career_hero_banner')->nullable()->after('fav_icon');

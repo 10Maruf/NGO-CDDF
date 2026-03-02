@@ -1,0 +1,19 @@
+
+-----------------------------------------------------------------------
+ ID    | Description              | username | password | Expected            | Actual              | Status
+-----------------------------------------------------------------------
+TC-01 | Valid credentials        | maruf    | admin123 | Login Successful    | Login Successful    | PASS
+TC-02 | Wrong username           | user     | 123456   | Invalid Credentials | Password Too Short  | FAIL
+TC-03 | Empty username           |          | 123456   | Empty Fields        | Empty Fields        | PASS
+TC-04 | Spaces-only username     | (3 sp)   | 123456   | Invalid Credentials | Password Too Short  | FAIL
+TC-05 | Special chars username   | adm!n@#  | 123456   | Invalid Credentials | Password Too Short  | FAIL
+TC-06 | Uppercase username       | ADMIN    | 123456   | Invalid Credentials | Password Too Short  | FAIL
+TC-07 | Password too short       | admin    | 123      | Password Too Short  | Password Too Short  | PASS
+TC-08 | Empty password           | admin    |          | Empty Fields        | Empty Fields        | PASS
+TC-09 | Spaces-only password     | admin    | (6 sp)   | Invalid Credentials | Password Too Short  | FAIL
+TC-10 | Special chars password   | admin    | !@#$%^   | Invalid Credentials | Password Too Short  | FAIL
+TC-11 | Letters-only password    | admin    | abcdef   | Invalid Credentials | Password Too Short  | FAIL
+TC-12 | Wrong numeric password   | admin    | 999999   | Invalid Credentials | Password Too Short  | FAIL
+TC-13 | Both fields empty        |          |          | Empty Fields        | Empty Fields        | PASS
+-----------------------------------------------------------------------
+

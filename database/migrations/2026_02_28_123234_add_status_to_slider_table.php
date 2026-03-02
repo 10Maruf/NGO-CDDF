@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasTable('slider')) return;
         Schema::table('slider', function (Blueprint $table) {
             $table->boolean('status')->default(1)->after('description');
         });

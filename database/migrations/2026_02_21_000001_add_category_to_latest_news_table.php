@@ -8,6 +8,7 @@ class AddCategoryToLatestNewsTable extends Migration
 {
     public function up()
     {
+        if (!Schema::hasTable('latest_news')) return;
         Schema::table('latest_news', function (Blueprint $table) {
             $table->enum('category', ['news', 'event'])->default('news')->after('id');
         });

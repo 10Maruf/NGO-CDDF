@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasTable('latest_news')) return;
         Schema::table('latest_news', function (Blueprint $table) {
             $table->boolean('status')->default(1)->after('image');
         });
