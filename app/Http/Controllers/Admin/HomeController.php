@@ -98,6 +98,7 @@ class HomeController extends Controller
                     'support_staff' => 'Support Staff',
                 ];
                 $item->name = $labels[$item->name] ?? $item->name;
+                $item->count = (int) $item->count;
                 return $item;
             });
 
