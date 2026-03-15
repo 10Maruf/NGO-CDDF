@@ -338,7 +338,8 @@ class frontController extends Controller
             'response' => $request->input('g-recaptcha-response'),
             'remoteip' => $request->ip(),
         ]);
-        if (!$recaptchaResponse->json('success')) {
+        $recaptchaData = $recaptchaResponse->json();
+        if (!$recaptchaData['success'] || ($recaptchaData['score'] ?? 1) < 0.5) {
             return redirect()->back()->withInput()->withErrors(['g-recaptcha-response' => 'reCAPTCHA verification failed. Please try again.']);
         }
 
@@ -391,7 +392,8 @@ class frontController extends Controller
             'response' => $request->input('g-recaptcha-response'),
             'remoteip' => $request->ip(),
         ]);
-        if (!$recaptchaResponse->json('success')) {
+        $recaptchaData = $recaptchaResponse->json();
+        if (!$recaptchaData['success'] || ($recaptchaData['score'] ?? 1) < 0.5) {
             return redirect()->back()->withInput()->withErrors(['g-recaptcha-response' => 'reCAPTCHA verification failed. Please try again.']);
         }
 

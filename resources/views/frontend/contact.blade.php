@@ -177,14 +177,8 @@
                                     style="border-radius: 6px; border: 1px solid #ddd; padding: 10px 14px; font-size: 0.95rem; resize: vertical;">{{ old('message') }}</textarea>
                                 @error('message') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
                             </div>
-                            <div class="col-12">
-                                <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
-                                @error('g-recaptcha-response')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
-                                @enderror
-                            </div>
                             <div class="col-12 text-center mt-2">
-                                <button type="submit" class="btn px-5 py-2" style="background-color: #f86f2d; color: #fff; border-radius: 6px; font-weight: 600; font-size: 1rem; border: none;">
+                                <button type="submit" id="contact-submit-btn" class="btn px-5 py-2" style="background-color: #f86f2d; color: #fff; border-radius: 6px; font-weight: 600; font-size: 1rem; border: none;">
                                     <i class="fa-solid fa-paper-plane me-2"></i> Send Message
                                 </button>
                             </div>
@@ -201,5 +195,21 @@
 @endsection
 
 @push('js')
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+<script>
+    document.getElementById('contact-submit-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        var form = this.closest('form');
+        grecaptcha.ready(function() {
+            grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', {action: 'contact'}).then(function(token) {
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'g-recaptcha-response';
+                input.value = token;
+                form.appendChild(input);
+                form.submit();
+            });
+        });
+    });
+</script>
 @endpush
