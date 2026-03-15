@@ -291,7 +291,19 @@ class frontController extends Controller
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:20',
             'photo' => 'nullable|mimes:jpg,png,jpeg,gif|max:2048',
+            'g-recaptcha-response' => 'required',
         ]);
+
+        // Verify reCAPTCHA v3 with Google
+        $recaptchaResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret'   => config('services.recaptcha.secret_key'),
+            'response' => $request->input('g-recaptcha-response'),
+            'remoteip' => $request->ip(),
+        ]);
+        $recaptchaData = $recaptchaResponse->json();
+        if (!$recaptchaData['success'] || ($recaptchaData['score'] ?? 1) < 0.5) {
+            return redirect()->back()->withInput()->withErrors(['g-recaptcha-response' => 'reCAPTCHA verification failed. Please try again.']);
+        }
 
         $photoName = null;
         if ($photo = $request->file('photo')) {

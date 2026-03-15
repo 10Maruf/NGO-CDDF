@@ -147,7 +147,7 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <button type="submit" class="btn w-100 py-2 text-white fw-semibold"
+                                    <button type="submit" id="volunteer-submit-btn" class="btn w-100 py-2 text-white fw-semibold"
                                             style="background: #f86f2d; border: none; border-radius: 6px; font-size: 1rem;">
                                         <i class="fa-solid fa-paper-plane me-2"></i> Submit Application
                                     </button>
@@ -164,4 +164,24 @@
 </section>
 
 @endsection
+
+@push('js')
+<script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+<script>
+    document.getElementById('volunteer-submit-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        var form = this.closest('form');
+        grecaptcha.ready(function() {
+            grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', {action: 'volunteer'}).then(function(token) {
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'g-recaptcha-response';
+                input.value = token;
+                form.appendChild(input);
+                form.submit();
+            });
+        });
+    });
+</script>
+@endpush
 
