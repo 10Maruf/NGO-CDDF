@@ -10,7 +10,7 @@ class messageController extends Controller
 {
     //__ index__//
     public function index(){
-        $message = DB::table('messages')->get();
+        $message = DB::table('messages')->orderBy('id', 'desc')->get();
         return view('admin.message.index',compact('message'));
     }
 
