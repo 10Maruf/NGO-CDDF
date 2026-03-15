@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\YoutubeVideo;
 use App\Services\NotificationService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class frontController extends Controller
 {
@@ -328,7 +329,18 @@ class frontController extends Controller
             'transaction_id' => 'required|string|max:255',
             'amount' => 'required|numeric|min:1',
             'payment_method_id' => 'required|exists:payment_methods,id',
+            'g-recaptcha-response' => 'required',
         ]);
+
+        // Verify reCAPTCHA with Google
+        $recaptchaResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret'   => config('services.recaptcha.secret_key'),
+            'response' => $request->input('g-recaptcha-response'),
+            'remoteip' => $request->ip(),
+        ]);
+        if (!$recaptchaResponse->json('success')) {
+            return redirect()->back()->withInput()->withErrors(['g-recaptcha-response' => 'reCAPTCHA verification failed. Please try again.']);
+        }
 
         $donation = \App\Models\Donation::create([
             'donor_name' => $request->donor_name,
@@ -369,8 +381,19 @@ class frontController extends Controller
             'contact_number' => 'nullable|string|max:20',
             'email' => 'required',
             'subject' => 'required',
-            'message' => 'required'
+            'message' => 'required',
+            'g-recaptcha-response' => 'required',
         ]);
+
+        // Verify reCAPTCHA with Google
+        $recaptchaResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret'   => config('services.recaptcha.secret_key'),
+            'response' => $request->input('g-recaptcha-response'),
+            'remoteip' => $request->ip(),
+        ]);
+        if (!$recaptchaResponse->json('success')) {
+            return redirect()->back()->withInput()->withErrors(['g-recaptcha-response' => 'reCAPTCHA verification failed. Please try again.']);
+        }
 
         $message = array([
             'name' => $request->name,

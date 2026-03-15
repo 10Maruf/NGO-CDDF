@@ -183,6 +183,14 @@
                                     </div>
                                 </div>
 
+                                {{-- reCAPTCHA --}}
+                                <div class="col-12">
+                                    <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+                                    @error('g-recaptcha-response')
+                                        <div class="text-danger small mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
                                 {{-- Submit --}}
                                 <div class="col-12 mt-2">
                                     <button type="submit" class="btn w-100 py-3" style="background: #f86f2d; color: #fff; font-weight: 600; font-size: 1rem; border: none; border-radius: 6px; letter-spacing: 0.4px;">
@@ -200,3 +208,7 @@
 </section>
 
 @endsection
+
+@push('js')
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+@endpush
