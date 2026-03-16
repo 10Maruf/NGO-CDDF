@@ -21,3 +21,28 @@ error_log
 
 # Reference template
 /Duralux-admin-1.0.0
+
+# Old/unused project copies
+/afad
+/welfare-gh-pages
+
+# Python virtual environment
+/.venv
+
+# Database backup files
+*.sql
+
+# Root-level debug/utility scripts
+/check_columns.php
+/create_admin.php
+
+# Design/logo source files in root
+/CDDF LOGO.ai
+/CDDF_logo.png
+/CDDF_logo_long.png
+/CDDF_logo_long2.png
+
+# Dev artifacts & guides
+/run_git_commands.bat
+/BULK_ACTIONS_GUIDE.txt
+/UI_MIGRATION_CHECKLIST.md
