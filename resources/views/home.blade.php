@@ -709,20 +709,16 @@ CDDF - Home
     }
     .fp-scroll-wrapper {
         width: 100%;
-        overflow-x: auto;
+        overflow: hidden;
         position: relative;
-        scroll-behavior: smooth;
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
-    }
-    .fp-scroll-wrapper::-webkit-scrollbar {
-        display: none; /* Chrome, Safari and Opera */
     }
     .fp-scroll-container {
         display: flex;
         gap: 24px;
         padding: 20px;
         width: max-content;
+        transform: translateX(0);
+        will-change: transform;
     }
     .fp-card {
         display: flex;
@@ -810,34 +806,6 @@ CDDF - Home
         color: #7a8b9a;
         margin-top: auto;
     }
-    .fp-controls {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 15px;
-        margin-bottom: 20px;
-    }
-    .fp-nav-btn {
-        background-color: #fff;
-        border: 1px solid #ddd;
-        color: #f86f2d;
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    }
-    .fp-nav-btn:hover {
-        background-color: #f86f2d;
-        color: #fff;
-        border-color: #f86f2d;
-        transform: translateY(-2px);
-    }
     .fp-btn-container {
         text-align: center;
         margin-top: 50px;
@@ -858,6 +826,39 @@ CDDF - Home
         background-color: #e05a1f;
         color: #fff;
         transform: translateY(-2px);
+    }
+
+    /* Slider Navigation Controls */
+    .fp-nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #fff;
+        border: 2px solid #f86f2d;
+        color: #f86f2d;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        z-index: 10;
+    }
+    .fp-nav-btn:hover {
+        background-color: #f86f2d;
+        color: #fff;
+    }
+    .fp-prev-btn {
+        left: 20px;
+        box-shadow: 4px 4px 10px rgba(0,0,0,0.1);
+    }
+    .fp-next-btn {
+        right: 20px;
+        box-shadow: -4px 4px 10px rgba(0,0,0,0.1);
     }
 
     @media (max-width: 768px) {
@@ -888,16 +889,33 @@ CDDF - Home
             <div class="divider mb-4"></div>
             <p class="text-secondary">Discover our key initiatives driving sustainable change and community empowerment.</p>
         </div>
-
-        <div class="fp-controls">
-            <button id="fpPrevBtn" class="fp-nav-btn"><i class="fa-solid fa-chevron-left"></i></button>
-            <button id="fpNextBtn" class="fp-nav-btn"><i class="fa-solid fa-chevron-right"></i></button>
-        </div>
     </div>
 
-    <div class="fp-scroll-wrapper" id="fpScrollWrapper">
+    <div class="fp-scroll-wrapper">
+        <button class="fp-nav-btn fp-prev-btn" id="fpPrevBtn"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="fp-nav-btn fp-next-btn" id="fpNextBtn"><i class="fa-solid fa-chevron-right"></i></button>
+
         <div class="fp-scroll-container" id="fpScrollContainer">
             {{-- Original Set --}}
+            @foreach ($project as $item)
+                <a href="{{ route('ongoing.project.view', $item->id) }}" class="fp-card">
+                    <img src="{{ $item->cover_image_url }}" alt="{{ $item->title }}" class="fp-image">
+                    <div class="fp-content">
+                        <h4 class="fp-title">{{ $item->title }}</h4>
+                        <div class="fp-badges">
+                            <span class="fp-badge">{{ $item->status === 'ongoing' ? 'Current Projects' : 'Completed Projects' }}</span>
+                            @foreach($item->focusAreas as $fa)
+                                <span class="fp-badge">{{ $fa->title }}</span>
+                            @endforeach
+                        </div>
+                        <div class="fp-date">
+                            {{ $item->start_date ? $item->start_date->format('M d, Y') : $item->created_at->format('M d, Y') }}
+                        </div>
+                    </div>
+                </a>
+            @endforeach
+            
+            {{-- Duplicate Set for seamless scrolling --}}
             @foreach ($project as $item)
                 <a href="{{ route('ongoing.project.view', $item->id) }}" class="fp-card">
                     <img src="{{ $item->cover_image_url }}" alt="{{ $item->title }}" class="fp-image">
@@ -929,28 +947,35 @@ CDDF - Home
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const wrapper = document.getElementById('fpScrollWrapper');
+        const container = document.getElementById('fpScrollContainer');
         const prevBtn = document.getElementById('fpPrevBtn');
         const nextBtn = document.getElementById('fpNextBtn');
         
-        if(!wrapper || !prevBtn || !nextBtn) return;
+        if(!container || !prevBtn || !nextBtn) return;
 
-        // Calculate card width + gap
-        // Using arbitrary value initially, will dynamically get width of first card
-        let scrollAmount = 674; 
+        let currentTranslate = 0;
         
-        const firstCard = wrapper.querySelector('.fp-card');
-        if (firstCard) {
-            // Include margin/gap
-            scrollAmount = firstCard.offsetWidth + 24; 
+        function getScrollAmount() {
+            const firstCard = container.querySelector('.fp-card');
+            return firstCard ? (firstCard.offsetWidth + 24) : 674; // card width + gap
         }
 
         prevBtn.addEventListener('click', () => {
-            wrapper.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            currentTranslate += getScrollAmount();
+            if (currentTranslate > 0) currentTranslate = 0; // prevent scrolling past start
+            container.style.transition = 'transform 0.4s ease';
+            container.style.transform = `translateX(${currentTranslate}px)`;
         });
-        
+
         nextBtn.addEventListener('click', () => {
-            wrapper.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            const maxScroll = (container.scrollWidth / 2); // since we duplicated the items
+            currentTranslate -= getScrollAmount();
+            
+            if (Math.abs(currentTranslate) > maxScroll) { 
+                currentTranslate = -maxScroll; 
+            }
+            container.style.transition = 'transform 0.4s ease';
+            container.style.transform = `translateX(${currentTranslate}px)`;
         });
     });
 </script>
