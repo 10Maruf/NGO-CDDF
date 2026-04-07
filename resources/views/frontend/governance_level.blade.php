@@ -31,7 +31,7 @@
 {{-- ===== Nav Tabs ===== --}}
 <div id="gov-tab-bar" style="background: #fff; border-bottom: 2px solid #fde8d8; position: sticky; top: 0; z-index: 1020; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
     <div class="container">
-        <div class="d-flex gap-0 justify-content-center">
+        <div class="d-flex gap-3 justify-content-center flex-wrap py-3">
             <a href="#section-gc" class="gov-tab-link" onclick="scrollToSection('section-gc', this)">
                 <span class="gov-tab-count">{{ count($gc) }}</span>
                 General Council
@@ -125,29 +125,40 @@
 .gov-tab-link {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    padding: 14px 28px;
-    font-size: 0.88rem;
+    gap: 10px;
+    padding: 12px 28px;
+    font-size: 1.05rem;
     font-weight: 600;
-    color: #555;
+    color: #4a4a4a;
+    background: #fff;
+    border-radius: 50px;
+    border: 2px solid #fde8d8;
     text-decoration: none;
-    border-bottom: 3px solid transparent;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
     white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
 }
 .gov-tab-link:hover, .gov-tab-link.active {
-    color: #f86f2d;
-    border-bottom-color: #f86f2d;
+    color: #fff;
+    background: #f86f2d;
+    border-color: #f86f2d;
     text-decoration: none;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(248, 111, 45, 0.25);
 }
 .gov-tab-count {
-    background: #f86f2d;
-    color: #fff;
+    background: rgba(248, 111, 45, 0.15);
+    color: #f86f2d;
     border-radius: 50px;
-    font-size: 0.72rem;
+    font-size: 0.85rem;
     font-weight: 700;
-    padding: 1px 8px;
-    line-height: 1.6;
+    padding: 3px 12px;
+    line-height: 1.4;
+    transition: all 0.3s ease;
+}
+.gov-tab-link:hover .gov-tab-count, .gov-tab-link.active .gov-tab-count {
+    background: rgba(255,255,255,0.25);
+    color: #fff;
 }
 
 /* Section */
