@@ -19,13 +19,7 @@
                 <h6 class="gov-front-name">{{ $member->name }}</h6>
                 <p class="gov-front-desg">{{ $member->designation }}</p>
             </div>
-            
-            {{-- Attractive View Info Button --}}
-            <div class="gov-hint-btn">
-                <div class="hint-pulse"></div>
-                <span class="hint-text">Click to View Info</span>
-                <i class="fa-solid fa-arrow-right hint-icon"></i>
-            </div>
+            <div class="gov-hint"><i class="fa-solid fa-hand-pointer me-1"></i> View Info</div>
         </div>
 
         {{-- ===== BACK ===== --}}
@@ -135,65 +129,14 @@
     margin-bottom: 2px; line-height: 1.3; text-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
 .gov-front-desg {
-    color: #f86f2d; font-size: 0.85rem; font-weight: 600; margin-bottom: 24px;
+    color: #f86f2d; font-size: 0.78rem; font-weight: 600; margin-bottom: 0;
 }
-/* New Button Design for View Info */
-.gov-hint-btn {
-    position: absolute;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.25);
-    color: #fff;
-    padding: 6px 18px;
-    border-radius: 50px;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    backdrop-filter: blur(8px);
-    transition: all 0.3s ease;
-    overflow: hidden;
+.gov-hint {
+    position: absolute; bottom: 13px; left: 0; right: 0;
+    text-align: center; font-size: 0.68rem; color: rgba(255,255,255,0.38); letter-spacing: 0.3px;
+    transition: color 0.2s;
 }
-.gov-hint-btn .hint-pulse {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    background: rgba(248, 111, 45, 0.4);
-    border-radius: 50px;
-    transform: translate(-50%, -50%) scale(0.9);
-    opacity: 0;
-    transition: all 0.4s ease;
-    z-index: -1;
-}
-.gov-hint-btn .hint-icon {
-    font-size: 0.65rem;
-    transition: transform 0.3s ease;
-}
-.gov-flip-wrap:hover .gov-hint-btn {
-    background: rgba(248, 111, 45, 0.95);
-    border-color: #f86f2d;
-    box-shadow: 0 4px 15px rgba(248,111,45,0.4);
-    bottom: 14px;
-}
-.gov-flip-wrap:hover .gov-hint-btn .hint-pulse {
-    animation: ping 1.5s infinite;
-    opacity: 1;
-}
-.gov-flip-wrap:hover .gov-hint-btn .hint-icon {
-    transform: translateX(4px);
-}
-@keyframes ping {
-    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-    100% { transform: translate(-50%, -50%) scale(1.6); opacity: 0; }
-}
-
+.gov-flip-wrap:hover .gov-hint { color: rgba(248,111,45,0.75); }
 /* BACK */
 .gov-back {
     background: linear-gradient(145deg, #f86f2d 0%, #c94d10 100%);
