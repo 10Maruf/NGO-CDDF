@@ -2068,7 +2068,7 @@ $(document).ready(function(){
 <style>
 .ls-2 { letter-spacing: 2px; }
 .vp-story-card {
-    max-width: 350px;
+    max-width: 450px;
 }
 .vp-story-img-wrapper {
     position: relative;
@@ -2076,8 +2076,8 @@ $(document).ready(function(){
     padding: 10px;
 }
 .vp-story-img {
-    width: 140px;
-    height: 140px;
+    width: 200px;
+    height: 200px;
     object-fit: cover;
     filter: grayscale(100%);
     transition: all 0.5s ease;
@@ -2103,17 +2103,17 @@ $(document).ready(function(){
 
 .vp-story-label {
     font-family: 'Brush Script MT', cursive; /* Handwritten style font if possible, or serif italic */
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-style: italic;
     transform: rotate(-2deg);
 }
 .vp-story-desc {
-    font-size: 0.9rem;
-    font-weight: 300;
+    font-size: 1.1rem;
+    font-weight: 400;
     line-height: 1.5;
 }
 .vp-story-name {
-    font-size: 0.95rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: #111827;
 }
