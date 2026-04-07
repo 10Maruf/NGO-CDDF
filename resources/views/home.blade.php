@@ -709,16 +709,20 @@ CDDF - Home
     }
     .fp-scroll-wrapper {
         width: 100%;
-        overflow: hidden;
+        overflow-x: auto;
         position: relative;
+        scroll-behavior: smooth;
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+    .fp-scroll-wrapper::-webkit-scrollbar {
+        display: none; /* Chrome, Safari and Opera */
     }
     .fp-scroll-container {
         display: flex;
         gap: 24px;
         padding: 20px;
         width: max-content;
-        transform: translateX(0);
-        will-change: transform;
     }
     .fp-card {
         display: flex;
@@ -806,6 +810,34 @@ CDDF - Home
         color: #7a8b9a;
         margin-top: auto;
     }
+    .fp-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    .fp-nav-btn {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        color: #f86f2d;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .fp-nav-btn:hover {
+        background-color: #f86f2d;
+        color: #fff;
+        border-color: #f86f2d;
+        transform: translateY(-2px);
+    }
     .fp-btn-container {
         text-align: center;
         margin-top: 50px;
@@ -856,30 +888,16 @@ CDDF - Home
             <div class="divider mb-4"></div>
             <p class="text-secondary">Discover our key initiatives driving sustainable change and community empowerment.</p>
         </div>
+
+        <div class="fp-controls">
+            <button id="fpPrevBtn" class="fp-nav-btn"><i class="fa-solid fa-chevron-left"></i></button>
+            <button id="fpNextBtn" class="fp-nav-btn"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
     </div>
 
-    <div class="fp-scroll-wrapper">
+    <div class="fp-scroll-wrapper" id="fpScrollWrapper">
         <div class="fp-scroll-container" id="fpScrollContainer">
             {{-- Original Set --}}
-            @foreach ($project as $item)
-                <a href="{{ route('ongoing.project.view', $item->id) }}" class="fp-card">
-                    <img src="{{ $item->cover_image_url }}" alt="{{ $item->title }}" class="fp-image">
-                    <div class="fp-content">
-                        <h4 class="fp-title">{{ $item->title }}</h4>
-                        <div class="fp-badges">
-                            <span class="fp-badge">{{ $item->status === 'ongoing' ? 'Current Projects' : 'Completed Projects' }}</span>
-                            @foreach($item->focusAreas as $fa)
-                                <span class="fp-badge">{{ $fa->title }}</span>
-                            @endforeach
-                        </div>
-                        <div class="fp-date">
-                            {{ $item->start_date ? $item->start_date->format('M d, Y') : $item->created_at->format('M d, Y') }}
-                        </div>
-                    </div>
-                </a>
-            @endforeach
-            
-            {{-- Duplicate Set for seamless scrolling --}}
             @foreach ($project as $item)
                 <a href="{{ route('ongoing.project.view', $item->id) }}" class="fp-card">
                     <img src="{{ $item->cover_image_url }}" alt="{{ $item->title }}" class="fp-image">
@@ -911,36 +929,28 @@ CDDF - Home
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const section = document.getElementById('featuredProjectsSection');
-        const container = document.getElementById('fpScrollContainer');
+        const wrapper = document.getElementById('fpScrollWrapper');
+        const prevBtn = document.getElementById('fpPrevBtn');
+        const nextBtn = document.getElementById('fpNextBtn');
         
-        // Initial check
-        if(!section || !container) return;
+        if(!wrapper || !prevBtn || !nextBtn) return;
 
-        window.addEventListener('scroll', function() {
-            // Get the position of the section relative to the viewport
-            const rect = section.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-            
-            // Check if section is in view
-            if (rect.top < windowHeight && rect.bottom > 0) {
-                // Calculate how far we've scrolled past the top of the section
-                // 0 means just entered from bottom, 1 means fully scrolled past top
-                let progress = (windowHeight - rect.top) / (windowHeight + rect.height);
-                
-                // Clamp progress between 0 and 1
-                progress = Math.max(0, Math.min(1, progress));
-                
-                // Calculate translation (move left by up to 50% of container width)
-                // We duplicate the items so we can scroll up to 50% without seeing the end
-                const maxScroll = container.scrollWidth / 2;
-                
-                // Adjust multiplier to control scroll speed. 
-                // Increased from 0.8 to 1.5 to make it scroll faster and show more items
-                const translateX = -(progress * maxScroll * 1.5); 
-                
-                container.style.transform = `translateX(${translateX}px)`;
-            }
+        // Calculate card width + gap
+        // Using arbitrary value initially, will dynamically get width of first card
+        let scrollAmount = 674; 
+        
+        const firstCard = wrapper.querySelector('.fp-card');
+        if (firstCard) {
+            // Include margin/gap
+            scrollAmount = firstCard.offsetWidth + 24; 
+        }
+
+        prevBtn.addEventListener('click', () => {
+            wrapper.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            wrapper.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         });
     });
 </script>
