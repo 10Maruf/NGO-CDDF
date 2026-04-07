@@ -947,36 +947,69 @@ CDDF - Home
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        const section = document.getElementById('featuredProjectsSection');
         const container = document.getElementById('fpScrollContainer');
         const prevBtn = document.getElementById('fpPrevBtn');
         const nextBtn = document.getElementById('fpNextBtn');
         
-        if(!container || !prevBtn || !nextBtn) return;
+        // Initial check
+        if(!section || !container) return;
 
-        let currentTranslate = 0;
-        
-        function getScrollAmount() {
-            const firstCard = container.querySelector('.fp-card');
-            return firstCard ? (firstCard.offsetWidth + 24) : 674; // card width + gap
-        }
+        let manualTranslate = 0; // Tracks manual offsets from buttons
+        let scrollTranslate = 0; // Tracks automatic offsets from scrolling
+        let maxScroll = 0;
 
-        prevBtn.addEventListener('click', () => {
-            currentTranslate += getScrollAmount();
-            if (currentTranslate > 0) currentTranslate = 0; // prevent scrolling past start
-            container.style.transition = 'transform 0.4s ease';
-            container.style.transform = `translateX(${currentTranslate}px)`;
-        });
-
-        nextBtn.addEventListener('click', () => {
-            const maxScroll = (container.scrollWidth / 2); // since we duplicated the items
-            currentTranslate -= getScrollAmount();
+        // Use scroll event for automatic translation
+        window.addEventListener('scroll', function() {
+            const rect = section.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
             
-            if (Math.abs(currentTranslate) > maxScroll) { 
-                currentTranslate = -maxScroll; 
+            if (rect.top < windowHeight && rect.bottom > 0) {
+                let progress = (windowHeight - rect.top) / (windowHeight + rect.height);
+                progress = Math.max(0, Math.min(1, progress));
+                
+                maxScroll = container.scrollWidth / 2;
+                scrollTranslate = -(progress * maxScroll * 1.5); 
+                
+                updateTransform();
             }
-            container.style.transition = 'transform 0.4s ease';
-            container.style.transform = `translateX(${currentTranslate}px)`;
         });
+
+        if (prevBtn && nextBtn) {
+            function getScrollAmount() {
+                const firstCard = container.querySelector('.fp-card');
+                return firstCard ? (firstCard.offsetWidth + 24) : 674;
+            }
+
+            prevBtn.addEventListener('click', () => {
+                manualTranslate += getScrollAmount();
+                updateTransform();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                manualTranslate -= getScrollAmount();
+                updateTransform();
+            });
+        }
+        
+        function updateTransform() {
+            container.style.transition = 'transform 0.4s ease';
+            
+            // Total translation is the sum of scroll effect and manual clicks
+            let totalTranslate = scrollTranslate + manualTranslate;
+            
+            // Boundary checks
+            if (totalTranslate > 0) {
+                totalTranslate = 0;
+                manualTranslate = -scrollTranslate; // Limit manual translation so total isn't positive
+            }
+            if (maxScroll > 0 && Math.abs(totalTranslate) > maxScroll) {
+                totalTranslate = -maxScroll;
+                manualTranslate = -maxScroll - scrollTranslate; 
+            }
+            
+            container.style.transform = `translateX(${totalTranslate}px)`;
+        }
     });
 </script>
 {{-- End Featured Projects --}}
