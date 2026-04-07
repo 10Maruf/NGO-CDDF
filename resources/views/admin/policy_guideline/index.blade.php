@@ -46,14 +46,26 @@
                                 <td class="align-middle">{{ $item->title }}</td>
                                 <td class="align-middle">
                                     @if ($item->thumbnail)
-                                        <img src="{{ asset('images/policy_guideline/thumbnails/'.$item->thumbnail) }}" alt="{{ $item->title }}" width="50" height="40" class="rounded">
+                                        @php
+                                            $thumbRelPath = 'images/policy_guideline/thumbnails/'.$item->thumbnail;
+                                            if(!file_exists(public_path($thumbRelPath)) && file_exists(public_path('images/policy_guideline/'.$item->thumbnail))) {
+                                                $thumbRelPath = 'images/policy_guideline/'.$item->thumbnail;
+                                            }
+                                        @endphp
+                                        <img src="{{ asset($thumbRelPath) }}" alt="{{ $item->title }}" width="50" height="40" class="rounded">
                                     @else
                                         <span class="text-muted">No Image</span>
                                     @endif
                                 </td>
                                 <td class="align-middle">
                                     @if ($item->pdf_file)
-                                        <a href="{{ asset('images/policy_guideline/pdfs/'.$item->pdf_file) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                        @php
+                                            $pdfRelPath = 'images/policy_guideline/pdfs/'.$item->pdf_file;
+                                            if(!file_exists(public_path($pdfRelPath)) && file_exists(public_path('images/policy_guideline/'.$item->pdf_file))) {
+                                                $pdfRelPath = 'images/policy_guideline/'.$item->pdf_file;
+                                            }
+                                        @endphp
+                                        <a href="{{ asset($pdfRelPath) }}" target="_blank" class="btn btn-sm btn-outline-primary">
                                             <i class="bx bx-download"></i> View PDF
                                         </a>
                                     @else

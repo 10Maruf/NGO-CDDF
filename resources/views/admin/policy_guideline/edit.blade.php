@@ -38,7 +38,13 @@
                         <div class="col-md-12">
                             <label class="form-label">Current Thumbnail:</label>
                             <div>
-                                <img src="{{ asset('images/policy_guideline/thumbnails/'.$item->thumbnail) }}" alt="{{ $item->title }}" width="150" class="rounded border">
+                                @php
+                                    $thumbRelPath = 'images/policy_guideline/thumbnails/'.$item->thumbnail;
+                                    if(!file_exists(public_path($thumbRelPath)) && file_exists(public_path('images/policy_guideline/'.$item->thumbnail))) {
+                                        $thumbRelPath = 'images/policy_guideline/'.$item->thumbnail;
+                                    }
+                                @endphp
+                                <img src="{{ asset($thumbRelPath) }}" alt="{{ $item->title }}" width="150" class="rounded border">
                             </div>
                         </div>
                         @endif
@@ -54,7 +60,13 @@
                         <div class="col-md-12">
                             <label class="form-label">Current PDF:</label>
                             <div>
-                                <a href="{{ asset('images/policy_guideline/pdfs/'.$item->pdf_file) }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                @php
+                                    $pdfRelPath = 'images/policy_guideline/pdfs/'.$item->pdf_file;
+                                    if(!file_exists(public_path($pdfRelPath)) && file_exists(public_path('images/policy_guideline/'.$item->pdf_file))) {
+                                        $pdfRelPath = 'images/policy_guideline/'.$item->pdf_file;
+                                    }
+                                @endphp
+                                <a href="{{ asset($pdfRelPath) }}" target="_blank" class="btn btn-outline-primary btn-sm">
                                     <i class="bx bx-download"></i> View Current PDF
                                 </a>
                             </div>

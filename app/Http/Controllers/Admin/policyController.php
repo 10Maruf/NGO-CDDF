@@ -79,6 +79,10 @@ class policyController extends Controller
             if (!empty($existing->thumbnail)) {
                 $old = public_path('images/policy_guideline/thumbnails/' . $existing->thumbnail);
                 if (file_exists($old)) @unlink($old);
+                else {
+                    $old = public_path('images/policy_guideline/' . $existing->thumbnail);
+                    if (file_exists($old)) @unlink($old);
+                }
             }
             $thumbnailName = rand(10000, 99999) . 'policy_thumbnail.' . $thumbnail->getClientOriginalExtension();
             $thumbnail->move(public_path('images/policy_guideline/thumbnails/'), $thumbnailName);
@@ -89,6 +93,10 @@ class policyController extends Controller
             if (!empty($existing->pdf_file)) {
                 $old = public_path('images/policy_guideline/pdfs/' . $existing->pdf_file);
                 if (file_exists($old)) @unlink($old);
+                else {
+                    $old = public_path('images/policy_guideline/' . $existing->pdf_file);
+                    if (file_exists($old)) @unlink($old);
+                }
             }
             $pdfFileName = rand(10000, 99999) . 'policy_guideline.' . $pdfFile->getClientOriginalExtension();
             $pdfFile->move(public_path('images/policy_guideline/pdfs/'), $pdfFileName);
@@ -113,10 +121,18 @@ class policyController extends Controller
         if (!empty($existing->thumbnail)) {
             $old = public_path('images/policy_guideline/thumbnails/' . $existing->thumbnail);
             if (file_exists($old)) @unlink($old);
+            else {
+                $old = public_path('images/policy_guideline/' . $existing->thumbnail);
+                if (file_exists($old)) @unlink($old);
+            }
         }
         if (!empty($existing->pdf_file)) {
             $old = public_path('images/policy_guideline/pdfs/' . $existing->pdf_file);
             if (file_exists($old)) @unlink($old);
+            else {
+                $old = public_path('images/policy_guideline/' . $existing->pdf_file);
+                if (file_exists($old)) @unlink($old);
+            }
         }
 
         DB::table('policy_guideline')->where('id', $id)->delete();
@@ -133,10 +149,18 @@ class policyController extends Controller
                 if (!empty($item->thumbnail)) {
                     $old = public_path('images/policy_guideline/thumbnails/' . $item->thumbnail);
                     if (file_exists($old)) @unlink($old);
+                    else {
+                        $old = public_path('images/policy_guideline/' . $item->thumbnail);
+                        if (file_exists($old)) @unlink($old);
+                    }
                 }
                 if (!empty($item->pdf_file)) {
                     $old = public_path('images/policy_guideline/pdfs/' . $item->pdf_file);
                     if (file_exists($old)) @unlink($old);
+                    else {
+                        $old = public_path('images/policy_guideline/' . $item->pdf_file);
+                        if (file_exists($old)) @unlink($old);
+                    }
                 }
             }
             DB::table('policy_guideline')->whereIn('id', $ids)->delete();
