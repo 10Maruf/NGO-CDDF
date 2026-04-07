@@ -1930,17 +1930,49 @@ $(document).ready(function(){
 
                 @forelse($chunks as $index => $chunk)
                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                    <div class="row align-items-center py-5">
-                        {{-- Left Column: Title + Pagination --}}
-                        <div class="col-lg-4 d-flex flex-column justify-content-center pe-lg-5 mb-5 mb-lg-0">
+                    <div class="row align-items-center" style="min-height: 600px;">
+                        {{-- Left Column: Title + Middle Card + Pagination --}}
+                        <div class="col-lg-5 ps-lg-5 d-flex flex-column justify-content-between h-100 py-4">
+                            
                             {{-- Title Section --}}
-                            <div class="mb-4">
+                            <div class="mb-5">
                                 <h6 class="text-uppercase fw-bold ls-2" style="color: #1f2937;">Success <span style="color: #f86f2d;">Stories</span></h6>
                                 <h2 class="display-5 fw-bold text-dark" style="font-family: 'Playfair Display', serif;">VOICES OF <br>CHANGE</h2>
                             </div>
 
-                             {{-- Pagination Controls --}}
-                             <div class="d-flex align-items-center gap-3 mt-4">
+                            {{-- Middle Card (Left Side) - Only if 2nd item exists --}}
+                            @if(isset($chunk[$index * 4 + 1]) || $chunk->count() >= 2)
+                                @php 
+                                    $middleStory = $chunk->skip(1)->first(); 
+                                    // Determine image path (support seeded avatars and uploaded images)
+                                    $middleImgPath = asset('images/stories/'.$middleStory->image);
+                                    if(in_array($middleStory->image, ['1.png','2.png','3.png','4.png','5.png','6.png','7.png','8.png','9.png','10.png','11.png','12.png'])) {
+                                        $middleImgPath = asset('admin/assets/images/duralux/avatar/'.$middleStory->image);
+                                    }
+                                @endphp
+                                @if($middleStory)
+                                <div class="vp-story-card ms-lg-4 mb-4 mb-lg-0" data-aos="fade-right" data-aos-delay="200">
+                                    <div class="vp-story-img-wrapper mb-3">
+                                        <div class="vp-story-img-border"></div>
+                                        <img src="{{ $middleImgPath }}" alt="{{ $middleStory->beneficiary_name }}" class="vp-story-img">
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="vp-story-label text-primary mb-2">Success Story #2</h6>
+                                        <p class="vp-story-desc text-muted mb-3">"{{ Str::limit($middleStory->description, 90) }}"</p>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="vp-story-line"></div>
+                                            <div>
+                                                <h6 class="vp-story-name mb-0">{{ $middleStory->beneficiary_name }}</h6>
+                                                <small class="text-muted" style="font-size: 0.75rem;">{{ $middleStory->beneficiary_title }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                            @endif
+
+                             {{-- Pagination Controls (Bottom Left) --}}
+                             <div class="mt-auto d-flex align-items-center gap-3 pt-5">
                                 <button class="vp-slider-btn prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
                                     <i class="fas fa-arrow-left"></i>
                                 </button>
@@ -1953,35 +1985,106 @@ $(document).ready(function(){
                                     <i class="fas fa-arrow-right"></i>
                                 </button>
                             </div>
+
                         </div>
 
-                        {{-- Right Column: 4 Cards Grid --}}
-                        <div class="col-lg-8">
-                             <div class="row g-4 align-items-center">
-                                @foreach($chunk as $storyIndex => $story)
+                        {{-- Right Column: Top Card + Bottom Card --}}
+                        <div class="col-lg-7 position-relative">
+                             <div class="row h-100">
+                                {{-- Top Right Card --}}
+                                <div class="col-md-10 offset-md-2 mb-4">
                                     @php 
-                                        $imgPath = asset('images/stories/'.$story->image);
-                                        if(in_array($story->image, ['1.png','2.png','3.png','4.png','5.png','6.png','7.png','8.png','9.png','10.png','11.png','12.png'])) {
-                                            $imgPath = asset('admin/assets/images/duralux/avatar/'.$story->image);
+                                        $firstStory = $chunk->first(); 
+                                        $firstImgPath = asset('images/stories/'.$firstStory->image);
+                                        if(in_array($firstStory->image, ['1.png','2.png','3.png','4.png','5.png','6.png','7.png','8.png','9.png','10.png','11.png','12.png'])) {
+                                            $firstImgPath = asset('admin/assets/images/duralux/avatar/'.$firstStory->image);
                                         }
-                                        $colors = ['text-info', 'text-primary', 'text-warning', 'text-success'];
-                                        $colorClass = $colors[$storyIndex % 4];
                                     @endphp
-                                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="{{ $storyIndex * 100 }}">
-                                        <div class="vp-story-card mx-auto d-flex flex-column align-items-center text-center p-3">
-                                            <div class="vp-story-img-wrapper mb-3">
-                                                <div class="vp-story-img-border border-bottom"></div>
-                                                <img src="{{ $imgPath }}" alt="{{ $story->beneficiary_name }}" class="vp-story-img" style="width: 160px; height: 160px; border-radius: 50%;">
+                                    @if($firstStory)
+                                    <div class="vp-story-card ms-auto" data-aos="fade-left" data-aos-delay="100">
+                                         <div class="d-flex flex-row-reverse align-items-start gap-4">
+                                            <div class="vp-story-img-wrapper">
+                                                <div class="vp-story-img-border border-end"></div>
+                                                <img src="{{ $firstImgPath }}" alt="{{ $firstStory->beneficiary_name }}" class="vp-story-img">
                                             </div>
-                                            <h6 class="vp-story-label {{ $colorClass }} mb-2">Story #{{ $storyIndex + 1 }}</h6>
-                                            <p class="vp-story-desc text-muted mb-3 w-100">"{{ Str::limit($story->description, 100) }}"</p>
-                                            <div>
-                                                <h6 class="vp-story-name mb-0 fs-5">{{ $story->beneficiary_name }}</h6>
-                                                <small class="text-muted" style="font-size: 0.85rem;">{{ $story->beneficiary_title }}</small>
+                                            <div class="text-end pt-3">
+                                                <h6 class="vp-story-label text-info mb-2">Success Story #1</h6>
+                                                <p class="vp-story-desc text-muted mb-3">"{{ Str::limit($firstStory->description, 80) }}"</p>
+                                                <div class="d-flex align-items-center justify-content-end gap-2">
+                                                    <div>
+                                                        <h6 class="vp-story-name mb-0">{{ $firstStory->beneficiary_name }}</h6>
+                                                        <small class="text-muted" style="font-size: 0.75rem;">{{ $firstStory->beneficiary_title }}</small>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                @endforeach
+                                    @endif
+                                </div>
+
+                                {{-- Bottom Center/Right Card (Card #3) --}}
+                                <div class="col-md-8 offset-md-1 mt-3">
+                                     @if(isset($chunk[$index * 4 + 2]) || $chunk->count() >= 3)
+                                        @php 
+                                            $thirdStory = $chunk->skip(2)->first(); 
+                                            $thirdImgPath = asset('images/stories/'.$thirdStory->image);
+                                            if(in_array($thirdStory->image, ['1.png','2.png','3.png','4.png','5.png','6.png','7.png','8.png','9.png','10.png','11.png','12.png'])) {
+                                                $thirdImgPath = asset('admin/assets/images/duralux/avatar/'.$thirdStory->image);
+                                            }
+                                        @endphp
+                                        @if($thirdStory)
+                                        <div class="vp-story-card mx-auto" data-aos="fade-up" data-aos-delay="300">
+                                             <div class="d-flex flex-column align-items-center text-center">
+                                                <div class="vp-story-img-wrapper mb-3">
+                                                    <div class="vp-story-img-border border-bottom"></div>
+                                                    <img src="{{ $thirdImgPath }}" alt="{{ $thirdStory->beneficiary_name }}" class="vp-story-img">
+                                                </div>
+                                                <h6 class="vp-story-label text-warning mb-2">Success Story #3</h6>
+                                                <p class="vp-story-desc text-muted mb-3 w-100 px-3 mx-auto">"{{ Str::limit($thirdStory->description, 90) }}"</p>
+                                                 <div class="d-flex align-items-center justify-content-center gap-2">
+                                                    <div>
+                                                        <h6 class="vp-story-name mb-0">{{ $thirdStory->beneficiary_name }}</h6>
+                                                        <small class="text-muted" style="font-size: 0.75rem;">{{ $thirdStory->beneficiary_title }}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
+                                    @endif
+                                </div>
+
+                                {{-- Fourth Card (Bottom Right) --}}
+                                <div class="col-md-12 mt-4 pt-3">
+                                     @if(isset($chunk[$index * 4 + 3]) || $chunk->count() >= 4)
+                                        @php 
+                                            $fourthStory = $chunk->skip(3)->first(); 
+                                            $fourthImgPath = asset('images/stories/'.$fourthStory->image);
+                                            if(in_array($fourthStory->image, ['1.png','2.png','3.png','4.png','5.png','6.png','7.png','8.png','9.png','10.png','11.png','12.png'])) {
+                                                $fourthImgPath = asset('admin/assets/images/duralux/avatar/'.$fourthStory->image);
+                                            }
+                                        @endphp
+                                        @if($fourthStory)
+                                        <div class="vp-story-card ms-auto" data-aos="fade-left" data-aos-delay="400">
+                                             <div class="d-flex flex-row-reverse align-items-start gap-4">
+                                                <div class="vp-story-img-wrapper">
+                                                    <div class="vp-story-img-border border-end" style="border-color: #f86f2d;"></div>
+                                                    <img src="{{ $fourthImgPath }}" alt="{{ $fourthStory->beneficiary_name }}" class="vp-story-img">
+                                                </div>
+                                                <div class="text-end pt-3">
+                                                    <h6 class="vp-story-label text-success mb-2">Success Story #4</h6>
+                                                    <p class="vp-story-desc text-muted mb-3">"{{ Str::limit($fourthStory->description, 80) }}"</p>
+                                                    <div class="d-flex align-items-center justify-content-end gap-2">
+                                                        <div>
+                                                            <h6 class="vp-story-name mb-0">{{ $fourthStory->beneficiary_name }}</h6>
+                                                            <small class="text-muted" style="font-size: 0.75rem;">{{ $fourthStory->beneficiary_title }}</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
+                                    @endif
+                                </div>
                              </div>
                         </div>
                     </div>
