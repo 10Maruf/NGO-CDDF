@@ -123,6 +123,9 @@
                     <div class="pub-card__img">
                         @php
                             $thumbRelPath = 'images/legal_affilation/thumbnails/'.$item->thumbnail;
+                            if (!empty($item->thumbnail) && !file_exists(public_path($thumbRelPath)) && file_exists(public_path('images/legal_affilation/'.$item->thumbnail))) {
+                                $thumbRelPath = 'images/legal_affilation/'.$item->thumbnail;
+                            }
                             $thumbAbsPath = public_path($thumbRelPath);
                             $hasThumb = !empty($item->thumbnail) && file_exists($thumbAbsPath);
                         @endphp
@@ -140,8 +143,14 @@
                         <div class="pub-card__actions">
                             {{-- Download button --}}
                             @if($item->pdf_file)
+                                @php
+                                    $pdfRelPath = 'images/legal_affilation/pdfs/'.$item->pdf_file;
+                                    if(!file_exists(public_path($pdfRelPath)) && file_exists(public_path('images/legal_affilation/'.$item->pdf_file))) {
+                                        $pdfRelPath = 'images/legal_affilation/'.$item->pdf_file;
+                                    }
+                                @endphp
                                 <a class="btn-download-pub"
-                                   href="{{ asset('images/legal_affilation/pdfs/'.$item->pdf_file) }}"
+                                   href="{{ asset($pdfRelPath) }}"
                                    download="{{ $item->title }}.pdf">
                                     <i class="fa-solid fa-download"></i> Download
                                 </a>

@@ -79,6 +79,10 @@ class legalAffilationController extends Controller
             if (!empty($existing->thumbnail)) {
                 $old = public_path('images/legal_affilation/thumbnails/' . $existing->thumbnail);
                 if (file_exists($old)) @unlink($old);
+                else {
+                    $old = public_path('images/legal_affilation/' . $existing->thumbnail);
+                    if (file_exists($old)) @unlink($old);
+                }
             }
             $thumbnailName = rand(10000, 99999) . 'legal_affilation_thumbnail.' . $thumbnail->getClientOriginalExtension();
             $thumbnail->move(public_path('images/legal_affilation/thumbnails/'), $thumbnailName);
@@ -89,6 +93,10 @@ class legalAffilationController extends Controller
             if (!empty($existing->pdf_file)) {
                 $old = public_path('images/legal_affilation/pdfs/' . $existing->pdf_file);
                 if (file_exists($old)) @unlink($old);
+                else {
+                    $old = public_path('images/legal_affilation/' . $existing->pdf_file);
+                    if (file_exists($old)) @unlink($old);
+                }
             }
             $pdfFileName = rand(10000, 99999) . 'legal_affilation.' . $pdfFile->getClientOriginalExtension();
             $pdfFile->move(public_path('images/legal_affilation/pdfs/'), $pdfFileName);
@@ -113,10 +121,18 @@ class legalAffilationController extends Controller
         if (!empty($existing->thumbnail)) {
             $old = public_path('images/legal_affilation/thumbnails/' . $existing->thumbnail);
             if (file_exists($old)) @unlink($old);
+            else {
+                $old = public_path('images/legal_affilation/' . $existing->thumbnail);
+                if (file_exists($old)) @unlink($old);
+            }
         }
         if (!empty($existing->pdf_file)) {
             $old = public_path('images/legal_affilation/pdfs/' . $existing->pdf_file);
             if (file_exists($old)) @unlink($old);
+            else {
+                $old = public_path('images/legal_affilation/' . $existing->pdf_file);
+                if (file_exists($old)) @unlink($old);
+            }
         }
 
         DB::table('legal_affilation')->where('id', $id)->delete();
@@ -136,10 +152,18 @@ class legalAffilationController extends Controller
             if (!empty($item->thumbnail)) {
                 $old = public_path('images/legal_affilation/thumbnails/' . $item->thumbnail);
                 if (file_exists($old)) @unlink($old);
+                else {
+                    $old = public_path('images/legal_affilation/' . $item->thumbnail);
+                    if (file_exists($old)) @unlink($old);
+                }
             }
             if (!empty($item->pdf_file)) {
                 $old = public_path('images/legal_affilation/pdfs/' . $item->pdf_file);
                 if (file_exists($old)) @unlink($old);
+                else {
+                    $old = public_path('images/legal_affilation/' . $item->pdf_file);
+                    if (file_exists($old)) @unlink($old);
+                }
             }
         }
 
