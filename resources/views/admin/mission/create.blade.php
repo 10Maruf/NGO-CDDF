@@ -19,27 +19,30 @@
                     </div>
                 @endif
                 <div class="p-4 border rounded">
-                    <form class="row g-3" action="{{ route('mission.vision.store') }}" method="post">
+                    <form class="row g-3" id="mission_form" action="{{ route('mission.vision.store') }}" method="post">
                         @csrf
                         <div class="col-md-12">
-                            <label for="vision" class="form-label">Vision</label>
-                            <textarea id="vision" name="vision" class="form-control @error('vision') is-invalid @enderror" rows="3">{{ old('vision', $mission->vision ?? '') }}</textarea>
+                            <label class="form-label">Vision</label>
+                            <div id="vision-editor-container" style="height:200px;"></div>
+                            <input type="hidden" name="vision" id="vision_input">
                             @error('vision')
-                                <div class="text-danger">{{ $message }}</div>
+                                <div class="text-danger mt-1">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-md-12">
-                            <label for="mission" class="form-label">Mission</label>
-                            <textarea id="mission" name="mission" class="form-control @error('mission') is-invalid @enderror" rows="3">{{ old('mission', $mission->mission ?? '') }}</textarea>
+                            <label class="form-label">Mission</label>
+                            <div id="mission-editor-container" style="height:200px;"></div>
+                            <input type="hidden" name="mission" id="mission_input">
                             @error('mission')
-                                <div class="text-danger">{{ $message }}</div>
+                                <div class="text-danger mt-1">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-md-12">
-                            <label for="values" class="form-label">Our Values</label>
-                            <textarea id="values" name="values" class="form-control @error('values') is-invalid @enderror" rows="5">{{ old('values', $mission->values ?? '') }}</textarea>
+                            <label class="form-label">Our Values</label>
+                            <div id="values-editor-container" style="height:250px;"></div>
+                            <input type="hidden" name="values" id="values_input">
                             @error('values')
-                                <div class="text-danger">{{ $message }}</div>
+                                <div class="text-danger mt-1">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-12">
@@ -55,21 +58,21 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h6>Vision:</h6>
-                        <p class="text-justify">
-                            {{ isset($mission->vision)? $mission->vision:'' }}
-                        </p>
+                        <div class="text-justify">
+                            {!! isset($mission->vision) ? $mission->vision : '' !!}
+                        </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-12 mt-3">
                         <h6>Mission:</h6>
-                        <p class="text-justify">
-                            {{ isset($mission->mission)? $mission->mission:'' }}
-                        </p>
+                        <div class="text-justify">
+                            {!! isset($mission->mission) ? $mission->mission : '' !!}
+                        </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-12 mt-3">
                         <h6>Our Values:</h6>
-                        <p class="text-justify">
-                            {{ isset($mission->values)? $mission->values:'' }}
-                        </p>
+                        <div class="text-justify">
+                            {!! isset($mission->values) ? $mission->values : '' !!}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -77,5 +80,65 @@
 
     </div>
 </div>
+
+{{-- Quill CSS --}}
+<link rel="stylesheet" href="{{ asset('admin/assets/vendors/css/quill.min.css') }}">
+<style>
+    .ql-toolbar.ql-snow  { border-color: #ced4da; border-radius: 4px 4px 0 0; }
+    .ql-container.ql-snow{ border-color: #ced4da; border-radius: 0 0 4px 4px; font-family: inherit; font-size: 14px; }
+</style>
+
+{{-- Quill JS --}}
+<script src="{{ asset('admin/assets/vendors/js/quill.min.js') }}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var toolbarOptions = [
+        [{ header: [1, 2, 3, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        ['blockquote'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        [{ indent: '-1' }, { indent: '+1' }],
+        [{ color: [] }, { background: [] }],
+        [{ align: [] }],
+        ['link', 'image', 'video'],
+        ['clean']
+    ];
+
+    var quillVision = new Quill('#vision-editor-container', {
+        theme: 'snow',
+        placeholder: 'Write vision here...',
+        modules: { toolbar: toolbarOptions }
+    });
+
+    var quillMission = new Quill('#mission-editor-container', {
+        theme: 'snow',
+        placeholder: 'Write mission here...',
+        modules: { toolbar: toolbarOptions }
+    });
+
+    var quillValues = new Quill('#values-editor-container', {
+        theme: 'snow',
+        placeholder: 'Write values here...',
+        modules: { toolbar: toolbarOptions }
+    });
+
+    // Populate existing data
+    var visionContent = {!! json_encode(old('vision', $mission->vision ?? '')) !!};
+    if (visionContent) quillVision.root.innerHTML = visionContent;
+
+    var missionContent = {!! json_encode(old('mission', $mission->mission ?? '')) !!};
+    if (missionContent) quillMission.root.innerHTML = missionContent;
+
+    var valuesContent = {!! json_encode(old('values', $mission->values ?? '')) !!};
+    if (valuesContent) quillValues.root.innerHTML = valuesContent;
+
+    // Sync inputs before submit
+    document.getElementById('mission_form').addEventListener('submit', function () {
+        document.getElementById('vision_input').value = quillVision.root.innerHTML;
+        document.getElementById('mission_input').value = quillMission.root.innerHTML;
+        document.getElementById('values_input').value = quillValues.root.innerHTML;
+    });
+});
+</script>
 
 @endsection
