@@ -18,15 +18,14 @@
                     </div>
                 @endif
                 <div class="p-4 border rounded">
-                    <form class="row g-3" action="{{ route('about.us.store') }}" method="post">
+                    <form class="row g-3" id="about_form" action="{{ route('about.us.store') }}" method="post">
                         @csrf
                         <div class="col-md-12">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea id="description" name="description" class="form-control @error('description') is-invalid @enderror" rows="3">
-                                {{ isset($about->description)?$about->description:'' }}
-                            </textarea>
+                            <label class="form-label">Description</label>
+                            <div id="editor-container" style="height:320px;"></div>
+                            <input type="hidden" name="description" id="description_input">
                             @error('description')
-                                <div class="text-danger">{{ $message }}</div>
+                                <div class="text-danger mt-1">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-12">
@@ -52,5 +51,47 @@
 
     </div>
 </div>
+
+{{-- Quill CSS --}}
+<link rel="stylesheet" href="{{ asset('admin/assets/vendors/css/quill.min.css') }}">
+<style>
+    .ql-toolbar.ql-snow  { border-color: #ced4da; border-radius: 4px 4px 0 0; }
+    .ql-container.ql-snow{ border-color: #ced4da; border-radius: 0 0 4px 4px; font-family: inherit; font-size: 14px; }
+</style>
+
+{{-- Quill JS --}}
+<script src="{{ asset('admin/assets/vendors/js/quill.min.js') }}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var quill = new Quill('#editor-container', {
+        theme: 'snow',
+        placeholder: 'Write about description here...',
+        modules: {
+            toolbar: [
+                [{ header: [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                ['blockquote'],
+                [{ list: 'ordered' }, { list: 'bullet' }],
+                [{ indent: '-1' }, { indent: '+1' }],
+                [{ color: [] }, { background: [] }],
+                [{ align: [] }],
+                ['link', 'image', 'video'],
+                ['clean']
+            ]
+        }
+    });
+
+    // Populate existing data
+    var existingContent = {!! json_encode(old('description', isset($about->description) ? $about->description : '')) !!};
+    if (existingContent) {
+        quill.root.innerHTML = existingContent;
+    }
+
+    // Sync input before submit
+    document.getElementById('about_form').addEventListener('submit', function () {
+        document.getElementById('description_input').value = quill.root.innerHTML;
+    });
+});
+</script>
 
 @endsection
