@@ -147,9 +147,9 @@
             @foreach($orgMembers[$type] as $member)
             @php
               $colClass = match($type) {
-                'field_staff', 'support_staff' => 'col-6 col-md-4 col-lg-2',
+                'field_staff', 'support_staff' => 'col-6 col-sm-4 col-md-3 col-lg-2',
                 'executive_director' => 'col-12 col-md-6 col-lg-4 mx-auto',
-                default => 'col-6 col-md-4 col-lg-3',
+                default => 'col-12 col-sm-6 col-md-4 col-lg-3',
               };
             @endphp
             <div class="{{ $colClass }}">
