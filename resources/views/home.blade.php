@@ -104,7 +104,7 @@ CDDF - Home
     }
 </style>
 
-<section class="py-5" style="background-image: url('{{ (isset($application->mission_vision_bg) && $application->mission_vision_bg) ? asset('images/application/'.$application->mission_vision_bg) : asset('static_image/mission-vision_bg.jpg') }}'); background-size: cover; background-position: center; background-attachment: fixed; position: relative;">
+<section class="py-5 mvv-section" style="background-image: url('{{ (isset($application->mission_vision_bg) && $application->mission_vision_bg) ? asset('images/application/'.$application->mission_vision_bg) : asset('static_image/mission-vision_bg.jpg') }}'); background-size: cover; background-position: center; background-attachment: fixed; position: relative;">
     <div style="position: absolute; inset: 0; background: rgba(0, 0, 0, 0.65);"></div>
     <div class="container" style="position: relative; z-index: 1;">
         {{-- Section Heading --}}
@@ -1918,7 +1918,7 @@ $(document).ready(function(){
 {{-- End of Impact part --}}
 
 {{-- Success Stories --}}
-<div class="bg-white py-5">
+<div class="bg-white py-5 vp-stories-section">
     <div class="container">
         
         {{-- Success Stories Slider --}}
@@ -2164,6 +2164,44 @@ $(document).ready(function(){
     background: #f86f2d;
     color: #fff;
     border-color: #f86f2d;
+}
+</style>
+
+<style>
+@media (max-width: 575.98px) {
+    .hero-wrap { height: 70vh; }
+    #heroCarousel .slider-text h1 { font-size: 1.6rem; line-height: 1.2; }
+    #heroCarousel .slider-text p { font-size: 0.95rem; }
+    #heroCarousel .btn { padding: 0.6rem 1.1rem; }
+    #heroCarousel .carousel-control-prev,
+    #heroCarousel .carousel-control-next { display: none; }
+
+    .mvv-section { background-attachment: scroll !important; }
+    .mvv-section .mvv-card { padding: 1.1rem; }
+    .mvv-section h2 { font-size: 1.6rem; }
+
+    #home-focus-areas .nfa-title-card { min-height: 160px; }
+    #home-focus-areas .nfa-dashed-box { padding: 1.25rem; }
+
+    .featured-projects-section { padding: 50px 0; }
+    .fp-card { width: 90vw; }
+    .fp-nav-btn { display: none; }
+    .fp-image { height: 180px; }
+
+    .cddf-news-section { padding: 50px 0; }
+    .cddf-section-heading h2 { font-size: 24px; }
+    .cddf-block-img { height: 190px; }
+    .cddf-blog-text { width: 100%; margin-top: -12px; }
+
+    .vp-section-top { padding: 28px 0 20px; }
+    .vp-stats-card { margin-bottom: 0; padding: 1.5rem 1.25rem; }
+    .vp-cta-section { padding-top: 2.5rem; }
+    .vp-stat-number { font-size: 2rem; }
+
+    .vp-stories-section .carousel-item .row { min-height: auto !important; }
+    .vp-story-img { width: 140px; height: 140px; }
+    .vp-story-desc { font-size: 0.95rem; }
+    .vp-story-label { font-size: 1.1rem; }
 }
 </style>
 
