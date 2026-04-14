@@ -177,6 +177,10 @@ h5,
         padding: .3rem .8rem;
         font-size: 13px;
     }
+
+    .ftco-navbar-light .navbar-nav>.nav-item.cta {
+        display: none;
+    }
 }
 
 @media (max-width: 1399.98px) {

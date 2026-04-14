@@ -21,6 +21,7 @@
                     <li><a href="{{ application()->twitter }}" target="_blank" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#f86f2d;color:#fff;font-size:0.85rem;"><i class="fa-brands fa-twitter"></i></a></li>
                     <li><a href="{{ application()->instagram }}" target="_blank" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#f86f2d;color:#fff;font-size:0.85rem;"><i class="fa-brands fa-instagram"></i></a></li>
                     <li><a href="{{ application()->youtube }}" target="_blank" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#f86f2d;color:#fff;font-size:0.85rem;"><i class="fa-brands fa-youtube"></i></a></li>
+                    <li><a href="{{ route('donate') }}" aria-label="Donate" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#f86f2d;color:#fff;font-size:0.85rem;"><i class="fa-solid fa-hand-holding-heart"></i></a></li>
                 </ul>
             </div>
 
