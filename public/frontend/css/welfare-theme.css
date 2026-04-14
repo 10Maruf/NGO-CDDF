@@ -161,6 +161,24 @@ h5,
     }
 }
 
+@media (min-width: 992px) and (max-width: 1050px) {
+    .ftco-navbar-light .navbar-brand img {
+        height: 36px;
+    }
+
+    .ftco-navbar-light .navbar-nav>.nav-item>.nav-link {
+        padding-left: 8px;
+        padding-right: 8px;
+        font-size: 13px;
+    }
+
+    .ftco-navbar-light .navbar-nav>.nav-item.cta>a,
+    .ftco-navbar-light.scrolled .navbar-nav>.nav-item.cta>a {
+        padding: .3rem .8rem;
+        font-size: 13px;
+    }
+}
+
 @media (max-width: 1399.98px) {
     .ftco-navbar-light .navbar-nav {
         align-items: flex-start;
