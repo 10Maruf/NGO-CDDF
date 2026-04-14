@@ -66,6 +66,19 @@ h5,
     }
 }
 
+@media (max-width: 1399.98px) {
+    .ftco-navbar-light .navbar-collapse .nav-item.cta {
+        align-self: flex-start;
+    }
+
+    .ftco-navbar-light .navbar-collapse .nav-item.cta>a {
+        display: inline-flex;
+        align-items: center;
+        width: auto;
+        padding: .5rem 1.25rem;
+    }
+}
+
 .ftco-navbar-light .navbar-brand {
     color: #fff;
 }
