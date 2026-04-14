@@ -143,11 +143,20 @@ h5,
 }
 
 @media (min-width: 992px) and (max-width: 1400px) {
+    .ftco-navbar-light .navbar-brand img {
+        height: 40px;
+    }
 
     .ftco-navbar-light .navbar-nav>.nav-item.cta>a,
     .ftco-navbar-light.scrolled .navbar-nav>.nav-item.cta>a {
         white-space: nowrap;
         padding: .35rem 1rem;
+        font-size: 14px;
+    }
+
+    .ftco-navbar-light .navbar-nav>.nav-item>.nav-link {
+        padding-left: 10px;
+        padding-right: 10px;
         font-size: 14px;
     }
 }
