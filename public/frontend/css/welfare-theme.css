@@ -70,12 +70,13 @@ h5,
     }
 
     .ftco-navbar-light .navbar-nav>.nav-item.cta>a {
-        display: inline-block;
-        width: auto;
-        padding-left: 2rem;
-        padding-right: 2rem;
+        display: inline-block !important;
+        width: auto !important;
+        padding: 0.4rem 1.5rem !important;
+        margin-left: 16px;
         margin-top: 10px;
         margin-bottom: 20px;
+        font-size: 14px !important;
     }
 }
 
