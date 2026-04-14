@@ -64,6 +64,19 @@ h5,
         position: relative;
         top: 0;
     }
+
+    .ftco-navbar-light .navbar-nav {
+        align-items: flex-start;
+    }
+
+    .ftco-navbar-light .navbar-nav>.nav-item.cta>a {
+        display: inline-block;
+        width: auto;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
 }
 
 .ftco-navbar-light .navbar-brand {
