@@ -122,7 +122,7 @@
                 {{-- Donate CTA --}}
                 <li class="nav-item cta">
                     <a href="{{ route('donate') }}" class="nav-link">
-                        <i class="fa-solid fa-hand-holding-heart me-1"></i> Donate
+                        <i class="fa-solid fa-hand-holding-heart me-1"></i> <span class="cta-text">Donate</span>
                     </a>
                 </li>
 

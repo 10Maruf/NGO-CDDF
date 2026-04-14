@@ -161,7 +161,7 @@ h5,
     }
 }
 
-@media (min-width: 992px) and (max-width: 1050px) {
+@media (min-width: 992px) and (max-width: 1200px) {
     .ftco-navbar-light .navbar-brand img {
         height: 36px;
     }
@@ -174,20 +174,24 @@ h5,
 
     .ftco-navbar-light .navbar-nav>.nav-item.cta>a,
     .ftco-navbar-light.scrolled .navbar-nav>.nav-item.cta>a {
-        width: 36px;
-        height: 36px;
-        padding: 0;
+        width: 36px !important;
+        height: 36px !important;
+        padding: 0 !important;
         border-radius: 50%;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 0;
         margin-left: 6px;
     }
 
-    .ftco-navbar-light .navbar-nav>.nav-item.cta>a i {
-        font-size: 14px;
-        margin: 0;
+    .ftco-navbar-light .navbar-nav>.nav-item.cta>a .cta-text {
+        display: none !important;
+    }
+
+    .ftco-navbar-light .navbar-nav>.nav-item.cta>a i,
+    .ftco-navbar-light.scrolled .navbar-nav>.nav-item.cta>a i {
+        font-size: 16px !important;
+        margin: 0 !important;
     }
 }
 
