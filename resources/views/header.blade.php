@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-xxl navbar-dark ftco-navbar-light" id="ftco-navbar">
+<nav class="navbar navbar-expand-lg navbar-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
             <img src="{{ asset('images/application/'.application()->main_logo) }}" alt="CDDF" id="logo" height="46">
