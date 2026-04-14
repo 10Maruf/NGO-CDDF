@@ -191,7 +191,7 @@ h5,
     }
 }
 
-@media (max-width: 1399.98px) {
+@media (min-width: 1051px) and (max-width: 1399.98px) {
     .ftco-navbar-light .navbar-nav {
         align-items: flex-start;
     }
