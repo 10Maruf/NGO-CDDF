@@ -10,7 +10,7 @@
     <div class="col-xl-11 mx-auto">
         <div class="d-flex justify-content-between align-items-center">
             <h6 class="mb-0 text-uppercase">Key Focus Areas</h6>
-            <a href="{{ route('admin.focus_areas.add') }}" class="btn btn-dark">Add Focus Area</a>
+            <a href="{{ route('admin.focus_areas.add') }}" class="btn btn-primary">Add Focus Area</a>
         </div>
         <hr/>
 

@@ -128,7 +128,7 @@
                         </div>
 
                         <div class="col-12 d-flex align-items-center gap-2">
-                            <button class="btn btn-dark px-4" type="submit" id="submit-btn" style="position: relative; z-index: 10;">Save</button>
+                            <button class="btn btn-primary px-4" type="submit" id="submit-btn" style="position: relative; z-index: 10;">Save</button>
                             <a href="{{ route('admin.focus_areas.index') }}" class="btn btn-secondary px-4">Back to List</a>
                         </div>
                     </form>
