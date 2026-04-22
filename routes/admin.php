@@ -111,7 +111,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::post('focus-areas/update/{id}', [FocusAreaController::class, 'update'])->name('admin.focus_areas.update');
     Route::get('focus-areas/delete/{id}', [FocusAreaController::class, 'destroy'])->name('admin.focus_areas.delete');
     Route::get('focus-areas/toggle/{id}', [FocusAreaController::class, 'toggleStatus'])->name('admin.focus_areas.toggle');
-    Route::post('focus-areas/update-order', [FocusAreaController::class, 'updateOrder'])->name('admin.focus_areas.updateOrder');
+    Route::post('focus-areas/update-order', [FocusAreaController::class, 'updateOrder'])->name('focus_areas.updateOrder');
     Route::post('focus-areas/bulk-delete', [FocusAreaController::class, 'bulkDelete'])->name('admin.focus_areas.bulk_delete');
     Route::post('focus-areas/bulk-status', [FocusAreaController::class, 'bulkStatus'])->name('admin.focus_areas.bulk_status');
 
