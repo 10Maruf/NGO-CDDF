@@ -599,9 +599,9 @@ CDDF - Home
             
             {{-- 2. Loop Focus Areas --}}
             @php
-                $delays = ['nfa-d1','nfa-d2','nfa-d3','nfa-d4','nfa-d5','nfa-d6'];
+                $delays = ['nfa-d1','nfa-d2','nfa-d3','nfa-d4','nfa-d5'];
             @endphp
-            @foreach($focus_areas->take(6) as $fa)
+            @foreach($focus_areas->take(5) as $fa)
             @php
                 $faIcon = !empty($fa->icon_class) ? $fa->icon_class : 'fa-solid fa-bullseye';
                 $delay  = isset($delays[$loop->index]) ? $delays[$loop->index] : '';
@@ -635,7 +635,7 @@ CDDF - Home
             
         </div>
 
-        @if($focus_areas->count() > 6)
+        @if($focus_areas->count() > 5)
         <div class="text-center mt-5" style="position: relative; z-index: 1;">
             <a href="{{ route('key.focus.area') }}" class="btn text-white rounded px-4 py-2" style="background-color: #f86f2d; border: 1px solid #f86f2d; font-weight: 600; letter-spacing: 0.5px; transition: all 0.3s;" onmouseover="this.style.backgroundColor='#e0591e'" onmouseout="this.style.backgroundColor='#f86f2d'">
                 View All Focus Areas

@@ -84,7 +84,8 @@ h5,
     }
 
     .ftco-navbar-light .navbar-nav>.nav-item.cta>a .cta-text {
-        display: inline-block !important; /* Make sure text shows up! */
+        display: inline-block !important;
+        /* Make sure text shows up! */
     }
 }
 
