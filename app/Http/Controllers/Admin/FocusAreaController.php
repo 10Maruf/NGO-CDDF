@@ -32,7 +32,6 @@ class FocusAreaController extends Controller
             'detail_description' => 'nullable|string',
             'icon_class' => 'nullable|string|max:100',
             'image'      => 'nullable|image|max:4096',
-            'order'      => 'required|integer|min:0|unique:focus_areas,order',
             'is_active'  => 'nullable|boolean',
         ]);
 
@@ -41,6 +40,9 @@ class FocusAreaController extends Controller
             $imagePath = $request->file('image')->store('focus_areas', 'public');
         }
 
+        // Shift all existing orders down by 1 so the new one is at the top
+        DB::table('focus_areas')->increment('order');
+
         DB::table('focus_areas')->insert([
             'title'       => $validated['title'],
             'description' => $validated['description'],
@@ -48,7 +50,7 @@ class FocusAreaController extends Controller
             'icon_class'  => $validated['icon_class'] ?? null,
             'icon_path'   => null,
             'image_path'  => $imagePath,
-            'order'       => $validated['order'] ?? 0,
+            'order'       => 1,
             'is_active'   => (bool)($validated['is_active'] ?? true),
             'created_at'  => now(),
             'updated_at'  => now(),
@@ -80,7 +82,6 @@ class FocusAreaController extends Controller
             'detail_description' => 'nullable|string',
             'icon_class'   => 'nullable|string|max:100',
             'image'        => 'nullable|image|max:4096',
-            'order'        => 'required|integer|min:0|unique:focus_areas,order,' . $id,
             'is_active'    => 'nullable|boolean',
             'remove_image' => 'nullable|boolean',
         ]);
@@ -107,12 +108,25 @@ class FocusAreaController extends Controller
             'detail_description' => $validated['detail_description'] ?? null,
             'icon_class'  => $validated['icon_class'] ?? null,
             'image_path'  => $imagePath,
-            'order'       => $validated['order'] ?? 0,
             'is_active'   => (bool)($validated['is_active'] ?? false),
             'updated_at'  => now(),
         ]);
 
         return redirect()->route('admin.focus_areas.index')->with('success', 'Focus Area updated successfully');
+    }
+
+    public function updateOrder(Request $request)
+    {
+        $orders = $request->order;
+
+        if ($orders && is_array($orders)) {
+            foreach ($orders as $index => $id) {
+                DB::table('focus_areas')->where('id', $id)->update(['order' => $index + 1]);
+            }
+            return response()->json(['status' => 'success', 'message' => 'Order updated successfully.']);
+        }
+
+        return response()->json(['status' => 'error', 'message' => 'Invalid order data.'], 400);
     }
 
     public function destroy($id)

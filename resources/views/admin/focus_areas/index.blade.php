@@ -10,7 +10,7 @@
     <div class="col-xl-11 mx-auto">
         <div class="d-flex justify-content-between align-items-center">
             <h6 class="mb-0 text-uppercase">Key Focus Areas</h6>
-            <a href="{{ route('admin.focus_areas.add') }}" class="btn btn-primary">Add Focus Area</a>
+            <a href="{{ route('admin.focus_areas.add') }}" class="btn btn-dark">Add Focus Area</a>
         </div>
         <hr/>
 
@@ -27,21 +27,24 @@
                     <table class="table table-bordered align-middle">
                         <thead>
                             <tr>
+                                <th width="30"></th>
                                 <th width="40"><input type="checkbox" id="select-all"></th>
                                 <th width="50">#</th>
                                 <th width="60" class="text-center">Icon</th>
                                 <th width="90" class="text-center">Hero Image</th>
                                 <th>Title & Description</th>
-                                <th width="80" class="text-center">Order</th>
                                 <th width="100" class="text-center">Status</th>
                                 <th width="140" class="text-center">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sortable-focus-areas">
                             @forelse ($focus_areas as $item)
-                                <tr>
+                                <tr data-id="{{ $item->id }}">
+                                    <td class="text-center drag-handle" style="cursor: grab;">
+                                        <i class="fa-solid fa-grip-vertical fs-5 text-muted"></i>
+                                    </td>
                                     <td><input type="checkbox" class="select-item" value="{{ $item->id }}"></td>
-                                    <td>{{ $item->id }}</td>
+                                    <td class="serial-number">{{ $loop->iteration }}</td>
                                     <td class="text-center">
                                         @if (isset($item->icon_class) && $item->icon_class)
                                             <i class="{{ $item->icon_class }} fs-4 text-primary"></i>
@@ -62,7 +65,6 @@
                                             {{ $item->description }}
                                         </div>
                                     </td>
-                                    <td class="text-center">{{ $item->order }}</td>
                                     <td class="text-center">
                                         @if ($item->is_active)
                                             <span class="badge bg-success d-block mb-1">Active</span>
@@ -225,8 +227,34 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
     $(document).ready(function() {
+        // Drag and Drop Sortable for Focus Areas
+        $("#sortable-focus-areas").sortable({
+            handle: ".drag-handle",
+            update: function(event, ui) {
+                let orderedIds = [];
+                $(this).children('tr').each(function(index) {
+                    orderedIds.push($(this).data('id'));
+                    $(this).find('.serial-number').text(index + 1); // Update serial visually
+                });
+
+                $.ajax({
+                    url: "{{ route('admin.focus_areas.updateOrder') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        order: orderedIds
+                    },
+                    success: function(response) {
+                        // Optional: show a toast/alert or just update visually
+                        console.log(response.message);
+                    }
+                });
+            }
+        });
+
         // Fix for modal backdrop issue
         $('.modal').on('show.bs.modal', function () {
             $(this).appendTo('body');

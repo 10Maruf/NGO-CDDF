@@ -139,12 +139,6 @@
                         </div>
 
                         <div class="col-md-4">
-                            <label class="form-label">Order</label>
-                            <input type="number" name="order" value="{{ old('order', $focus_area->order) }}" min="0" step="1" required class="form-control @error('order') is-invalid @enderror">
-                            @error('order')<div class="text-danger">{{ $message }}</div>@enderror
-                        </div>
-
-                        <div class="col-md-4">
                             <label class="form-label">Status</label>
                             <select name="is_active" class="form-select @error('is_active') is-invalid @enderror">
                                 <option value="1" {{ old('is_active', (string)$focus_area->is_active) == '1' ? 'selected' : '' }}>Active</option>
@@ -154,7 +148,7 @@
                         </div>
 
                         <div class="col-12 d-flex align-items-center gap-2">
-                            <button class="btn btn-primary px-4" type="submit" id="submit-btn" style="position: relative; z-index: 10;">Update</button>
+                            <button class="btn btn-dark px-4" type="submit" id="submit-btn" style="position: relative; z-index: 10;">Update</button>
                             <a href="{{ route('admin.focus_areas.index') }}" class="btn btn-danger px-4">Cancel</a>
                         </div>
                     </form>
