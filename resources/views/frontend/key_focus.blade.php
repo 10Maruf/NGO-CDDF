@@ -33,18 +33,19 @@
 
         <div class="row g-4">
             @php
-                $iconBadgeClasses = [
-                    'bg-primary bg-opacity-10 text-primary',
-                    'bg-success bg-opacity-10 text-success',
-                    'bg-warning bg-opacity-10 text-warning',
-                    'bg-info bg-opacity-10 text-info',
-                    'bg-danger bg-opacity-10 text-danger',
-                    'bg-secondary bg-opacity-10 text-secondary'
+                // Using explicit colors to avoid Bootstrap theme override conflicts (where bg-primary becomes solid !important)
+                $iconStyles = [
+                    'background-color: rgba(248, 111, 45, 0.1); color: #f86f2d;', // Orange (Primary)
+                    'background-color: rgba(25, 135, 84, 0.1); color: #198754;',  // Green (Success)
+                    'background-color: rgba(255, 193, 7, 0.1); color: #ffc107;',  // Yellow (Warning)
+                    'background-color: rgba(13, 202, 240, 0.1); color: #0dcaf0;', // Cyan (Info)
+                    'background-color: rgba(220, 53, 69, 0.1); color: #dc3545;',  // Red (Danger)
+                    'background-color: rgba(108, 117, 125, 0.1); color: #6c757d;' // Gray (Secondary)
                 ];
             @endphp
             @foreach(($focus_areas ?? collect()) as $item)
                 @php
-                    $badgeClass = $iconBadgeClasses[$loop->index % count($iconBadgeClasses)];
+                    $inlineIconStyle = $iconStyles[$loop->index % count($iconStyles)];
                     $iconClass = !empty($item->icon_class) ? $item->icon_class : 'fa-solid fa-bullseye';
 
                     $iconUrl = null;
@@ -65,7 +66,7 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="focus-area-card {{ $cardClass }}" style="{{ $cardStyle }}">
                         <div class="focus-area-card-content">
-                            <div class="focus-area-icon {{ $badgeClass }}">
+                            <div class="focus-area-icon" style="{{ empty($iconUrl) ? $inlineIconStyle : '' }}">
                                 @if (!empty($iconUrl))
                                     <img src="{{ $iconUrl }}" alt="{{ $item->title }} icon">
                                 @else
