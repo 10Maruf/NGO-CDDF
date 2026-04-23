@@ -37,7 +37,7 @@ class partnersController extends Controller
 
     //__index__//
     public function index(){
-        $partner = DB::table('partners')->get();
+        $partner = DB::table('partners')->orderBy('id', 'desc')->get();
         return view('admin.partners.index',compact('partner'));
     }
 
