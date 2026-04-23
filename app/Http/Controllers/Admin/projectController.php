@@ -37,7 +37,7 @@ class projectController extends Controller
              $query->whereDate('end_date', '<=', $request->end_date);
         }
 
-        $projects = $query->orderByDesc('id')
+        $projects = $query->orderByDesc('created_at')
             ->get();
 
         $all_focus_areas = FocusArea::all(); // Pass focus areas to the view for the filter dropdown
@@ -68,7 +68,6 @@ class projectController extends Controller
             'end_date'          => 'nullable|date|after_or_equal:start_date',
             'budget'            => 'nullable|numeric|min:0',
             'beneficiary_count' => 'nullable|integer|min:0',
-            'order'             => 'nullable|integer|min:0',
             'partner_ids'       => 'nullable|array',
             'focus_area_ids'    => 'nullable|array',
         ]);
@@ -96,9 +95,7 @@ class projectController extends Controller
             'location'            => $request->location,
             'budget'              => $request->budget ?: null,
             'beneficiary_count'   => $request->beneficiary_count ?: null,
-            'implementing_partner'=> $request->implementing_partner,
             'is_featured'         => $request->boolean('is_featured'),
-            'order'               => $request->input('order', 0),
             'is_active'           => $request->boolean('is_active', true),
         ]);
 
@@ -161,7 +158,6 @@ class projectController extends Controller
             'end_date'          => 'nullable|date|after_or_equal:start_date',
             'budget'            => 'nullable|numeric|min:0',
             'beneficiary_count' => 'nullable|integer|min:0',
-            'order'             => 'nullable|integer|min:0',
             'partner_ids'       => 'nullable|array',
             'focus_area_ids'    => 'nullable|array',
         ]);
@@ -193,9 +189,7 @@ class projectController extends Controller
             'location'            => $request->location,
             'budget'              => $request->budget ?: null,
             'beneficiary_count'   => $request->beneficiary_count ?: null,
-            'implementing_partner'=> $request->implementing_partner,
             'is_featured'         => $request->boolean('is_featured'),
-            'order'               => $request->input('order', 0),
             'is_active'           => $request->boolean('is_active', true),
         ]);
 

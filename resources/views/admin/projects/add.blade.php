@@ -127,13 +127,6 @@
                             @error('beneficiary_count')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
-                        <div class="col-md-12">
-                            <label class="form-label fw-semibold">Implementing Partner <small class="text-muted fw-normal">(lead org — free text)</small></label>
-                            <input type="text" name="implementing_partner" value="{{ old('implementing_partner') }}"
-                                   class="form-control @error('implementing_partner') is-invalid @enderror"
-                                   placeholder="e.g. CDDF in partnership with UNHCR">
-                            @error('implementing_partner')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                        </div>
 
                         {{-- ── Donors / Partners ────────────────────────────── --}}
                         <div class="col-md-12">
@@ -189,12 +182,6 @@
                         </div>
 
                         {{-- ── Display Settings ─────────────────────────────── --}}
-                        <div class="col-md-3">
-                            <label class="form-label fw-semibold">Display Order</label>
-                            <input type="number" name="order" value="{{ old('order', 0) }}" min="0"
-                                   class="form-control @error('order') is-invalid @enderror">
-                            @error('order')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                        </div>
 
                         <div class="col-md-3">
                             <label class="form-label fw-semibold">Status</label>

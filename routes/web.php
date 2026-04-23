@@ -25,7 +25,7 @@ Route::get('/lang/{locale}', function ($locale) {
 
 Route::get('/', function () {
     $slider       = DB::table('slider')->where('status', 1)->orderBy('order', 'asc')->get();
-    $project      = \App\Models\Project::with('focusAreas')->active()->orderBy('is_featured','desc')->orderBy('order')->take(12)->get();
+    $project      = \App\Models\Project::with('focusAreas')->active()->orderBy('is_featured','desc')->orderByDesc('created_at')->take(12)->get();
     $news         = DB::table('latest_news')->where('status', 1)->take(6)->get();
     // Gallery: newest-first pool from each source, then shuffle within recents
     $galleryPool = DB::table('latest_news')

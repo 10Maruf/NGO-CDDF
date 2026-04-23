@@ -214,7 +214,7 @@
                         <div class="p-3 border rounded bg-light h-100">
                             <h6 class="fw-bold mb-3 text-primary"><i class="feather-list me-1"></i> Additional Info</h6>
                             <p class="mb-2"><strong>Beneficiaries:</strong> {{ $item->beneficiary_count ?? '—' }}</p>
-                            <p class="mb-2"><strong>Implementing Partner:</strong> {{ $item->implementing_partner ?? '—' }}</p>
+
                             <div class="mb-2">
                                 <strong>Partners/Donors:</strong>
                                 <div class="d-flex flex-wrap gap-1 mt-1">

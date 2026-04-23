@@ -155,7 +155,7 @@
                 @if($project->partners->isNotEmpty())
                 <div class="bg-white p-4 rounded shadow-sm mb-4">
                     <h4 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-                        <i class="fas fa-handshake me-2" style="color: #f86f2d;"></i> Implementing Partners
+                        <i class="fas fa-handshake me-2" style="color: #f86f2d;"></i> Partners / Donors
                     </h4>
                     <div class="row g-3">
                         @foreach($project->partners as $partner)

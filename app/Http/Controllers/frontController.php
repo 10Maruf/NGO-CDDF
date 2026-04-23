@@ -173,7 +173,7 @@ class frontController extends Controller
 
     // Project Archive (completed projects)
     public function proj_archieve(){
-        $project = Project::active()->completed()->orderBy('order')->orderByDesc('created_at')->get();
+        $project = Project::active()->completed()->orderByDesc('created_at')->get();
         return view('frontend.project_archieve', compact('project'));
     }
 
@@ -189,7 +189,7 @@ class frontController extends Controller
             $query->completed();
         }
         
-        $project = $query->orderBy('order')->orderByDesc('created_at')->paginate(12);
+        $project = $query->orderByDesc('created_at')->paginate(12);
         
         return view('frontend.ongoing_project', compact('project', 'status'));
     }
