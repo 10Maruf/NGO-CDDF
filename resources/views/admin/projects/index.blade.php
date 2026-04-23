@@ -80,7 +80,7 @@
                             @forelse ($projects as $item)
                                 <tr>
                                     <td><input type="checkbox" class="select-item" value="{{ $item->id }}"></td>
-                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>
                                         @if ($item->cover_image)
                                             <img src="{{ asset('images/project/' . $item->cover_image) }}"
