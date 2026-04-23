@@ -29,22 +29,25 @@
                     <table class="table table-hover table-striped align-middle">
                         <thead class="table-light">
                             <tr>
+                                <th width="30"></th>
                                 <th width="3%"><input type="checkbox" id="select-all"></th>
-                                <th width="5%">SL</th>
+                                <th width="5%">#</th>
                                 <th width="10%">Icon</th>
                                 <th width="15%">Type</th>
                                 <th width="20%">Account Name</th>
                                 <th width="20%">Account Number</th>
                                 <th width="10%">Status</th>
-                                <th width="8%">Order</th>
                                 <th width="12%" class="text-center">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @forelse ($data as $key=>$item)
-                            <tr>
+                        <tbody id="sortable-payment-methods">
+                            @forelse ($data as $item)
+                            <tr data-id="{{ $item->id }}">
+                                <td class="text-center drag-handle" style="cursor: grab;">
+                                    <i class="fa-solid fa-grip-vertical fs-5 text-muted"></i>
+                                </td>
                                 <td><input type="checkbox" class="select-item" value="{{ $item->id }}"></td>
-                                <td>{{ $key + 1 }}</td>
+                                <td class="serial-number">{{ $loop->iteration }}</td>
                                 <td class="text-center">
                                     @if($item->icon_image)
                                         <img src="{{ asset('storage/'.$item->icon_image) }}" alt="{{ $item->type }}" style="height: 40px;">
@@ -65,9 +68,6 @@
                                     @else
                                         <span class="badge bg-danger">Inactive</span>
                                     @endif
-                                </td>
-                                <td>
-                                    <span class="badge bg-dark">{{ $item->display_order }}</span>
                                 </td>
                                 <td class="text-center">
                                     <div class="table-actions justify-content-center">
@@ -138,8 +138,33 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
     $(document).ready(function() {
+        // Drag and Drop Sortable
+        $("#sortable-payment-methods").sortable({
+            handle: ".drag-handle",
+            update: function(event, ui) {
+                let orderedIds = [];
+                $(this).children('tr').each(function(index) {
+                    orderedIds.push($(this).data('id'));
+                    $(this).find('.serial-number').text(index + 1);
+                });
+
+                $.ajax({
+                    url: "{{ route('admin.payment_methods.updateOrder') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        order: orderedIds
+                    },
+                    success: function(response) {
+                        console.log(response.message);
+                    }
+                });
+            }
+        });
+
         $('#select-all').on('change', function() {
             $('.select-item').prop('checked', $(this).prop('checked'));
             toggleBulkActions();

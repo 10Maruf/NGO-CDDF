@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\PaymentMethod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class PaymentMethodController extends Controller
@@ -34,7 +35,7 @@ class PaymentMethodController extends Controller
                 'bank_name' => 'nullable|string|max:255',
                 'branch_name' => 'nullable|string|max:255',
                 'routing_number' => 'nullable|string|max:255',
-                'display_order' => 'nullable|integer',
+
             ]);
 
             $iconPath = null;
@@ -51,6 +52,9 @@ class PaymentMethodController extends Controller
                 ];
             }
 
+            // Shift all existing orders down so new one is at top
+            PaymentMethod::query()->increment('display_order');
+
             PaymentMethod::create([
                 'type' => $request->type,
                 'icon_image' => $iconPath,
@@ -58,7 +62,7 @@ class PaymentMethodController extends Controller
                 'account_number' => $request->account_number,
                 'bank_details' => $bankDetails,
                 'is_active' => $request->has('is_active') ? true : false,
-                'display_order' => $request->display_order ?? 0,
+                'display_order' => 1,
             ]);
 
             return redirect()->route('admin.payment_methods.index')->with('success', 'Payment method added successfully!');
@@ -87,7 +91,7 @@ class PaymentMethodController extends Controller
                 'bank_name' => 'nullable|string|max:255',
                 'branch_name' => 'nullable|string|max:255',
                 'routing_number' => 'nullable|string|max:255',
-                'display_order' => 'nullable|integer',
+
             ]);
 
             $paymentMethod = PaymentMethod::findOrFail($id);
@@ -117,7 +121,6 @@ class PaymentMethodController extends Controller
                 'account_number' => $request->account_number,
                 'bank_details' => $bankDetails,
                 'is_active' => $request->has('is_active') ? true : false,
-                'display_order' => $request->display_order ?? 0,
             ]);
 
             return redirect()->route('admin.payment_methods.index')->with('success', 'Payment method updated successfully!');
@@ -180,5 +183,20 @@ class PaymentMethodController extends Controller
         }
         PaymentMethod::whereIn('id', $ids)->update(['is_active' => $status]);
         return response()->json(['success' => true]);
+    }
+
+    // Update drag-and-drop order
+    public function updateOrder(Request $request)
+    {
+        $orders = $request->order;
+
+        if ($orders && is_array($orders)) {
+            foreach ($orders as $index => $id) {
+                PaymentMethod::where('id', $id)->update(['display_order' => $index + 1]);
+            }
+            return response()->json(['status' => 'success', 'message' => 'Order updated successfully.']);
+        }
+
+        return response()->json(['status' => 'error', 'message' => 'Invalid order data.'], 400);
     }
 }

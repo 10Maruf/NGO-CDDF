@@ -310,6 +310,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('payment-methods/toggle/{id}', [PaymentMethodController::class, 'toggleStatus'])->name('admin.payment_methods.toggle');
     Route::post('payment-methods/bulk-delete', [PaymentMethodController::class, 'bulkDelete'])->name('admin.payment_methods.bulk_delete');
     Route::post('payment-methods/bulk-status', [PaymentMethodController::class, 'bulkStatus'])->name('admin.payment_methods.bulk_status');
+    Route::post('payment-methods/update-order', [PaymentMethodController::class, 'updateOrder'])->name('admin.payment_methods.updateOrder');
 
     // __ Donations __//
     Route::get('donations/index', [DonationController::class, 'index'])->name('admin.donations.index');
