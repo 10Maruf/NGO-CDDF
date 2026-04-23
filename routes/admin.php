@@ -65,6 +65,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::post('/slider/bulk-delete', [sliderController::class, 'bulkDelete'])->name('slider.bulk_delete');
     Route::post('/slider/bulk-status', [sliderController::class, 'bulkStatus'])->name('slider.bulk_status');
     Route::get('/slider/toggle-status/{id}', [sliderController::class, 'toggleStatus'])->name('slider.toggle_status');
+    Route::post('/slider/update-order', [sliderController::class, 'updateOrder'])->name('slider.updateOrder');
 
     // Projects (ongoing & completed)
     Route::get('/project/add', [projectController::class, 'add'])->name('project.add');

@@ -21,6 +21,7 @@
                     <table class="table table-hover table-striped">
                         <thead>
                             <tr>
+                                <th width="30"></th>
                                 <th width="40"><input type="checkbox" id="select-all"></th>
                                 <th width="50">SL</th>
                                 <th width="60">Order</th>
@@ -30,12 +31,15 @@
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sortable-sliders">
                             @foreach ($slider as $key => $row)
-                            <tr>
+                            <tr data-id="{{ $row->id }}">
+                                <td class="text-center drag-handle" style="cursor: grab;">
+                                    <i class="fa-solid fa-grip-vertical fs-5 text-muted"></i>
+                                </td>
                                 <td><input type="checkbox" class="select-item" value="{{ $row->id }}"></td>
-                                <td class="align-middle">{{ ++$key }}</td>
-                                <td class="align-middle">{{ $row->order }}</td>
+                                <td class="align-middle serial-number">{{ ++$key }}</td>
+                                <td class="align-middle order-number">{{ $row->order }}</td>
                                 <td class="align-middle">
                                     <div class="fw-semibold" style="max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="{{ $row->title }}">{{ $row->title }}</div>
                                     <small class="text-muted">{{ Str::limit($row->description, 50, '...') }}</small>
@@ -150,8 +154,33 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
     $(document).ready(function() {
+        // Drag and Drop Sortable for Sliders
+        $("#sortable-sliders").sortable({
+            handle: ".drag-handle",
+            update: function(event, ui) {
+                let orderedIds = [];
+                $(this).children('tr').each(function(index) {
+                    orderedIds.push($(this).data('id'));
+                    $(this).find('.serial-number').text(index + 1); // Update serial visually
+                    $(this).find('.order-number').text(index + 1); // Update order visually
+                });
+
+                $.ajax({
+                    url: "{{ route('slider.updateOrder') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        order: orderedIds
+                    },
+                    success: function(response) {
+                        console.log(response.message);
+                    }
+                });
+            }
+        });
         // Fix for modal backdrop issue
         $('.modal').on('show.bs.modal', function () {
             $(this).appendTo('body');

@@ -21,10 +21,7 @@
                 <div class="p-4 border rounded">
                     <form class="row g-3" action="{{ route('slider.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
-                        <div class="col-md-12">
-                            <label for="order" class="form-label">Order</label>
-                            <input type="number" name="order" class="form-control" id="order" value="{{ old('order', 0) }}" placeholder="Enter Display Order">
-                        </div>
+
                         <div class="col-md-12">
                             <label for="title" class="form-label">Title<span class="text-danger">*</span></label>
                             <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" id="title" value="{{ old('title') }}" placeholder="Enter Slider Top Title">

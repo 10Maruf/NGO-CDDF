@@ -28,11 +28,13 @@ class sliderController extends Controller
             $image->move(public_path('images/slider'),$imageName);
         }
 
+        DB::table('slider')->increment('order');
+
         $slider = array(
             'title' => $request->title,
             'description' => $request->description,
             'image' => $imageName,
-            'order' => $request->order ?? 0,
+            'order' => 1,
         );
 
         DB::table('slider')->insert($slider);
@@ -41,7 +43,7 @@ class sliderController extends Controller
 
     // index
     public function index(){
-        $slider = DB::table('slider')->orderBy('id', 'desc')->get();
+        $slider = DB::table('slider')->orderBy('order', 'asc')->orderBy('id', 'desc')->get();
         return view('admin.slider.index',compact('slider'));
     }
 
@@ -90,11 +92,25 @@ class sliderController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'image' => $imageName,
-            'order' => $request->order ?? 0,
         );
 
         DB::table('slider')->where('id',$id)->update($slider);
         return redirect()->back()->with('success', 'Successfully Updated data');
+    }
+
+    // Update Order
+    public function updateOrder(Request $request)
+    {
+        $orders = $request->order;
+
+        if ($orders && is_array($orders)) {
+            foreach ($orders as $index => $id) {
+                DB::table('slider')->where('id', $id)->update(['order' => $index + 1]);
+            }
+            return response()->json(['status' => 'success', 'message' => 'Order updated successfully.']);
+        }
+
+        return response()->json(['status' => 'error', 'message' => 'Invalid order data.'], 400);
     }
 
     // Toggle Status
