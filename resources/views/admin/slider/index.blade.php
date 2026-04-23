@@ -24,7 +24,6 @@
                                 <th width="30"></th>
                                 <th width="40"><input type="checkbox" id="select-all"></th>
                                 <th width="50">SL</th>
-                                <th width="60">Order</th>
                                 <th>Title & Description</th>
                                 <th width="80">Image</th>
                                 <th width="90">Status</th>
@@ -39,7 +38,6 @@
                                 </td>
                                 <td><input type="checkbox" class="select-item" value="{{ $row->id }}"></td>
                                 <td class="align-middle serial-number">{{ ++$key }}</td>
-                                <td class="align-middle order-number">{{ $row->order }}</td>
                                 <td class="align-middle">
                                     <div class="fw-semibold" style="max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="{{ $row->title }}">{{ $row->title }}</div>
                                     <small class="text-muted">{{ Str::limit($row->description, 50, '...') }}</small>
@@ -165,7 +163,6 @@
                 $(this).children('tr').each(function(index) {
                     orderedIds.push($(this).data('id'));
                     $(this).find('.serial-number').text(index + 1); // Update serial visually
-                    $(this).find('.order-number').text(index + 1); // Update order visually
                 });
 
                 $.ajax({
