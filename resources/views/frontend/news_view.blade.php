@@ -25,16 +25,24 @@
                 </h1>
 
                 {{-- Date & Meta --}}
-                <div class="d-flex align-items-center text-white-50 mt-4" style="font-size: 15px;">
-                    <span class="me-4">
+                <div class="d-flex align-items-center flex-wrap text-white-50 mt-4 gap-4" style="font-size: 15px;">
+                    <span>
                         <i class="fas fa-calendar-alt me-2 text-warning"></i>
-                        {{ date("d F, Y") }}
+                        {{ $news->start_date ? date("d F, Y", strtotime($news->start_date)) : date("d F, Y") }}
                     </span>
                     @if($isEvent)
-                    <span>
-                        <i class="fas fa-map-marker-alt me-2 text-danger"></i>
-                        CDDF Venue
-                    </span>
+                        @if($news->start_time)
+                        <span>
+                            <i class="fas fa-clock me-2 text-info"></i>
+                            {{ date("h:i A", strtotime($news->start_time)) }}
+                        </span>
+                        @endif
+                        @if($news->location)
+                        <span>
+                            <i class="fas fa-map-marker-alt me-2 text-danger"></i>
+                            {{ $news->location }}
+                        </span>
+                        @endif
                     @endif
                 </div>
             </div>

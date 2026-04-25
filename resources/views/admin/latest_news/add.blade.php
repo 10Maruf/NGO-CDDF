@@ -37,6 +37,26 @@
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="col-md-6">
+                            <label for="start_date" class="form-label">Start Date</label>
+                            <input type="date" name="start_date" class="form-control" id="start_date" value="{{ old('start_date') }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="start_time" class="form-label">Start Time</label>
+                            <input type="time" name="start_time" class="form-control" id="start_time" value="{{ old('start_time') }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="end_date" class="form-label">End Date</label>
+                            <input type="date" name="end_date" class="form-control" id="end_date" value="{{ old('end_date') }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="end_time" class="form-label">End Time</label>
+                            <input type="time" name="end_time" class="form-control" id="end_time" value="{{ old('end_time') }}">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" name="location" class="form-control" id="location" value="{{ old('location') }}" placeholder="Enter Location">
+                        </div>
                         <div class="col-md-12">
                             <label for="img" class="form-label">Cover Image <span class="text-danger">*</span></label>
                             <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" id="img">

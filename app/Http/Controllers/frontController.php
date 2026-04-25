@@ -204,7 +204,7 @@ class frontController extends Controller
     //__Latest News All__//
     public function news_all(){
         $category = request('category'); // 'news', 'event', or null for all
-        $query = DB::table('latest_news')->where('status', 1)->orderBy('id', 'desc');
+        $query = DB::table('latest_news')->where('status', 1)->orderBy('start_date', 'desc')->orderBy('id', 'desc');
         if ($category && in_array($category, ['news', 'event'])) {
             $query->where('category', $category);
         }

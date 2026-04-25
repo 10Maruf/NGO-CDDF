@@ -1374,7 +1374,7 @@ CDDF - Home
                         </a>
                         <div class="cddf-blog-text">
                             <div class="cddf-blog-meta">
-                                <span><i class="fas fa-calendar-alt"></i>{{ date("d M, Y") }}</span>
+                                <span><i class="fas fa-calendar-alt"></i>{{ $data->start_date ? date("d M, Y", strtotime($data->start_date)) : date("d M, Y") }}</span>
                                 <span><i class="fas fa-user"></i> CDDF</span>
                             </div>
                             <h3 class="heading">
@@ -1384,8 +1384,12 @@ CDDF - Home
                             </h3>
                             @if ($isEvent)
                                 <p class="cddf-time-loc">
-                                    <span><i class="fas fa-clock"></i> All Day</span>
-                                    <span><i class="fas fa-map-marker-alt"></i> CDDF Venue</span>
+                                    @if($data->start_time)
+                                        <span><i class="fas fa-clock"></i> {{ date("h:i A", strtotime($data->start_time)) }}</span>
+                                    @endif
+                                    @if($data->location)
+                                        <span><i class="fas fa-map-marker-alt"></i> {{ $data->location }}</span>
+                                    @endif
                                 </p>
                             @endif
                             <p class="excerpt">

@@ -37,6 +37,11 @@ class newsController extends Controller
             'category'    => $request->category,
             'description' => $request->description,
             'image'       => $imageName,
+            'start_date'  => $request->start_date,
+            'start_time'  => $request->start_time,
+            'end_date'    => $request->end_date,
+            'end_time'    => $request->end_time,
+            'location'    => $request->location,
         ]);
 
         // Gallery images
@@ -59,7 +64,7 @@ class newsController extends Controller
     // index
     public function index()
     {
-        $news = DB::table('latest_news')->orderBy('id', 'desc')->get();
+        $news = DB::table('latest_news')->orderBy('start_date', 'desc')->orderBy('id', 'desc')->get();
         return view('admin.latest_news.index', compact('news'));
     }
 
@@ -188,6 +193,11 @@ class newsController extends Controller
             'category'    => $request->category,
             'description' => $request->description,
             'image'       => $imageName,
+            'start_date'  => $request->start_date,
+            'start_time'  => $request->start_time,
+            'end_date'    => $request->end_date,
+            'end_time'    => $request->end_time,
+            'location'    => $request->location,
         ]);
 
         // Append new gallery images
