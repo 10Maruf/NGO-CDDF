@@ -13,7 +13,7 @@ return [
     'dashboard' => 'ড্যাশবোর্ড',
     'slider' => 'স্লাইডার',
     'projects' => 'প্রকল্পসমূহ',
-    'latest_news' => 'সর্বশেষ সংবাদ',
+    'latest_news' => 'সংবাদ ও ইভেন্ট',
     'subscribe' => 'সাবস্ক্রাইব',
     'donations' => 'অনুদান',
     'payment_methods' => 'পেমেন্ট মেথড',

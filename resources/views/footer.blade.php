@@ -1,4 +1,4 @@
-﻿@php
+@php
     $footer_news   = DB::table('latest_news')->where('status', 1)->orderBy('id','desc')->limit(2)->get();
     $footer_office = DB::table('contacts')->where('type','head_office')->where('status','active')->first();
 @endphp
@@ -42,7 +42,7 @@
                                 {{ Str::limit($fn->title, 55) }}
                             </a>
                         </h6>
-                        <small style="color:#888;"><i class="fa-solid fa-newspaper me-1"></i>Latest News</small>
+                        <small style="color:#888;"><i class="fa-solid fa-newspaper me-1"></i>News & Events</small>
                     </div>
                 </div>
                 @empty

@@ -13,7 +13,7 @@ return [
     'dashboard' => 'Dashboard',
     'slider' => 'Slider',
     'projects' => 'Projects',
-    'latest_news' => 'Latest News',
+    'latest_news' => 'News & Events',
     'subscribe' => 'Subscribe',
     'donations' => 'Donations',
     'payment_methods' => 'Payment Methods',
