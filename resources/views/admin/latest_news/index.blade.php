@@ -31,6 +31,7 @@
                                 <th width="50">SL</th>
                                 <th>Category</th>
                                 <th>Title & Description</th>
+                                <th>Date & Location</th>
                                 <th width="80">Cover Image</th>
                                 <th width="90">Status</th>
                                 <th class="text-center">Action</th>
@@ -51,6 +52,14 @@
                                 <td class="align-middle">
                                     <div class="fw-semibold" style="max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="{{ $item->title }}">{{ $item->title }}</div>
                                     <small class="text-muted">{{ Str::limit($item->description, 50, '...') }}</small>
+                                </td>
+                                <td class="align-middle">
+                                    @if($item->start_date)
+                                        <div class="small fw-semibold"><i class="feather-calendar text-primary me-1"></i>{{ date("d M Y", strtotime($item->start_date)) }}</div>
+                                    @endif
+                                    @if($item->location)
+                                        <div class="small text-muted mt-1"><i class="feather-map-pin text-danger me-1"></i>{{ Str::limit($item->location, 25, '...') }}</div>
+                                    @endif
                                 </td>
                                 <td class="align-middle">
                                     <img src="{{ asset('images/news/'.$item->image) }}" alt="" width="60" style="border-radius:4px;object-fit:cover;height:40px;">
@@ -131,6 +140,24 @@
                                     <th class="bg-light">Category</th>
                                     <td>{{ ucfirst($item->category ?? 'News') }}</td>
                                 </tr>
+                                @if($item->start_date)
+                                <tr>
+                                    <th class="bg-light">Date</th>
+                                    <td>{{ date("d M Y", strtotime($item->start_date)) }} @if($item->end_date) - {{ date("d M Y", strtotime($item->end_date)) }} @endif</td>
+                                </tr>
+                                @endif
+                                @if($item->start_time)
+                                <tr>
+                                    <th class="bg-light">Time</th>
+                                    <td>{{ date("h:i A", strtotime($item->start_time)) }} @if($item->end_time) - {{ date("h:i A", strtotime($item->end_time)) }} @endif</td>
+                                </tr>
+                                @endif
+                                @if($item->location)
+                                <tr>
+                                    <th class="bg-light">Location</th>
+                                    <td>{{ $item->location }}</td>
+                                </tr>
+                                @endif
                                 <tr>
                                     <th class="bg-light">Status</th>
                                     <td>
