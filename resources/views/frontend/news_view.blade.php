@@ -29,12 +29,14 @@
                     <span>
                         <i class="fas fa-calendar-alt me-2 text-warning"></i>
                         {{ $news->start_date ? date("d F, Y", strtotime($news->start_date)) : date("d F, Y") }}
+                        @if($news->end_date && $news->end_date != $news->start_date) - {{ date("d F, Y", strtotime($news->end_date)) }} @endif
                     </span>
                     @if($isEvent)
                         @if($news->start_time)
                         <span>
                             <i class="fas fa-clock me-2 text-info"></i>
                             {{ date("h:i A", strtotime($news->start_time)) }}
+                            @if($news->end_time) - {{ date("h:i A", strtotime($news->end_time)) }} @endif
                         </span>
                         @endif
                         @if($news->location)

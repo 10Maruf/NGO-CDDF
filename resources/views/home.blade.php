@@ -1374,7 +1374,8 @@ CDDF - Home
                         </a>
                         <div class="cddf-blog-text">
                             <div class="cddf-blog-meta">
-                                <span><i class="fas fa-calendar-alt"></i>{{ $data->start_date ? date("d M, Y", strtotime($data->start_date)) : date("d M, Y") }}</span>
+                                <span><i class="fas fa-calendar-alt"></i>{{ $data->start_date ? date("d M, Y", strtotime($data->start_date)) : date("d M, Y") }}
+                                @if($data->end_date && $data->end_date != $data->start_date) - {{ date("d M, Y", strtotime($data->end_date)) }} @endif</span>
                                 <span><i class="fas fa-user"></i> CDDF</span>
                             </div>
                             <h3 class="heading">
@@ -1385,7 +1386,8 @@ CDDF - Home
                             @if ($isEvent)
                                 <p class="cddf-time-loc">
                                     @if($data->start_time)
-                                        <span><i class="fas fa-clock"></i> {{ date("h:i A", strtotime($data->start_time)) }}</span>
+                                        <span><i class="fas fa-clock"></i> {{ date("h:i A", strtotime($data->start_time)) }}
+                                        @if($data->end_time) - {{ date("h:i A", strtotime($data->end_time)) }} @endif</span>
                                     @endif
                                     @if($data->location)
                                         <span><i class="fas fa-map-marker-alt"></i> {{ $data->location }}</span>
@@ -1396,7 +1398,15 @@ CDDF - Home
                                 {!! Str::limit(strip_tags($data->description), 110, '...') !!}
                             </p>
                             <a href="{{ route('latest.news.view', $data->id) }}" class="cddf-read-more">
-                                {{ $isEvent ? 'Join Event' : 'Read More' }}
+                                @if($isEvent)
+                                    @php
+                                        $eventEndDate = $data->end_date ?: $data->start_date;
+                                        $isPastEvent = $eventEndDate ? (strtotime($eventEndDate) < strtotime('today')) : false;
+                                    @endphp
+                                    {{ $isPastEvent ? 'View Details' : 'Join Event' }}
+                                @else
+                                    Read More
+                                @endif
                                 <i class="fas fa-arrow-right" style="font-size:11px;"></i>
                             </a>
                         </div>
