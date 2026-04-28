@@ -73,7 +73,14 @@ class OrgMemberController extends Controller
         if ($filterType) {
             $query->where('org_type', $filterType);
         }
-        $data = $query->orderBy('org_type')->orderBy('order')->get();
+        
+        // Ensure accurate logical grouping of types from General Council down to Support Staff
+        $typeKeys = array_keys($orgTypes);
+        $typeOrderStr = "'" . implode("','", $typeKeys) . "'";
+        
+        $data = $query->orderByRaw("FIELD(org_type, $typeOrderStr)")
+                      ->orderBy('order', 'asc')
+                      ->get();
 
         return view('admin.org_members.index', compact('data', 'orgTypes', 'filterType'));
     }
@@ -167,12 +174,10 @@ class OrgMemberController extends Controller
     // Update Order
     public function updateOrder(Request $request)
     {
-        $order = $request->input('order');
-        if (is_array($order)) {
-            foreach ($order as $index => $id) {
-                DB::table('org_members')->where('id', $id)->update([
-                    'order' => $index + 1
-                ]);
+        $orderedIds = $request->input('order');
+        if (is_array($orderedIds)) {
+            foreach ($orderedIds as $index => $id) {
+                DB::table('org_members')->where('id', $id)->update(['order' => $index + 1]);
             }
         }
         return response()->json(['success' => true, 'message' => 'Order updated successfully']);
