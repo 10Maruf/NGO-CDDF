@@ -28,13 +28,7 @@
                 <div class="success-story-card h-100">
                   <div class="d-flex justify-content-between align-items-start">
                     <div class="rating">
-                      <!-- @for($i = 1; $i <= 5; $i++)
-                        @if($i <= ($story->rating ?? 0))
-                          <span class="text-warning">&#9733;</span>
-                        @else
-                          <span class="text-warning" style="opacity: 0.35;">&#9733;</span>
-                        @endif
-                      @endfor -->
+                      
                     </div>
                   </div>
 

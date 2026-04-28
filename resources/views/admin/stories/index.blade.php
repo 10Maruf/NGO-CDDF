@@ -27,23 +27,23 @@
                     <table class="table table-hover table-striped align-middle">
                         <thead class="table-light border-bottom border-2">
                             <tr>
+                                <th width="30"></th>
                                 <th style="width:40px"><input type="checkbox" id="select-all"></th>
                                 <th style="width:40px">#</th>
                                 <th style="width:55px">Image</th>
                                 <th>Name &amp; Title</th>
-                                <!-- <th style="width:100px" class="text-center">Rating</th> -->
-                                <!-- <th style="width:60px" class="text-center">Order</th> -->
+                                <th>Description</th>
                                 <th style="width:130px" class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody id="sortable-stories">
                             @foreach ($data as $key=>$item)
                             <tr data-id="{{ $item->id }}">
-                                <td><input type="checkbox" class="select-item" value="{{ $item->id }}"></td>
-                                <td style="cursor: grab;">
-                                    <i class="feather-move text-muted"></i>
-                                    {{ ++$key }}
+                                <td class="text-center drag-handle" style="cursor: grab;">
+                                    <i class="fa-solid fa-grip-vertical fs-5 text-muted"></i>
                                 </td>
+                                <td><input type="checkbox" class="select-item" value="{{ $item->id }}"></td>
+                                <td class="serial-number">{{ ++$key }}</td>
                                 <td>
                                     <img src="{{ asset('images/stories/'.$item->image) }}"
                                          onerror="this.src='{{ asset('img/testimonial.jpg') }}'"
@@ -54,18 +54,11 @@
                                     <div class="fw-semibold" style="font-size:13px;">{{ $item->beneficiary_name }}</div>
                                     <div class="text-muted" style="font-size:11px;">{{ $item->beneficiary_title }}</div>
                                 </td>
-                                <!-- <td class="text-center">
-                                    @for($i = 1; $i <= 5; $i++)
-                                        @if($i <= $item->rating)
-                                            <span class="text-warning">&#9733;</span>
-                                        @else
-                                            <span class="text-muted">&#9734;</span>
-                                        @endif
-                                    @endfor
-                                </td> -->
-                                <!-- <td class="text-center">
-                                    <span class="badge bg-secondary">{{ $item->order ?? 0 }}</span>
-                                </td> -->
+                                <td>
+                                    <div class="text-muted small" style="max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $item->description }}">
+                                        {{ Str::limit($item->description, 50) }}
+                                    </div>
+                                </td>
                                 <td class="text-center">
                                     <div class="table-actions justify-content-center">
                                         <button type="button" class="btn btn-info text-white" title="View"
@@ -108,15 +101,7 @@
                     <div>
                         <div class="fw-semibold">{{ $item->beneficiary_name }}</div>
                         <div class="text-muted small">{{ $item->beneficiary_title }}</div>
-                        <!-- <div class="mt-1">
-                            @for($i = 1; $i <= 5; $i++)
-                                @if($i <= $item->rating)
-                                    <span class="text-warning">&#9733;</span>
-                                @else
-                                    <span class="text-muted">&#9734;</span>
-                                @endif
-                            @endfor
-                        </div> -->
+                        
                     </div>
                 </div>
                 @if(isset($item->story) && $item->story)
@@ -168,6 +153,7 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
     $(document).ready(function() {
         $('#select-all').on('change', function() {
@@ -200,56 +186,31 @@
         });
         $('#bulk-clear').on('click', function() { $('.select-item, #select-all').prop('checked', false); toggleBulkActions(); });
 
-        // Drag and Drop ordering
-        if(typeof Sortable !== 'undefined') {
-            var sortable = new Sortable(document.getElementById('sortable-stories'), {
-                animation: 150,
-                onEnd: function () {
-                    var order = [];
-                    $('#sortable-stories tr').each(function(index, element) {
-                        order.push($(this).attr('data-id'));
-                    });
+        // Drag and Drop Sortable for Stories
+        $("#sortable-stories").sortable({
+            handle: ".drag-handle",
+            update: function(event, ui) {
+                let orderedIds = [];
+                $(this).children('tr').each(function(index) {
+                    orderedIds.push($(this).data('id'));
+                    $(this).find('.serial-number').text(index + 1); // Update serial visually
+                });
 
-                    $.ajax({
-                        url: "{{ route('stories.order') }}",
-                        method: "POST",
-                        data: {
-                            order: order,
-                            _token: "{{ csrf_token() }}"
-                        },
-                        success: function(response) {
-                            if(response.success) {
-                                // show success mini popup or something
-                                console.log('Order updated successfully');
-                            }
+                $.ajax({
+                    url: "{{ route('stories.order') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        order: orderedIds
+                    },
+                    success: function(response) {
+                        if(response.success) {
+                            console.log('Order updated successfully');
                         }
-                    });
-                }
-            });
-        } else if($.fn.sortable) {
-            $('#sortable-stories').sortable({
-                update: function(event, ui) {
-                    var order = [];
-                    $('#sortable-stories tr').each(function(index, element) {
-                        order.push($(this).attr('data-id'));
-                    });
-
-                    $.ajax({
-                        url: "{{ route('stories.order') }}",
-                        method: "POST",
-                        data: {
-                            order: order,
-                            _token: "{{ csrf_token() }}"
-                        },
-                        success: function(response) {
-                            if(response.success) {
-                                console.log('Order updated successfully');
-                            }
-                        }
-                    });
-                }
-            });
-        }
+                    }
+                });
+            }
+        });
     });
 </script>
 @endsection
