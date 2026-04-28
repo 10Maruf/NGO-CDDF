@@ -58,16 +58,10 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-12 mb-3">
                                     <label for="year" class="form-label">Year</label>
                                     <input type="number" name="year" class="form-control" id="year" 
                                            value="{{ old('year', $data->year) }}" min="2000" max="2100">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="order" class="form-label">Display Order</label>
-                                    <input type="number" name="order" class="form-control" id="order" 
-                                           value="{{ old('order', $data->order) }}" min="0">
-                                    <small class="text-muted">Lower numbers appear first</small>
                                 </div>
                             </div>
                         </div>

@@ -24,8 +24,10 @@ class ImpactController extends Controller
             'description' => 'nullable|string',
             'icon' => 'nullable|string|max:100',
             'year' => 'nullable|integer|min:2000|max:2100',
-            'order' => 'nullable|integer|min:0',
         ]);
+
+        $minOrder = Impact::min('order');
+        $newOrder = $minOrder !== null ? $minOrder - 1 : 0;
 
         Impact::create([
             'title' => $request->title,
@@ -34,7 +36,7 @@ class ImpactController extends Controller
             'description' => $request->description,
             'icon' => $request->icon,
             'year' => $request->year,
-            'order' => $request->order ?? 0
+            'order' => $newOrder
         ]);
 
         return redirect()->back()->with('success', 'Impact metric successfully added!');
@@ -75,7 +77,6 @@ class ImpactController extends Controller
             'description' => 'nullable|string',
             'icon' => 'nullable|string|max:100',
             'year' => 'nullable|integer|min:2000|max:2100',
-            'order' => 'nullable|integer|min:0',
         ]);
 
         $impact = Impact::findOrFail($id);
@@ -86,7 +87,6 @@ class ImpactController extends Controller
             'description' => $request->description,
             'icon' => $request->icon,
             'year' => $request->year,
-            'order' => $request->order ?? 0
         ]);
 
         return redirect()->back()->with('update', 'Impact metric successfully updated!');
@@ -101,6 +101,18 @@ class ImpactController extends Controller
         }
         Impact::whereIn('id', $ids)->delete();
         return response()->json(['success' => true]);
+    }
+
+    // Update Order
+    public function updateOrder(Request $request)
+    {
+        $orderedIds = $request->input('order');
+        if (is_array($orderedIds)) {
+            foreach ($orderedIds as $index => $id) {
+                Impact::where('id', $id)->update(['order' => $index + 1]);
+            }
+        }
+        return response()->json(['success' => true, 'message' => 'Order updated successfully']);
     }
 }
 

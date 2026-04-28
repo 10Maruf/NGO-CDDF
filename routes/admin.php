@@ -262,6 +262,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('impact/edit/{id}', [ImpactController::class, 'edit'])->name('impact.edit');
     Route::post('impact/update/{id}', [ImpactController::class, 'update'])->name('impact.update');
     Route::post('impact/bulk-delete', [ImpactController::class, 'bulkDelete'])->name('impact.bulk_delete');
+    Route::post('impact/update-order', [ImpactController::class, 'updateOrder'])->name('impact.updateOrder');
 
     // __ Success Stories __//
     Route::get('stories/add', [StoryController::class, 'add'])->name('stories.add');

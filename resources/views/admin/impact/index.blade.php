@@ -34,20 +34,23 @@
                     <table class="table table-hover table-striped align-middle">
                         <thead class="table-light">
                             <tr>
+                                <th style="width:30px"></th>
                                 <th style="width:40px"><input type="checkbox" id="select-all"></th>
                                 <th style="width:40px">#</th>
                                 <th style="width:55px">Icon</th>
                                 <th>Title &amp; Description</th>
                                 <th style="width:140px">Metric</th>
-                                <th style="width:60px" class="text-center">Order</th>
                                 <th style="width:130px" class="text-center">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sortable-impact-metrics">
                             @forelse ($data as $key=>$item)
-                            <tr>
+                            <tr data-id="{{ $item->id }}">
+                                <td class="text-center drag-handle" style="cursor: grab;">
+                                    <i class="fa-solid fa-grip-vertical fs-5 text-muted"></i>
+                                </td>
                                 <td><input type="checkbox" class="select-item" value="{{ $item->id }}"></td>
-                                <td>{{ $key + 1 }}</td>
+                                <td class="serial-number">{{ $key + 1 }}</td>
                                 <td class="text-center">
                                     @if($item->icon)
                                         <i class="{{ $item->icon }}" style="font-size: 28px; color: #0d6efd;"></i>
@@ -63,9 +66,6 @@
                                 </td>
                                 <td style="white-space:nowrap;">
                                     <span class="badge bg-primary" style="font-size:13px;">{{ $item->metric_value }}@if($item->metric_unit)<span style="font-weight:400;"> {{ $item->metric_unit }}</span>@endif</span>
-                                </td>
-                                <td class="text-center">
-                                    <span class="badge bg-secondary">{{ $item->order }}</span>
                                 </td>
                                 <td class="text-center">
                                     <div class="table-actions justify-content-center">
@@ -91,9 +91,8 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="7" class="text-center py-4">
-                                    <i class="bx bx-folder-open" style="font-size: 48px; color: #ccc;"></i>
-                                    <p class="text-muted mt-2">No impact metrics found. <a href="{{ route('impact.add') }}">Add one now</a></p>
+                                <td colspan="7" class="text-center py-4 text-muted">
+                                    No impact metrics found. <a href="{{ route('impact.add') }}">Add one now</a>
                                 </td>
                             </tr>
                             @endforelse
@@ -136,10 +135,6 @@
                             <td class="small">{{ $item->description }}</td>
                         </tr>
                         @endif
-                        <tr>
-                            <th class="text-muted small">Order</th>
-                            <td><span class="badge bg-secondary">{{ $item->order }}</span></td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -184,8 +179,32 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
     $(document).ready(function() {
+        $("#sortable-impact-metrics").sortable({
+            handle: ".drag-handle",
+            update: function(event, ui) {
+                let orderedIds = [];
+                $(this).children('tr').each(function(index) {
+                    orderedIds.push($(this).data('id'));
+                    $(this).find('.serial-number').text(index + 1); // Update serial visually
+                });
+
+                $.ajax({
+                    url: "{{ route('impact.updateOrder') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        order: orderedIds
+                    },
+                    success: function(response) {
+                        console.log(response.message);
+                    }
+                });
+            }
+        });
+
         $('#select-all').on('change', function() {
             $('.select-item').prop('checked', $(this).prop('checked'));
             toggleBulkActions();
