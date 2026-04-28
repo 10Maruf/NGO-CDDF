@@ -35,10 +35,30 @@ class FaqController extends Controller
     }
 
     // index
-    public function index()
+    public function index(Request $request)
     {
-        $data = DB::table('faq')->orderBy('order', 'asc')->get();
-        return view('admin.faq.index', compact('data'));
+        $categories = DB::table('faq')->whereNotNull('category')->where('category', '!=', '')->distinct()->pluck('category');
+        $filterCategory = $request->get('category', '');
+
+        $query = DB::table('faq');
+        if ($filterCategory !== '') {
+            $query->where('category', $filterCategory);
+        }
+
+        $data = $query->orderBy('order', 'asc')->get();
+        return view('admin.faq.index', compact('data', 'categories', 'filterCategory'));
+    }
+
+    // Update Order (Ajax drag & drop)
+    public function updateOrder(Request $request)
+    {
+        $orderedIds = $request->input('order');
+        if (is_array($orderedIds)) {
+            foreach ($orderedIds as $index => $id) {
+                DB::table('faq')->where('id', $id)->update(['order' => $index + 1]);
+            }
+        }
+        return response()->json(['success' => true, 'message' => 'Order updated successfully']);
     }
 
     // Destroy

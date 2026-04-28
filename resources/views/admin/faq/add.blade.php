@@ -33,13 +33,9 @@
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label for="category" class="form-label">Category (Optional)</label>
                             <input type="text" name="category" class="form-control" id="category" placeholder="e.g., General, Programs, Donation">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="order" class="form-label">Order</label>
-                            <input type="number" name="order" class="form-control" id="order" value="0">
                         </div>
                         <div class="col-12 d-flex align-items-center gap-2">
                             <button class="btn btn-primary px-4" type="submit">Submit</button>

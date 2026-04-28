@@ -23,23 +23,43 @@
                 @if (session()->has('update'))
                     <div class="alert alert-danger">{{ session()->get('update') }}</div>
                 @endif
+
+                {{-- Filter by category --}}
+                <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                    <a href="{{ route('faq.index') }}"
+                       class="btn btn-sm {{ $filterCategory == '' ? 'btn-primary' : 'btn-outline-secondary' }}">All</a>
+                    @foreach($categories as $cat)
+                        <a href="{{ route('faq.index', ['category' => $cat]) }}"
+                           class="btn btn-sm {{ $filterCategory == $cat ? 'btn-primary' : 'btn-outline-secondary' }}">
+                            {{ $cat }}
+                        </a>
+                    @endforeach
+                </div>
+
                 <div class="p-4 border rounded table-responsive">
                     <table class="table table-hover table-striped align-middle">
                         <thead class="table-light border-bottom border-2">
                             <tr>
+                                @if($filterCategory != '')
+                                <th style="width:30px"></th>
+                                @endif
                                 <th style="width:40px"><input type="checkbox" id="select-all"></th>
                                 <th style="width:40px">#</th>
                                 <th>Question</th>
                                 <th style="width:150px">Category</th>
-                                <th style="width:60px" class="text-center">Order</th>
                                 <th style="width:130px" class="text-center">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="{{ $filterCategory != '' ? 'sortable-faq' : '' }}">
                             @foreach ($data as $key=>$item)
-                            <tr>
+                            <tr data-id="{{ $item->id }}">
+                                @if($filterCategory != '')
+                                <td class="text-center drag-handle" style="cursor: grab;">
+                                    <i class="fa-solid fa-grip-vertical fs-5 text-muted"></i>
+                                </td>
+                                @endif
                                 <td><input type="checkbox" class="select-item" value="{{ $item->id }}"></td>
-                                <td>{{ ++$key }}</td>
+                                <td class="serial-number">{{ ++$key }}</td>
                                 <td>
                                     <div class="fw-semibold" style="font-size:13px;">{{ $item->question }}</div>
                                 </td>
@@ -49,9 +69,6 @@
                                     @else
                                         <span class="text-muted">-</span>
                                     @endif
-                                </td>
-                                <td class="text-center">
-                                    <span class="badge bg-secondary">{{ $item->order }}</span>
                                 </td>
                                 <td class="text-center">
                                     <div class="table-actions justify-content-center">
@@ -140,6 +157,7 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
     $(document).ready(function() {
         $('#select-all').on('change', function() { $('.select-item').prop('checked', $(this).prop('checked')); toggleBulkActions(); });
@@ -158,6 +176,31 @@
             deleteModal.show();
         });
         $('#bulk-clear').on('click', function() { $('.select-item, #select-all').prop('checked', false); toggleBulkActions(); });
+
+        $("#sortable-faq").sortable({
+            handle: ".drag-handle",
+            update: function(event, ui) {
+                let orderedIds = [];
+                $(this).children('tr').each(function(index) {
+                    orderedIds.push($(this).data('id'));
+                    $(this).find('.serial-number').text(index + 1); // Update serial visually
+                });
+
+                $.ajax({
+                    url: "{{ route('faq.updateOrder') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        order: orderedIds
+                    },
+                    success: function(response) {
+                        if(response.success) {
+                            console.log('Order updated successfully');
+                        }
+                    }
+                });
+            }
+        });
     });
 </script>
 @endsection

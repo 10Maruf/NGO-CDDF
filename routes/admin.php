@@ -290,6 +290,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('faq/edit/{id}', [FaqController::class, 'edit'])->name('faq.edit');
     Route::post('faq/update/{id}', [FaqController::class, 'update'])->name('faq.update');
     Route::post('faq/bulk-delete', [FaqController::class, 'bulkDelete'])->name('faq.bulk_delete');
+    Route::post('faq/update-order', [FaqController::class, 'updateOrder'])->name('faq.updateOrder');
 
     // __ Volunteer Applications __//
     Route::get('volunteer-applications/index',        [VolunteerApplicationController::class, 'index'])->name('admin.volunteer_applications.index');
