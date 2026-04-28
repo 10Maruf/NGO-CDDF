@@ -18,7 +18,7 @@ class StoryController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
+            // 'rating' => 'required|integer|min:1|max:5',
             'description' => 'required',
             'image' => 'required|mimes:jpg,png,jpeg,gif',
             'beneficiary_name' => 'required',
@@ -32,7 +32,7 @@ class StoryController extends Controller
         }
 
         $data = array(
-            'rating' => $request->rating,
+            // 'rating' => $request->rating,
             'description' => $request->description,
             'image' => $imageName,
             'beneficiary_name' => $request->beneficiary_name,
@@ -48,8 +48,19 @@ class StoryController extends Controller
     // index
     public function index()
     {
-        $data = DB::table('stories')->orderBy('id', 'desc')->get();
+        $data = DB::table('stories')->orderBy('order', 'asc')->orderBy('id', 'desc')->get();
         return view('admin.stories.index', compact('data'));
+    }
+
+    public function updateOrder(Request $request)
+    {
+        if ($request->has('order')) {
+            foreach ($request->order as $index => $id) {
+                DB::table('stories')->where('id', $id)->update(['order' => $index + 1]);
+            }
+            return response()->json(['success' => 'Order updated successfully'], 200);
+        }
+        return response()->json(['error' => 'Order data missing'], 400);
     }
 
     // Destroy
@@ -76,7 +87,7 @@ class StoryController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
+            // 'rating' => 'required|integer|min:1|max:5',
             'description' => 'required',
             'beneficiary_name' => 'required',
             'beneficiary_title' => 'required',
@@ -98,7 +109,7 @@ class StoryController extends Controller
         }
 
         $data = array(
-            'rating' => $request->rating,
+            // 'rating' => $request->rating,
             'description' => $request->description,
             'image' => $imageName,
             'beneficiary_name' => $request->beneficiary_name,

@@ -31,27 +31,27 @@
                                 <th style="width:40px">#</th>
                                 <th style="width:55px">Image</th>
                                 <th>Name &amp; Title</th>
-                                <th style="width:100px" class="text-center">Rating</th>
+                                <!-- <th style="width:100px" class="text-center">Rating</th> -->
                                 <th style="width:60px" class="text-center">Order</th>
                                 <th style="width:130px" class="text-center">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sortable-stories">
                             @foreach ($data as $key=>$item)
-                            <tr>
+                            <tr data-id="{{ $item->id }}">
                                 <td><input type="checkbox" class="select-item" value="{{ $item->id }}"></td>
                                 <td>{{ ++$key }}</td>
                                 <td>
                                     <img src="{{ asset('images/stories/'.$item->image) }}"
                                          onerror="this.src='{{ asset('img/testimonial.jpg') }}'"
                                          alt="{{ $item->beneficiary_name }}" width="45" height="45"
-                                         class="rounded-circle object-fit-cover border">
+                                         class="rounded-circle object-fit-cover border" style="cursor: move;">
                                 </td>
                                 <td>
                                     <div class="fw-semibold" style="font-size:13px;">{{ $item->beneficiary_name }}</div>
                                     <div class="text-muted" style="font-size:11px;">{{ $item->beneficiary_title }}</div>
                                 </td>
-                                <td class="text-center">
+                                <!-- <td class="text-center">
                                     @for($i = 1; $i <= 5; $i++)
                                         @if($i <= $item->rating)
                                             <span class="text-warning">&#9733;</span>
@@ -59,7 +59,7 @@
                                             <span class="text-muted">&#9734;</span>
                                         @endif
                                     @endfor
-                                </td>
+                                </td> -->
                                 <td class="text-center">
                                     <span class="badge bg-secondary">{{ $item->order ?? 0 }}</span>
                                 </td>
@@ -105,7 +105,7 @@
                     <div>
                         <div class="fw-semibold">{{ $item->beneficiary_name }}</div>
                         <div class="text-muted small">{{ $item->beneficiary_title }}</div>
-                        <div class="mt-1">
+                        <!-- <div class="mt-1">
                             @for($i = 1; $i <= 5; $i++)
                                 @if($i <= $item->rating)
                                     <span class="text-warning">&#9733;</span>
@@ -113,7 +113,7 @@
                                     <span class="text-muted">&#9734;</span>
                                 @endif
                             @endfor
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 @if(isset($item->story) && $item->story)
@@ -195,6 +195,58 @@
             deleteModal.show();
         });
         $('#bulk-clear').on('click', function() { $('.select-item, #select-all').prop('checked', false); toggleBulkActions(); });
+
+        // Drag and Drop ordering
+        if(typeof Sortable !== 'undefined') {
+            var sortable = new Sortable(document.getElementById('sortable-stories'), {
+                animation: 150,
+                onEnd: function () {
+                    var order = [];
+                    $('#sortable-stories tr').each(function(index, element) {
+                        order.push($(this).attr('data-id'));
+                    });
+
+                    $.ajax({
+                        url: "{{ route('stories.order') }}",
+                        method: "POST",
+                        data: {
+                            order: order,
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
+                            if(response.success) {
+                                // show success mini popup or something
+                                console.log('Order updated successfully');
+                            }
+                        }
+                    });
+                }
+            });
+        } else if($.fn.sortable) {
+            $('#sortable-stories').sortable({
+                update: function(event, ui) {
+                    var order = [];
+                    $('#sortable-stories tr').each(function(index, element) {
+                        order.push($(this).attr('data-id'));
+                    });
+
+                    $.ajax({
+                        url: "{{ route('stories.order') }}",
+                        method: "POST",
+                        data: {
+                            order: order,
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
+                            if(response.success) {
+                                console.log('Order updated successfully');
+                            }
+                        }
+                    });
+                }
+            });
+        }
     });
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 @endsection

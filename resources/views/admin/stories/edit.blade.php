@@ -19,7 +19,7 @@
                 <div class="p-4 border rounded">
                     <form class="row g-3" action="{{ route('stories.update',$data->id) }}" method="post" enctype="multipart/form-data">
                         @csrf
-                        <div class="col-md-12">
+                        <!-- <div class="col-md-12">
                             <label for="rating" class="form-label">Rating</label>
                             <select name="rating" class="form-control @error('rating') is-invalid @enderror" id="rating">
                                 <option value="">Select Rating</option>
@@ -29,7 +29,7 @@
                             @error('rating')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
-                        </div>
+                        </div> -->
                         <div class="col-md-12">
                             <label for="order" class="form-label">Order</label>
                             <input type="number" name="order" class="form-control" id="order" value="{{ $data->order ?? 0 }}" placeholder="Enter Order (e.g., 1, 2, 3...)">

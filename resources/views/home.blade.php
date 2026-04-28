@@ -1972,7 +1972,7 @@ $(document).ready(function(){
                                     </div>
                                     <div class="text-start">
                                         <h6 class="vp-story-label text-primary mb-2">Success Story #2</h6>
-                                        <p class="vp-story-desc text-muted mb-3">"{{ Str::limit($middleStory->description, 90) }}"</p>
+                                        <p class="vp-story-desc text-muted mb-3">"{{ Str::limit($middleStory->description, 90) }}" <a href="#" data-bs-toggle="modal" data-bs-target="#storyModal{{ $middleStory->id }}" class="text-primary fw-bold" style="text-decoration: none;">See more</a></p>
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="vp-story-line"></div>
                                             <div>
@@ -2023,7 +2023,7 @@ $(document).ready(function(){
                                             </div>
                                             <div class="text-end pt-3">
                                                 <h6 class="vp-story-label text-info mb-2">Success Story #1</h6>
-                                                <p class="vp-story-desc text-muted mb-3">"{{ Str::limit($firstStory->description, 80) }}"</p>
+                                                <p class="vp-story-desc text-muted mb-3">"{{ Str::limit($firstStory->description, 80) }}" <a href="#" data-bs-toggle="modal" data-bs-target="#storyModal{{ $firstStory->id }}" class="text-primary fw-bold" style="text-decoration: none;">See more</a></p>
                                                 <div class="d-flex align-items-center justify-content-end gap-2">
                                                     <div>
                                                         <h6 class="vp-story-name mb-0">{{ $firstStory->beneficiary_name }}</h6>
@@ -2054,7 +2054,7 @@ $(document).ready(function(){
                                                     <img src="{{ $thirdImgPath }}" alt="{{ $thirdStory->beneficiary_name }}" class="vp-story-img">
                                                 </div>
                                                 <h6 class="vp-story-label text-warning mb-2">Success Story #3</h6>
-                                                <p class="vp-story-desc text-muted mb-3 w-100 px-3 mx-auto">"{{ Str::limit($thirdStory->description, 90) }}"</p>
+                                                <p class="vp-story-desc text-muted mb-3 w-100 px-3 mx-auto">"{{ Str::limit($thirdStory->description, 90) }}" <br> <a href="#" data-bs-toggle="modal" data-bs-target="#storyModal{{ $thirdStory->id }}" class="text-primary fw-bold" style="text-decoration: none;">See more</a></p>
                                                  <div class="d-flex align-items-center justify-content-center gap-2">
                                                     <div>
                                                         <h6 class="vp-story-name mb-0">{{ $thirdStory->beneficiary_name }}</h6>
@@ -2086,7 +2086,7 @@ $(document).ready(function(){
                                                 </div>
                                                 <div class="text-end pt-3">
                                                     <h6 class="vp-story-label text-success mb-2">Success Story #4</h6>
-                                                    <p class="vp-story-desc text-muted mb-3">"{{ Str::limit($fourthStory->description, 80) }}"</p>
+                                                    <p class="vp-story-desc text-muted mb-3">"{{ Str::limit($fourthStory->description, 80) }}" <a href="#" data-bs-toggle="modal" data-bs-target="#storyModal{{ $fourthStory->id }}" class="text-primary fw-bold" style="text-decoration: none;">See more</a></p>
                                                     <div class="d-flex align-items-center justify-content-end gap-2">
                                                         <div>
                                                             <h6 class="vp-story-name mb-0">{{ $fourthStory->beneficiary_name }}</h6>
@@ -2108,6 +2108,38 @@ $(document).ready(function(){
                 @endforelse
             </div>
         </div>
+        
+        <!-- Story Modals -->
+        @foreach($stories as $story)
+        <div class="modal fade" id="storyModal{{ $story->id }}" tabindex="-1" aria-hidden="true" style="z-index: 1055;">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header border-0 pb-0">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body pt-0 px-4 pb-4">
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            @php 
+                                $modalImgPath = asset('images/stories/'.$story->image);
+                                if(in_array($story->image, ['1.png','2.png','3.png','4.png','5.png','6.png','7.png','8.png','9.png','10.png','11.png','12.png'])) {
+                                    $modalImgPath = asset('admin/assets/images/duralux/avatar/'.$story->image);
+                                }
+                            @endphp
+                            <img src="{{ $modalImgPath }}" alt="{{ $story->beneficiary_name }}" class="rounded-circle border" style="width:80px;height:80px;object-fit:cover; border-color: #f86f2d !important;">
+                            <div>
+                                <h5 class="fw-bold mb-0 text-dark">{{ $story->beneficiary_name }}</h5>
+                                <div class="text-muted small">{{ $story->beneficiary_title }}</div>
+                            </div>
+                        </div>
+                        <div class="bg-light p-4 rounded border-start border-4" style="border-color: #f86f2d !important;">
+                            <p class="mb-0 text-dark" style="white-space:pre-line; line-height: 1.8; font-size: 1rem;"><i class="fas fa-quote-left text-muted opacity-50 me-2"></i>{{ $story->description }}<i class="fas fa-quote-right text-muted opacity-50 ms-2"></i></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+
     </div>
 </div>
 {{-- End of Success Stories --}}

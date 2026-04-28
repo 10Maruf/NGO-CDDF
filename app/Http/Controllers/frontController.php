@@ -232,7 +232,7 @@ class frontController extends Controller
 
     // Stories
     public function stories(){
-        $stories = DB::table('stories')->orderBy('id', 'desc')->get();
+        $stories = DB::table('stories')->orderBy('order', 'asc')->orderBy('id', 'desc')->get();
         return view('frontend.stories', compact('stories'));
     }
 

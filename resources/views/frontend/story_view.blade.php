@@ -28,7 +28,7 @@
                 @if($story->beneficiary_title)
                 <p class="text-muted"><em>{{ $story->beneficiary_title }}</em></p>
                 @endif
-                <div class="rating mb-3">
+                <!-- <div class="rating mb-3">
                     @for($i = 1; $i <= 5; $i++)
                         @if($i <= $story->rating)
                             <span class="text-warning fs-5">&#9733;</span>
@@ -36,7 +36,7 @@
                             <span class="text-muted fs-5">&#9734;</span>
                         @endif
                     @endfor
-                </div>
+                </div> -->
                 <p style="text-align: justify; word-wrap: break-word; overflow-wrap: break-word; word-break: break-word; max-width: 100%;">
                     {{ $story->description }}
                 </p>

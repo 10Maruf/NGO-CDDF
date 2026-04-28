@@ -268,6 +268,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('stories/add', [StoryController::class, 'add'])->name('stories.add');
     Route::post('stories/store', [StoryController::class, 'store'])->name('stories.store');
     Route::get('stories/index', [StoryController::class, 'index'])->name('stories.index');
+    Route::post('stories/order', [StoryController::class, 'updateOrder'])->name('stories.order');
     Route::get('stories/delete/{id}', [StoryController::class, 'destroy'])->name('stories.delete');
     Route::get('stories/edit/{id}', [StoryController::class, 'edit'])->name('stories.edit');
     Route::post('stories/update/{id}', [StoryController::class, 'update'])->name('stories.update');
