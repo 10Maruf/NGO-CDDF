@@ -30,10 +30,10 @@
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div> -->
-                        <div class="col-md-12">
+                        <!-- <div class="col-md-12">
                             <label for="order" class="form-label">Order</label>
                             <input type="number" name="order" class="form-control" id="order" value="{{ $data->order ?? 0 }}" placeholder="Enter Order (e.g., 1, 2, 3...)">
-                        </div>
+                        </div> -->
                         <div class="col-md-12">
                             <label for="beneficiary_name" class="form-label">Beneficiary Name</label>
                             <input type="text" name="beneficiary_name" class="form-control @error('beneficiary_name') is-invalid @enderror" id="beneficiary_name" value="{{ $data->beneficiary_name }}">

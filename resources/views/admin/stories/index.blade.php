@@ -32,7 +32,7 @@
                                 <th style="width:55px">Image</th>
                                 <th>Name &amp; Title</th>
                                 <!-- <th style="width:100px" class="text-center">Rating</th> -->
-                                <th style="width:60px" class="text-center">Order</th>
+                                <!-- <th style="width:60px" class="text-center">Order</th> -->
                                 <th style="width:130px" class="text-center">Action</th>
                             </tr>
                         </thead>
@@ -40,12 +40,15 @@
                             @foreach ($data as $key=>$item)
                             <tr data-id="{{ $item->id }}">
                                 <td><input type="checkbox" class="select-item" value="{{ $item->id }}"></td>
-                                <td>{{ ++$key }}</td>
+                                <td style="cursor: grab;">
+                                    <i class="feather-move text-muted"></i>
+                                    {{ ++$key }}
+                                </td>
                                 <td>
                                     <img src="{{ asset('images/stories/'.$item->image) }}"
                                          onerror="this.src='{{ asset('img/testimonial.jpg') }}'"
                                          alt="{{ $item->beneficiary_name }}" width="45" height="45"
-                                         class="rounded-circle object-fit-cover border" style="cursor: move;">
+                                         class="rounded-circle object-fit-cover border">
                                 </td>
                                 <td>
                                     <div class="fw-semibold" style="font-size:13px;">{{ $item->beneficiary_name }}</div>
@@ -60,9 +63,9 @@
                                         @endif
                                     @endfor
                                 </td> -->
-                                <td class="text-center">
+                                <!-- <td class="text-center">
                                     <span class="badge bg-secondary">{{ $item->order ?? 0 }}</span>
-                                </td>
+                                </td> -->
                                 <td class="text-center">
                                     <div class="table-actions justify-content-center">
                                         <button type="button" class="btn btn-info text-white" title="View"
@@ -136,6 +139,7 @@
         </div>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         var modalEl = document.getElementById('viewStoryModal{{ $item->id }}');
@@ -248,5 +252,4 @@
         }
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 @endsection
