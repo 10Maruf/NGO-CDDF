@@ -40,7 +40,9 @@
                     <table class="table table-hover table-striped align-middle mb-0">
                         <thead class="table-light border-bottom border-2">
                             <tr>
+                                @if($filterType != '')
                                 <th style="width:30px"></th>
+                                @endif
                                 <th style="width:40px"><input type="checkbox" id="select-all"></th>
                                 <th style="width:40px">#</th>
                                 <th style="width:50px">Photo</th>
@@ -50,12 +52,14 @@
                                 <th style="width:100px" class="text-center">Action</th>
                             </tr>
                         </thead>
-                        <tbody id="sortable-org-members">
+                        <tbody id="{{ $filterType != '' ? 'sortable-org-members' : '' }}">
                             @forelse ($data as $key => $item)
                             <tr data-id="{{ $item->id }}">
+                                @if($filterType != '')
                                 <td class="text-center drag-handle" style="cursor: grab;">
                                     <i class="fa-solid fa-grip-vertical fs-5 text-muted"></i>
                                 </td>
+                                @endif
                                 <td><input type="checkbox" class="select-item" value="{{ $item->id }}"></td>
                                 <td class="serial-number">{{ ++$key }}</td>
                                 <td>
