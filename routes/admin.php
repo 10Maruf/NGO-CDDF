@@ -242,6 +242,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('org-members/edit/{id}', [OrgMemberController::class, 'edit'])->name('org.edit');
     Route::post('org-members/update/{id}', [OrgMemberController::class, 'update'])->name('org.update');
     Route::get('org-members/toggle/{id}', [OrgMemberController::class, 'toggleStatus'])->name('org.toggle');
+    Route::post('org-members/update-order', [OrgMemberController::class, 'updateOrder'])->name('org.updateOrder');
     Route::post('org-members/bulk-delete', [OrgMemberController::class, 'bulkDelete'])->name('org.bulk_delete');
     Route::post('org-members/bulk-status', [OrgMemberController::class, 'bulkStatus'])->name('org.bulk_status');
 

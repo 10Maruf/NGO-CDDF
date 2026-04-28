@@ -124,10 +124,6 @@
                         <div class="col-12"><hr></div>
 
                         {{-- Order & Active --}}
-                        <div class="col-md-6">
-                            <label for="order" class="form-label">Display Order</label>
-                            <input type="number" name="order" class="form-control" id="order" value="{{ old('order', 0) }}">
-                        </div>
                         <div class="col-md-6 d-flex align-items-end">
                             <div class="form-check form-switch mb-2">
                                 <input class="form-check-input" type="checkbox" name="is_active" id="is_active" checked>

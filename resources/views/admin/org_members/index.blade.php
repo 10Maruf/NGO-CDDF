@@ -40,21 +40,24 @@
                     <table class="table table-hover table-striped align-middle mb-0">
                         <thead class="table-light border-bottom border-2">
                             <tr>
+                                <th style="width:30px"></th>
                                 <th style="width:40px"><input type="checkbox" id="select-all"></th>
                                 <th style="width:40px">#</th>
                                 <th style="width:50px">Photo</th>
                                 <th>Name &amp; Designation</th>
                                 <th>Type</th>
-                                <th style="width:60px" class="text-center">Order</th>
                                 <th style="width:70px" class="text-center">Active</th>
                                 <th style="width:100px" class="text-center">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sortable-org-members">
                             @forelse ($data as $key => $item)
-                            <tr>
+                            <tr data-id="{{ $item->id }}">
+                                <td class="text-center drag-handle" style="cursor: grab;">
+                                    <i class="fa-solid fa-grip-vertical fs-5 text-muted"></i>
+                                </td>
                                 <td><input type="checkbox" class="select-item" value="{{ $item->id }}"></td>
-                                <td>{{ ++$key }}</td>
+                                <td class="serial-number">{{ ++$key }}</td>
                                 <td>
                                     <img src="{{ asset('images/org_members/' . $item->photo) }}"
                                          onerror="this.src='{{ asset('img/testimonial.jpg') }}'"
@@ -82,7 +85,6 @@
                                     @endphp
                                     <span class="badge {{ $badge }}">{{ $label }}</span>
                                 </td>
-                                <td class="text-center">{{ $item->order }}</td>
                                 <td class="text-center">
                                     @if($item->is_active)
                                         <span class="badge bg-success">Active</span>
@@ -284,8 +286,32 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
     $(document).ready(function() {
+        $("#sortable-org-members").sortable({
+            handle: ".drag-handle",
+            update: function(event, ui) {
+                let orderedIds = [];
+                $(this).children('tr').each(function(index) {
+                    orderedIds.push($(this).data('id'));
+                    $(this).find('.serial-number').text(index + 1); // Update serial visually
+                });
+
+                $.ajax({
+                    url: "{{ route('org.updateOrder') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        order: orderedIds
+                    },
+                    success: function(response) {
+                        console.log(response.message);
+                    }
+                });
+            }
+        });
+
         $('#select-all').on('change', function() {
             $('.select-item').prop('checked', $(this).prop('checked'));
             toggleBulkActions();

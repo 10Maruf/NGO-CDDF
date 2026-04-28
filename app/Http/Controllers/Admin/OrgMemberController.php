@@ -26,7 +26,6 @@ class OrgMemberController extends Controller
             'name'        => 'required',
             'designation' => 'required',
             'photo'       => 'nullable|mimes:jpg,png,jpeg,gif',
-            'order'       => 'nullable|integer',
         ]);
 
         $photoName = null;
@@ -34,6 +33,9 @@ class OrgMemberController extends Controller
             $photoName = rand(10000, 99999) . 'org.' . $photo->getClientOriginalExtension();
             $photo->move(public_path($this->photoFolder), $photoName);
         }
+
+        $minOrder = DB::table('org_members')->where('org_type', $request->org_type)->min('order');
+        $newOrder = $minOrder !== null ? $minOrder - 1 : 0;
 
         DB::table('org_members')->insert([
             'org_type'    => $request->org_type,
@@ -52,7 +54,7 @@ class OrgMemberController extends Controller
             'joining_date'=> $request->joining_date ?: null,
             'education'   => $request->education,
             'experience_years' => $request->experience_years ?: null,
-            'order'       => $request->order ?? 0,
+            'order'       => $newOrder,
             'is_active'   => $request->has('is_active') ? 1 : 0,
             'created_at'  => now(),
             'updated_at'  => now(),
@@ -93,7 +95,6 @@ class OrgMemberController extends Controller
             'name'        => 'required',
             'designation' => 'required',
             'photo'       => 'nullable|mimes:jpg,png,jpeg,gif',
-            'order'       => 'nullable|integer',
         ]);
 
         $item = DB::table('org_members')->where('id', $id)->first();
@@ -127,7 +128,6 @@ class OrgMemberController extends Controller
             'joining_date'=> $request->joining_date ?: null,
             'education'   => $request->education,
             'experience_years' => $request->experience_years ?: null,
-            'order'       => $request->order ?? 0,
             'is_active'   => $request->has('is_active') ? 1 : 0,
             'updated_at'  => now(),
         ]);
@@ -162,6 +162,20 @@ class OrgMemberController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Status updated successfully!');
+    }
+
+    // Update Order
+    public function updateOrder(Request $request)
+    {
+        $order = $request->input('order');
+        if (is_array($order)) {
+            foreach ($order as $index => $id) {
+                DB::table('org_members')->where('id', $id)->update([
+                    'order' => $index + 1
+                ]);
+            }
+        }
+        return response()->json(['success' => true, 'message' => 'Order updated successfully']);
     }
 
     // Bulk Delete
