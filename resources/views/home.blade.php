@@ -2125,7 +2125,7 @@ $(document).ready(function(){
                                     $modalImgPath = asset('admin/assets/images/duralux/avatar/'.$story->image);
                                 }
                             @endphp
-                            <img src="{{ $modalImgPath }}" alt="{{ $story->beneficiary_name }}" class="rounded-circle border story-modal-avatar">
+                            <img src="{{ $modalImgPath }}" alt="{{ $story->beneficiary_name }}" class="rounded-circle border story-modal-avatar" style="width:80px;height:80px;object-fit:cover; border-color: #f86f2d !important;">
                             <div>
                                 <h5 class="fw-bold mb-0 story-modal-name">{{ $story->beneficiary_name }}</h5>
                                 <div class="small story-modal-title">{{ $story->beneficiary_title }}</div>

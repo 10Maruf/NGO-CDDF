@@ -69,13 +69,13 @@
     <!-- Story Modals -->
     @if(isset($stories) && count($stories) > 0)
         @foreach($stories as $story)
-        <div class="modal fade" id="storyModal{{ $story->id }}" tabindex="-1" aria-hidden="true" style="z-index: 1055;">
+        <div class="modal fade success-story-modal" id="storyModal{{ $story->id }}" tabindex="-1" aria-hidden="true" style="z-index: 1055;">
             <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
+            <div class="modal-content story-modal-content">
                     <div class="modal-header border-0 pb-0">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body pt-0 px-4 pb-4">
+              <div class="modal-body pt-0 px-4 pb-4 story-modal-body">
                         <div class="d-flex align-items-center gap-3 mb-4">
                             @php 
                                 $modalImgPath = asset('images/stories/'.$story->image);
@@ -83,14 +83,14 @@
                                     $modalImgPath = asset('admin/assets/images/duralux/avatar/'.$story->image);
                                 }
                             @endphp
-                            <img src="{{ $modalImgPath }}" alt="{{ $story->beneficiary_name }}" class="rounded-circle border" style="width:80px;height:80px;object-fit:cover; border-color: #f86f2d !important;">
+                            <img src="{{ $modalImgPath }}" alt="{{ $story->beneficiary_name }}" class="rounded-circle border story-modal-avatar" style="width:80px;height:80px;object-fit:cover; border-color: #f86f2d !important;">
                             <div>
-                                <h5 class="fw-bold mb-0 text-dark">{{ $story->beneficiary_name }}</h5>
-                                <div class="text-muted small">{{ $story->beneficiary_title }}</div>
+                              <h5 class="fw-bold mb-0 story-modal-name">{{ $story->beneficiary_name }}</h5>
+                              <div class="small story-modal-title">{{ $story->beneficiary_title }}</div>
                             </div>
                         </div>
-                        <div class="bg-light p-4 rounded border-start border-4" style="border-color: #f86f2d !important;">
-                            <p class="mb-0 text-dark" style="white-space:pre-line; line-height: 1.8; font-size: 1rem;"><i class="fas fa-quote-left text-muted opacity-50 me-2"></i>{{ $story->description }}<i class="fas fa-quote-right text-muted opacity-50 ms-2"></i></p>
+                          <div class="story-modal-quote">
+                            <p class="mb-0 story-modal-text"><i class="fas fa-quote-left story-modal-quote-icon me-2"></i>{{ $story->description }}<i class="fas fa-quote-right story-modal-quote-icon ms-2"></i></p>
                         </div>
                     </div>
                 </div>
