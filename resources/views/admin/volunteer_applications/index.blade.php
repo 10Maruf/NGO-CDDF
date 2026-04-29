@@ -52,33 +52,8 @@
                                             <i class="feather-user text-white"></i>
                                         </div>
                                     @endif
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
                                 </td>
                                 <td>
-        // Drag and Drop Sortable for Volunteers
-        $("#sortable-volunteers").sortable({
-            handle: ".drag-handle",
-            update: function(event, ui) {
-                let orderedIds = [];
-                $(this).children('tr').each(function(index) {
-                    orderedIds.push($(this).data('id'));
-                    $(this).find('.serial-number').text(index + 1);
-                });
-
-                $.ajax({
-                    url: "{{ route('admin.volunteer_applications.updateOrder') }}",
-                    type: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        order: orderedIds
-                    },
-                    success: function(response) {
-                        console.log(response.message);
-                    }
-                });
-            }
-        });
-
                                     <div class="fw-semibold" style="font-size:13px;">{{ $item->name }}</div>
                                     @if($item->phone)
                                         <div class="text-muted" style="font-size:11px;"><i class="feather-phone me-1"></i>{{ $item->phone }}</div>
@@ -261,8 +236,33 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
     $(document).ready(function() {
+
+        // Drag and Drop Sortable for Volunteers
+        $("#sortable-volunteers").sortable({
+            handle: ".drag-handle",
+            update: function(event, ui) {
+                let orderedIds = [];
+                $(this).children('tr').each(function(index) {
+                    orderedIds.push($(this).data('id'));
+                    $(this).find('.serial-number').text(index + 1);
+                });
+
+                $.ajax({
+                    url: "{{ route('admin.volunteer_applications.updateOrder') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        order: orderedIds
+                    },
+                    success: function(response) {
+                        console.log(response.message);
+                    }
+                });
+            }
+        });
 
         // Single Status Bar Logic
         let actionUrlBase = "{{ route('admin.volunteer_applications.status', ':id') }}";
