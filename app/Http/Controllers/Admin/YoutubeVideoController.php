@@ -24,13 +24,15 @@ class YoutubeVideoController extends Controller
         $request->validate([
             'title'     => 'required|string|max:255',
             'video_url' => 'required|string|max:500',
-            'order'     => 'nullable|integer',
         ]);
+
+        // New videos should appear at the top
+        YoutubeVideo::query()->increment('order');
 
         YoutubeVideo::create([
             'title'     => $request->title,
             'video_url' => $request->video_url,
-            'order'     => $request->order ?? 0,
+            'order'     => 1,
         ]);
 
         return redirect()->route('admin.youtube_videos.index')
@@ -48,13 +50,11 @@ class YoutubeVideoController extends Controller
         $request->validate([
             'title'     => 'required|string|max:255',
             'video_url' => 'required|string|max:500',
-            'order'     => 'nullable|integer',
         ]);
 
         YoutubeVideo::findOrFail($id)->update([
             'title'     => $request->title,
             'video_url' => $request->video_url,
-            'order'     => $request->order ?? 0,
         ]);
 
         return redirect()->route('admin.youtube_videos.index')
@@ -76,5 +76,19 @@ class YoutubeVideoController extends Controller
             YoutubeVideo::whereIn('id', $ids)->delete();
         }
         return response()->json(['success' => true]);
+    }
+
+    public function updateOrder(Request $request)
+    {
+        $orders = $request->order;
+
+        if ($orders && is_array($orders)) {
+            foreach ($orders as $index => $id) {
+                YoutubeVideo::where('id', $id)->update(['order' => $index + 1]);
+            }
+            return response()->json(['status' => 'success', 'message' => 'Order updated successfully.']);
+        }
+
+        return response()->json(['status' => 'error', 'message' => 'Invalid order data.'], 400);
     }
 }

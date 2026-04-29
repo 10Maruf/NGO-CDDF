@@ -42,12 +42,6 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-4">
-                            <label for="order" class="form-label">Display Order</label>
-                            <input type="number" name="order" id="order"
-                                   class="form-control" value="{{ old('order', $video->order) }}">
-                        </div>
-
                         {{-- Live thumbnail preview --}}
                         <div class="col-12">
                             <label class="form-label">Current Thumbnail</label><br>

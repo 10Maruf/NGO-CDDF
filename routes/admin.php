@@ -335,6 +335,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::post('youtube-videos/update/{id}',[YoutubeVideoController::class, 'update'])->name('admin.youtube_videos.update');
     Route::get('youtube-videos/delete/{id}', [YoutubeVideoController::class, 'destroy'])->name('admin.youtube_videos.delete');
     Route::post('youtube-videos/bulk-delete', [YoutubeVideoController::class, 'bulkDelete'])->name('admin.youtube_videos.bulk_delete');
+    Route::post('youtube-videos/update-order', [YoutubeVideoController::class, 'updateOrder'])->name('admin.youtube_videos.updateOrder');
 
     // __ Notifications __//
     Route::get('notifications/read/{id}',      [NotificationController::class, 'markAsRead'])->name('admin.notifications.read');
