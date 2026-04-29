@@ -309,6 +309,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('volunteer-applications/delete/{id}', [VolunteerApplicationController::class, 'destroy'])->name('admin.volunteer_applications.delete');
     Route::post('volunteer-applications/bulk-delete', [VolunteerApplicationController::class, 'bulkDelete'])->name('admin.volunteer_applications.bulk_delete');
     Route::post('volunteer-applications/bulk-status', [VolunteerApplicationController::class, 'bulkStatus'])->name('admin.volunteer_applications.bulk_status');
+    Route::post('volunteer-applications/update-order', [VolunteerApplicationController::class, 'updateOrder'])->name('admin.volunteer_applications.updateOrder');
 
     // __ Payment Methods __//
     Route::get('payment-methods/add', [PaymentMethodController::class, 'add'])->name('admin.payment_methods.add');

@@ -14,7 +14,9 @@ class VolunteerApplicationController extends Controller
     // Index — all applications
     public function index()
     {
-        $data = VolunteerApplication::orderBy('id', 'desc')->get();
+        $data = VolunteerApplication::orderBy('sort_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->get();
         return view('admin.volunteer_applications.index', compact('data'));
     }
 
@@ -40,6 +42,9 @@ class VolunteerApplicationController extends Controller
             $photo->move(public_path($this->photoFolder), $photoName);
         }
 
+        // New items should appear at the top
+        VolunteerApplication::query()->increment('sort_order');
+
         VolunteerApplication::create([
             'name'    => $request->name,
             'email'   => $request->email,
@@ -49,6 +54,7 @@ class VolunteerApplicationController extends Controller
             'skills'  => $request->skills,
             'message' => $request->message,
             'status'  => $request->status ?? 'pending',
+            'sort_order' => 1,
         ]);
 
         return redirect()->route('admin.volunteer_applications.index')
@@ -162,6 +168,20 @@ class VolunteerApplicationController extends Controller
 
         VolunteerApplication::whereIn('id', $ids)->update(['status' => $status]);
         return response()->json(['success' => true]);
+    }
+
+    public function updateOrder(Request $request)
+    {
+        $orders = $request->order;
+
+        if ($orders && is_array($orders)) {
+            foreach ($orders as $index => $id) {
+                VolunteerApplication::where('id', $id)->update(['sort_order' => $index + 1]);
+            }
+            return response()->json(['status' => 'success', 'message' => 'Order updated successfully.']);
+        }
+
+        return response()->json(['status' => 'error', 'message' => 'Invalid order data.'], 400);
     }
 }
 

@@ -17,5 +17,6 @@ class VolunteerApplication extends Model
         'skills',
         'message',
         'status',
+        'sort_order',
     ];
 }

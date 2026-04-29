@@ -25,6 +25,7 @@
                     <table class="table table-hover table-striped align-middle">
                         <thead class="table-light border-bottom border-2">
                             <tr>
+                                <th style="width:30px"></th>
                                 <th style="width:40px"><input type="checkbox" id="select-all"></th>
                                 <th style="width:40px">#</th>
                                 <th style="width:55px">Photo</th>
@@ -33,11 +34,14 @@
                                 <th style="width:130px" class="text-center">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sortable-volunteers">
                             @foreach ($data as $key => $item)
-                            <tr>
+                            <tr data-id="{{ $item->id }}">
+                                <td class="text-center drag-handle" style="cursor: grab;">
+                                    <i class="fa-solid fa-grip-vertical fs-5 text-muted"></i>
+                                </td>
                                 <td><input type="checkbox" class="select-item" value="{{ $item->id }}"></td>
-                                <td>{{ ++$key }}</td>
+                                <td class="serial-number">{{ ++$key }}</td>
                                 <td>
                                     @if ($item->photo)
                                         <img src="{{ asset('images/volunteers/' . $item->photo) }}" width="42" height="42"
@@ -48,8 +52,33 @@
                                             <i class="feather-user text-white"></i>
                                         </div>
                                     @endif
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
                                 </td>
                                 <td>
+        // Drag and Drop Sortable for Volunteers
+        $("#sortable-volunteers").sortable({
+            handle: ".drag-handle",
+            update: function(event, ui) {
+                let orderedIds = [];
+                $(this).children('tr').each(function(index) {
+                    orderedIds.push($(this).data('id'));
+                    $(this).find('.serial-number').text(index + 1);
+                });
+
+                $.ajax({
+                    url: "{{ route('admin.volunteer_applications.updateOrder') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        order: orderedIds
+                    },
+                    success: function(response) {
+                        console.log(response.message);
+                    }
+                });
+            }
+        });
+
                                     <div class="fw-semibold" style="font-size:13px;">{{ $item->name }}</div>
                                     @if($item->phone)
                                         <div class="text-muted" style="font-size:11px;"><i class="feather-phone me-1"></i>{{ $item->phone }}</div>

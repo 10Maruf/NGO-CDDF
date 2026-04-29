@@ -295,7 +295,10 @@ class frontController extends Controller
 
     // Volunteers
     public function volOpportunities(){
-        $volunteers = \App\Models\VolunteerApplication::where('status', 'approved')->orderBy('id', 'desc')->get();
+        $volunteers = \App\Models\VolunteerApplication::where('status', 'approved')
+            ->orderBy('sort_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->get();
         return view('frontend.volunteer_opportunities', compact('volunteers'));
     }
 
@@ -326,6 +329,9 @@ class frontController extends Controller
             $photo->move(public_path('images/volunteers'), $photoName);
         }
 
+        // New items should appear at the top
+        \App\Models\VolunteerApplication::query()->increment('sort_order');
+
         $volunteer = \App\Models\VolunteerApplication::create([
             'name'    => $request->name,
             'email'   => $request->email,
@@ -333,6 +339,7 @@ class frontController extends Controller
             'photo'   => $photoName,
             'address' => $request->address,
             'skills'  => $request->skills,
+            'sort_order' => 1,
             'message' => $request->message,
             'status'  => 'pending',
         ]);
