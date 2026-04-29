@@ -131,6 +131,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('contact/delete/{id}', [ContactController::class, 'destroy'])->name('contact.delete');
     Route::post('contact/bulk-delete', [ContactController::class, 'bulkDelete'])->name('contact.bulk_delete');
     Route::post('contact/bulk-status', [ContactController::class, 'bulkStatus'])->name('contact.bulk_status');
+    Route::post('contact/update-order', [ContactController::class, 'updateOrder'])->name('contact.updateOrder');
 
     // __ about us__//
     Route::get('about/us/add', [aboutusController::class, 'create'])->name('about.us.create');

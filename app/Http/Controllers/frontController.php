@@ -381,9 +381,24 @@ class frontController extends Controller
 
     // Get Contact
     public function contact(){
-        $head_office = DB::table('contacts')->where('type', 'head_office')->where('status', 'active')->first();
-        $branches = DB::table('contacts')->where('type', 'branch')->where('status', 'active')->get();
-        $persons = DB::table('contacts')->where('type', 'person')->where('status', 'active')->get();
+        $head_office = DB::table('contacts')
+            ->where('type', 'head_office')
+            ->where('status', 'active')
+            ->orderBy('sort_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->first();
+        $branches = DB::table('contacts')
+            ->where('type', 'branch')
+            ->where('status', 'active')
+            ->orderBy('sort_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->get();
+        $persons = DB::table('contacts')
+            ->where('type', 'person')
+            ->where('status', 'active')
+            ->orderBy('sort_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->get();
         return view('frontend.contact', compact('head_office', 'branches', 'persons'));
     }
 

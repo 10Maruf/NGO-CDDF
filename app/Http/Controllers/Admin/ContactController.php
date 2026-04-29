@@ -11,7 +11,10 @@ class ContactController extends Controller
     // Index - All Contacts
     public function index()
     {
-        $contacts = DB::table('contacts')->orderBy('id', 'desc')->get();
+        $contacts = DB::table('contacts')
+            ->orderBy('sort_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->get();
         return view('admin.contact.index', compact('contacts'));
     }
 
@@ -39,6 +42,9 @@ class ContactController extends Controller
             'status' => 'required|in:active,inactive'
         ]);
 
+        // New contacts should appear at the top
+        DB::table('contacts')->increment('sort_order');
+
         DB::table('contacts')->insert([
             'type' => $request->type,
             'title' => $request->title,
@@ -52,6 +58,7 @@ class ContactController extends Controller
             'whatsapp' => $request->whatsapp,
             'twitter' => $request->twitter,
             'status' => $request->status,
+            'sort_order' => 1,
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -129,5 +136,19 @@ class ContactController extends Controller
             DB::table('contacts')->whereIn('id', $ids)->update(['status' => $status, 'updated_at' => now()]);
         }
         return response()->json(['success' => true]);
+    }
+
+    public function updateOrder(Request $request)
+    {
+        $orders = $request->order;
+
+        if ($orders && is_array($orders)) {
+            foreach ($orders as $index => $id) {
+                DB::table('contacts')->where('id', $id)->update(['sort_order' => $index + 1]);
+            }
+            return response()->json(['status' => 'success', 'message' => 'Order updated successfully.']);
+        }
+
+        return response()->json(['status' => 'error', 'message' => 'Invalid order data.'], 400);
     }
 }

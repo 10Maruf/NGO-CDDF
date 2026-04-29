@@ -1,6 +1,11 @@
 @php
     $footer_news   = DB::table('latest_news')->where('status', 1)->orderBy('id','desc')->limit(2)->get();
-    $footer_office = DB::table('contacts')->where('type','head_office')->where('status','active')->first();
+    $footer_office = DB::table('contacts')
+        ->where('type','head_office')
+        ->where('status','active')
+        ->orderBy('sort_order', 'asc')
+        ->orderBy('id', 'desc')
+        ->first();
 @endphp
 
 {{-- ===== Footer ===== --}}

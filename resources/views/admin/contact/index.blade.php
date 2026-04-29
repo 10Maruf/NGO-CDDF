@@ -24,6 +24,7 @@
                     <table class="table table-hover table-striped align-middle">
                         <thead class="table-light border-bottom border-2">
                             <tr>
+                                <th style="width:30px"></th>
                                 <th style="width:40px"><input type="checkbox" id="select-all"></th>
                                 <th>SL.</th>
                                 <th>Type</th>
@@ -33,11 +34,14 @@
                                 <th class="text-center" style="width:160px">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sortable-contacts">
                             @forelse ($contacts as $key=>$contact)
-                            <tr>
+                            <tr data-id="{{ $contact->id }}">
+                                <td class="text-center drag-handle" style="cursor: grab;">
+                                    <i class="fa-solid fa-grip-vertical fs-5 text-muted"></i>
+                                </td>
                                 <td class="align-middle"><input type="checkbox" class="select-item" value="{{ $contact->id }}"></td>
-                                <td class="align-middle">{{ ++$key }}</td>
+                                <td class="align-middle serial-number">{{ ++$key }}</td>
                                 <td class="align-middle">
                                     @if($contact->type == 'head_office')
                                         <span class="badge bg-success">Head Office</span>
@@ -207,8 +211,33 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
     $(document).ready(function() {
+        // Drag and Drop Sortable for Contacts
+        $("#sortable-contacts").sortable({
+            handle: ".drag-handle",
+            update: function(event, ui) {
+                let orderedIds = [];
+                $(this).children('tr').each(function(index) {
+                    orderedIds.push($(this).data('id'));
+                    $(this).find('.serial-number').text(index + 1);
+                });
+
+                $.ajax({
+                    url: "{{ route('contact.updateOrder') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        order: orderedIds
+                    },
+                    success: function(response) {
+                        console.log(response.message);
+                    }
+                });
+            }
+        });
+
         $('.modal').on('show.bs.modal', function() {
             $(this).appendTo('body');
         });
