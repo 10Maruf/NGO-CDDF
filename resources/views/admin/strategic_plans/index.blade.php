@@ -32,6 +32,7 @@
                     <table class="table table-hover table-striped">
                         <thead>
                             <tr>
+                                <th style="width:30px"></th>
                                 <th style="width:40px"><input type="checkbox" id="select-all"></th>
                                 <th>SL.</th>
                                 <th>Image</th>
@@ -41,11 +42,14 @@
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sortable-strategic-plans">
                             @forelse ($strategicPlans as $key => $strategicPlan)
-                                <tr>
+                                <tr data-id="{{ $strategicPlan->id }}">
+                                    <td class="text-center drag-handle" style="cursor: grab;">
+                                        <i class="fa-solid fa-grip-vertical fs-5 text-muted"></i>
+                                    </td>
                                     <td class="align-middle"><input type="checkbox" class="select-item" value="{{ $strategicPlan->id }}"></td>
-                                    <td class="align-middle">{{ ++$key }}</td>
+                                    <td class="align-middle serial-number">{{ ++$key }}</td>
                                     <td class="align-middle">
                                         @if (!empty($strategicPlan->thumbnail))
                                             <img src="{{ asset('images/strategic_plans/thumbnails/'.$strategicPlan->thumbnail) }}" alt="{{ $strategicPlan->title }}" width="60" height="45" class="rounded border">
@@ -109,8 +113,33 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
     $(document).ready(function() {
+        // Drag and Drop Sortable for Strategic Plans
+        $("#sortable-strategic-plans").sortable({
+            handle: ".drag-handle",
+            update: function(event, ui) {
+                let orderedIds = [];
+                $(this).children('tr').each(function(index) {
+                    orderedIds.push($(this).data('id'));
+                    $(this).find('.serial-number').text(index + 1);
+                });
+
+                $.ajax({
+                    url: "{{ route('strategic_plans.updateOrder') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        order: orderedIds
+                    },
+                    success: function(response) {
+                        console.log(response.message);
+                    }
+                });
+            }
+        });
+
         $('#select-all').on('change', function() {
             $('.select-item').prop('checked', $(this).prop('checked'));
             toggleBulkActions();

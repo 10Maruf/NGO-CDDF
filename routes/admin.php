@@ -149,6 +149,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/origin/legal_affilation/edit/{id}', [legalAffilationController::class, 'edit'])->name('origin.legal_affilation.edit');
     Route::post('origin/legal_affilation/update/{id}', [legalAffilationController::class, 'update'])->name('origin.legal_affilation.update');
     Route::post('origin/legal_affilation/bulk-delete', [legalAffilationController::class, 'bulkDelete'])->name('origin.legal_affilation.bulk_delete');
+    Route::post('origin/legal_affilation/update-order', [legalAffilationController::class, 'updateOrder'])->name('origin.legal_affilation.updateOrder');
 
     // __Partner's and Donor's __//
     Route::get('partner/create', [partnersController::class, 'create'])->name('partner.create');
@@ -175,6 +176,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('policy/edit/{id}', [policyController::class, 'edit'])->name('policy.edit');
     Route::post('policy/update/{id}', [policyController::class, 'update'])->name('policy.update');
     Route::post('policy/bulk-delete', [policyController::class, 'bulkDelete'])->name('policy.bulk_delete');
+    Route::post('policy/update-order', [policyController::class, 'updateOrder'])->name('policy.updateOrder');
 
     // __ Strategic Plan __//
     Route::get('strategic-plans/create', [StrategicPlanController::class, 'create'])->name('strategic_plans.create');
@@ -184,6 +186,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('strategic-plans/edit/{id}', [StrategicPlanController::class, 'edit'])->name('strategic_plans.edit');
     Route::post('strategic-plans/update/{id}', [StrategicPlanController::class, 'update'])->name('strategic_plans.update');
     Route::post('strategic-plans/bulk-delete', [StrategicPlanController::class, 'bulkDelete'])->name('strategic_plans.bulk_delete');
+    Route::post('strategic-plans/update-order', [StrategicPlanController::class, 'updateOrder'])->name('strategic_plans.updateOrder');
 
     // __ Publications __//
     Route::get('publications/add', [PublicationController::class, 'add'])->name('publications.add');
@@ -193,6 +196,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('publications/edit/{id}', [PublicationController::class, 'edit'])->name('publications.edit');
     Route::post('publications/update/{id}', [PublicationController::class, 'update'])->name('publications.update');
     Route::post('publications/bulk-delete', [PublicationController::class, 'bulkDelete'])->name('publications.bulk_delete');
+    Route::post('publications/update-order', [PublicationController::class, 'updateOrder'])->name('publications.updateOrder');
 
     // __ Careers __//
     Route::get('careers/add', [CareerController::class, 'add'])->name('careers.add');
@@ -202,6 +206,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('careers/edit/{id}', [CareerController::class, 'edit'])->name('careers.edit');
     Route::post('careers/update/{id}', [CareerController::class, 'update'])->name('careers.update');
     Route::post('careers/bulk-delete', [CareerController::class, 'bulkDelete'])->name('careers.bulk_delete');
+    Route::post('careers/update-order', [CareerController::class, 'updateOrder'])->name('careers.updateOrder');
 
     // __Get Invoked (Legacy Redirect to Careers) __//
     Route::get('invoked/index', function() { return redirect()->route('careers.index'); })->name('invoked.index');

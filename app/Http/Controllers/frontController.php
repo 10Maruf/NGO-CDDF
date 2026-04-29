@@ -50,7 +50,10 @@ class frontController extends Controller
 
     // origin and legal affilation
     public function origin_affilation(){
-        $affilation = DB::table('legal_affilation')->get();
+        $affilation = DB::table('legal_affilation')
+            ->orderBy('sort_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->get();
         return view('frontend.origin_affilation',compact('affilation'));
     }
 
@@ -256,25 +259,37 @@ class frontController extends Controller
 
     // Strategic Plan
     public function strategic_plan(){
-        $strategicPlans = DB::table('strategic_plans')->orderBy('created_at', 'desc')->get();
+        $strategicPlans = DB::table('strategic_plans')
+            ->orderBy('sort_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->get();
         return view('frontend.strategic_plan', compact('strategicPlans'));
     }
 
     // Policy Guideline
     public function policy_guideline(){
-        $policy = DB::table('policy_guideline')->get();
+        $policy = DB::table('policy_guideline')
+            ->orderBy('sort_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->get();
         return view('frontend.policy_guideline',compact('policy'));
     }
 
     // Publication
     public function publication(){
-        $publications = DB::table('publications')->orderBy('created_at', 'desc')->get();
+        $publications = DB::table('publications')
+            ->orderBy('sort_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->get();
         return view('frontend.publication', compact('publications'));
     }
 
     // Get Involved
     public function career(){
-        $career = DB::table('careers')->orderBy('created_at', 'desc')->get();
+        $career = DB::table('careers')
+            ->orderBy('sort_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->get();
         return view('frontend.career',compact('career'));
     }
 

@@ -37,11 +37,15 @@ class CareerController extends Controller
             $pdfFile->move(public_path('images/careers/pdfs/'), $pdfFileName);
         }
 
+        // New items should appear at the top
+        DB::table('careers')->increment('sort_order');
+
         DB::table('careers')->insert([
             'title'       => $request->title,
             'description' => $request->description,
             'thumbnail'   => $thumbnailName,
             'pdf_file'    => $pdfFileName,
+            'sort_order'  => 1,
             'created_at'  => now(),
             'updated_at'  => now(),
         ]);
@@ -54,7 +58,10 @@ class CareerController extends Controller
     // Index
     public function index()
     {
-        $careers = DB::table('careers')->orderBy('created_at', 'desc')->get();
+        $careers = DB::table('careers')
+            ->orderBy('sort_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->get();
         return view('admin.careers.index', compact('careers'));
     }
 
@@ -145,5 +152,19 @@ class CareerController extends Controller
             DB::table('careers')->whereIn('id', $ids)->delete();
         }
         return response()->json(['success' => true]);
+    }
+
+    public function updateOrder(Request $request)
+    {
+        $orders = $request->order;
+
+        if ($orders && is_array($orders)) {
+            foreach ($orders as $index => $id) {
+                DB::table('careers')->where('id', $id)->update(['sort_order' => $index + 1]);
+            }
+            return response()->json(['status' => 'success', 'message' => 'Order updated successfully.']);
+        }
+
+        return response()->json(['status' => 'error', 'message' => 'Invalid order data.'], 400);
     }
 }

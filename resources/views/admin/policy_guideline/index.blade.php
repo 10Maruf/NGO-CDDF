@@ -28,6 +28,7 @@
                     <table class="table table-hover table-striped">
                         <thead>
                             <tr>
+                                <th style="width:30px"></th>
                                 <th style="width:40px"><input type="checkbox" id="select-all"></th>
                                 <th>SL.</th>
                                 <th>Title</th>
@@ -38,11 +39,14 @@
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sortable-policy">
                             @forelse ($items as $key => $item)
-                            <tr>
+                            <tr data-id="{{ $item->id }}">
+                                <td class="text-center drag-handle" style="cursor: grab;">
+                                    <i class="fa-solid fa-grip-vertical fs-5 text-muted"></i>
+                                </td>
                                 <td class="align-middle"><input type="checkbox" class="select-item" value="{{ $item->id }}"></td>
-                                <td class="align-middle">{{ ++$key }}</td>
+                                <td class="align-middle serial-number">{{ ++$key }}</td>
                                 <td class="align-middle">{{ $item->title }}</td>
                                 <td class="align-middle">
                                     @if ($item->thumbnail)
@@ -123,8 +127,33 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
     $(document).ready(function() {
+        // Drag and Drop Sortable for Policy & Guidelines
+        $("#sortable-policy").sortable({
+            handle: ".drag-handle",
+            update: function(event, ui) {
+                let orderedIds = [];
+                $(this).children('tr').each(function(index) {
+                    orderedIds.push($(this).data('id'));
+                    $(this).find('.serial-number').text(index + 1);
+                });
+
+                $.ajax({
+                    url: "{{ route('policy.updateOrder') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        order: orderedIds
+                    },
+                    success: function(response) {
+                        console.log(response.message);
+                    }
+                });
+            }
+        });
+
         $('#select-all').on('change', function() {
             $('.select-item').prop('checked', $(this).prop('checked'));
             toggleBulkActions();

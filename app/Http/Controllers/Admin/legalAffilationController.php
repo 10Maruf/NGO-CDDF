@@ -36,11 +36,15 @@ class legalAffilationController extends Controller
             $pdfFile->move(public_path('images/legal_affilation/pdfs/'), $pdfFileName);
         }
 
+        // New items should appear at the top
+        DB::table('legal_affilation')->increment('sort_order');
+
         DB::table('legal_affilation')->insert([
             'title'       => $request->title,
             'description' => $request->description,
             'thumbnail'   => $thumbnailName,
             'pdf_file'    => $pdfFileName,
+            'sort_order'  => 1,
             'created_at'  => now(),
             'updated_at'  => now(),
         ]);
@@ -51,7 +55,10 @@ class legalAffilationController extends Controller
     // Index
     public function index()
     {
-        $items = DB::table('legal_affilation')->orderBy('created_at', 'desc')->get();
+        $items = DB::table('legal_affilation')
+            ->orderBy('sort_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->get();
         return view('admin.legal_affilation.index', compact('items'));
     }
 
@@ -169,5 +176,19 @@ class legalAffilationController extends Controller
 
         DB::table('legal_affilation')->whereIn('id', $ids)->delete();
         return response()->json(['success' => true]);
+    }
+
+    public function updateOrder(Request $request)
+    {
+        $orders = $request->order;
+
+        if ($orders && is_array($orders)) {
+            foreach ($orders as $index => $id) {
+                DB::table('legal_affilation')->where('id', $id)->update(['sort_order' => $index + 1]);
+            }
+            return response()->json(['status' => 'success', 'message' => 'Order updated successfully.']);
+        }
+
+        return response()->json(['status' => 'error', 'message' => 'Invalid order data.'], 400);
     }
 }
