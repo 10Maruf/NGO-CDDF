@@ -376,3 +376,71 @@ ul {
   color: #6b6b6b;
   font-size: 14px;
 }
+
+/* Success story modal (See more) */
+.success-story-modal .story-modal-content {
+  background: #0b0f14;
+  color: #f3f4f6;
+  border: 1px solid #1f2937;
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  position: relative;
+}
+
+.success-story-modal .story-modal-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 80% at 20% 0%, rgba(248, 111, 45, 0.25), transparent 70%),
+    radial-gradient(60% 80% at 90% 10%, rgba(59, 130, 246, 0.2), transparent 70%);
+  pointer-events: none;
+}
+
+.success-story-modal .story-modal-body {
+  position: relative;
+  z-index: 1;
+}
+
+.success-story-modal .story-modal-avatar {
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-color: #f86f2d !important;
+  box-shadow: 0 8px 20px rgba(248, 111, 45, 0.35);
+}
+
+.success-story-modal .story-modal-name {
+  color: #f9fafb;
+}
+
+.success-story-modal .story-modal-title {
+  color: #a1a1aa;
+}
+
+.success-story-modal .story-modal-quote {
+  background: #111827;
+  border-left: 4px solid #f86f2d;
+  border-radius: 12px;
+  padding: 20px 22px;
+}
+
+.success-story-modal .story-modal-text {
+  color: #e5e7eb;
+  white-space: pre-line;
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.success-story-modal .story-modal-quote-icon {
+  color: rgba(248, 111, 45, 0.6);
+}
+
+.success-story-modal .btn-close {
+  filter: invert(1);
+  opacity: 0.85;
+}
+
+.success-story-modal .btn-close:hover {
+  opacity: 1;
+}
