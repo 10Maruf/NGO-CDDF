@@ -25,7 +25,7 @@ class StrategicPlanController extends Controller
         $thumbnailName = '';
         if ($thumbnail = $request->file('thumbnail')) {
             $thumbnailName = rand(10000, 99999) . 'strategic_plan_thumbnail.' . $thumbnail->getClientOriginalExtension();
-            $thumbnail->move(public_path('images/strategic_plans/thumbnails/'), $thumbnailName);
+            compress_and_save_image($thumbnail, public_path('images/strategic_plans/thumbnails'), $thumbnailName);
         }
 
         $pdfFileName = '';
@@ -86,7 +86,7 @@ class StrategicPlanController extends Controller
             }
 
             $thumbnailName = rand(10000, 99999) . 'strategic_plan_thumbnail.' . $thumbnail->getClientOriginalExtension();
-            $thumbnail->move(public_path('images/strategic_plans/thumbnails/'), $thumbnailName);
+            compress_and_save_image($thumbnail, public_path('images/strategic_plans/thumbnails'), $thumbnailName);
         }
 
         $pdfFileName = $strategicPlan->pdf_file;

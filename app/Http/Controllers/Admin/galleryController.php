@@ -25,7 +25,7 @@ class galleryController extends Controller
         $imageName = '';
         if ($image = $request->file('image')) {
             $imageName = rand(10000, 99999) . "gallery." . $image->getClientOriginalExtension();
-            $image->move(public_path('images/gallery/'), $imageName);
+            compress_and_save_image($image, public_path('images/gallery'), $imageName);
         }
 
         $gallery = array(
@@ -83,7 +83,7 @@ class galleryController extends Controller
                 @unlink($oldIamgeName);
             }
             $imageName = rand(10000, 99999) . "gallery." . $image->getClientOriginalExtension();
-            $image->move(public_path('images/gallery'), $imageName);
+            compress_and_save_image($image, public_path('images/gallery'), $imageName);
         } else {
             $imageName = $gallery->image;
         }

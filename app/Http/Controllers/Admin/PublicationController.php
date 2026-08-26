@@ -28,7 +28,7 @@ class PublicationController extends Controller
         $thumbnailName = '';
         if ($thumbnail = $request->file('thumbnail')) {
             $thumbnailName = rand(10000, 99999) . "publication_thumbnail." . $thumbnail->getClientOriginalExtension();
-            $thumbnail->move(public_path('images/publications/thumbnails/'), $thumbnailName);
+            compress_and_save_image($thumbnail, public_path('images/publications/thumbnails'), $thumbnailName);
         }
 
         $pdfFileName = '';
@@ -93,7 +93,7 @@ class PublicationController extends Controller
             }
 
             $thumbnailName = rand(10000, 99999) . "publication_thumbnail." . $thumbnail->getClientOriginalExtension();
-            $thumbnail->move(public_path('images/publications/thumbnails/'), $thumbnailName);
+            compress_and_save_image($thumbnail, public_path('images/publications/thumbnails'), $thumbnailName);
         }
 
         $pdfFileName = $publication->pdf_file;

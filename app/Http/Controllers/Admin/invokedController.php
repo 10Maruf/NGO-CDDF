@@ -25,7 +25,7 @@ class invokedController extends Controller
         $fileName = '';
         if ($file = $request->file('file')) {
             $fileName = rand(10000, 99999) . 'invoked.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/invoked/'), $fileName);
+            compress_and_save_image($file, public_path('images/invoked'), $fileName);
         }
 
         $file = [
@@ -83,7 +83,7 @@ class invokedController extends Controller
                 @unlink($oldFile);
             }
             $fileName = rand(10000, 99999) . 'invoked.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/invoked/'), $fileName);
+            compress_and_save_image($file, public_path('images/invoked'), $fileName);
         } else {
             $fileName = $files->file;
         }

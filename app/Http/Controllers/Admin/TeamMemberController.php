@@ -27,7 +27,7 @@ class TeamMemberController extends Controller
         $photoName = '';
         if ($photo = $request->file('photo')) {
             $photoName = rand(10000, 99999) . "team." . $photo->getClientOriginalExtension();
-            $photo->move(public_path('images/team_members/'), $photoName);
+            compress_and_save_image($photo, public_path('images/team_members'), $photoName);
         }
 
         $data = array(
@@ -93,7 +93,7 @@ class TeamMemberController extends Controller
                 @unlink($oldImageName);
             }
             $photoName = rand(10000, 99999) . "team." . $photo->getClientOriginalExtension();
-            $photo->move(public_path('images/team_members'), $photoName);
+            compress_and_save_image($photo, public_path('images/team_members'), $photoName);
         } else {
             $photoName = $item->photo;
         }

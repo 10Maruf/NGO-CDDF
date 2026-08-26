@@ -23,7 +23,7 @@ class partnersController extends Controller
         $partnerImg = '';
         if($image = $request->file('image')){
             $partnerImg = rand(10000,99999). 'partner_donor.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/partner/'),$partnerImg);
+            compress_and_save_image($image, public_path('images/partner'), $partnerImg);
         }
 
         $partner = [
@@ -79,7 +79,7 @@ class partnersController extends Controller
                 @unlink($oldImage);
             }
             $imageName = rand(10000,99999) . 'partner_donor' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/partner/'), $imageName);
+            compress_and_save_image($image, public_path('images/partner'), $imageName);
         }
         else{
             $imageName = $partner_donor->image;

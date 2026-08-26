@@ -28,9 +28,9 @@ class applicationController extends Controller
             {
                 @unlink(public_path('images/application/' . $application->main_logo));
             }
-            $main_logo_path = public_path('images/application/');
+            $main_logo_path = public_path('images/application');
             $main_logo_name = rand(100000, 999999)."main_logo." . $main_logo->getClientOriginalExtension();
-            $main_logo->move($main_logo_path, $main_logo_name);
+            compress_and_save_image($main_logo, $main_logo_path, $main_logo_name);
             $main_logo_path_name = $main_logo_name;
         }
         else
@@ -57,9 +57,9 @@ class applicationController extends Controller
             {
                 @unlink(public_path('images/application/' . $application->fav_icon));
             }
-            $fev_icon_path = public_path('images/application/');
+            $fev_icon_path = public_path('images/application');
             $fev_icon_name= rand(100000, 999999)."fev_icon." . $fev_icon->getClientOriginalExtension();
-            $fev_icon->move($fev_icon_path, $fev_icon_name);
+            compress_and_save_image($fev_icon, $fev_icon_path, $fev_icon_name);
             $fev_icon_path_name = $fev_icon_name;
         }
         else

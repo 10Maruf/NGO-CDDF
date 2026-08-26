@@ -36,8 +36,10 @@ class FocusAreaController extends Controller
         ]);
 
         $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('focus_areas', 'public');
+        if ($image = $request->file('image')) {
+            $imageName = rand(100000, 999999) . '.' . $image->getClientOriginalExtension();
+            compress_and_save_image($image, Storage::disk('public')->path('focus_areas'), $imageName);
+            $imagePath = 'focus_areas/' . $imageName;
         }
 
         // Shift all existing orders down by 1 so the new one is at the top
@@ -95,11 +97,13 @@ class FocusAreaController extends Controller
             $imagePath = null;
         }
 
-        if ($request->hasFile('image')) {
+        if ($image = $request->file('image')) {
             if ($imagePath) {
                 Storage::disk('public')->delete($imagePath);
             }
-            $imagePath = $request->file('image')->store('focus_areas', 'public');
+            $imageName = rand(100000, 999999) . '.' . $image->getClientOriginalExtension();
+            compress_and_save_image($image, Storage::disk('public')->path('focus_areas'), $imageName);
+            $imagePath = 'focus_areas/' . $imageName;
         }
 
         DB::table('focus_areas')->where('id', $id)->update([

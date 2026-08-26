@@ -28,7 +28,7 @@ class CareerController extends Controller
         $thumbnailName = '';
         if ($thumbnail = $request->file('thumbnail')) {
             $thumbnailName = rand(10000, 99999) . 'career_thumbnail.' . $thumbnail->getClientOriginalExtension();
-            $thumbnail->move(public_path('images/careers/thumbnails/'), $thumbnailName);
+            compress_and_save_image($thumbnail, public_path('images/careers/thumbnails'), $thumbnailName);
         }
 
         $pdfFileName = '';
@@ -91,7 +91,7 @@ class CareerController extends Controller
                 if (file_exists($old)) @unlink($old);
             }
             $thumbnailName = rand(10000, 99999) . 'career_thumbnail.' . $thumbnail->getClientOriginalExtension();
-            $thumbnail->move(public_path('images/careers/thumbnails/'), $thumbnailName);
+            compress_and_save_image($thumbnail, public_path('images/careers/thumbnails'), $thumbnailName);
         }
 
         $pdfFileName = $career->pdf_file;

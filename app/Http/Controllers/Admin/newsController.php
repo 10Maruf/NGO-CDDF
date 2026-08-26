@@ -29,7 +29,7 @@ class newsController extends Controller
         $imageName = '';
         if ($image = $request->file('image')) {
             $imageName = rand(10000, 99999) . 'news.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/news/'), $imageName);
+            compress_and_save_image($image, public_path('images/news'), $imageName);
         }
 
         $newsId = DB::table('latest_news')->insertGetId([
@@ -48,7 +48,7 @@ class newsController extends Controller
         if ($request->hasFile('gallery')) {
             foreach ($request->file('gallery') as $file) {
                 $galleryName = rand(10000, 99999) . 'news_gallery.' . $file->getClientOriginalExtension();
-                $file->move(public_path('images/news/'), $galleryName);
+                compress_and_save_image($file, public_path('images/news'), $galleryName);
                 DB::table('latest_news_images')->insert([
                     'news_id'    => $newsId,
                     'image'      => $galleryName,
@@ -185,7 +185,7 @@ class newsController extends Controller
                 @unlink($oldImage);
             }
             $imageName = rand(10000, 99999) . 'news.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/news'), $imageName);
+            compress_and_save_image($image, public_path('images/news'), $imageName);
         }
 
         DB::table('latest_news')->where('id', $id)->update([
@@ -204,7 +204,7 @@ class newsController extends Controller
         if ($request->hasFile('gallery')) {
             foreach ($request->file('gallery') as $file) {
                 $galleryName = rand(10000, 99999) . 'news_gallery.' . $file->getClientOriginalExtension();
-                $file->move(public_path('images/news'), $galleryName);
+                compress_and_save_image($file, public_path('images/news'), $galleryName);
                 DB::table('latest_news_images')->insert([
                     'news_id'    => $id,
                     'image'      => $galleryName,

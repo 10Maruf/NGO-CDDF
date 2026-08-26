@@ -326,7 +326,7 @@ class frontController extends Controller
         $photoName = null;
         if ($photo = $request->file('photo')) {
             $photoName = rand(10000, 99999) . 'vol.' . $photo->getClientOriginalExtension();
-            $photo->move(public_path('images/volunteers'), $photoName);
+            compress_and_save_image($photo, public_path('images/volunteers'), $photoName);
         }
 
         // New items should appear at the top

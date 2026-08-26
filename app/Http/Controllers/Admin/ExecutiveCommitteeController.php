@@ -27,7 +27,7 @@ class ExecutiveCommitteeController extends Controller
         $photoName = '';
         if ($photo = $request->file('photo')) {
             $photoName = rand(10000, 99999) . "executive." . $photo->getClientOriginalExtension();
-            $photo->move(public_path('images/executive_committee/'), $photoName);
+            compress_and_save_image($photo, public_path('images/executive_committee'), $photoName);
         }
 
         $data = array(
@@ -92,7 +92,7 @@ class ExecutiveCommitteeController extends Controller
                 @unlink($oldImageName);
             }
             $photoName = rand(10000, 99999) . "executive." . $photo->getClientOriginalExtension();
-            $photo->move(public_path('images/executive_committee'), $photoName);
+            compress_and_save_image($photo, public_path('images/executive_committee'), $photoName);
         } else {
             $photoName = $item->photo;
         }

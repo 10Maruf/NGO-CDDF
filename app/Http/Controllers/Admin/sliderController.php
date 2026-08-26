@@ -25,7 +25,7 @@ class sliderController extends Controller
         $imageName = '';
         if($image = $request->file('image')){
             $imageName = rand(1000000, 9999999)."slider.".$image->getClientOriginalExtension();
-            $image->move(public_path('images/slider'),$imageName);
+            compress_and_save_image($image, public_path('images/slider'), $imageName);
         }
 
         DB::table('slider')->increment('order');
@@ -82,7 +82,7 @@ class sliderController extends Controller
                 @unlink($delOldImage);
             }
             $imageName = rand(1000000, 9999999) . "slider." . $image->getClientOriginalExtension();
-            $image->move(public_path('images/slider'), $imageName);
+            compress_and_save_image($image, public_path('images/slider'), $imageName);
         }
         else{
             $imageName = $slider->image;

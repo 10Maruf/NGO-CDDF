@@ -39,8 +39,10 @@ class PaymentMethodController extends Controller
             ]);
 
             $iconPath = null;
-            if ($request->hasFile('icon_image')) {
-                $iconPath = $request->file('icon_image')->store('payment_icons', 'public');
+            if ($image = $request->file('icon_image')) {
+                $iconName = rand(100000, 999999) . '.' . $image->getClientOriginalExtension();
+                compress_and_save_image($image, Storage::disk('public')->path('payment_icons'), $iconName);
+                $iconPath = 'payment_icons/' . $iconName;
             }
 
             $bankDetails = null;
@@ -97,12 +99,14 @@ class PaymentMethodController extends Controller
             $paymentMethod = PaymentMethod::findOrFail($id);
 
             $iconPath = $paymentMethod->icon_image;
-            if ($request->hasFile('icon_image')) {
+            if ($image = $request->file('icon_image')) {
                 // Delete old image
                 if ($paymentMethod->icon_image) {
                     Storage::disk('public')->delete($paymentMethod->icon_image);
                 }
-                $iconPath = $request->file('icon_image')->store('payment_icons', 'public');
+                $iconName = rand(100000, 999999) . '.' . $image->getClientOriginalExtension();
+                compress_and_save_image($image, Storage::disk('public')->path('payment_icons'), $iconName);
+                $iconPath = 'payment_icons/' . $iconName;
             }
 
             $bankDetails = null;

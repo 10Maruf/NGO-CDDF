@@ -27,13 +27,13 @@ class ChiefMessageController extends Controller
         $photoName = '';
         if ($photo = $request->file('photo')) {
             $photoName = rand(10000, 99999) . "chief." . $photo->getClientOriginalExtension();
-            $photo->move(public_path('images/chief_message/'), $photoName);
+            compress_and_save_image($photo, public_path('images/chief_message'), $photoName);
         }
 
         $signatureName = '';
         if ($signature = $request->file('signature')) {
             $signatureName = rand(10000, 99999) . "signature." . $signature->getClientOriginalExtension();
-            $signature->move(public_path('images/chief_message/'), $signatureName);
+            compress_and_save_image($signature, public_path('images/chief_message'), $signatureName);
         }
 
         $data = array(
@@ -100,7 +100,7 @@ class ChiefMessageController extends Controller
                 @unlink($oldPhotoName);
             }
             $photoName = rand(10000, 99999) . "chief." . $photo->getClientOriginalExtension();
-            $photo->move(public_path('images/chief_message'), $photoName);
+            compress_and_save_image($photo, public_path('images/chief_message'), $photoName);
         } else {
             $photoName = $item->photo;
         }
@@ -113,7 +113,7 @@ class ChiefMessageController extends Controller
                 @unlink($oldSignatureName);
             }
             $signatureName = rand(10000, 99999) . "signature." . $signature->getClientOriginalExtension();
-            $signature->move(public_path('images/chief_message'), $signatureName);
+            compress_and_save_image($signature, public_path('images/chief_message'), $signatureName);
         } else {
             $signatureName = $item->signature;
         }

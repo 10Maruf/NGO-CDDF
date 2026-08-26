@@ -28,7 +28,7 @@ class StoryController extends Controller
         $imageName = '';
         if ($image = $request->file('image')) {
             $imageName = rand(10000, 99999) . "story." . $image->getClientOriginalExtension();
-            $image->move(public_path('images/stories/'), $imageName);
+            compress_and_save_image($image, public_path('images/stories'), $imageName);
         }
 
         $data = array(
@@ -103,7 +103,7 @@ class StoryController extends Controller
                 @unlink($oldImageName);
             }
             $imageName = rand(10000, 99999) . "story." . $image->getClientOriginalExtension();
-            $image->move(public_path('images/stories'), $imageName);
+            compress_and_save_image($image, public_path('images/stories'), $imageName);
         } else {
             $imageName = $item->image;
         }

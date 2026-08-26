@@ -31,7 +31,7 @@ class OrgMemberController extends Controller
         $photoName = null;
         if ($photo = $request->file('photo')) {
             $photoName = rand(10000, 99999) . 'org.' . $photo->getClientOriginalExtension();
-            $photo->move(public_path($this->photoFolder), $photoName);
+            compress_and_save_image($photo, public_path($this->photoFolder), $photoName);
         }
 
         $minOrder = DB::table('org_members')->where('org_type', $request->org_type)->min('order');
@@ -115,7 +115,7 @@ class OrgMemberController extends Controller
                 @unlink($oldPath);
             }
             $photoName = rand(10000, 99999) . 'org.' . $photo->getClientOriginalExtension();
-            $photo->move(public_path($this->photoFolder), $photoName);
+            compress_and_save_image($photo, public_path($this->photoFolder), $photoName);
         }
 
         DB::table('org_members')->where('id', $id)->update([

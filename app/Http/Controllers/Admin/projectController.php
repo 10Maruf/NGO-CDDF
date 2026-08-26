@@ -80,7 +80,7 @@ class projectController extends Controller
         $imageName = null;
         if ($image = $request->file('cover_image')) {
             $imageName = rand(1000000, 9999999) . 'proj.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/project'), $imageName);
+            compress_and_save_image($image, public_path('images/project'), $imageName);
         }
 
         $project = Project::create([
@@ -112,7 +112,7 @@ class projectController extends Controller
         // Gallery images
         foreach ($validGalleryFiles as $file) {
             $galleryName = rand(1000000, 9999999) . 'proj_gallery.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/project'), $galleryName);
+            compress_and_save_image($file, public_path('images/project'), $galleryName);
             ProjectImage::create([
                 'project_id' => $project->id,
                 'image'      => $galleryName,
@@ -174,7 +174,7 @@ class projectController extends Controller
                 @unlink($oldPath);
             }
             $imageName = rand(1000000, 9999999) . 'proj.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/project'), $imageName);
+            compress_and_save_image($image, public_path('images/project'), $imageName);
         }
 
         $project->update([
@@ -200,7 +200,7 @@ class projectController extends Controller
         // Append new gallery images
         foreach ($validGalleryFiles as $file) {
             $galleryName = rand(1000000, 9999999) . 'proj_gallery.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/project'), $galleryName);
+            compress_and_save_image($file, public_path('images/project'), $galleryName);
             ProjectImage::create([
                 'project_id' => $project->id,
                 'image'      => $galleryName,

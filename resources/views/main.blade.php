@@ -33,14 +33,6 @@
 </head>
 <body>
 
-    {{-- Page Loader --}}
-    <div id="ftco-loader" class="show fullscreen">
-        <svg class="circular" width="48px" height="48px">
-            <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
-            <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#f86f2d"/>
-        </svg>
-    </div>
-
     @include('header')
 
     @yield('content')
@@ -59,13 +51,6 @@
     <script>
         // Init AOS animations
         AOS.init({ duration: 800, easing: 'ease-in-out', once: false, mirror: true });
-
-        // Page loader hide on load
-        $(window).on('load', function () {
-            setTimeout(function () {
-                $('#ftco-loader').removeClass('show');
-            }, 300);
-        });
 
         // Navbar scroll: awake / sleep behavior
         $(window).on('scroll', function () {
